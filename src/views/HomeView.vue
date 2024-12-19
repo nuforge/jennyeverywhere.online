@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" md="4">
           <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
+          <feedbackBar />
         </v-col>
         <v-col cols="12" md="8">
           <div class="story-base  text-decoration-none " v-html="storyHTML">
@@ -50,6 +51,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import markdownit from 'markdown-it'
+import feedbackBar from '@/components/feedbackBar.vue';
 
 
 const md = markdownit({
@@ -60,7 +62,7 @@ const md = markdownit({
 
 
 const selection = ref([])
-const tagselection = ref([])
+const tagselection = ref([0, 4])
 const story = ref('')
 const storyHTML = ref('')
 
@@ -70,6 +72,7 @@ interface Button {
   icon: string
   color: string
   terms: string[]
+  tags?: Tag[]
 }
 
 interface Tag {
@@ -87,12 +90,13 @@ const buttons = ref<Button[]>([
 ])
 
 const tags = ref<Tag[]>([
-  { text: 'Jenny Everywhere', icon: 'mdi-account-box', color: 'primary' },
+  { text: 'Jenny Everywhere', icon: 'mdi-account', color: 'teal' },
   { text: 'portal', icon: 'mdi-orbit', color: 'green' },
-  { text: 'window', icon: 'mdi-window-closed-variant', color: 'grey' },
-  { text: 'jetpack', icon: 'mdi-rocket-launch', color: 'tertiary' },
-  { text: 'flamethrower', icon: 'mdi-fire', color: 'warning' },
-  { text: 'scarf', icon: 'mdi-fire', color: 'warning' },
+  { text: 'window', icon: 'mdi-window-closed-variant', color: 'primary' },
+  { text: 'jetpack', icon: 'mdi-rocket-launch', color: 'warning' },
+  { text: 'flamethrower', icon: 'mdi-fire', color: 'error' },
+  { text: 'confidence', icon: 'mdi-emoticon-cool', color: 'yellow' },
+  { text: 'dude with a mohawk', icon: 'mdi-face-man-profile', color: 'orange' },
 ])
 
 
@@ -126,15 +130,18 @@ function linkText() {
 
     const regex = typeof tags.value[tag].text === 'string' ? new RegExp(escapedPattern, 'g') : tags.value[tag].text;
 
-    temp = temp.replace(regex, (match) => `<i class="mdi ${tags.value[tag].icon} text-${tags.value[tag].color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})`);
+    temp = temp.replace(regex, (match) => `<span class="text-no-wrap" ><i class="text-no-wrap mdi ${tags.value[tag].icon} text-${tags.value[tag].color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`);
   });
   // Replace matches with <b> tags
   storyHTML.value = md.render(temp)
 }
 
 console.log('Hello world!')
-onMounted(() => {
-  fetchStory()
+onMounted(async () => {
+  await fetchStory()
+    .then(() => {
+      linkText()
+    })
 })
 
 </script>

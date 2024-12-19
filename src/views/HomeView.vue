@@ -6,7 +6,7 @@
           <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
         </v-col>
         <v-col cols="12" md="8">
-          <div class="story-base" v-html="storyHTML">
+          <div class="story-base  text-decoration-none " v-html="storyHTML">
 
           </div>
         </v-col>
@@ -32,7 +32,7 @@
         <v-col cols="6">
           <v-chip-group column v-model="tagselection" multiple @update:modelValue="linkText">
             <v-tag v-for="(tag, index) in tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
-              :value="tag.count?.toString()">
+              class="text-red" :value="tag.count?.toString()">
             </v-tag>
           </v-chip-group>
         </v-col>
@@ -80,17 +80,19 @@ interface Tag {
 }
 
 const buttons = ref<Button[]>([
-  { text: `Slam the window shut and pretend this isn't happening?`, icon: 'mdi-account', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
-  { text: `Grab a pillow, because clearly you're still dreaming?`, icon: 'mdi-home', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
-  { text: `Ask Jenny why there's a 🟢 portal in the middle of the road?`, icon: 'mdi-dice-d20', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
-  { text: `Activate Shifting Power`, icon: 'mdi-star', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
+  { text: `Slam the window shut and pretend this isn't happening?`, icon: 'mdi-window-closed-variant', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
+  { text: `Grab a pillow, because clearly you're still dreaming?`, icon: 'mdi-bed', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
+  { text: `Ask Jenny why there's a portal in the middle of the road?`, icon: 'mdi-chat-question', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
+  { text: `Activate Shifting Power`, icon: 'mdi-dice-d20', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
 ])
 
 const tags = ref<Tag[]>([
-  { text: 'Jenny Everywhere', icon: 'mdi-account-circle', color: 'primary' },
-  { text: 'window', icon: 'mdi-home', color: 'secondary' },
-  { text: 'portal', icon: 'mdi-circle', color: 'green' },
-  { text: 'jetpack', icon: 'mdi-star', color: 'quaternary' },
+  { text: 'Jenny Everywhere', icon: 'mdi-account-box', color: 'primary' },
+  { text: 'portal', icon: 'mdi-orbit', color: 'green' },
+  { text: 'window', icon: 'mdi-window-closed-variant', color: 'grey' },
+  { text: 'jetpack', icon: 'mdi-rocket-launch', color: 'tertiary' },
+  { text: 'flamethrower', icon: 'mdi-fire', color: 'warning' },
+  { text: 'scarf', icon: 'mdi-fire', color: 'warning' },
 ])
 
 
@@ -136,3 +138,12 @@ onMounted(() => {
 })
 
 </script>
+
+
+<style>
+.story-base a {
+  color: var(--v-primary);
+  text-decoration-line: none;
+  font-weight: bold;
+}
+</style>

@@ -17,15 +17,15 @@ class Attribute {
     id?: string,
   ) {
     this._name = name
-    this._value = value || name.toLowerCase()
+    this._value = value !== undefined ? value : name.toLowerCase()
     this._icon = icon
     this._description = description
     this._color = color
     this._id = id || name.toLowerCase().replace(/\s/g, '_')
   }
 
-  get value(): number | string | undefined {
-    return this._value || undefined
+  get value(): number | string {
+    return this._value
   }
 
   set value(newValue: number | string) {

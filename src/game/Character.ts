@@ -26,7 +26,6 @@ class Character {
 
   getAttributes = (type: string = 'attribute'): { [key: string]: Attribute } => {
     const results = Object.keys(this._attributes).filter((attribute) => {
-      console.log(attribute, this._index[type])
       return this._index[type].includes(attribute)
     })
 

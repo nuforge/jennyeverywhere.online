@@ -14,23 +14,14 @@
       </v-row>
 
       <v-row class="">
-        <v-col cols="auto" md="6">
+        <v-col cols="auto" md="8">
           <v-item-group selected-class="rounded-e-xl bg-surface border-opacity-100" v-model="selection">
-            <v-item v-slot="{ isSelected, selectedClass, toggle }" v-for="(button, index) in buttons" :key="index">
-              <v-card hover
-                :class="['mx-auto border-s-lg my-2 rounded-s-lg bg-transparent', selectedClass, `border-${button.color}`]"
-                @click="toggle">
+            <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
+              :color="button.color" />
 
-                <template v-slot:prepend><v-icon :icon="button.icon"
-                    :color="isSelected ? button.color : 'text'"></v-icon></template>
-                <template v-slot:subtitle>{{ button.text
-                  }}</template>
-                <template v-slot:append v-if="isSelected"><v-icon icon="$next" color="text"></v-icon></template>
-              </v-card>
-            </v-item>
           </v-item-group>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="6" md="4">
           <v-chip-group column v-model="tagselection" multiple @update:modelValue="linkText">
             <v-tag v-for="(tag, index) in tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
               class="text-red" :value="tag.count?.toString()">
@@ -52,6 +43,7 @@
 import { ref, onMounted } from 'vue'
 import markdownit from 'markdown-it'
 import feedbackBar from '@/components/feedbackBar.vue';
+import storyChoice from '@/components/storyChoice.vue'
 
 
 const md = markdownit({
@@ -83,20 +75,20 @@ interface Tag {
 }
 
 const buttons = ref<Button[]>([
-  { text: `Slam the window shut and pretend this isn't happening?`, icon: 'mdi-window-closed-variant', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
-  { text: `Grab a pillow, because clearly you're still dreaming?`, icon: 'mdi-bed', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
-  { text: `Ask Jenny why there's a portal in the middle of the road?`, icon: 'mdi-chat-question', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
-  { text: `Activate Shifting Power`, icon: 'mdi-dice-d20', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
+  { text: `Slam the window shut and pretend this isn't happening?`, icon: '$primary', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
+  { text: `Grab a pillow, because clearly you're still dreaming?`, icon: '$secondary', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
+  { text: `Ask Jenny why there's a portal in the middle of the road?`, icon: '$tertiary', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
+  { text: `Activate Shifting Power`, icon: '$quaternary', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
 ])
 
 const tags = ref<Tag[]>([
-  { text: 'Jenny Everywhere', icon: 'mdi-account', color: 'teal' },
+  { text: 'Jenny Everywhere', icon: 'mdi-account-circle-outline', color: 'teal' },
   { text: 'portal', icon: 'mdi-orbit', color: 'green' },
   { text: 'window', icon: 'mdi-window-closed-variant', color: 'primary' },
   { text: 'jetpack', icon: 'mdi-rocket-launch', color: 'warning' },
   { text: 'flamethrower', icon: 'mdi-fire', color: 'error' },
   { text: 'confidence', icon: 'mdi-emoticon-cool', color: 'yellow' },
-  { text: 'dude with a mohawk', icon: 'mdi-face-man-profile', color: 'orange' },
+  { text: 'dude with a mohawk', icon: 'mdi-face-man', color: 'orange' },
 ])
 
 

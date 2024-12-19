@@ -9,6 +9,7 @@
       @click="$emit('change-theme')"></v-btn>
     <v-btn to="/">Home</v-btn>
     <v-btn to="/about">About</v-btn>
+    <v-btn to="/character">character</v-btn>
   </v-app-bar>
 </template>
 

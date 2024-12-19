@@ -9,6 +9,8 @@ import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 
+import VTag from './components/VTag.vue'
+
 import App from './App.vue'
 import router from './router'
 
@@ -155,6 +157,7 @@ const vuetify = createVuetify({
     VChipGroup,
     VItem,
     VItemGroup,
+    VTag,
   },
 })
 

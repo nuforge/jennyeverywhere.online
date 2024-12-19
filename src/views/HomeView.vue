@@ -6,8 +6,9 @@
           <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
         </v-col>
         <v-col cols="12" md="8">
-          <h2>You wake up on a Monday. Or is it Tuesday?</h2>
-          <div v-html="storyBody"></div>
+          <div class="story-base" v-html="storyHTML">
+
+          </div>
         </v-col>
       </v-row>
 
@@ -29,27 +30,40 @@
           </v-item-group>
         </v-col>
         <v-col cols="6">
-          <v-chip-group column>
-            <v-chip v-for="(tag, index) in tags" :key="index" :text="tag.text" tile class="rounded-lg"
-              @click="tag.count ? tag.count++ : tag.count = 1">
-              <template v-slot:prepend><v-icon :icon="tag.icon" :color="tag.color"></v-icon></template>
-              <template v-slot:default><span class="mx-2 text-no-wrap">{{ tag.text }}</span></template>
-              <template v-slot:append v-if="tag.count"><v-badge :content="tag.count?.toString()"
-                  inline></v-badge></template>
-            </v-chip>
+          <v-chip-group column v-model="tagselection" multiple @update:modelValue="linkText">
+            <v-tag v-for="(tag, index) in tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
+              :value="tag.count?.toString()">
+            </v-tag>
           </v-chip-group>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12">
 
+          <v-divider></v-divider>
+        </v-col>
+      </v-row>
     </v-container>
   </v-main>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import markdownit from 'markdown-it'
 
-import { ref } from 'vue'
+
+const md = markdownit({
+  html: true,
+  linkify: true,
+})
+
+
 
 const selection = ref([])
+const tagselection = ref([])
+const story = ref('')
+const storyHTML = ref('')
+
 
 interface Button {
   text: string
@@ -66,51 +80,59 @@ interface Tag {
 }
 
 const buttons = ref<Button[]>([
-  { text: 'Slam the window shut and pretend this isn’t happening?', icon: 'mdi-account', color: 'primary', terms: ['window'] },
-  { text: 'Grab a pillow, because clearly you’re still dreaming?', icon: 'mdi-home', color: 'secondary', terms: ['Jenny Everywhere'] },
-  { text: 'Ask Jenny why there’s a 🟢 portal in the middle of the road?', icon: 'mdi-dice-d20', color: 'tertiary', terms: ['portal'] },
-  { text: 'Activate Shifting Power', icon: 'mdi-star', color: 'quaternary', terms: ['jetpack'] },
+  { text: `Slam the window shut and pretend this isn't happening?`, icon: 'mdi-account', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
+  { text: `Grab a pillow, because clearly you're still dreaming?`, icon: 'mdi-home', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
+  { text: `Ask Jenny why there's a 🟢 portal in the middle of the road?`, icon: 'mdi-dice-d20', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
+  { text: `Activate Shifting Power`, icon: 'mdi-star', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
 ])
 
 const tags = ref<Tag[]>([
-  { text: 'window', icon: 'mdi-account', color: 'primary' },
-  { text: 'Jenny Everywhere', icon: 'mdi-home', color: 'secondary' },
-  { text: 'portal', icon: 'mdi-dice-d20', color: 'tertiary' },
-  { text: 'jetpack', icon: 'mdi-star', color: 'quaternary', count: 3 },
+  { text: 'Jenny Everywhere', icon: 'mdi-account-circle', color: 'primary' },
+  { text: 'window', icon: 'mdi-home', color: 'secondary' },
+  { text: 'portal', icon: 'mdi-circle', color: 'green' },
+  { text: 'jetpack', icon: 'mdi-star', color: 'quaternary' },
 ])
 
-const storyBase = `
-          <p>Either way, it's a day, and Jenny Everywhere is banging on your apartment window.</p>
-          <p>"Get your jetpack, we're late!" she yells, her 🧣scarf flapping dramatically, even though there's no wind.
-            She doesn't seem to care that you're still in pajamas—or that jetpacks aren't real (or so you thought).</p>
 
-          <p>You stumble to the window, pulling it open. Jenny grins, radiating that effortless 😎 confidence that makes
-            you want to believe she knows exactly what's going on... even though she probably doesn't. 😏 </p>
+const fetchStory = async () => {
 
-          <p>Behind her, a glowing green 🟢 portal hums ominously in the middle of the street, swirling with unearthly
-            energy.</p>
+  await fetch("/src/assets/stories/markdown/story.md")
+    .then((result) => result.text())
+    .then((text) => {
+      story.value = text
+      storyHTML.value = md.render(text)
+    })
+    .catch((e) => console.error(e));
+}
 
-          <p>A dude with a mohawk and a flamethrower casually steps out, his expression as calm as if he's just picking
-            up groceries.</p>`
 
-const storyBody = ref(storyBase)
 
-// storyBody = linkText(storyBase, button.terms[0])
-
-function linkText(text: string, pattern: string) {
-  // Escape special regex characters if pattern is a literal string
-  const escapedPattern = typeof pattern === 'string'
-    ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    : pattern; // If already a RegExp, use it as is
+function linkText() {
 
   // Create a RegExp if pattern is a string
-  const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
+  //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
 
+  let temp = story.value;
+  tagselection.value.forEach((tag) => {
+
+    const pattern = tags.value[tag].text
+
+    // Escape special regex characters if pattern is a literal string
+    const escapedPattern = typeof pattern === 'string'
+      ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      : pattern; // If already a RegExp, use it as is
+
+    const regex = typeof tags.value[tag].text === 'string' ? new RegExp(escapedPattern, 'g') : tags.value[tag].text;
+
+    temp = temp.replace(regex, (match) => `<i class="mdi ${tags.value[tag].icon} text-${tags.value[tag].color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})`);
+  });
   // Replace matches with <b> tags
-  return text.replace(regex, (match) => `[${match}]()`);
+  storyHTML.value = md.render(temp)
 }
 
 console.log('Hello world!')
-
+onMounted(() => {
+  fetchStory()
+})
 
 </script>

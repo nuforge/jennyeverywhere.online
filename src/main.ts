@@ -104,6 +104,7 @@ const vuetify = createVuetify({
       comment: 'mdi-comment',
       favorite: 'mdi-heart',
       share: 'mdi-share',
+      scarf: '🧣',
     },
     sets: {
       mdi,

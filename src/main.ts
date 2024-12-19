@@ -7,7 +7,9 @@ import { createPinia } from 'pinia'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import VTag from './components/VTag.vue'
 
@@ -59,6 +61,7 @@ import {
   VAutocomplete,
   VItem,
   VItemGroup,
+  VTooltip,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -100,6 +103,7 @@ const vuetify = createVuetify({
     defaultSet: 'mdi', // 'mdi' is Material Design Icons; use 'md' for Material Icons
     aliases: {
       ...aliases,
+      ...mdAliases,
       next: 'mdi-arrow-right',
       upvote: 'mdi-arrow-up',
       downvote: 'mdi-arrow-down',
@@ -107,9 +111,46 @@ const vuetify = createVuetify({
       favorite: 'mdi-heart',
       share: 'mdi-share',
       scarf: '🧣',
+      'sta-attribute': 'md:edit_attributes',
+      'sta-department': 'md:toggle_off',
+
+      'sta-trait': 'mdi-account-box-outline',
+      'sta-talent': 'mdi-account-box-outline',
+      'sta-value': 'mdi-star-four-points-small',
+      'sta-focus': 'mdi-image-filter-center-focus',
+
+      'sta-control': 'mdi-image-filter-center-focus-strong',
+      'sta-daring': 'mdi-octagram',
+      'sta-fitness': 'mdi-heart-pulse',
+      'sta-presence': 'mdi-account-multiple',
+      'sta-insight': 'mdi-head-snowflake',
+      'sta-reason': 'mdi-brain',
+
+      'sta-command': 'mdi-account-group',
+      'sta-conn': 'mdi-gamepad',
+      'sta-engineering': 'mdi-wrench',
+      'sta-security': 'mdi-shield-account',
+      'sta-medicine': 'mdi-hospital-box',
+      'sta-science': 'mdi-atom-variant',
+
+      'sta-species': 'mdi-account-box-multiple',
+      'sta-environment': 'mdi-earth-box',
+      'sta-upbringing': 'mdi-home-account',
+      'sta-career': 'mdi-chart-areaspline',
+      'sta-experience': 'mdi-note-edit',
+      'sta-event': 'mdi-note-edit',
+
+      'sta-stepone': 'mdi-account-box',
+      'sta-steptwo': 'mdi-earth-box',
+      'sta-stepthree': 'mdi-home-account',
+      'sta-stepfour': 'mdi-chart-areaspline',
+      'sta-stepfive': 'mdi-note-edit',
+      'sta-stepsix': 'mdi-calendar-account',
+      'sta-stepseven': 'mdi-checkbox-multiple-marked',
     },
     sets: {
       mdi,
+      md,
     },
   },
   components: {
@@ -158,6 +199,7 @@ const vuetify = createVuetify({
     VItem,
     VItemGroup,
     VTag,
+    VTooltip,
   },
 })
 

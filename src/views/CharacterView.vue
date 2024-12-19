@@ -18,6 +18,11 @@
             :color="trait.color" :value="trait.value?.toString()">
           </v-tag>
         </v-col>
+        <v-col cols="12" md="6">
+          <v-tag v-for="(trait, index) in mtg" :key="index" :text="trait.name" :icon="trait.icon" :color="trait.color"
+            :value="trait.value?.toString()">
+          </v-tag>
+        </v-col>
       </v-row>
     </v-container>
   </v-main>
@@ -45,6 +50,13 @@ character.value.addAttribute(new Attribute('Medicine', 1, '$sta-medicine', 'var(
 character.value.addAttribute(new Attribute('Science', 3, '$sta-science', 'var(--sta-science)'), 'department')
 
 
+character.value.addAttribute(new Attribute('Artifact Creature', 1, 'mdi-account-box-outline'), 'mtg')
+character.value.addAttribute(new Attribute('Casting Cost', 3, 'mdi-numeric-3-circle'), 'mtg')
+
+character.value.addAttribute(new Attribute('Power', 0, 'mdi-sword', 'var(--sta-teal)'), 'mtg')
+character.value.addAttribute(new Attribute('Toughness', 0, 'mdi-shield', 'var(--sta-teal)'), 'mtg')
+character.value.addAttribute(new Attribute('Indestructable', undefined, 'mdi-star-four-points-outline'), 'mtg')
+
 
 character.value.addAttribute(new Attribute('Species: Hologram', undefined, '$sta-species', 'var(--sta-trait)'), 'trait')
 character.value.addAttribute(new Attribute('Determined', undefined, '$sta-trait',), 'trait')
@@ -52,5 +64,7 @@ character.value.addAttribute(new Attribute('Determined', undefined, '$sta-trait'
 const attributes = character.value.getAttributes()
 const departments = character.value.getAttributes('department')
 const traits = character.value.getAttributes('trait')
+const mtg = character.value.getAttributes('mtg')
+console.log(mtg)
 
 </script>

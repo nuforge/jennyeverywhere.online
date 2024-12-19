@@ -12,6 +12,6 @@ import HeaderLayout from './layouts/HeaderLayout.vue';
 const theme = ref('dark')
 
 function changeTheme() {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
 </script>

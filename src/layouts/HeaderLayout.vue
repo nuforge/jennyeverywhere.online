@@ -5,7 +5,7 @@
     </v-app-bar-title>
     <v-spacer></v-spacer>
 
-    <v-btn :prepend-icon="props.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-day'" slim
+    <v-btn :icon="props.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-day'" slim
       @click="$emit('change-theme')"></v-btn>
     <v-btn to="/">Home</v-btn>
     <v-btn to="/about">About</v-btn>

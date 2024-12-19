@@ -6,7 +6,7 @@ import { createPinia } from 'pinia'
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import { mdi } from 'vuetify/iconsets/mdi'
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 
 import App from './App.vue'
@@ -35,6 +35,7 @@ import {
   VTextField,
   VImg,
   VBtn,
+  VBtnToggle,
   VAvatar,
   VBadge,
   VIcon,
@@ -54,16 +55,56 @@ import {
   VChipGroup,
   VSelect,
   VAutocomplete,
+  VItem,
+  VItemGroup,
 } from 'vuetify/components'
 
 const app = createApp(App)
 const vuetify = createVuetify({
   theme: {
     defaultTheme: 'dark',
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          primary: '#2B75B1',
+          secondary: '#00CC88',
+          tertiary: '#9E3E3B',
+          quaternary: '#FFBB00',
+          accent: '#82B1FF',
+          error: '#FF5252',
+          info: '#2196F3',
+          success: '#4CAF50',
+          warning: '#FFC107',
+        },
+      },
+      dark: {
+        dark: true,
+        colors: {
+          primary: '#2B75B1',
+          secondary: '#00CC88',
+          tertiary: '#9E3E3B',
+          quaternary: '#FFBB00',
+          accent: '#82B1FF',
+          error: '#FF5252',
+          info: '#2196F3',
+          success: '#4CAF50',
+          warning: '#FFC107',
+        },
+      },
+    },
   },
   icons: {
     defaultSet: 'mdi', // 'mdi' is Material Design Icons; use 'md' for Material Icons
-    aliases: {},
+    aliases: {
+      ...aliases,
+      next: 'mdi-arrow-right',
+      upvote: 'mdi-arrow-up',
+      downvote: 'mdi-arrow-down',
+      comment: 'mdi-comment',
+      favorite: 'mdi-heart',
+      share: 'mdi-share',
+    },
     sets: {
       mdi,
     },
@@ -98,6 +139,7 @@ const vuetify = createVuetify({
     VSheet,
     VIcon,
     VBtn,
+    VBtnToggle,
     VAvatar,
     VBadge,
     VDialog,
@@ -110,6 +152,8 @@ const vuetify = createVuetify({
     VFooter,
     VChip,
     VChipGroup,
+    VItem,
+    VItemGroup,
   },
 })
 

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useTagStore } from '@/stores/tags'
 import markdownit from 'markdown-it'
 
 export interface Story {
@@ -11,13 +12,21 @@ export interface Story {
 export const useStoryStore = defineStore('story', () => {
   const story = ref('')
   const storyHTML = ref('')
+  const tags = ref(useTagStore())
+
+  tags.value.addTag('Jenny Everywhere', 'mdi-account-circle', 'primary')
+  tags.value.addTag('portal', 'mdi-orbit', 'green')
+  tags.value.addTag('jetpack', 'mdi-rocket-launch', 'warning')
+  tags.value.addTag('flamethrower', 'mdi-fire', 'error')
+  tags.value.addTag('dude with a mohawk', 'mdi-face-man', 'orange')
+
   const md = markdownit({
     html: true,
     linkify: true,
   })
 
-  function setHTML(newHTML: string) {
-    storyHTML.value = newHTML
+  function highlightTags() {
+    storyHTML.value = tags.value.linkText(story.value)
   }
 
   async function fetchStory() {
@@ -25,7 +34,7 @@ export const useStoryStore = defineStore('story', () => {
       .then((result) => result.text())
       .then((text) => {
         story.value = text
-        storyHTML.value = text
+        storyHTML.value = tags.value.linkText(text)
       })
       .catch((e) => console.error(e))
   }
@@ -34,5 +43,5 @@ export const useStoryStore = defineStore('story', () => {
     return md.render(storyHTML.value)
   }
 
-  return { story, fetchStory, renderMd, setHTML }
+  return { story, fetchStory, renderMd, highlightTags, tags }
 })

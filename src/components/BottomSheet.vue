@@ -30,8 +30,7 @@ const props = defineProps<{
 }>();
 
 
-watch(() => props, (newVal) => {
-  console.log('Attribute prop updated:', newVal)
+watch(() => props, () => {
 }, { immediate: true }) // Run immediately to handle the first load as well
 
 </script>

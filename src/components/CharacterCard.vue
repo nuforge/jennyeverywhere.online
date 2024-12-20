@@ -3,7 +3,7 @@
     <v-card-text>
       <v-chip-group v-for="(section, index) in sections" :key="index" column variant="elevated">
         <v-tag v-for="(attribute, index) in section" :key="index" :text="attribute.name" :icon="attribute.icon"
-          :color="attribute.color" :value="attribute.value?.toString()" tooltip expand>
+          :color="attribute.color" :value="attribute.value?.toString()" tooltip bottom>
         </v-tag>
         <v-divider></v-divider>
       </v-chip-group>

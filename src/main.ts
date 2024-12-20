@@ -116,11 +116,13 @@ const vuetify = createVuetify({
       tertiary: 'mdi-cards-heart',
       quaternary: 'mdi-cards-diamond',
       scarf: '🧣',
+      'persona-name': 'mdi-account-circle',
+
       'sta-attribute': 'md:edit_attributes',
       'sta-department': 'md:toggle_off',
 
-      'sta-trait': 'mdi-account-box-outline',
-      'sta-talent': 'mdi-account-box-outline',
+      'sta-trait': 'mdi-star-four-points-outline',
+      'sta-talent': 'mdi-star-four-points',
       'sta-value': 'mdi-star-four-points-small',
       'sta-focus': 'mdi-image-filter-center-focus',
 
@@ -138,7 +140,7 @@ const vuetify = createVuetify({
       'sta-medicine': 'mdi-hospital-box',
       'sta-science': 'mdi-atom-variant',
 
-      'sta-species': 'mdi-account-box-multiple',
+      'sta-species': 'mdi-account-box',
       'sta-environment': 'mdi-earth-box',
       'sta-upbringing': 'mdi-home-account',
       'sta-career': 'mdi-chart-areaspline',

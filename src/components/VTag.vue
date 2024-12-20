@@ -1,5 +1,5 @@
 <template>
-  <v-chip tile class="rounded-lg text-no-wrap" variant="text" @click="expand ? show() : sheets.toggle()"
+  <v-chip tile class="rounded-lg text-no-wrap" variant="text" @click="expand ? sheets.toggle() : false"
     density="comfortable">
     <template v-slot:prepend><v-icon :icon="icon" :color="color"></v-icon></template>
     <template v-slot:default v-if="showText"><span class="mx-2">{{ text }}</span></template>
@@ -27,8 +27,5 @@ defineProps({
 
 const showText = ref(false)
 
-const show = () => {
-  showText.value = !showText.value
-}
 
 </script>

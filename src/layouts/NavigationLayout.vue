@@ -5,7 +5,7 @@
         <v-col>
           <v-chip-group column v-model="tagList.selection" multiple @update:modelValue="story.linkText">
             <v-tag v-for="(tag, index) in tagList.tags" :key="index" expand :text="tag.text" :icon="tag.icon"
-              :color="tag.color" :value="tag.count?.toString()" tooltip>
+              :color="tag.color" tooltip>
             </v-tag>
           </v-chip-group>
         </v-col>

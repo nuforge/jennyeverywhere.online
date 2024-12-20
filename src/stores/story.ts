@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
 import { useTagStore } from '@/stores/tags'
 import markdownit from 'markdown-it'
 
@@ -29,7 +29,6 @@ export const useStoryStore = defineStore('story', () => {
   }
 
   function linkText() {
-    console.log('linkText')
     // Create a RegExp if pattern is a string
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
 

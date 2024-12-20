@@ -1,16 +1,25 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import Counter from '@/game/Counter'
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
+  const counter = ref(new Counter())
+
   function increment() {
-    count.value++
+    counter.value.increment()
   }
 
   function decrement() {
-    count.value--
+    counter.value.decrement()
   }
 
-  return { count, doubleCount, increment, decrement }
+  function count() {
+    return counter.value.count
+  }
+
+  function icon() {
+    return counter.value.getIcon()
+  }
+
+  return { counter, increment, decrement, count, icon }
 })

@@ -2,15 +2,10 @@
   <v-main>
     <v-container>
       <v-row>
-        <v-col cols="12" md="9" sm="6">
+        <v-col cols="12" md="6" sm="2">
           <h2><router-link to="">{{ character.name }}</router-link></h2>
-          <p>The Shifter</p>
+          <v-img :src="image" :alt="character.name" max-height="256" />
         </v-col>
-        <v-col cols="12" md="3" sm="6">
-          <v-img :src="image" :alt="character.name" />
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col v-for="(section, index) in sections" :key="index" cols="12" md="6" sm="4">
           <CharacterCard :sections="section.data" :title="section.name" />
         </v-col>
@@ -54,7 +49,7 @@ const mtg = {
   powerToughness: character.value.getAttributes('mtg-pt')
 }
 
-const sections = ref([{ name: 'Star Trek Adventures', data: sta }, { name: 'Star Trek CCG', data: stccg }, { name: 'Magic: The Gathering', data: mtg }])
+const sections = ref([{ name: 'Magic: The Gathering', data: mtg }, { name: 'Star Trek Adventures', data: sta }, { name: 'Star Trek CCG', data: stccg },])
 
 
 </script>

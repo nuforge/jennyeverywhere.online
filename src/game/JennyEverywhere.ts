@@ -125,44 +125,6 @@ JennyEverywhere.addAttribute(
   'sta-focus',
 )
 
-// MTG - Magic the Gathering
-
-JennyEverywhere.addAttribute(
-  new Attribute('Name', 'Jenny, the Shifter', '$persona-name', 'var(--sta-teal)'),
-  'mtg-card',
-)
-JennyEverywhere.addAttribute(new Attribute('Casting Cost', 3, 'mdi-numeric-3-circle'), 'mtg-card')
-JennyEverywhere.addAttribute(
-  new Attribute('Card Color', 'Colorless', 'mdi-circle', 'text'),
-  'mtg-card',
-)
-
-// MTG Types
-JennyEverywhere.addAttribute(
-  new Attribute('Legendary', undefined, 'mdi-label', 'var(--sta-gold)'),
-  'mtg-type',
-)
-JennyEverywhere.addAttribute(new Attribute('Artifact', undefined, 'mdi-label'), 'mtg-type')
-JennyEverywhere.addAttribute(new Attribute('Creature', undefined, 'mdi-label'), 'mtg-type')
-JennyEverywhere.addAttribute(new Attribute('Creature Type', 'Illusion', '$sta-species'), 'mtg-type')
-
-// MTG Abilities
-JennyEverywhere.addAttribute(
-  new Attribute('Indestructible', undefined, 'mdi-star-four-points-outline'),
-  'mtg-ability',
-)
-JennyEverywhere.addAttribute(
-  new Attribute('Changeling', undefined, 'mdi-star-four-points-outline'),
-  'mtg-ability',
-)
-
-// MTG Power Toughness
-JennyEverywhere.addAttribute(new Attribute('Power', 0, 'mdi-sword', 'var(--sta-teal)'), 'mtg-pt')
-JennyEverywhere.addAttribute(
-  new Attribute('Toughness', 0, 'mdi-shield', 'var(--sta-teal)'),
-  'mtg-pt',
-)
-
 // STCCG - Star Trek CCG
 JennyEverywhere.addAttribute(
   new Attribute('Card Name', 'Jenny Everywhere', '$persona-name', 'var(--sta-teal)'),
@@ -232,4 +194,38 @@ JennyEverywhere.addAttribute(
   'stccg-icon',
 )
 
+// MTG - Magic the Gathering
+
+JennyEverywhere.addAttribute(
+  new Attribute('Name', 'Jenny, the Shifter', '$persona-name', 'var(--sta-teal)'),
+  'mtg-card',
+)
+JennyEverywhere.addAttribute(new Attribute('Casting Cost', 3, 'mdi-numeric-3-circle'), 'mtg-card')
+JennyEverywhere.addAttribute(new Attribute('Card Color', 'Colorless', 'mdi-circle'), 'mtg-card')
+
+// MTG Types
+JennyEverywhere.addAttribute(
+  new Attribute('Legendary', undefined, 'mdi-label', 'var(--sta-gold)'),
+  'mtg-type',
+)
+JennyEverywhere.addAttribute(new Attribute('Artifact', undefined, 'mdi-label'), 'mtg-type')
+JennyEverywhere.addAttribute(new Attribute('Creature', undefined, 'mdi-label'), 'mtg-type')
+JennyEverywhere.addAttribute(new Attribute('Creature Type', 'Illusion', '$sta-species'), 'mtg-type')
+
+// MTG Abilities
+JennyEverywhere.addAttribute(
+  new Attribute('Indestructible', undefined, 'mdi-star-four-points-outline'),
+  'mtg-ability',
+)
+JennyEverywhere.addAttribute(
+  new Attribute('Changeling', undefined, 'mdi-star-four-points-outline'),
+  'mtg-ability',
+)
+
+// MTG Power Toughness
+JennyEverywhere.addAttribute(new Attribute('Power', 0, 'mdi-sword', 'var(--sta-blue)'), 'mtg-pt')
+JennyEverywhere.addAttribute(
+  new Attribute('Toughness', 1, 'mdi-shield', 'var(--sta-blue)'),
+  'mtg-pt',
+)
 export default JennyEverywhere

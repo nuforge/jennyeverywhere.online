@@ -15,10 +15,10 @@ export const useStoryStore = defineStore('story', () => {
   const tags = ref(useTagStore())
 
   tags.value.addTag('Jenny Everywhere', 'mdi-account-circle', 'primary')
-  tags.value.addTag('portal', 'mdi-orbit', 'green')
+  tags.value.addTag('green portal', 'mdi-orbit', 'green')
   tags.value.addTag('jetpack', 'mdi-rocket-launch', 'warning')
   tags.value.addTag('flamethrower', 'mdi-fire', 'error')
-  tags.value.addTag('dude with a mohawk', 'mdi-face-man', 'orange')
+  tags.value.addTag('dude with a mohawk', 'mdi-account-circle-outline', 'orange')
 
   const md = markdownit({
     html: true,

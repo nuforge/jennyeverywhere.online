@@ -1,21 +1,17 @@
 <template>
   <v-main>
     <v-container>
-      <h2><router-link to="">{{ character.name }}</router-link></h2>
       <v-row>
-        <v-col cols="4">
-          <v-img :src="image" :alt="character.name" max-height="200" />
+        <v-col cols="12" md="9" sm="6">
+          <h2><router-link to="">{{ character.name }}</router-link></h2>
+          <p>The Shifter</p>
         </v-col>
-        <v-col cols="8">
-          <p>She has short, dark hair. She usually wears aviation goggles on top of her head and a scarf around her
-            neck.
-            Otherwise, she dresses in comfortable clothes. She is average size and has a good body image. She has loads
-            of
-            confidence and charisma. She appears to be Asian or Native American. She has a ready smile.</p>
+        <v-col cols="12" md="3" sm="6">
+          <v-img :src="image" :alt="character.name" />
         </v-col>
       </v-row>
       <v-row>
-        <v-col v-for="(section, index) in sections" :key="index" cols="auto" md="4">
+        <v-col v-for="(section, index) in sections" :key="index" cols="12" md="6" sm="4">
           <CharacterCard :sections="section.data" :title="section.name" />
         </v-col>
       </v-row>
@@ -55,7 +51,7 @@ const mtg = {
   card: character.value.getAttributes('mtg-card'),
   type: character.value.getAttributes('mtg-type'),
   abilities: character.value.getAttributes('mtg-ability'),
-  powerTouchness: character.value.getAttributes('mtg-pt')
+  powerToughness: character.value.getAttributes('mtg-pt')
 }
 
 const sections = ref([{ name: 'Star Trek Adventures', data: sta }, { name: 'Star Trek CCG', data: stccg }, { name: 'Magic: The Gathering', data: mtg }])

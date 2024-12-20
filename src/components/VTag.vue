@@ -3,8 +3,8 @@
     <template v-slot:prepend><v-icon :icon="icon" :color="color"></v-icon></template>
     <template v-slot:default v-if="showText"><span class="mx-2">{{ text }}</span></template>
     <template v-slot:append v-if="value"><span class="mx-1">{{ value }}</span></template>
-    <v-tooltip activator="parent" location="bottom" :content-class="`bg-surface`" :text="text" elevated><v-icon
-        :icon="icon"></v-icon> {{ text }}
+    <v-tooltip activator="parent" location="bottom" :content-class="`bg-surface`" :text="text" elevated
+      v-if="tooltip"><v-icon :icon="icon"></v-icon> {{ text }}
     </v-tooltip>
   </v-chip>
 </template>
@@ -18,7 +18,8 @@ defineProps({
   class: String,
   color: String,
   value: String,
-  expand: Boolean
+  expand: Boolean,
+  tooltip: Boolean
 })
 
 const showText = ref(false)

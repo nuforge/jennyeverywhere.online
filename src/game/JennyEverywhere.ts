@@ -54,19 +54,19 @@ JennyEverywhere.addAttribute(
   'sta-department',
 )
 JennyEverywhere.addAttribute(
-  new Attribute('Security', 1, '$sta-security', 'var(--sta-security)'),
-  'sta-department',
-)
-JennyEverywhere.addAttribute(
-  new Attribute('Medicine', 1, '$sta-medicine', 'var(--sta-medicine)'),
-  'sta-department',
-)
-JennyEverywhere.addAttribute(
   new Attribute('Conn', 5, '$sta-conn', 'var(--sta-conn)'),
   'sta-department',
 )
 JennyEverywhere.addAttribute(
+  new Attribute('Security', 1, '$sta-security', 'var(--sta-security)'),
+  'sta-department',
+)
+JennyEverywhere.addAttribute(
   new Attribute('Engineering', 4, '$sta-engineering', 'var(--sta-engineering)'),
+  'sta-department',
+)
+JennyEverywhere.addAttribute(
+  new Attribute('Medicine', 1, '$sta-medicine', 'var(--sta-medicine)'),
   'sta-department',
 )
 JennyEverywhere.addAttribute(
@@ -144,7 +144,7 @@ JennyEverywhere.addAttribute(
 )
 JennyEverywhere.addAttribute(new Attribute('Artifact', undefined, 'mdi-label'), 'mtg-type')
 JennyEverywhere.addAttribute(new Attribute('Creature', undefined, 'mdi-label'), 'mtg-type')
-JennyEverywhere.addAttribute(new Attribute('Creature Type', 'Hologram', '$sta-species'), 'mtg-type')
+JennyEverywhere.addAttribute(new Attribute('Creature Type', 'Illusion', '$sta-species'), 'mtg-type')
 
 // MTG Abilities
 JennyEverywhere.addAttribute(

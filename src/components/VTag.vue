@@ -1,5 +1,5 @@
 <template>
-  <v-chip tile class="rounded-lg text-no-wrap" variant="text" @click="expand ? show() : null">
+  <v-chip tile class="rounded-lg text-no-wrap" variant="text" @click="expand ? show() : null" density="comfortable">
     <template v-slot:prepend><v-icon :icon="icon" :color="color"></v-icon></template>
     <template v-slot:default v-if="showText"><span class="mx-2">{{ text }}</span></template>
     <template v-slot:append v-if="value"><span class="mx-1">{{ value }}</span></template>

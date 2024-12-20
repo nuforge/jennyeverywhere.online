@@ -1,9 +1,9 @@
 <template>
-  <v-card class="elevation-8" variant="plain" density="compact">
+  <v-card class="elevation-8 border-b-sm border-e-md rounded-b-lg" variant="text">
     <v-card-text>
-      <v-chip-group v-for="(section, index) in sections" :key="index" column>
+      <v-chip-group v-for="(section, index) in sections" :key="index" column variant="elevated">
         <v-tag v-for="(attribute, index) in section" :key="index" :text="attribute.name" :icon="attribute.icon"
-          :color="attribute.color" :value="attribute.value?.toString()">
+          :color="attribute.color" :value="attribute.value?.toString()" tooltip>
         </v-tag>
         <v-divider></v-divider>
       </v-chip-group>

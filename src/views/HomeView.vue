@@ -7,24 +7,21 @@
           <feedbackBar />
         </v-col>
         <v-col cols="12" md="8">
-          <div class="story-base  text-decoration-none " v-html="storyHTML">
-
-          </div>
+          <div class="story-base  text-decoration-none " v-html="storyHTML"></div>
         </v-col>
       </v-row>
 
       <v-row class="">
         <v-col cols="auto" md="8">
-          <v-item-group selected-class="rounded-e-xl bg-surface border-opacity-100" v-model="selection">
+          <v-item-group selected-class="rounded-te-xl  border-b-sm bg-surface border-opacity-100" v-model="selection">
             <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
               :color="button.color" />
-
           </v-item-group>
         </v-col>
         <v-col cols="6" md="4">
           <v-chip-group column v-model="tagselection" multiple @update:modelValue="linkText">
             <v-tag v-for="(tag, index) in tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
-              class="text-red" :value="tag.count?.toString()">
+              class="text-red" :value="tag.count?.toString()" tooltip>
             </v-tag>
           </v-chip-group>
         </v-col>

@@ -1,7 +1,7 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="theme">
-      <HeaderLayout @change-theme="changeTheme" @toggle-menu="toggleMenu" />
+      <HeaderLayout @change-theme="changeTheme" @toggle-menu="toggleMenu" :theme="theme" />
       <NavigationLayout v-model="drawer" />
       <v-main>
         <RouterView />
@@ -22,7 +22,7 @@ const theme = ref('dark')
 const drawer = ref(false)
 
 function changeTheme() {
-  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  theme.value = (theme.value === 'dark') ? 'light' : 'dark'
 }
 
 function toggleMenu() {

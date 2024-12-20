@@ -6,6 +6,7 @@
       <v-main>
         <RouterView />
       </v-main>
+      <BottomSheet name="test" color="primary" icon="mdi-home" description="This is" />
     </v-app>
   </v-responsive>
 </template>
@@ -15,6 +16,7 @@ import { ref } from 'vue'
 
 import HeaderLayout from './layouts/HeaderLayout.vue';
 import NavigationLayout from './layouts/NavigationLayout.vue';
+import BottomSheet from './components/BottomSheet.vue';
 
 const theme = ref('dark')
 const drawer = ref(false)

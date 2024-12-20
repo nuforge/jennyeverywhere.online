@@ -1,8 +1,5 @@
 <template>
   <v-navigation-drawer :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
-    <v-list>
-      <v-list-item title="Navigation drawer"></v-list-item>
-    </v-list>
     <v-container>
       <v-row>
         <v-col>

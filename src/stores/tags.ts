@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 
 export const useTagStore = defineStore('selection', () => {
-  const selection = ref([0]) // Initial value is 3
+  const selection = ref([0])
   const tags = ref<Tag[]>([])
 
   // Actions
@@ -37,6 +37,7 @@ export const useTagStore = defineStore('selection', () => {
       )
     })
     // Replace matches with <b> tags
+
     return temp
   }
   return { selection, tags, addTag, linkText }

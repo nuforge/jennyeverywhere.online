@@ -1,15 +1,14 @@
 <template>
   <v-app-bar>
     <v-app-bar-title>
-      <v-img :src="JELogo" max-height="48" />
+      <router-link to="/"><v-img :src="JELogo" max-height="48" /></router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
 
-    <v-btn :icon="props.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-day'" slim
-      @click="$emit('change-theme')"></v-btn>
-    <v-btn to="/">Home</v-btn>
     <v-btn to="/about">About</v-btn>
     <v-btn to="/character">character</v-btn>
+    <v-btn :icon="props.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'" slim
+      @click="$emit('change-theme')" color="text" size="small"></v-btn>
   </v-app-bar>
 </template>
 

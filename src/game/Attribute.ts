@@ -17,7 +17,7 @@ class Attribute {
     id?: string,
   ) {
     this._name = name
-    this._value = value !== undefined ? value : name.toLowerCase()
+    this._value = value !== undefined ? value : name
     this._icon = icon
     this._description = description
     this._color = color

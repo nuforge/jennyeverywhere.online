@@ -30,8 +30,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import feedbackBar from '@/components/feedbackBar.vue'
-import storyChoice from '@/components/storyChoice.vue'
+import feedbackBar from '@/components/FeedbackBar.vue'
+import storyChoice from '@/components/StoryChoice.vue'
 
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'

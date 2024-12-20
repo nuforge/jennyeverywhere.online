@@ -3,10 +3,11 @@ class Counter {
   private _count: number
   private _max: number = 10
   private _min: number = 0
+  private _icon: string = 'mdi-hexagon'
 
   constructor(initialValue: number = 0) {
     if (initialValue < this._min || initialValue > this._max) {
-      throw new Error(`Counter count must be between ${this._min} and ${this._max}.`)
+      throw new Error(`${this._name} count must be between ${this._min} and ${this._max}.`)
     }
     this._count = initialValue
   }
@@ -17,7 +18,7 @@ class Counter {
 
   set count(newValue: number) {
     if (newValue < this._min || newValue > this._max) {
-      throw new Error(`Counter count must be between ${this._min} and ${this._max}.`)
+      throw new Error(`${this._name} count must be between ${this._min} and ${this._max}.`)
     }
     this._count = newValue
   }
@@ -38,9 +39,9 @@ class Counter {
 
   getIcon(count: number = this._count): string {
     if (count >= 1 && count <= 6) {
-      return `mdi-hexagon-slice-${count}`
+      return `${this._icon}-slice-${count}`
     }
-    return count === 0 ? 'mdi-hexagon-outline' : 'mdi-hexagon-multiple'
+    return count === 0 ? `${this._icon}-outline` : `${this._icon}-multiple`
   }
 }
 

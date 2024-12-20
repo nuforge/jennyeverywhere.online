@@ -1,9 +1,9 @@
 <template>
-  <v-main>
-    <v-container>
-      <div class="about">
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="6" sm="2">
         <h1>This is an about page</h1>
-      </div>
-    </v-container>
-  </v-main>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

@@ -1,2 +1,12 @@
 @import './base.css';
 @import './sta.css';
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.5s;
+}
+
+a:hover {
+  color: var(--color-heading);
+}

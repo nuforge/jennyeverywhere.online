@@ -23,7 +23,7 @@ export const useStoryStore = defineStore('story', () => {
       .then((result) => result.text())
       .then((text) => {
         story.value = text
-        storyHTML.value = text
+        linkText()
       })
       .catch((e) => console.error(e))
   }

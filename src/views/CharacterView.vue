@@ -1,17 +1,15 @@
 <template>
-  <v-main>
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="6" sm="2">
-          <h2><router-link to="">{{ character.name }}</router-link></h2>
-          <v-img :src="image" :alt="character.name" max-height="256" />
-        </v-col>
-        <v-col v-for="(section, index) in sections" :key="index" cols="12" md="6" sm="4">
-          <CharacterCard :sections="section.data" :title="section.name" />
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-main>
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="6" sm="2">
+        <h2><router-link to="">{{ character.name }}</router-link></h2>
+        <v-img :src="image" :alt="character.name" max-height="256" />
+      </v-col>
+      <v-col v-for="(section, index) in sections" :key="index" cols="12" md="6" sm="4">
+        <CharacterCard :sections="section.data" :title="section.name" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">

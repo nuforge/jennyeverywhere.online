@@ -1,57 +1,56 @@
 <template>
-  <v-main>
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="4">
-          <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
-          <feedbackBar />
-        </v-col>
-        <v-col cols="12" md="8">
-          <div class="story-base  text-decoration-none " v-html="storyHTML"></div>
-        </v-col>
-      </v-row>
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="4">
+        <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
+        <feedbackBar />
+      </v-col>
+      <v-col cols="12" md="8">
+        <div class="story-base  text-decoration-none " v-html="storyHTML"></div>
+      </v-col>
+    </v-row>
 
-      <v-row class="">
-        <v-col cols="auto" md="8">
-          <v-item-group selected-class="rounded-te-xl  border-b-sm bg-surface border-opacity-100" v-model="selection">
-            <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
-              :color="button.color" />
-          </v-item-group>
-        </v-col>
-        <v-col cols="6" md="4">
-          <v-chip-group column v-model="tagselection" multiple @update:modelValue="linkText">
-            <v-tag v-for="(tag, index) in tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
-              class="text-red" :value="tag.count?.toString()" tooltip>
-            </v-tag>
-          </v-chip-group>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
+    <v-row class="">
+      <v-col cols="auto" md="8">
+        <v-item-group selected-class="rounded-te-xl  border-b-sm bg-surface border-opacity-100" v-model="selection">
+          <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
+            :color="button.color" />
+        </v-item-group>
+      </v-col>
+      <v-col cols="6" md="4">
+        <v-chip-group column v-model="tagList.selection" multiple @update:modelValue="linkText">
+          <v-tag v-for="(tag, index) in tagList.tags" :key="index" :text="tag.text" :icon="tag.icon" :color="tag.color"
+            class="text-red" :value="tag.count?.toString()" tooltip>
+          </v-tag>
+        </v-chip-group>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
 
-          <v-divider></v-divider>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-main>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import markdownit from 'markdown-it'
-import feedbackBar from '@/components/feedbackBar.vue';
+import feedbackBar from '@/components/feedbackBar.vue'
 import storyChoice from '@/components/storyChoice.vue'
 
+import { useTagStore } from '@/stores/tags'
+import type { Tag } from '@/stores/tags'
+
+const tagList = ref(useTagStore());
 
 const md = markdownit({
   html: true,
   linkify: true,
 })
 
-
-
 const selection = ref([])
-const tagselection = ref([0, 4])
 const story = ref('')
 const storyHTML = ref('')
 
@@ -64,30 +63,13 @@ interface Button {
   tags?: Tag[]
 }
 
-interface Tag {
-  text: string
-  icon: string
-  color: string
-  count?: number
-}
 
 const buttons = ref<Button[]>([
   { text: `Slam the window shut and pretend this isn't happening?`, icon: '$primary', color: 'primary', terms: ['window', 'dude with a mohawk', 'flamethrower'] },
   { text: `Grab a pillow, because clearly you're still dreaming?`, icon: '$secondary', color: 'secondary', terms: ['pillow', 'jetpack', 'scarf', 'pajamas'] },
   { text: `Ask Jenny why there's a portal in the middle of the road?`, icon: '$tertiary', color: 'tertiary', terms: ['jenny everywhere', 'portal', 'road'] },
-  { text: `Activate Shifting Power`, icon: '$quaternary', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
+  { text: `Shift to another reality?`, icon: '$quaternary', color: 'quaternary', terms: ['jenny everywhere', 'shift', 'power'] },
 ])
-
-const tags = ref<Tag[]>([
-  { text: 'Jenny Everywhere', icon: 'mdi-account-circle-outline', color: 'teal' },
-  { text: 'portal', icon: 'mdi-orbit', color: 'green' },
-  { text: 'window', icon: 'mdi-window-closed-variant', color: 'primary' },
-  { text: 'jetpack', icon: 'mdi-rocket-launch', color: 'warning' },
-  { text: 'flamethrower', icon: 'mdi-fire', color: 'error' },
-  { text: 'confidence', icon: 'mdi-emoticon-cool', color: 'yellow' },
-  { text: 'dude with a mohawk', icon: 'mdi-face-man', color: 'orange' },
-])
-
 
 const fetchStory = async () => {
 
@@ -100,26 +82,24 @@ const fetchStory = async () => {
     .catch((e) => console.error(e));
 }
 
-
-
 function linkText() {
 
   // Create a RegExp if pattern is a string
   //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
 
   let temp = story.value;
-  tagselection.value.forEach((tag) => {
+  tagList.value.selection.forEach((tag) => {
 
-    const pattern = tags.value[tag].text
+    const pattern = tagList.value.tags[tag].text
 
     // Escape special regex characters if pattern is a literal string
     const escapedPattern = typeof pattern === 'string'
       ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
       : pattern; // If already a RegExp, use it as is
 
-    const regex = typeof tags.value[tag].text === 'string' ? new RegExp(escapedPattern, 'g') : tags.value[tag].text;
+    const regex = typeof tagList.value.tags[tag].text === 'string' ? new RegExp(escapedPattern, 'g') : tagList.value.tags[tag].text;
 
-    temp = temp.replace(regex, (match) => `<span class="text-no-wrap" ><i class="text-no-wrap mdi ${tags.value[tag].icon} text-${tags.value[tag].color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`);
+    temp = temp.replace(regex, (match) => `<span class="text-no-wrap" ><i class="text-no-wrap mdi ${tagList.value.tags[tag].icon} text-${tagList.value.tags[tag].color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`);
   });
   // Replace matches with <b> tags
   storyHTML.value = md.render(temp)

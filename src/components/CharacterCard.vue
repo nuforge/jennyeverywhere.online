@@ -19,5 +19,4 @@ defineProps({
   sections: Object,
 })
 
-
 </script>

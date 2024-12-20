@@ -76,7 +76,7 @@ JennyEverywhere.addAttribute(
 
 // STA Traits
 JennyEverywhere.addAttribute(
-  new Attribute('Species: Hologram', undefined, '$sta-species', 'var(--sta-trait)'),
+  new Attribute('Species', 'Hologram', '$sta-species', 'var(--sta-trait)'),
   'sta-trait',
 )
 JennyEverywhere.addAttribute(
@@ -210,18 +210,16 @@ JennyEverywhere.addAttribute(
 )
 JennyEverywhere.addAttribute(new Attribute('Artifact', undefined, 'mdi-label'), 'mtg-type')
 JennyEverywhere.addAttribute(new Attribute('Creature', undefined, 'mdi-label'), 'mtg-type')
-JennyEverywhere.addAttribute(new Attribute('Creature Type', 'Illusion', '$sta-species'), 'mtg-type')
+JennyEverywhere.addAttribute(
+  new Attribute('Creature Type', 'Illusion', 'mdi-label-outline'),
+  'mtg-type',
+)
 
 // MTG Abilities
 JennyEverywhere.addAttribute(
   new Attribute('Indestructible', undefined, 'mdi-star-four-points-outline'),
   'mtg-ability',
 )
-JennyEverywhere.addAttribute(
-  new Attribute('Changeling', undefined, 'mdi-star-four-points-outline'),
-  'mtg-ability',
-)
-
 // MTG Power Toughness
 JennyEverywhere.addAttribute(new Attribute('Power', 0, 'mdi-sword', 'var(--sta-blue)'), 'mtg-pt')
 JennyEverywhere.addAttribute(

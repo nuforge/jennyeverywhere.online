@@ -9,7 +9,8 @@
             </v-tag>
           </v-chip-group>
         </v-col>
-      </v-row></v-container>
+      </v-row>
+    </v-container>
   </v-navigation-drawer>
 </template>
 

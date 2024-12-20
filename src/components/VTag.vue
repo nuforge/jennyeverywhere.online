@@ -28,7 +28,6 @@ defineProps({
 const showText = ref(false)
 
 const show = () => {
-  console.log('show')
   showText.value = !showText.value
 }
 

@@ -11,6 +11,7 @@ export const useSheetStore = defineStore('bottom-sheet', () => {
   function hide() {
     display.value = false
   }
+
   function toggle() {
     display.value = !display.value
   }

@@ -1,25 +1,36 @@
 <template>
   <h2>Add Tag</h2>
   <v-form @submit.prevent>
-    <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" :prepend-inner-icon="icon">
+    <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"
+      variant="outlined"></v-text-field>
+    <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
+      :prepend-inner-icon="icon">
       <template #append>
-        <v-icon icon="mdi-link" link="https://pictogrammers.com/library/mdi/icon/window-closed-variant/"></v-icon>
+        <v-btn icon="mdi-open-in-new" target="_blank" rel="noopener noreferrer"
+          href="https://pictogrammers.com/library/mdi/icon/window-closed-variant/" size="small" density="compact"
+          variant="plain" :ripple="false"></v-btn>
       </template>
     </v-text-field>
-    <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"></v-text-field>
     <v-dialog>
       <template v-slot:activator="{ props: activatorProps }">
-        <v-btn prepend-icon="mdi-palette" v-bind="activatorProps" color="surface-variant" text="color"
-          variant="text"></v-btn>
+        <v-btn prepend-icon="mdi-palette" v-bind="activatorProps" text="choose color" variant="outlined" block>
+          <template #prepend>
+            <v-icon icon="mdi-palette" :color="color"></v-icon>
+          </template>
+        </v-btn>
       </template>
-      <v-color-picker v-model="color" label="choose color" density="compact"></v-color-picker>
+      <v-color-picker v-model="color" label="color" density="compact"></v-color-picker>
     </v-dialog>
-    <div class="d-flex justify-center border-b-sm border-t-sm py-2 my-1 bg-black">
-      <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal">
-      </v-tag>
-    </div>
-    <v-btn color="primary" @click="addTag()" density="compact" prepend-icon="mdi-tag-edit" :disabled="!text">Create
-      Tag</v-btn>
+    <v-row class="d-flex justify-center align-center">
+      <v-col>
+        <div class="d-flex justify-center py-2 my-1 rounded-lg">
+          <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal" class=" elevation-4 ">
+          </v-tag>
+        </div>
+      </v-col>
+      <v-col>
+        <v-btn @click=" addTag()" density="compact" prepend-icon="mdi-tag-plus" :disabled="!text">Add</v-btn></v-col>
+    </v-row>
   </v-form>
 </template>
 

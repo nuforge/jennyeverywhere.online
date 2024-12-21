@@ -17,8 +17,8 @@ export const useTagStore = defineStore('selection', () => {
   }
 
   const removeTag = (tag: string) => {
-    selection.value = selection.value.filter((item) => item !== tag)
     delete tags.value[tag]
+    selection.value = selection.value.filter((item) => item !== tag)
   }
 
   function linkText(text: string) {

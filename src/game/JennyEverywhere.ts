@@ -17,6 +17,7 @@ JennyEverywhere.addAttribute(
   new Attribute('Rank', 'Chief Petty Officer', 'mdi-account-box-outline'),
   'sta-character',
 )
+console.log(JennyEverywhere.attributes)
 JennyEverywhere.addAttribute(
   new Attribute('Pronouns', 'She/her', 'mdi-account-box-outline'),
   'sta-character',

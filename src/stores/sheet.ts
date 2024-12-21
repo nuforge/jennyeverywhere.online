@@ -14,7 +14,6 @@ export const useSheetStore = defineStore('bottom-sheet', () => {
   }
 
   function openTag(tagText: string, tagColor: string, tagIcon: string) {
-    console.log('openTag', tagText, tagColor, tagIcon)
     setTag(tagText, tagColor, tagIcon)
     show()
   }

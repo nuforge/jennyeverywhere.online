@@ -8,6 +8,10 @@
           </v-tag>
         </template>
       </v-card-item>
+      <v-divider></v-divider>
+      <v-card-text>
+        <template v-slot:default>{{ sheet.data?.text }}</template>
+      </v-card-text>
     </v-card>
   </v-bottom-sheet>
 </template>

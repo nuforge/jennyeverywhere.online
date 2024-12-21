@@ -92,7 +92,7 @@ JennyEverywhere.addAttribute(
   'sta-talent',
 )
 JennyEverywhere.addAttribute(
-  new Attribute('Menatal Repository', undefined, '$sta-talent'),
+  new Attribute('Mental Repository', undefined, '$sta-talent'),
   'sta-talent',
 )
 

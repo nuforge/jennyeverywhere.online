@@ -65,6 +65,7 @@ import {
   VTooltip,
   VColorPicker,
   VLabel,
+  VHover,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -110,6 +111,7 @@ const vuetify = createVuetify({
       icon: 'mdi-emoticon-happy',
       next: 'mdi-arrow-right',
       delete: 'mdi-close',
+      clear: 'mdi-close',
       upvote: 'mdi-arrow-up',
       downvote: 'mdi-arrow-down',
       comment: 'mdi-comment',
@@ -214,6 +216,7 @@ const vuetify = createVuetify({
     VTooltip,
     VColorPicker,
     VLabel,
+    VHover,
   },
 })
 

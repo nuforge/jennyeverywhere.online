@@ -1,6 +1,6 @@
 <template>
-  <v-chip tile class="rounded-lg text-no-wrap" variant="text" @click="bottom ? sheets.toggle() : false"
-    density="comfortable">
+  <v-chip tile class="rounded-lg text-no-wrap" variant="text"
+    @click="bottom ? sheets.openTag(value, color, icon) : false" density="comfortable">
     <template v-slot:prepend><v-icon :icon="icon" :color="color"></v-icon></template>
     <template v-slot:default v-if="expand"><span class="mx-2">{{ text }}</span></template>
     <template v-slot:append v-if="value"><span class="mx-1">{{ value }}</span></template>
@@ -16,14 +16,38 @@ import { useSheetStore } from '@/stores/sheet'
 const sheets = ref(useSheetStore());
 
 defineProps({
-  icon: String,
-  text: String,
-  class: String,
-  color: String,
-  value: String,
-  expand: Boolean,
-  tooltip: Boolean,
-  bottom: Boolean,
+  icon: {
+    type: String,
+    default: ''
+  },
+  text: {
+    type: String,
+    default: ''
+  },
+  class: {
+    type: String,
+    default: ''
+  },
+  color: {
+    type: String,
+    default: ''
+  },
+  value: {
+    type: String,
+    default: ''
+  },
+  expand: {
+    type: Boolean,
+    default: false
+  },
+  tooltip: {
+    type: Boolean,
+    default: false
+  },
+  bottom: {
+    type: Boolean,
+    default: false
+  },
 })
 
 

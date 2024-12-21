@@ -6,7 +6,7 @@
       <v-main>
         <RouterView />
       </v-main>
-      <BottomSheet name="test" color="primary" icon="mdi-home" description="This is" />
+      <BottomSheet />
     </v-app>
   </v-responsive>
 </template>

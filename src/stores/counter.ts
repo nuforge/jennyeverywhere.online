@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import Counter from '@/game/Counter'
+import Counter from '@/objects/Counter'
 
 export const useCounterStore = defineStore('counter', () => {
   const counter = ref(new Counter())

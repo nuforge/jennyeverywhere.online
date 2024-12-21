@@ -9,13 +9,9 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useStoryStore } from '@/stores/story'
 
 const story = ref(useStoryStore());
-
-onMounted(() => {
-})
-
 
 </script>

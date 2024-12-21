@@ -65,6 +65,10 @@ defineProps({
     type: Boolean,
     default: false
   },
+  isHovering: {
+    type: Boolean,
+    default: false
+  },
 })
 
 

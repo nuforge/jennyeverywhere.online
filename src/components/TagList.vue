@@ -1,9 +1,11 @@
 <template>
   <v-chip-group column v-model="story.tags.selection" multiple @update:modelValue="story.highlightTags()">
-    <v-tag v-for="(tag, index) in story.tags.tags" :key="index" :label="tag.label" :icon="tag.icon" :value="tag.id"
-      :color="tag.color" tooltip @click:close="story.tags.removeTag(tag.id)" :noValue="noValue" :noLabel="noLabel"
-      :closer="closer">
-    </v-tag>
+    <v-hover v-slot="{ isHovering, props }" v-for="(tag, index) in story.tags.tags" :key="index">
+      <v-tag :label="tag.label" :icon="tag.icon" :value="tag.id" v-bind="props" :color="tag.color" tooltip
+        @click:close="story.tags.removeTag(tag.id)" :noValue="noValue" :noLabel="noLabel" :isHovering="isHovering">
+      </v-tag>
+    </v-hover>
+
   </v-chip-group>
 </template>
 
@@ -12,6 +14,7 @@
 import { ref } from 'vue'
 import { useStoryStore } from '@/stores/story'
 const story = ref(useStoryStore());
+
 
 defineProps({
   noLabel: {

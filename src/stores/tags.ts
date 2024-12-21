@@ -26,7 +26,6 @@ export const useTagStore = defineStore('selection', () => {
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
     selection.value.forEach((tag) => {
-      console.log('linkText', selection.value, tag, tags.value[tag])
       if (!tags.value[tag]) return
       const pattern = tags.value[tag].label
       const icon = tags.value[tag].icon

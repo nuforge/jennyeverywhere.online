@@ -19,6 +19,7 @@ export const useStoryStore = defineStore('story', () => {
   tags.value.addTag('jetpack', 'warning', 'mdi-rocket-launch')
   tags.value.addTag('flamethrower', 'error', 'mdi-fire')
   tags.value.addTag('dude with a mohawk', 'orange', 'mdi-account-circle-outline')
+  tags.value.addTag('toast', '#75584B', 'mdi-bread-slice')
 
   const md = markdownit({
     html: true,

@@ -1,9 +1,9 @@
 class Counter {
-  private _name: string = 'Counter'
-  private _count: number
-  private _max: number = 10
-  private _min: number = 0
-  private _icon: string = 'mdi-hexagon'
+  protected _name: string = 'Counter'
+  protected _count: number
+  protected _max: number = 10
+  protected _min: number = 0
+  protected _icon: string = 'mdi-circle'
 
   constructor(initialValue: number = 0) {
     if (initialValue < this._min || initialValue > this._max) {
@@ -38,7 +38,7 @@ class Counter {
   }
 
   getIcon(count: number = this._count): string {
-    if (count >= 1 && count <= 6) {
+    if (count >= 1 && count <= 8) {
       return `${this._icon}-slice-${count}`
     }
     return count === 0 ? `${this._icon}-outline` : `${this._icon}-multiple`

@@ -17,18 +17,6 @@
 import StorySheet from '@/components/StorySheet.vue'
 import StoryChoiceGroup from '@/components/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/StoryTagGroup.vue'
-/*
-function updateTags() {
-  const index = selection.value
-  const button = buttons.value[index]
-
-  button.terms.forEach(term => {
-    term = term.toLowerCase()
-    const color = button.color
-    const icon = button.icon
-    tagList.value.addTag(term, icon, color)
-  })
-} */
 </script>
 
 

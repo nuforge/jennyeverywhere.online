@@ -64,6 +64,7 @@ import {
   VItemGroup,
   VTooltip,
   VColorPicker,
+  VLabel,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -211,6 +212,7 @@ const vuetify = createVuetify({
     VTag,
     VTooltip,
     VColorPicker,
+    VLabel,
   },
 })
 

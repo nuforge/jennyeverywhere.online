@@ -9,8 +9,8 @@ export const useTagStore = defineStore('selection', () => {
   // Actions
   const addTag = (
     newText: string = 'tag',
-    newIcon: string = 'mdi-tag-outline',
     newColor: string = 'primary',
+    newIcon: string = 'mdi-tag-outline',
   ) => {
     const tag = new Tag(newText, newColor, newIcon)
     tags.value[tag.id] = new Tag(newText, newColor, newIcon)
@@ -20,7 +20,9 @@ export const useTagStore = defineStore('selection', () => {
     // Create a RegExp if pattern is a string
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
+    console.log('selection', selection.value)
     selection.value.forEach((tag) => {
+      console.log(tag, tags.value[tag])
       const pattern = tags.value[tag].label
       const icon = tags.value[tag].icon
       const color = tags.value[tag].color

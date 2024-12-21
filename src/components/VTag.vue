@@ -1,15 +1,17 @@
 <template>
-  <v-chip tile class="rounded-lg label-no-wrap" variant="text"
-    @click="bottom ? sheets.openTag(value, color, icon) : false" density="comfortable">
-    <template v-slot:prepend>
-      <v-icon :icon="icon" :color="color"></v-icon>
+  <v-chip tile class="rounded-lg" variant="text" @click="bottom ? sheets.openTag(value, color, icon) : false"
+    density="comfortable" :value="value">
+    <template v-slot:prepend v-if="icon">
+      <v-icon :icon="icon" :color="color" :start="!noLabel || !noValue"></v-icon>
     </template>
-    <template v-slot:default v-if="label">
-      <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated v-if="tooltip">
-        <v-icon :icon="icon"></v-icon> {{ label }}
-      </v-tooltip>
-      <span class="mx-2">{{ value }}</span>
+    <template v-slot:default v-if="!noLabel && label">{{ label }}
     </template>
+    <template v-slot:append v-if="!noValue">
+      {{ value }}
+    </template>
+    <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated v-if="tooltip">
+      <v-icon :icon="icon"></v-icon> {{ label }}
+    </v-tooltip>
   </v-chip>
 </template>
 
@@ -27,6 +29,10 @@ defineProps({
     type: String,
     default: ''
   },
+  value: {
+    type: String,
+    default: ''
+  },
   class: {
     type: String,
     default: ''
@@ -35,11 +41,15 @@ defineProps({
     type: String,
     default: ''
   },
-  value: {
-    type: String,
-    default: ''
+  noLabel: {
+    type: Boolean,
+    default: false
   },
-  expand: {
+  noValue: {
+    type: Boolean,
+    default: false
+  },
+  noIcon: {
     type: Boolean,
     default: false
   },

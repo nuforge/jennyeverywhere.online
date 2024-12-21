@@ -1,6 +1,6 @@
 <template>
-  <v-bottom-sheet inset v-model="sheet.display">
-    <v-card>
+  <v-bottom-sheet inset v-model="sheet.display" scrim="#000000">
+    <v-card class="rounded-t-lg pb-1">
       <v-card-item class="pa-1">
         <template v-slot:prepend>
           <v-tag :text="sheet.data?.label" :icon="sheet.data?.icon" :color="sheet.data?.color"

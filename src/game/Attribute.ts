@@ -9,7 +9,7 @@ class Attribute extends Tag {
   constructor(label: string, value?: string | number, icon?: string, color?: string) {
     super(label, color, icon)
     this._description = label
-    this._value = value ? value : label
+    this._value = value !== undefined ? value : label
   }
 
   get value(): number | string | undefined {

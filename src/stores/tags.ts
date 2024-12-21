@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 
 export const useTagStore = defineStore('selection', () => {
-  const selection = ref(['jenny-everywhere'])
+  const selection = ref<string[]>(['jenny-everywhere'])
   const tags = ref<Record<string, Tag>>({})
 
   // Actions
@@ -16,13 +16,17 @@ export const useTagStore = defineStore('selection', () => {
     tags.value[tag.id] = new Tag(newText, newColor, newIcon)
   }
 
+  const removeTag = (tag: string) => {
+    selection.value = selection.value.filter((item) => item !== tag)
+    delete tags.value[tag]
+  }
+
   function linkText(text: string) {
     // Create a RegExp if pattern is a string
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
-    console.log('selection', selection.value)
     selection.value.forEach((tag) => {
-      console.log(tag, tags.value[tag])
+      if (!tags.value[tag]) return
       const pattern = tags.value[tag].label
       const icon = tags.value[tag].icon
       const color = tags.value[tag].color
@@ -43,5 +47,5 @@ export const useTagStore = defineStore('selection', () => {
 
     return temp
   }
-  return { selection, tags, addTag, linkText }
+  return { selection, tags, addTag, removeTag, linkText }
 })

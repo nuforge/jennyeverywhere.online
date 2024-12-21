@@ -1,9 +1,13 @@
 <template>
   <v-container>
-    <v-tag :text="text" :icon="icon" :color="color" :value="text" tooltip bottom>
+    <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="outlined">
     </v-tag>
-    <v-text-field label="Label" v-model="text"></v-text-field>
-    <v-btn color="primary" @click="addTag()">Primary</v-btn>
+    <v-divider class="my-1"></v-divider>
+    <v-form @submit.prevent>
+      <v-text-field label="tag" v-model="icon" density="compact" @keydown.enter="addTag()"></v-text-field>
+      <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"></v-text-field>
+      <v-btn color="primary" @click="addTag()" density="compact" prepend-icon="mdi-tag-edit">Create Tag</v-btn>
+    </v-form>
   </v-container>
 </template>
 
@@ -12,13 +16,13 @@ import { ref } from 'vue'
 import { useTagStore } from '@/stores/tags'
 
 const tags = ref(useTagStore());
-const icon = ref('mdi-tag')
+const icon = ref('mdi-tag-outline')
 const text = ref('')
 const color = ref('')
 
 function addTag() {
-  tags.value.addTag(text.value, icon.value, color.value)
+  tags.value.addTag(text.value, color.value, icon.value)
+  text.value = ''
 }
-
 
 </script>

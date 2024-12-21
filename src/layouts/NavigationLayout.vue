@@ -3,11 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-chip-group column v-model="story.tags.selection" multiple @update:modelValue="story.highlightTags()">
-            <v-tag v-for="(tag, index) in story.tags.tags" :key="index" :label="tag.label" :icon="tag.icon"
-              :value="tag.id" :color="tag.color" tooltip noValue>
-            </v-tag>
-          </v-chip-group>
+          <TagList noValue closer />
         </v-col>
       </v-row>
       <v-row>
@@ -20,10 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import AddTag from '@/components/AddTag.vue'
-import { useStoryStore } from '@/stores/story'
-const story = ref(useStoryStore());
-
+import TagList from '@/components/TagList.vue';
 
 </script>

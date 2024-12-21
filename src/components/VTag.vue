@@ -1,6 +1,6 @@
 <template>
   <v-chip tile class="rounded-lg" variant="text" @click="bottom ? sheets.openTag(value, color, icon) : false"
-    density="comfortable" :value="value">
+    density="comfortable" :value="value" :closable="closer">
     <template v-slot:prepend v-if="icon">
       <v-icon :icon="icon" :color="color" :start="!noLabel || !noValue"></v-icon>
     </template>
@@ -58,6 +58,10 @@ defineProps({
     default: false
   },
   bottom: {
+    type: Boolean,
+    default: false
+  },
+  closer: {
     type: Boolean,
     default: false
   },

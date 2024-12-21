@@ -109,6 +109,7 @@ const vuetify = createVuetify({
       ...mdAliases,
       icon: 'mdi-emoticon-happy',
       next: 'mdi-arrow-right',
+      delete: 'mdi-close',
       upvote: 'mdi-arrow-up',
       downvote: 'mdi-arrow-down',
       comment: 'mdi-comment',

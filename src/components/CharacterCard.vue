@@ -2,8 +2,8 @@
   <v-card class="elevation-8 border-b-sm border-e-md rounded-b-lg" variant="text">
     <v-card-text>
       <v-chip-group v-for="(section, index) in sections" :key="index" column variant="elevated">
-        <v-tag v-for="(attribute, index) in section" :key="index" :label="attribute.label" :icon="attribute.icon"
-          :color="attribute.color" :value="attribute.value.toString()" tooltip bottom>
+        <v-tag v-for="(attribute, index) in section" :key="index" :icon="attribute.icon" :color="attribute.color"
+          :label="attribute.label" :value="attribute.value.toString()" tooltip bottom noLabel>
         </v-tag>
         <v-divider></v-divider>
       </v-chip-group>

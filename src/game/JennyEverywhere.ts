@@ -3,6 +3,7 @@ import Attribute from '@/game/Attribute'
 
 const JennyEverywhere = new Character('Jenny Everywhere')
 
+console.log('Hello World!')
 // STA - STAR TREK ADVENTURES
 
 JennyEverywhere.addAttribute(
@@ -17,7 +18,6 @@ JennyEverywhere.addAttribute(
   new Attribute('Rank', 'Chief Petty Officer', 'mdi-account-box-outline'),
   'sta-character',
 )
-console.log(JennyEverywhere.attributes)
 JennyEverywhere.addAttribute(
   new Attribute('Pronouns', 'She/her', 'mdi-account-box-outline'),
   'sta-character',

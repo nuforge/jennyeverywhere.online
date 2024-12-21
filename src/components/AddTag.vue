@@ -6,7 +6,8 @@
     <v-form @submit.prevent>
       <v-text-field label="tag" v-model="icon" density="compact" @keydown.enter="addTag()"></v-text-field>
       <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"></v-text-field>
-      <v-btn color="primary" @click="addTag()" density="compact" prepend-icon="mdi-tag-edit">Create Tag</v-btn>
+      <v-btn color="primary" @click="addTag()" density="compact" prepend-icon="mdi-tag-edit" :disabled="!text">Create
+        Tag</v-btn>
     </v-form>
   </v-container>
 </template>

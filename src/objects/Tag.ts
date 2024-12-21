@@ -1,35 +1,42 @@
 class Tag {
-  private _text: string
-  private _namespace?: string
-  private _color?: string
-  private _icon?: string
+  protected _id: string
+  protected _label: string
+  protected _namespace?: string
+  protected _color?: string
+  protected _icon?: string
 
-  constructor(text: string, parentTagOrColor?: Tag | string, icon?: string) {
-    this._text = text.includes(':') ? text.split(':')[1] : text
-    this._namespace = text.includes(':') ? text.split(':')[0] : undefined
-
-    if (typeof parentTagOrColor === 'string') {
-      this._color = parentTagOrColor
-      this._icon = icon
-    } else if (parentTagOrColor instanceof Tag) {
-      this._color = parentTagOrColor.color
-      this._icon = parentTagOrColor.icon
-    }
+  constructor(label: string, color?: string, icon?: string) {
+    this._id = this.cleanTag(label)
+    this._label = label.includes(':') ? label.split(':')[1] : label
+    this._namespace = label.includes(':') ? label.split(':')[0] : undefined
+    this._color = color
+    this._icon = icon
   }
 
-  set(text: string, namespace: string) {
-    this._text = text
+  cleanTag = (label: string) => {
+    return label.toLowerCase().replace(/\s/g, '-')
+  }
+
+  set(label: string, namespace: string) {
+    this._label = label
     this._namespace = namespace
   }
 
-  get text() {
-    return this._text
+  get label() {
+    return this._label
   }
 
-  set text(value: string) {
-    this._text = value
+  set label(value: string) {
+    this._label = value
   }
 
+  get id() {
+    return this._id
+  }
+
+  set id(value: string) {
+    this._id = value
+  }
   get icon(): string | undefined {
     return this._icon
   }

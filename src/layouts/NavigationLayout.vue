@@ -4,8 +4,8 @@
       <v-row>
         <v-col>
           <v-chip-group column v-model="story.tags.selection" multiple @update:modelValue="story.highlightTags()">
-            <v-tag v-for="(tag, index) in story.tags.tags" :key="index" expand :text="tag.text" :icon="tag.icon"
-              :color="tag.color" tooltip>
+            <v-tag v-for="(tag, index) in story.tags.tags" :key="index" expand :label="tag.label" :icon="tag.icon"
+              :value="tag.id" :color="tag.color" tooltip>
             </v-tag>
           </v-chip-group>
         </v-col>

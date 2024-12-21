@@ -1,12 +1,15 @@
 <template>
-  <v-chip tile class="rounded-lg text-no-wrap" variant="text"
+  <v-chip tile class="rounded-lg label-no-wrap" variant="text"
     @click="bottom ? sheets.openTag(value, color, icon) : false" density="comfortable">
-    <template v-slot:prepend><v-icon :icon="icon" :color="color"></v-icon></template>
-    <template v-slot:default v-if="expand"><span class="mx-2">{{ text }}</span></template>
-    <template v-slot:append v-if="value"><span class="mx-1">{{ value }}</span></template>
-    <v-tooltip activator="parent" location="bottom" :content-class="`bg-surface`" :text="text" elevated
-      v-if="tooltip"><v-icon :icon="icon"></v-icon> {{ text }}
-    </v-tooltip>
+    <template v-slot:prepend>
+      <v-icon :icon="icon" :color="color"></v-icon>
+    </template>
+    <template v-slot:default v-if="label">
+      <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated v-if="tooltip">
+        <v-icon :icon="icon"></v-icon> {{ label }}
+      </v-tooltip>
+      <span class="mx-2">{{ value }}</span>
+    </template>
   </v-chip>
 </template>
 
@@ -20,7 +23,7 @@ defineProps({
     type: String,
     default: ''
   },
-  text: {
+  label: {
     type: String,
     default: ''
   },
@@ -49,6 +52,7 @@ defineProps({
     default: false
   },
 })
+
 
 
 

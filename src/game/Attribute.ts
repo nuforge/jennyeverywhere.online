@@ -1,46 +1,26 @@
-class Attribute {
-  private _id: string
-  private _name: string
-  private _value: string | number
-  private _icon?: string = 'mdi mdi-account'
-  private _color?: string = '$primary'
-  private _description?: string
+import Tag from '@/objects/Tag'
 
-  private _maxValue = 15
+class Attribute extends Tag {
+  protected _value: number | string = 0
+  protected _minValue: number = 0
+  protected _maxValue: number = 10
+  protected _description?: string
 
-  constructor(
-    name: string,
-    value?: string | number,
-    icon?: string,
-    color?: string,
-    description?: string,
-    id?: string,
-  ) {
-    this._name = name
-    this._value = value !== undefined ? value : name
-    this._icon = icon
-    this._description = description
-    this._color = color
-    this._id = id || name.toLowerCase().replace(/\s/g, '_')
+  constructor(label: string, value?: string | number, icon?: string, color?: string) {
+    super(label, color, icon)
+    this._description = label
+    this._value = value ? value : label
   }
 
-  get value(): number | string {
+  get value(): number | string | undefined {
     return this._value
   }
 
-  set value(newValue: number | string) {
-    if (typeof newValue === 'number' && (newValue < 0 || newValue > this._maxValue)) {
-      throw new Error(`Attribute value must be between 0 and ${this._maxValue}.`)
+  set value(newValue: number | string | undefined) {
+    if (typeof newValue === 'number' && (newValue < this._minValue || newValue > this._maxValue)) {
+      throw new Error(`Attribute value must be between ${this._minValue} and ${this._maxValue}.`)
     }
-    this._value = newValue
-  }
-
-  get name(): string {
-    return this._name
-  }
-
-  set name(newName: string) {
-    this._name = newName
+    this._value = newValue ? newValue : 0
   }
 
   get description(): string | undefined {
@@ -78,7 +58,7 @@ class Attribute {
   }
 
   decrement(): void {
-    if (typeof this._value === 'number' && this._value > 0) {
+    if (typeof this._value === 'number' && this._value > this._minValue) {
       this._value--
     }
   }
@@ -86,7 +66,7 @@ class Attribute {
   toJSON(): { [key: string]: string | number } {
     return {
       id: this._id,
-      name: this._name,
+      label: this._label,
       value: this._value,
     }
   }

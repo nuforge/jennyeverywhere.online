@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 
 export const useTagStore = defineStore('selection', () => {
-  const selection = ref([0])
-  const tags = ref<Tag[]>([])
+  const selection = ref(['jenny-everywhere'])
+  const tags = ref<Record<string, Tag>>({})
 
   // Actions
   const addTag = (
@@ -12,7 +12,8 @@ export const useTagStore = defineStore('selection', () => {
     newIcon: string = 'mdi-tag-outline',
     newColor: string = 'primary',
   ) => {
-    tags.value.push(new Tag(newText, newColor, newIcon))
+    const tag = new Tag(newText, newColor, newIcon)
+    tags.value[tag.id] = new Tag(newText, newColor, newIcon)
   }
 
   function linkText(text: string) {
@@ -20,7 +21,7 @@ export const useTagStore = defineStore('selection', () => {
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
     selection.value.forEach((tag) => {
-      const pattern = tags.value[tag].text
+      const pattern = tags.value[tag].label
       const icon = tags.value[tag].icon
       const color = tags.value[tag].color
 
@@ -33,7 +34,7 @@ export const useTagStore = defineStore('selection', () => {
       temp = temp.replace(
         regex,
         (match) =>
-          `<span class="text-no-wrap" ><i class="text-no-wrap mdi ${icon} text-${color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`,
+          `<span class="text-no-wrap" ><i class="mdi ${icon} text-${color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`,
       )
     })
     // Replace matches with <b> tags

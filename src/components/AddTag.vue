@@ -1,37 +1,46 @@
 <template>
-  <h2>Add Tag</h2>
-  <v-form @submit.prevent>
-    <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"
-      variant="outlined"></v-text-field>
-    <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
-      :prepend-inner-icon="icon">
-      <template #append>
-        <v-btn icon="mdi-open-in-new" target="_blank" rel="noopener noreferrer"
-          href="https://pictogrammers.com/library/mdi/icon/window-closed-variant/" size="small" density="compact"
-          variant="plain" :ripple="false"></v-btn>
-      </template>
-    </v-text-field>
-    <v-dialog>
-      <template v-slot:activator="{ props: activatorProps }">
-        <v-btn prepend-icon="mdi-palette" v-bind="activatorProps" text="choose color" variant="outlined" block>
-          <template #prepend>
-            <v-icon icon="mdi-palette" :color="color"></v-icon>
+  <v-card class="elevation-8">
+    <v-card-item>
+      <v-card-title>Add Tag</v-card-title>
+    </v-card-item>
+    <v-form @submit.prevent>
+      <v-card-text>
+        <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
+          prepend-inner-icon="mdi-tag-text-outline"></v-text-field>
+        <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
+          :prepend-inner-icon="icon">
+          <template #append>
+            <v-btn icon="mdi-search-web" target="_blank" rel="noopener noreferrer"
+              href="https://pictogrammers.com/library/mdi/" size="small" density="compact" variant="plain"
+              :ripple="false"></v-btn>
           </template>
-        </v-btn>
-      </template>
-      <v-color-picker v-model="color" label="color" density="compact"></v-color-picker>
-    </v-dialog>
-    <v-row class="d-flex justify-center align-center">
-      <v-col>
-        <div class="d-flex justify-center py-2 my-1 rounded-lg">
-          <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal" class=" elevation-4 ">
-          </v-tag>
-        </div>
-      </v-col>
-      <v-col>
-        <v-btn @click=" addTag()" density="compact" prepend-icon="mdi-tag-plus" :disabled="!text">Add</v-btn></v-col>
-    </v-row>
-  </v-form>
+        </v-text-field>
+        <v-text-field label="color" v-model="color" density="compact" @keydown.enter="addTag()" variant="outlined">
+          <template #prepend-inner>
+            <v-icon icon="mdi-tag" :color="color"></v-icon>
+          </template>
+          <template #append>
+            <v-dialog>
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn icon="mdi-palette" v-bind="activatorProps" size="small" density="compact" variant="plain"
+                  :ripple="false">
+                  <template #prepend>
+                    <v-icon icon="mdi-palette" :color="color"></v-icon>
+                  </template>
+                </v-btn>
+              </template>
+              <v-color-picker v-model="color" label="color" density="compact" mode="hex"></v-color-picker>
+            </v-dialog>
+          </template>
+        </v-text-field>
+      </v-card-text>
+      <v-card-actions class="d-flex justify-space-between py-2 my-1 rounded-lg">
+        <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal" class=" elevation-4 ">
+        </v-tag>
+        <v-btn @click=" addTag()" density="compact" prepend-icon="mdi-tag-plus" :disabled="!text">Add</v-btn>
+      </v-card-actions>
+    </v-form>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -41,7 +50,7 @@ import { useTagStore } from '@/stores/tags'
 const tags = ref(useTagStore());
 const icon = ref('mdi-tag-outline')
 const text = ref('')
-const color = ref('')
+const color = ref('#FFFFFF')
 
 function addTag() {
   tags.value.addTag(text.value, color.value, icon.value)

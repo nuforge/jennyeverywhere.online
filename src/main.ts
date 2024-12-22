@@ -119,6 +119,8 @@ const vuetify = createVuetify({
       comment: 'mdi-comment',
       favorite: 'mdi-heart',
       share: 'mdi-share',
+      addTag: 'mdi-tag-plus',
+
       primary: 'mdi-cards-spade',
       secondary: 'mdi-cards-club',
       tertiary: 'mdi-cards-heart',

@@ -14,14 +14,6 @@ export const useStoryStore = defineStore('story', () => {
   const storyHTML = ref('')
   const tags = ref(useTagStore())
 
-  tags.value.addTag('name:Jenny Everywhere')
-  tags.value.addTag('item:green portal')
-  tags.value.addTag('item:jetpack')
-  tags.value.addTag('fire:flamethrower')
-  tags.value.addTag('character:dude with a mohawk')
-  tags.value.addTag('occupation:firefighter')
-  tags.value.addTag('toast')
-
   const md = markdownit({
     html: true,
     linkify: true,

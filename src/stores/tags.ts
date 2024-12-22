@@ -13,20 +13,16 @@ export const useTagStore = defineStore('selection', () => {
     return (tags.value[newTag.id] = newTag) //, newColor, newIcon )
   }
 
-  addStyle('name', 'warning', 'mdi-error')
-  addStyle('occupation', 'warning', 'mdi-shield-account')
-
   // Actions
   const addTag = (newText: string = 'tag') => {
     const tag = new Tag(newText) // , newColor, newIcon)
-    console.log('addTag', tag)
     if (tag.space && tags.value[tag.space]) {
-      tag.icon = tags.value[tag.space].icon
       tag.color = tags.value[tag.space].color
+      tag.icon = tags.value[tag.space].icon
+      console.log(tag)
     }
-    return (tags.value[tag.id] = new Tag(newText)) //, newColor, newIcon )
+    return (tags.value[tag.id] = tag) //, newColor, newIcon )
   }
-  addTag('occupation:test')
 
   const removeTag = (tag: string) => {
     delete tags.value[tag]

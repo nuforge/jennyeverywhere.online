@@ -1,7 +1,5 @@
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
-const DEFAULT_COLOR = 'primary'
-const DEFAULT_ICON = 'mdi-tag'
 
 class Tag {
   protected _id: string
@@ -15,8 +13,6 @@ class Tag {
     const { value, namespace } = this.splitTag(label)
     this._name = value
     this._space = namespace
-    this.icon = this._space ? 'mdi-' + this._space : DEFAULT_ICON
-    this.color = this._space ? `${this._space}` : DEFAULT_COLOR
   }
 
   cleanTag = (name: string | number) => {
@@ -71,7 +67,7 @@ class Tag {
   }
 
   get icon() {
-    return this._style.icon
+    return this._style.icon || 'mdi-tag'
   }
 
   set icon(value: string) {
@@ -79,7 +75,7 @@ class Tag {
   }
 
   get color() {
-    return this._style._color
+    return this._style._color || 'primary'
   }
 
   set color(value: string) {

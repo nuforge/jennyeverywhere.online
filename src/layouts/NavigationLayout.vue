@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer temporary location="right">
+  <v-navigation-drawer temporary absolute>
     <v-btn-toggle density="compact" elevation="4" class="d-flex justify-space-between">
       <v-btn @click="showAdd = !showAdd" :prepend-icon="showAdd ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
         :ripple="false"></v-btn>

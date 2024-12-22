@@ -67,7 +67,7 @@ class Tag {
   }
 
   get icon() {
-    return this._style.icon || 'mdi-tag'
+    return this._style.icon
   }
 
   set icon(value: string) {
@@ -75,7 +75,7 @@ class Tag {
   }
 
   get color() {
-    return this._style._color || 'primary'
+    return this._style.color
   }
 
   set color(value: string) {

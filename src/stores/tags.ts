@@ -1,15 +1,21 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
+const TAG_WHITESPACE_REPLACER = '-'
 
 export const useTagStore = defineStore('selection', () => {
   const selection = ref<string[]>(['jenny-everywhere'])
   const tags = ref<Record<string, Tag>>({})
 
-  const addStyle = (tag: string, color: string, icon: string) => {
-    const newTag = !tags.value[tag] ? new Tag(tag) : tags.value[tag]
-    newTag.color = color
-    newTag.icon = icon
+  const cleanTag = (name: string | number) => {
+    return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
+  }
+
+  const addLabel = (newName: string, newColor: string, newIcon: string) => {
+    const tag = cleanTag(newName)
+    const newTag = !tags.value[tag] ? new Tag(newName) : tags.value[tag]
+    newTag.icon = newIcon
+    newTag.color = newColor
     return (tags.value[newTag.id] = newTag) //, newColor, newIcon )
   }
 
@@ -17,9 +23,8 @@ export const useTagStore = defineStore('selection', () => {
   const addTag = (newText: string = 'tag') => {
     const tag = new Tag(newText) // , newColor, newIcon)
     if (tag.space && tags.value[tag.space]) {
-      tag.color = tags.value[tag.space].color
       tag.icon = tags.value[tag.space].icon
-      console.log(tag)
+      tag.color = tags.value[tag.space].color
     }
     return (tags.value[tag.id] = tag) //, newColor, newIcon )
   }
@@ -36,8 +41,8 @@ export const useTagStore = defineStore('selection', () => {
     selection.value.forEach((tag) => {
       if (!tags.value[tag]) return
       const pattern = tags.value[tag].name
-      const icon = 'mdi-tag' // tags.value[tag].icon
-      const color = 'primary' // tags.value[tag].color
+      const icon = tags.value[tag].icon
+      const color = tags.value[tag].color
 
       // Escape special regex characters if pattern is a literal string
       const escapedPattern =
@@ -55,5 +60,5 @@ export const useTagStore = defineStore('selection', () => {
 
     return temp
   }
-  return { selection, tags, addTag, addStyle, removeTag, linkText }
+  return { selection, tags, addTag, addLabel, removeTag, linkText }
 })

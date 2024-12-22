@@ -109,6 +109,7 @@ const vuetify = createVuetify({
     aliases: {
       ...aliases,
       ...mdAliases,
+      tag: 'mdi-circle-small',
       icon: 'mdi-emoticon-happy',
       next: 'mdi-arrow-right',
       delete: 'mdi-close',

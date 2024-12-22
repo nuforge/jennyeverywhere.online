@@ -32,6 +32,24 @@ function changeTheme() {
 function toggleMenu() {
   drawer.value = !drawer.value
 }
+
+
+
+import { useTagStore } from '@/stores/tags';
+const tags = ref(useTagStore())
+
+tags.value.addLabel('name', 'error', 'mdi-account-circle')
+tags.value.addLabel('action', 'primary', 'mdi-sword')
+tags.value.addLabel('item', 'text', 'mdi-circle-small')
+tags.value.addLabel('occupation', 'text', 'mdi-domain')
+tags.value.addLabel('character', 'text', 'mdi-account')
+tags.value.addLabel('green portal', 'green', 'mdi-orbit')
+tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
+tags.value.addTag('jetpack')
+tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
+tags.value.addTag('character:dude with a mohawk')
+tags.value.addTag('toast')
+
 </script>
 
 <style scoped>

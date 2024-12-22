@@ -1,11 +1,8 @@
 <template>
   <v-chip-group column v-model="story.tags.selection" multiple @update:modelValue="story.highlightTags()">
-    <v-hover v-slot="{ isHovering, props }" v-for="(tag, index) in story.tags.tags" :key="index">
-      <v-tag :label="tag.name" :icon="tag.icon" :value="tag.id" v-bind="props" :color="tag.color" tooltip
-        @click:close="story.tags.removeTag(tag.id.toString())" :noValue="noValue" :noLabel="noLabel" :closer="closer"
-        :isHovering="isHovering">
-      </v-tag>
-    </v-hover>
+    <v-tag v-for="(tag, index) in story.tags.tags" :key="index" :value="tag.name" :icon="tag.icon"
+      :label="tag.namespace" :color="tag.color">
+    </v-tag>
 
   </v-chip-group>
 </template>

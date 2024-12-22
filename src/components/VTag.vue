@@ -1,16 +1,17 @@
 <template>
-  <v-chip tile class="rounded-lg" variant="text" @click="bottom ? sheets.openTag(value, color, icon) : false"
-    density="comfortable" :closable="closer" :value="value">
-    <template v-slot:prepend v-if="icon">
-      <v-icon :icon="icon" :color="color" :start="!noLabel || !noValue"></v-icon>
+  <v-chip :value="value" :closable="closer" @click="bottom ? sheets.openTag(value, color, icon) : false" tile
+    class="rounded-lg" variant="text" density="comfortable">
+    <template v-slot:prepend v-if="icon || (noValue && noLabel)">
+      <v-icon :icon="icon" :color="color" :start="!noLabel || !noValue" id="tooltip-activator"></v-icon>
+
+      <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
+        <v-icon :icon="icon" :color="color"></v-icon>{{ label }}</v-tooltip>
     </template>
-    <template v-slot:default v-if="!noLabel && label">{{ label }}
-    </template>
-    <template v-slot:append v-if="!noValue">
+    <template v-slot:default v-if="!noValue && value">
       {{ value }}
     </template>
-    <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated v-if="tooltip">
-      <v-icon :icon="icon"></v-icon> {{ label }}
+    <v-tooltip activator="tooltip-activator" location="bottom" content-class="bg-surface" elevated v-if="tooltip">
+      <v-icon :icon="icon" :color="color"></v-icon> {{ label }}
     </v-tooltip>
   </v-chip>
 </template>
@@ -18,6 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useSheetStore } from '@/stores/sheet'
+
 const sheets = ref(useSheetStore());
 
 defineProps({
@@ -31,10 +33,6 @@ defineProps({
   },
   value: {
     type: String || Number,
-    default: ''
-  },
-  class: {
-    type: String,
     default: ''
   },
   color: {

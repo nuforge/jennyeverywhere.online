@@ -31,7 +31,7 @@ export const useStoryStore = defineStore('story', () => {
   }
 
   async function fetchStory() {
-    await fetch('/src/assets/stories/markdown/story.md')
+    await fetch(`${import.meta.env.BASE_URL}src/assets/stories/markdown/story.md`)
       .then((result) => result.text())
       .then((text) => {
         story.value = text

@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" md="6" sm="2">
+      <v-col cols="12" md="4" sm="6" lg="3">
         <h2><router-link to="">{{ character.name }}</router-link></h2>
         <v-img :src="image" :alt="character.name" max-height="256" />
       </v-col>
-      <v-col v-for="(section, index) in sections" :key="index" cols="12" md="6" sm="4">
+      <v-col v-for="(section, index) in sections" :key="index" cols="12" md="4" sm="6" lg="3">
         <CharacterCard :sections="section.data" :title="section.name" />
       </v-col>
     </v-row>
@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CharacterCard from '@/components/CharacterCard.vue';
-import JennyEverywhere from '@/game/JennyEverywhere';
+import JennyEverywhere from '@/game/characters/JennyEverywhere';
 
 
 import image from '@/assets/images/characters/jenny-everywhere.png'

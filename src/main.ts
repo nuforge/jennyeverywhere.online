@@ -66,6 +66,7 @@ import {
   VColorPicker,
   VLabel,
   VHover,
+  VFab,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -112,6 +113,7 @@ const vuetify = createVuetify({
       next: 'mdi-arrow-right',
       delete: 'mdi-close',
       clear: 'mdi-close',
+      close: 'mdi-close',
       upvote: 'mdi-arrow-up',
       downvote: 'mdi-arrow-down',
       comment: 'mdi-comment',
@@ -217,6 +219,7 @@ const vuetify = createVuetify({
     VColorPicker,
     VLabel,
     VHover,
+    VFab,
   },
 })
 

@@ -1,7 +1,7 @@
 class Counter {
   protected _name: string = 'Counter'
   protected _count: number
-  protected _max: number = 10
+  protected _max: number = 9
   protected _min: number = 0
   protected _icon: string = 'mdi-circle'
 

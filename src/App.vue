@@ -1,7 +1,12 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="theme">
-      <HeaderLayout @change-theme="changeTheme" @toggle-menu="toggleMenu" :theme="theme" />
+      <v-fab :icon="drawer ? `$close` : `mdi-tag-multiple-outline`" location="bottom end" variant="plain" app appear
+        @click="toggleMenu"></v-fab>
+      <v-fab :icon="theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'" variant="plain"
+        location="bottom start" app appear @click="changeTheme"></v-fab>
+
+      <HeaderLayout />
       <NavigationLayout v-model="drawer" />
       <v-main>
         <RouterView />

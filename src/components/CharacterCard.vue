@@ -3,7 +3,8 @@
     <v-card-text>
       <v-chip-group v-for="(section, index) in sections" :key="index" column variant="elevated">
         <v-tag v-for="(attribute, index) in section" :key="index" :icon="attribute.icon" :color="attribute.color"
-          :label="attribute.label" :value="attribute.value.toString()" tooltip bottom noLabel>
+          :label="attribute.label" :value="attribute.value.toString()" tooltip bottom noLabel
+          @click="addATag(attribute.label, attribute.color, attribute.icon)">
         </v-tag>
         <v-divider></v-divider>
       </v-chip-group>
@@ -12,6 +13,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useTagStore } from '@/stores/tags'
+
+const tags = ref(useTagStore())
+
+const addATag = (label: string, color: string, icon: string) => {
+  tags.value.addTag(label, color, icon)
+}
 
 defineProps({
   character: Object,

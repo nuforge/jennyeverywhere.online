@@ -16,13 +16,14 @@
 import { ref } from 'vue'
 import CharacterCard from '@/components/CharacterCard.vue';
 import JennyEverywhere from '@/game/characters/JennyEverywhere';
+// import Newbie from '@/game/characters/Newbie';
 
 
 import image from '@/assets/images/characters/jenny-everywhere.png'
 
 
 const character = ref(JennyEverywhere)
-
+// const newbie = ref(Newbie)
 
 const sta = {
   character: character.value.getAttributes('sta-character'),
@@ -48,6 +49,8 @@ const mtg = {
 }
 
 const sections = ref([{ name: 'Magic: The Gathering', data: mtg }, { name: 'Star Trek Adventures', data: sta }, { name: 'Star Trek CCG', data: stccg },])
+
+
 
 
 </script>

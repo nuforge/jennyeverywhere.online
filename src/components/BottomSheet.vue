@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-sheet inset v-model="sheet.display" scrim="#000000">
+  <v-bottom-sheet inset persistent v-model="sheet.display" :scrim="false" close-on-content-click>
     <v-card class="rounded-t-lg pb-1">
       <v-card-item class="pa-1">
         <template v-slot:prepend>

@@ -1,33 +1,50 @@
+const NAMESPACE_SPLIT_CHAR = ':'
+const TAG_WHITESPACE_REPLACER = '-'
+const DEFAULT_COLOR = 'primary'
+const DEFAULT_ICON = 'mdi-tag'
+
 class Tag {
   protected _id: string
-  protected _label: string
-  protected _namespace?: string
-  protected _color?: string
-  protected _icon?: string
+  protected _name: string
+  protected _space?: string
+  protected _style: Record<string, string> = {}
 
-  constructor(label: string, color?: string, icon?: string) {
-    this._id = this.cleanTag(label)
-    this._label = label.includes(':') ? label.split(':')[1] : label
-    this._namespace = label.includes(':') ? label.split(':')[0] : undefined
-    this._color = color
-    this._icon = icon
+  constructor(name: string | number, id?: string) {
+    const label = name.toString()
+    this._id = id ? id : this.cleanTag(label)
+    const { value, namespace } = this.splitTag(label)
+    this._name = value
+    this._space = namespace
+    this.icon = this._space ? 'mdi-' + this._space : DEFAULT_ICON
+    this.color = this._space ? `${this._space}` : DEFAULT_COLOR
   }
 
-  cleanTag = (label: string) => {
-    return label.toLowerCase().replace(/\s/g, '-')
+  cleanTag = (name: string | number) => {
+    return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
-  set(label: string, namespace: string) {
-    this._label = label
-    this._namespace = namespace
+  splitTag = (tagName: string) => {
+    const label = tagName.toString()
+    const value = label.includes(NAMESPACE_SPLIT_CHAR)
+      ? label.split(NAMESPACE_SPLIT_CHAR)[1]
+      : label
+    const namespace = label.includes(NAMESPACE_SPLIT_CHAR)
+      ? label.split(NAMESPACE_SPLIT_CHAR)[0]
+      : undefined
+    return { value, namespace }
   }
 
-  get label() {
-    return this._label
+  set(name: string, namespace: string) {
+    this._name = name
+    this._space = namespace
   }
 
-  set label(value: string) {
-    this._label = value
+  get name() {
+    return this._name
+  }
+
+  set name(value: string) {
+    this._name = value
   }
 
   get id() {
@@ -37,28 +54,36 @@ class Tag {
   set id(value: string) {
     this._id = value
   }
-  get icon(): string | undefined {
-    return this._icon
-  }
-
-  set icon(value: string) {
-    this._icon = value
-  }
-
-  get color(): string | undefined {
-    return this._color
-  }
-
-  set color(value: string) {
-    this._color = value
-  }
 
   get namespace(): string | undefined {
-    return this._namespace
+    return this._space
   }
 
   set namespace(value: string | undefined) {
-    this._namespace = value
+    this._space = value
+  }
+  get space(): string | undefined {
+    return this._space
+  }
+
+  set space(value: string | undefined) {
+    this._space = value
+  }
+
+  get icon() {
+    return this._style.icon
+  }
+
+  set icon(value: string) {
+    this._style.icon = value
+  }
+
+  get color() {
+    return this._style._color
+  }
+
+  set color(value: string) {
+    this._style.color = value
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/character">
+  <router-link to="/persona">
     <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar">
     </v-avatar>
     <v-tooltip activator="parent" location="start" content-class="bg-surface" elevated>

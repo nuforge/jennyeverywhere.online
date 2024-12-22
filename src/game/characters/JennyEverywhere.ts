@@ -3,7 +3,7 @@ import Attribute from '@/game/Attribute'
 
 const JennyEverywhere = new Character('Jenny Everywhere')
 
-console.log('Hello World!')
+console.log('JennyEverywhere', 'Hello World!')
 // STA - STAR TREK ADVENTURES
 
 JennyEverywhere.addAttribute(

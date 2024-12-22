@@ -14,12 +14,13 @@ export const useStoryStore = defineStore('story', () => {
   const storyHTML = ref('')
   const tags = ref(useTagStore())
 
-  tags.value.addTag('Jenny Everywhere', 'primary', 'mdi-account-circle')
-  tags.value.addTag('green portal', 'green', 'mdi-orbit')
-  tags.value.addTag('jetpack', 'warning', 'mdi-rocket-launch')
-  tags.value.addTag('flamethrower', 'error', 'mdi-fire')
-  tags.value.addTag('dude with a mohawk', 'orange', 'mdi-account-circle-outline')
-  tags.value.addTag('toast', '#75584B', 'mdi-bread-slice')
+  tags.value.addTag('name:Jenny Everywhere')
+  tags.value.addTag('item:green portal')
+  tags.value.addTag('item:jetpack')
+  tags.value.addTag('fire:flamethrower')
+  tags.value.addTag('character:dude with a mohawk')
+  tags.value.addTag('occupation:firefighter')
+  tags.value.addTag('toast')
 
   const md = markdownit({
     html: true,

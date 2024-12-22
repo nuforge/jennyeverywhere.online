@@ -12,7 +12,6 @@
             class="opacity-10" :ripple="false" multiple :icon="`${action.icon}`">
           </v-btn>
         </v-btn-toggle>
-
       </v-col>
     </v-row>
   </v-container>

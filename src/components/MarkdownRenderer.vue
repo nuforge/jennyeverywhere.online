@@ -37,9 +37,6 @@ const getRawHtml = () => {
   const mdown = props.markdown
   const linked = linkText(mdown)
   const render = md.render(linked)
-  console.log('mdown', mdown)
-  console.log('linked', linked)
-  console.log('render', render)
   return render
 }
 

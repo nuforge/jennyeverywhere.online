@@ -1,10 +1,10 @@
 <template>
   <v-row>
-    <v-col cols="12" md="4">
-      <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" />
+    <v-col cols="12" md="4" sm="12">
+      <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" aspect-ratio="1:1" width="100%" />
       <FeedbackBar />
     </v-col>
-    <v-col cols="12" md="8">
+    <v-col cols="12" md="8" sm="12">
       <div class="story-base  text-decoration-none " v-html="story.renderMd()"></div>
     </v-col>
   </v-row>

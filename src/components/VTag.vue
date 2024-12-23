@@ -1,14 +1,20 @@
 <template>
   <v-chip :value="value" @click="bottom ? sheets.openTag(value, color, icon) : false" tile :closable="closer"
-    class="rounded-lg" variant="text" density="comfortable">
-    <template v-slot:prepend>
-      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel || !noValue" id="tooltip-activator"></v-icon>
+    class="rounded-lg" variant="text" density="comfortable" :color="!noIcon ? 'text' : color">
+    <template v-slot:prepend v-if="!noIcon">
+      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel" id="tooltip-activator"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
         <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ label }}
       </v-tooltip>
     </template>
-    <template v-slot:default v-if="!noLabel && label">
+    <template v-slot:default v-if="!noLabel">
       {{ label }}
+    </template>
+    <template v-slot:append v-if="noIcon && noLabel">
+      <v-icon :icon="`$no-tag`" :color="color" :start="!noLabel" id="tooltip-activator"></v-icon>
+      <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
+        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ label }}
+      </v-tooltip>
     </template>
   </v-chip>
 </template>

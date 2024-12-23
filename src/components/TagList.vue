@@ -1,7 +1,8 @@
 <template>
   <v-chip-group column v-model="tags.selection" multiple @update:modelValue="highlightTags()">
     <v-tag v-for="(tag, index) in tags.tags" :key="index" :value="tag.id" :icon="tag.icon" :label="tag.name"
-      :color="tag.color" @click:close="tags.removeTag(tag.id)" :noValue="noValue" :noLabel="noLabel" :closer="closer">
+      :color="tag.color" @click:close="tags.removeTag(tag.id)" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon"
+      :closer="closer">
     </v-tag>
   </v-chip-group>
 </template>

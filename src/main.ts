@@ -67,6 +67,7 @@ import {
   VLabel,
   VHover,
   VFab,
+  VBottomNavigation,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -86,6 +87,7 @@ const vuetify = createVuetify({
           info: '#2196F3',
           success: '#4CAF50',
           warning: '#FFC107',
+          'background-variant': '#f5f5f5',
         },
       },
       dark: {
@@ -110,6 +112,10 @@ const vuetify = createVuetify({
       ...aliases,
       ...mdAliases,
       tag: 'mdi-tag-outline',
+      'no-tag': 'mdi-help',
+      tags: 'mdi-tag-multiple',
+      'no-tags': 'mdi-tag-multiple-outline',
+
       icon: 'mdi-emoticon-happy',
       next: 'mdi-arrow-right',
       delete: 'mdi-close',
@@ -182,6 +188,7 @@ const vuetify = createVuetify({
     VMain,
     VLayout,
     VResponsive,
+    VBottomNavigation,
     VNavigationDrawer,
     VList,
     VListItem,

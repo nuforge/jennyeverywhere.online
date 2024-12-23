@@ -1,17 +1,12 @@
 <template>
-  <v-card class="elevation-8" id="color-picker-attach">
+  <v-card elevation="0" id="color-picker-attach">
     <v-card-item>
       <v-card-title>Add Tag</v-card-title>
     </v-card-item>
     <v-form @submit.prevent>
-      <v-card-actions class="d-flex justify-space-between py-2 my-1 rounded-lg">
-        <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal" class=" elevation-4 ">
-        </v-tag>
-        <v-btn @click=" addTag()" density="compact" prepend-icon="mdi-tag-plus" :disabled="!text">Add</v-btn>
-      </v-card-actions>
       <v-card-text>
         <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
-          prepend-inner-icon="mdi-tag-text-outline"></v-text-field>
+          prepend-inner-icon="mdi-label-outline"></v-text-field>
         <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
           :prepend-inner-icon="icon">
           <template #append>
@@ -35,7 +30,13 @@
             </v-dialog>
           </template>
         </v-text-field>
+        <v-tag :text="text" :icon="icon" :color="color" :value="text" variant="tonal" class="elevation-4">
+        </v-tag>
       </v-card-text>
+      <v-card-actions class="d-flex justify-center py-2 ">
+        <v-btn @click=" addTag()" density="compact" prepend-icon="mdi-tag-plus" :disabled="!text"
+          variant="tonal">Add</v-btn>
+      </v-card-actions>
     </v-form>
   </v-card>
 </template>

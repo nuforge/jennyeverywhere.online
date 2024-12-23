@@ -1,16 +1,23 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-      <v-fab :icon="state.drawer ? `$close` : `mdi-tag-multiple-outline`" location="bottom start" variant="plain" app
-        appear @click="state.toggleMenu"></v-fab>
       <v-fab :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'" variant="plain"
         location="bottom end" app appear @click="state.changeTheme"></v-fab>
       <HeaderLayout />
-      <NavigationLayout v-model="state.drawer" />
       <v-main>
         <RouterView />
       </v-main>
+      <v-bottom-navigation app elevation="2">
+        <v-btn value="recent" @click="state.toggleMenu" :icon="state.drawer ? `$tags` : `$no-tags`">
+        </v-btn>
+        <v-btn value="favorites" icon="mdi-heart">
+        </v-btn>
+        <v-btn value="nearby" icon="mdi-map-marker">
+        </v-btn>
+      </v-bottom-navigation>
       <BottomSheet />
+      <NavigationLayout v-model="state.drawer" />
+      <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>
 </template>

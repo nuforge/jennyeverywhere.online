@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar absolute>
+  <v-app-bar absolute elevation="0" class="bg-transparent">
     <v-app-bar-title>
       <router-link to="/"><img :src="logo" style="vertical-align: middle" /></router-link>
     </v-app-bar-title>

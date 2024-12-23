@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <StorySheet />
-    <v-row class="">
+    <v-row>
       <v-col cols="auto" md="8">
         <StoryChoiceGroup />
       </v-col>
-      <v-col cols="6" md="4">
+      <v-col cols="12" md="4">
         <StoryTagGroup />
       </v-col>
     </v-row>

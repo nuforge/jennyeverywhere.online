@@ -1,10 +1,10 @@
 <template>
 
-  <v-btn-toggle v-model="timelineDirection" density="compact" mandatory>
+  <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
     <v-btn icon="mdi-align-vertical-center" value="horizontal"
-      :variant="timelineDirection === 'horizontal' ? 'text' : 'plain'"></v-btn>
+      :variant="timelineDirection === 'horizontal' ? 'text' : 'plain'" size="small"></v-btn>
     <v-btn icon="mdi-align-horizontal-center" value="vertical"
-      :variant="timelineDirection === 'vertical' ? 'text' : 'plain'"></v-btn>
+      :variant="timelineDirection === 'vertical' ? 'text' : 'plain'" size="small"></v-btn>
   </v-btn-toggle> {{ timelineDirection }}
   <v-timeline :direction="timelineDirection" line-inset="5" truncate-line="both">
     <v-timeline-item>
@@ -47,19 +47,11 @@ import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.pn
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagList from '@/components/TagList.vue';
 import TagGroup from '@/components/TagGroup.vue';
-import Tag from '@/objects/Tag';
+import Event from '@/objects/Event';
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
 
-interface Event {
-  title: string;
-  formattedDate: string;
-  icon: string;
-  color: string;
-  tags: Tag[];
-  description: string; // Add this line
-}
 
 defineProps<{
   events: Event[]

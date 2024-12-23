@@ -70,6 +70,11 @@ class Tag {
     return this._style.icon
   }
 
+  set symbol(value: { icon: string; color: string }) {
+    this._style.icon = value.icon
+    this._style.color = value.color
+  }
+
   set icon(value: string) {
     this._style.icon = value
   }

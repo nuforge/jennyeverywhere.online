@@ -1,39 +1,39 @@
-import Attribute from './Attribute'
+import Tag from '@/objects/Tag'
 
 class Character {
   private _name: string
-  private _attributes: { [key: string]: Attribute } = {}
+  private _tags: { [key: string]: Tag } = {}
   private _index: { [key: string]: Array<string> } = {}
 
   constructor(name: string) {
     // Initialize momentum with a default or specified value.
     this._name = name
-    this._attributes = {}
+    this._tags = {}
   }
 
   get name(): string {
     return this._name
   }
 
-  get attributes(): { [key: string]: Attribute } {
-    return this._attributes
+  get tags(): { [key: string]: Tag } {
+    return this._tags
   }
 
-  addAttribute(attribute: Attribute, type: string = 'attribute'): void {
-    this._attributes[attribute.id] = attribute
-    this._index[type] = (this._index[type] ?? []).concat(attribute.id)
+  addTag(tag: Tag, type: string = 'tag'): void {
+    this._tags[tag.id] = tag
+    this._index[type] = (this._index[type] ?? []).concat(tag.id)
   }
 
-  getAttributes = (type: string = 'attribute'): { [key: string]: Attribute } => {
-    const results = Object.keys(this._attributes).filter((attribute) => {
-      return this._index[type].includes(attribute)
+  getTags = (type: string = 'tag'): { [key: string]: Tag } => {
+    const results = Object.keys(this._tags).filter((tag) => {
+      return this._index[type].includes(tag)
     })
 
-    const attributeObjects: { [key: string]: Attribute } = {}
+    const tagObjects: { [key: string]: Tag } = {}
     results.forEach((id) => {
-      attributeObjects[id] = this._attributes[id]
+      tagObjects[id] = this._tags[id]
     })
-    return attributeObjects
+    return tagObjects
   }
 }
 

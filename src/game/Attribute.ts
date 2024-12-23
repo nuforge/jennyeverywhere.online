@@ -6,10 +6,12 @@ class Attribute extends Tag {
   protected _maxValue: number = 10
   protected _description?: string
 
-  constructor(label: string, value?: string | number, icon?: string, color?: string) {
-    super(label, color, icon)
-    this._description = label
-    this._value = value !== undefined ? value : label
+  constructor(name: string, value?: string | number, icon?: string, color?: string) {
+    super(name)
+    this._description = name
+    this._style.icon = icon ?? 'mdi-numeric-0'
+    this._style.color = color ?? 'primary'
+    this._value = value !== undefined ? value : name
   }
 
   get value(): number | string | undefined {
@@ -31,22 +33,6 @@ class Attribute extends Tag {
     this._description = newDescription
   }
 
-  get icon(): string | undefined {
-    return this._icon
-  }
-
-  set icon(newIcon: string) {
-    this._icon = newIcon
-  }
-
-  get color(): string | undefined {
-    return this._color
-  }
-
-  set color(newColor: string) {
-    this._color = newColor
-  }
-
   get id(): string {
     return this._id
   }
@@ -66,7 +52,7 @@ class Attribute extends Tag {
   toJSON(): { [key: string]: string | number } {
     return {
       id: this._id,
-      label: this._label,
+      name: this._name,
       value: this._value,
     }
   }

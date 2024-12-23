@@ -7,10 +7,13 @@ import Tag from '@/objects/Tag'
 
 export const useSheetStore = defineStore('bottom-sheet', () => {
   const display = ref(false)
-  const data = ref<Tag>()
+  const data = ref<Tag>(new Tag('tag'))
 
   function setTag(tagText: string, tagColor: string, tagIcon: string) {
-    data.value = new Tag(tagText, tagColor, tagIcon)
+    const newTag = new Tag(tagText)
+    newTag.color = tagColor
+    newTag.icon = tagIcon
+    data.value = newTag
   }
 
   function openTag(tagText: string, tagColor: string, tagIcon: string) {

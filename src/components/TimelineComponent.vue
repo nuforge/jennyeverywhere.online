@@ -1,12 +1,11 @@
 <template>
-
   <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
     <v-btn icon="mdi-align-vertical-center" value="horizontal"
       :variant="timelineDirection === 'horizontal' ? 'text' : 'plain'" size="small"></v-btn>
     <v-btn icon="mdi-align-horizontal-center" value="vertical"
       :variant="timelineDirection === 'vertical' ? 'text' : 'plain'" size="small"></v-btn>
   </v-btn-toggle> {{ timelineDirection }}
-  <v-timeline :direction="timelineDirection" line-inset="5" truncate-line="both">
+  <v-timeline :direction="timelineDirection" line-inset="8" truncate-line="both">
     <v-timeline-item>
       <template v-slot:opposite>
         <TagList noLabel />
@@ -35,7 +34,7 @@
         <tag-group :tags="event.tags" noLabel></tag-group>
       </template>
       <div>
-        <p class="pa-3 bg-surface rounded">{{ event.description }}</p>
+        <p class="pa-3 rounded">{{ event.description }}</p>
       </div>
     </v-timeline-item>
   </v-timeline>

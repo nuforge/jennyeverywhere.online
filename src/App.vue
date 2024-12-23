@@ -7,17 +7,13 @@
       <v-main>
         <RouterView />
       </v-main>
+      <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
       <v-bottom-navigation app elevation="2">
         <v-btn value="recent" @click="state.toggleMenu" :icon="state.drawer ? `$tags` : `$no-tags`">
         </v-btn>
-        <v-btn value="favorites" icon="mdi-heart">
-        </v-btn>
-        <v-btn value="nearby" icon="mdi-map-marker">
-        </v-btn>
       </v-bottom-navigation>
-      <BottomSheet />
       <NavigationLayout v-model="state.drawer" />
-      <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
+      <BottomSheet />
     </v-app>
   </v-responsive>
 </template>
@@ -26,8 +22,6 @@
 import { onMounted, ref } from 'vue'
 import { useStateStore } from './stores/state';
 const state = ref(useStateStore());
-import { useStoryStore } from '@/stores/story'
-const story = ref(useStoryStore());
 import { useTagStore } from '@/stores/tags';
 const tags = ref(useTagStore())
 
@@ -40,15 +34,15 @@ onMounted(async () => {
   tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
   tags.value.addLabel('green portal', 'green', 'mdi-orbit')
   tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.value.createTag('jetpack')
-  tags.value.createTag('dude with a mohawk')
-  tags.value.createTag('toast')
+  tags.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
+  tags.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
+  tags.value.addLabel('toast', 'brown', 'mdi-bread-slice')
 
-  await story.value.fetchStory()
-    .then((result) => {
-      if (typeof result === 'string') {
-        story.value.HTML = tags.value.linkText(result)
-      }
-    })
 });
 </script>
+
+<style scoped>
+.v-main {
+  height: 100%;
+}
+</style>

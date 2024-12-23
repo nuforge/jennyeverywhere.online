@@ -45,8 +45,6 @@ export const useTagStore = defineStore('selection', () => {
     selection.value.forEach((id) => {
       if (!tags.value[id]) return
       const pattern = tags.value[id].name
-      const icon = tags.value[id].icon
-      const color = tags.value[id].color
 
       // Escape special regex characters if pattern is a literal string
       const escapedPattern =
@@ -56,8 +54,7 @@ export const useTagStore = defineStore('selection', () => {
 
       temp = temp.replace(
         regex,
-        (match) =>
-          `<span class="text-no-wrap" ><i class="mdi ${icon} text-${color}"></i> [${match}](${match.toLowerCase().replace(/\s/g, '-')})</span>`,
+        (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
       )
     })
 

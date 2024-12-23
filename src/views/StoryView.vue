@@ -13,12 +13,10 @@
 </template>
 
 <script setup lang="ts">
-
 import StorySheet from '@/components/StorySheet.vue'
 import StoryChoiceGroup from '@/components/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/StoryTagGroup.vue'
 </script>
-
 
 <style>
 .story-base a {

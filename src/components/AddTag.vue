@@ -50,7 +50,7 @@ const text = ref('')
 const color = ref('#FFFFFF')
 
 function addTag() {
-  tags.value.addTag(text.value, color.value, icon.value)
+  tags.value.addLabel(text.value, color.value, icon.value)
   text.value = ''
 }
 

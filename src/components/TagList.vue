@@ -1,18 +1,21 @@
 <template>
-  <v-chip-group column v-model="story.tags.selection" multiple @update:modelValue="story.highlightTags()">
-    <v-tag v-for="(tag, index) in story.tags.tags" :key="index" :value="tag.name" :icon="tag.icon"
-      :label="tag.namespace" :color="tag.color">
+  <v-chip-group column v-model="tags.selection" multiple @update:modelValue="highlightTags()">
+    <v-tag v-for="(tag, index) in tags.tags" :key="index" :value="tag.id" :icon="tag.icon" :label="tag.name"
+      :color="tag.color" @click:close="tags.removeTag(tag.id)" :noValue="noValue" :noLabel="noLabel" :closer="closer">
     </v-tag>
-
   </v-chip-group>
 </template>
 
 <script setup lang="ts">
-
 import { ref } from 'vue'
 import { useStoryStore } from '@/stores/story'
+import { useTagStore } from '@/stores/tags';
+const tags = ref(useTagStore())
 const story = ref(useStoryStore());
 
+const highlightTags = () => {
+  story.value.HTML = (tags.value.linkText(story.value.raw))
+}
 
 defineProps({
   noLabel: {

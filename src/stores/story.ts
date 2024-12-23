@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useTagStore } from '@/stores/tags'
 import markdownit from 'markdown-it'
 
 export interface Story {
@@ -10,32 +9,24 @@ export interface Story {
 }
 
 export const useStoryStore = defineStore('story', () => {
-  const story = ref('')
-  const storyHTML = ref('')
-  const tags = ref(useTagStore())
+  const raw = ref('')
+  const HTML = ref('')
 
   const md = markdownit({
     html: true,
     linkify: true,
   })
 
-  function highlightTags() {
-    storyHTML.value = tags.value.linkText(story.value)
-  }
-
   async function fetchStory() {
-    await fetch(`${import.meta.env.BASE_URL}src/assets/stories/markdown/story.md`)
+    return await fetch(`${import.meta.env.BASE_URL}src/assets/stories/markdown/story.md`)
       .then((result) => result.text())
-      .then((text) => {
-        story.value = text
-        storyHTML.value = tags.value.linkText(text)
-      })
+      .then((text) => (raw.value = text))
       .catch((e) => console.error(e))
   }
 
   function renderMd() {
-    return md.render(storyHTML.value)
+    return md.render(HTML.value ? HTML.value : raw.value)
   }
 
-  return { story, fetchStory, renderMd, highlightTags, tags }
+  return { raw, HTML, fetchStory, renderMd }
 })

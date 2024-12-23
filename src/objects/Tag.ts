@@ -9,13 +9,13 @@ class Tag {
 
   constructor(name: string | number, id?: string) {
     const label = name.toString()
-    this._id = id ? id : this.cleanTag(label)
+    this._id = id ? id : Tag.cleanTag(label)
     const { value, namespace } = this.splitTag(label)
     this._name = value
     this._space = namespace
   }
 
-  cleanTag = (name: string | number) => {
+  static cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 

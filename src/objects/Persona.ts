@@ -35,8 +35,15 @@ class Persona {
     this._attributes[tag.id] = tag
   }
 
-  addAttribute(namespace: string, value: Tag | string | number) {
-    this.addTag(`${namespace}:${value}`)
+  addLabel(newName: string, newColor?: string, newIcon?: string) {
+    const newTag = new Tag(newName)
+    newTag.icon = newIcon ? newIcon : 'mdi-numeric-0'
+    newTag.color = newColor ? newColor : 'primary'
+    return (this._attributes[newTag.id] = newTag) //, newColor, newIcon )
+  }
+
+  addAttribute(newName: string, newColor?: string, newIcon?: string) {
+    console.log(this.addLabel(newName, newColor, newIcon))
   }
 
   removeAttribute(namespace: string) {

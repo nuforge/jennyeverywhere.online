@@ -36,7 +36,6 @@ onMounted(async () => {
   tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
   tags.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
   tags.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-  tags.value.addLabel('toast', 'brown', 'mdi-bread-slice')
 
 });
 </script>

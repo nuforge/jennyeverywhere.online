@@ -68,6 +68,8 @@ import {
   VHover,
   VFab,
   VBottomNavigation,
+  VTimeline,
+  VTimelineItem,
 } from 'vuetify/components'
 
 const app = createApp(App)
@@ -230,6 +232,8 @@ const vuetify = createVuetify({
     VLabel,
     VHover,
     VFab,
+    VTimeline,
+    VTimelineItem,
   },
 })
 

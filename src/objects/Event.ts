@@ -14,7 +14,7 @@ class Event {
     this._description = description
 
     this._date = date || new Date()
-
+    this.addTag(`date:${this.formattedDate}`).addIcon('$events').addColor('grey-darken-2')
     return this
   }
 
@@ -46,17 +46,17 @@ class Event {
   }
 
   addTag(tag: string) {
-    this._tags.push(new Tag(tag))
+    this._tags.unshift(new Tag(tag))
     return this
   }
 
   addIcon(icon: string) {
-    this._tags[this._tags.length - 1].icon = icon
+    this._tags[0].icon = icon
     return this
   }
 
   addColor(color: string) {
-    this._tags[this._tags.length - 1].color = color
+    this._tags[0].color = color
     return this
   }
 }

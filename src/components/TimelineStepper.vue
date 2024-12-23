@@ -1,19 +1,40 @@
 <template>
-  <v-stepper model-value="2">
-    <v-stepper-header>
-      <v-stepper-item title="Select campaign settings" value="1" complete></v-stepper-item>
-
-      <v-divider></v-divider>
-
-      <v-stepper-item title="Create an ad group" value="2"></v-stepper-item>
-
-      <v-divider></v-divider>
-
-      <v-stepper-item title="Create an ad" value="3"></v-stepper-item>
+  <v-stepper non-linear>
+    <v-stepper-header v-model="steps">
+      <template v-for="(event, index) in events" :key="index">
+        <v-stepper-item :icon="event.icon" :value="index" editable>
+        </v-stepper-item>
+        <v-divider></v-divider>
+      </template>
+      <v-stepper-item icon="mdi-plus" value="plus" editable>
+      </v-stepper-item>
     </v-stepper-header>
+    <v-stepper-window>
+      <v-stepper-window-item v-for="(event, index) in events" :key="index" :value="index">
+        <v-card>{{ event.title }}</v-card>
+        <TagGroup :tags="event.tags" noLabel></TagGroup>
+      </v-stepper-window-item>
+    </v-stepper-window>
   </v-stepper>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import Tag from '@/objects/Tag';
+import TagGroup from './TagGroup.vue';
 
+const steps = ref(0)
+
+interface Event {
+  title: string;
+  formattedDate: string;
+  icon: string;
+  color: string;
+  tags: Tag[];
+  description: string; // Add this line
+}
+
+defineProps<{
+  events: Event[]
+}>()
 </script>

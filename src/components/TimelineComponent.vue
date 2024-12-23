@@ -13,27 +13,28 @@
       </template>
       <template v-slot:icon>
         <v-avatar :image="PersonaAvatar" rounded="sm"></v-avatar>
-      </template><router-link to="/">
+      </template>
+      Persona Creation
+    </v-timeline-item>
+    <v-timeline-item dot-color="background" fill-dot icon="$event">
+      <router-link to="/">
         <v-img :src="storyImage" alt="A glowing green portal" cover max-height="120" rounded="lg"
           max-width="256"></v-img>
         You wake up on a Monday...</router-link>
     </v-timeline-item>
-    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate" dot-color="surface"
-      fill-dot>
+    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate" icon-color="background"
+      :dot-color="event.color" fill-dot>
       <template v-slot:icon>
-        <v-icon :icon="event.icon" :color="event.color">
+        <v-icon :icon="event.icon" color="background">
         </v-icon>
-        <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
+        <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
           <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.title }}
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <v-tag icon="mdi-calendar-clock" :label="event.formattedDate" @click.stop="console.log('clicked')"
-          disabled></v-tag>
+        <tag-group :tags="event.tags" noLabel></tag-group>
       </template>
       <div>
-        <v-tag v-for="(tag, index) in event.tags" :key="index" :label="tag.name" :value="tag.name" :icon="tag.icon"
-          :color="tag.color"></v-tag>
         <p class="pa-3 bg-surface rounded">{{ event.description }}</p>
       </div>
     </v-timeline-item>
@@ -45,6 +46,8 @@ import { ref } from 'vue';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagList from '@/components/TagList.vue';
+import TagGroup from '@/components/TagGroup.vue';
+import Tag from '@/objects/Tag';
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
@@ -54,7 +57,7 @@ interface Event {
   formattedDate: string;
   icon: string;
   color: string;
-  tags: { name: string; icon: string; color: string }[];
+  tags: Tag[];
   description: string; // Add this line
 }
 

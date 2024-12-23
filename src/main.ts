@@ -70,7 +70,14 @@ import {
   VBottomNavigation,
   VTimeline,
   VTimelineItem,
+  VStepper,
+  VStepperActions,
+  VStepperHeader,
+  VStepperItem,
+  VStepperWindow,
+  VStepperWindowItem,
 } from 'vuetify/components'
+import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
 const app = createApp(App)
 const vuetify = createVuetify({
@@ -243,6 +250,14 @@ const vuetify = createVuetify({
     VFab,
     VTimeline,
     VTimelineItem,
+    VStepper,
+    VStepperActions,
+    VStepperHeader,
+    VStepperItem,
+    VStepperWindow,
+    VStepperWindowItem,
+    VStepperVerticalActions,
+    VStepperVerticalItem,
   },
 })
 

@@ -18,12 +18,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useStateStore } from './stores/state';
-import { useStoryStore } from '@/stores/story'
-import { useTagStore } from '@/stores/tags';
-
 const state = ref(useStateStore());
-const tags = ref(useTagStore())
+import { useStoryStore } from '@/stores/story'
 const story = ref(useStoryStore());
+import { useTagStore } from '@/stores/tags';
+const tags = ref(useTagStore())
+
 
 import HeaderLayout from './layouts/HeaderLayout.vue';
 import NavigationLayout from './layouts/NavigationLayout.vue';
@@ -33,9 +33,9 @@ onMounted(async () => {
   tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
   tags.value.addLabel('green portal', 'green', 'mdi-orbit')
   tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.value.addTag('jetpack')
-  tags.value.addTag('dude with a mohawk')
-  tags.value.addTag('toast')
+  tags.value.createTag('jetpack')
+  tags.value.createTag('dude with a mohawk')
+  tags.value.createTag('toast')
 
   await story.value.fetchStory()
     .then((result) => {

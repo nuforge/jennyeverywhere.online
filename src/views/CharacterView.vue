@@ -9,7 +9,7 @@
         <v-card-text>
           <v-chip-group column variant="elevated">
             <v-tag v-for="(tag, index) in character.attributes" :key="index" :icon="tag.icon" :color="tag.color"
-              :label="tag.name" :value="tag.id">
+              :label="tag.name" :value="tag.id" @click="tags.addTag(tag)">
             </v-tag>
           </v-chip-group>
         </v-card-text>
@@ -22,6 +22,9 @@
 import { ref } from 'vue'
 import JennyEverywhere from '@/game/characters/JennyEverywhere.ts';
 import image from '@/assets/images/characters/jenny-everywhere.png'
+
+import { useTagStore } from '@/stores/tags';
+const tags = ref(useTagStore())
 
 
 const character = ref(JennyEverywhere)

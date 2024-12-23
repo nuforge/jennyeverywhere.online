@@ -19,8 +19,12 @@ export const useTagStore = defineStore('selection', () => {
     return (tags.value[newTag.id] = newTag) //, newColor, newIcon )
   }
 
+  const addTag = (newTag: Tag) => {
+    tags.value[newTag.id] = newTag
+  }
+
   // Actions
-  const addTag = (newText: string = 'tag') => {
+  const createTag = (newText: string = 'tag') => {
     const tag = new Tag(newText) // , newColor, newIcon)
     if (tag.space && tags.value[tag.space]) {
       tag.icon = tags.value[tag.space].icon
@@ -59,5 +63,5 @@ export const useTagStore = defineStore('selection', () => {
 
     return temp
   }
-  return { selection, tags, addTag, addLabel, removeTag, linkText }
+  return { selection, tags, addTag, createTag, addLabel, removeTag, linkText }
 })

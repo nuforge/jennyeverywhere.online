@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import FeedbackBar from '@/components/FeedbackBar.vue'
-import MarkdownRenderer from '@/components/markdownRenderer.vue';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 const story = ref('')
 

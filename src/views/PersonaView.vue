@@ -3,7 +3,9 @@
     <h2><router-link to="">Persona: </router-link></h2>
     <v-card>
       <v-card-title>Attributes</v-card-title>
-      <TagList column />
+      <v-card-text>
+        <TagList column class="bg-background rounded elevation-4 px-2" />
+      </v-card-text>
     </v-card>
   </v-container>
 </template>

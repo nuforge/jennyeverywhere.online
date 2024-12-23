@@ -141,6 +141,8 @@ const vuetify = createVuetify({
       secondary: 'mdi-cards-club',
       tertiary: 'mdi-cards-heart',
       quaternary: 'mdi-cards-diamond',
+
+      wormhole: 'mdi-atom-variant',
       scarf: '🧣',
       'persona-name': 'mdi-account-circle',
 

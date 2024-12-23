@@ -13,6 +13,7 @@ class Tag {
     const { value, namespace } = this.splitTag(label)
     this._name = value
     this._space = namespace
+    return this
   }
 
   static cleanTag = (name: string | number) => {

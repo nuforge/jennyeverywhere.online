@@ -28,7 +28,7 @@ md.renderer.rules.link_open = (tokens, idx) => {
   const href = tokens[idx].attrGet('href'); //const content = tokens[idx + 1]?.content || '';
 
   // Render as router-link directly
-  return `<a href="${href}"><v-icon icon="mdi-link"></v-icon> `;
+  return `<a href="${href}">`;
 };
 
 md.renderer.rules.link_close = () => '</a>';
@@ -51,6 +51,7 @@ const linkText = (text: string) => {
     if (!tags.value.tags[id]) return
     const pattern = tags.value.tags[id].name
     const icon = tags.value.tags[id].icon
+    const color = tags.value.tags[id].color
     const reg = '/\[([^\]]+)\]\(([^)]+)\)/g'
 
     // Escape special regex characters if pattern is a literal string
@@ -61,7 +62,7 @@ const linkText = (text: string) => {
 
     temp = temp.replace(
       regex,
-      (match) => `[<v-icon class="mdi ${icon}"></v-icon> ${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
+      (match) => `[<i class="mdi ${icon} text-${color}"></i> ${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
     )
   })
   return temp

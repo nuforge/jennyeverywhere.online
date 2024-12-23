@@ -19,9 +19,18 @@ import StoryTagGroup from '@/components/StoryTagGroup.vue'
 </script>
 
 <style>
-.story-base a {
-  color: var(--v-primary);
-  text-decoration-line: none;
+.story-sheet {
+  color: var(--color-text);
+}
+
+.story-sheet a {
+  color: var(--color-heading);
+  text-decoration: none;
+  transition: color 0.2s;
   font-weight: bold;
+}
+
+.story-sheet a:hover {
+  color: var(--color-text);
 }
 </style>

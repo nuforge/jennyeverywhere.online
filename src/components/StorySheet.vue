@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="story-sheet">
     <v-col cols="12" md="4" sm="12">
       <img src="@/assets/stories/gallery/001.png" alt="A glowing green portal" aspect-ratio="1:1" width="100%" />
       <FeedbackBar />
@@ -30,7 +30,5 @@ async function fetchStory(filename: string = 'story.md') {
     })
     .catch((e) => console.error(e))
 }
-
-
 
 </script>

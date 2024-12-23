@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 
-
 defineProps({
   icon: String,
   text: String,
@@ -26,6 +25,5 @@ defineProps({
   value: String,
   expand: Boolean
 })
-
 
 </script>

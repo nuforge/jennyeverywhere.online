@@ -1,5 +1,5 @@
 <template>
-  <v-item-group selected-class="rounded-te-xl  border-b-sm bg-surface border-opacity-100" v-model="selection"
+  <v-item-group selected-class="rounded-te-xl border-b-sm bg-surface border-opacity-100" v-model="selection"
     @update:model-value="updateSelection">
     <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
       :color="button.color" />

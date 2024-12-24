@@ -11,5 +11,5 @@
 </template>
 
 <script setup lang="ts">
-import TagList from '@/components/TagList.vue';
+import TagList from '@/components/tags/TagList.vue';
 </script>

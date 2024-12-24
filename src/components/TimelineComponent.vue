@@ -44,8 +44,8 @@
 import { ref } from 'vue';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
-import TagList from '@/components/TagList.vue';
-import TagGroup from '@/components/TagGroup.vue';
+import TagList from '@/components/tags/TagList.vue';
+import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
 
 type TimelineDirection = 'horizontal' | 'vertical';

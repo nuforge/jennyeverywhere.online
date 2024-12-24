@@ -3,6 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import TagList from './TagList.vue';
+import TagList from '@/components/tags/TagList.vue';
 
 </script>

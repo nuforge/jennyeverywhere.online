@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import storyChoice from '@/components/StoryChoice.vue'
+import storyChoice from '@/components/story/StoryChoice.vue'
 import { useTagStore } from '@/stores/tags';
 const tags = ref(useTagStore())
 

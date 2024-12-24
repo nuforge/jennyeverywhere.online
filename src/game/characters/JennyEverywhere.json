@@ -1,13 +1,6 @@
 {
   "tags": [
     {
-      "name": "Wearing",
-      "value": "scarf",
-      "icon": "mdi-tshirt-crew",
-      "color": "text",
-      "space": "wearing"
-    },
-    {
       "name": "Character Name",
       "value": "Jenny",
       "icon": "$persona-name",

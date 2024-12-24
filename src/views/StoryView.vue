@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import StorySheet from '@/components/StorySheet.vue'
-import StoryChoiceGroup from '@/components/StoryChoiceGroup.vue'
-import StoryTagGroup from '@/components/StoryTagGroup.vue'
+import StorySheet from '@/components/story/StorySheet.vue'
+import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
+import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 </script>
 
 <style>

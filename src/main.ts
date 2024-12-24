@@ -11,7 +11,7 @@ import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-import VTag from './components/VTag.vue'
+import VTag from './components/tags/VTag.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -123,7 +123,7 @@ const vuetify = createVuetify({
       ...aliases,
       ...mdAliases,
       tag: 'mdi-tag-outline',
-      'no-tag': 'mdi-help',
+      'no-tag': 'mdi-circle-small',
       tags: 'mdi-tag-multiple',
       'no-tags': 'mdi-tag-multiple-outline',
       event: 'mdi-timeline',

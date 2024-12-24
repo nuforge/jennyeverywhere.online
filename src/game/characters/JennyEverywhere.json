@@ -120,8 +120,8 @@
       "space": "sta:trait"
     },
     {
-      "name": "Starfleet Officer",
-      "value": null,
+      "name": "Trait",
+      "value": "Starfleet Officer",
       "icon": "$sta-trait",
       "color": "var(--sta-trait)",
       "space": "sta:trait"

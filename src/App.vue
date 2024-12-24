@@ -8,10 +8,8 @@
         <RouterView />
       </v-main>
       <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
+      <ManagerDrawerLayout />
       <BottomNavigationLayout app elevation="2" />
-      <DiceManagerLayout v-model="state.dice" />
-      <TagManagerLayout v-model="state.drawer" />
-      <BottomSheet />
     </v-app>
   </v-responsive>
 </template>
@@ -28,9 +26,7 @@ import HeaderLayout from './layouts/HeaderLayout.vue';
 import DiceFab from './components/game/DiceFab.vue';
 import TagFab from './components/tags/TagFab.vue';
 import BottomNavigationLayout from './layouts/BottomNavigationLayout.vue';
-import TagManagerLayout from './layouts/TagManagerLayout.vue';
-import BottomSheet from './components/BottomSheet.vue';
-import DiceManagerLayout from './layouts/DiceManagerLayout.vue';
+import ManagerDrawerLayout from './layouts/ManagerDrawerLayout.vue';
 
 
 onMounted(async () => {

@@ -3,20 +3,24 @@ import { defineStore } from 'pinia'
 
 export const useStateStore = defineStore('state', () => {
   const theme = ref('dark')
+  const tags = ref(true)
+  const dice = ref(true)
   const drawer = ref(false)
-  const dice = ref(false)
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'
   }
 
-  function toggleMenu() {
+  function toggleDrawer() {
     drawer.value = !drawer.value
+  }
+  function toggleTags() {
+    tags.value = !tags.value
   }
 
   function toggleDice() {
     dice.value = !dice.value
   }
 
-  return { theme, drawer, dice, changeTheme, toggleMenu, toggleDice }
+  return { theme, tags, dice, drawer, changeTheme, toggleTags, toggleDice, toggleDrawer }
 })

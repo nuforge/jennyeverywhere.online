@@ -1,6 +1,6 @@
 <template>
   <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" variant="plain" location="bottom start" app appear
-    @click="state.toggleMenu" attach="parent"></v-fab>
+    @click="state.toggleDrawer" attach="parent"></v-fab>
 </template>
 
 <script setup lang="ts">

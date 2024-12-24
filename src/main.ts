@@ -13,8 +13,6 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-console.log(aliases)
-console.log(mdAliases)
 import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
 
@@ -83,6 +81,8 @@ import {
   VStepperWindowItem,
   VSpeedDial,
   VSystemBar,
+  VScaleTransition,
+  VExpandXTransition,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -304,6 +304,8 @@ const vuetify = createVuetify({
     VStepperVerticalItem,
     VSpeedDial,
     VSystemBar,
+    VScaleTransition,
+    VExpandXTransition,
   },
 })
 

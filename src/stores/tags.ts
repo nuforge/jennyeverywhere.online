@@ -7,6 +7,13 @@ export const useTagStore = defineStore('selection', () => {
   const selection = ref<string[]>(['jenny-everywhere'])
   const tags = ref<Record<string, Tag>>({})
 
+  const filterSpace = (spaceName: string) => {
+    console.log('spacename', spaceName)
+    console.log('tags', tags.value)
+    const filtered = Object.values(tags.value).filter((tag: Tag) => tag.space === spaceName)
+    console.log('Filtered', filtered)
+  }
+
   const cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
@@ -75,5 +82,6 @@ export const useTagStore = defineStore('selection', () => {
     linkText,
     copyTag,
     cleanTag,
+    filterSpace,
   }
 })

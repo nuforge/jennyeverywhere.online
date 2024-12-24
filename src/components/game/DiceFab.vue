@@ -1,6 +1,6 @@
 <template>
   <v-fab :icon="state.dice ? `$dice` : `$no-dice`" variant="plain" location="bottom end" app appear
-    @click="state.toggleDice" attach="parent"></v-fab>
+    @click="state.toggleDrawer" attach="parent"></v-fab>
 </template>
 
 <script setup lang="ts">

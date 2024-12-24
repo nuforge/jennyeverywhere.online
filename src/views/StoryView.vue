@@ -1,11 +1,9 @@
 <template>
   <v-container>
     <StorySheet />
-    <v-row>
-      <v-col cols="auto" md="8">
-        <StoryChoiceGroup />
-      </v-col>
-      <v-col cols="12" md="4">
+    <StoryChoiceGroup />
+    <v-row no-gutter>
+      <v-col>
         <StoryTagGroup />
       </v-col>
     </v-row>
@@ -13,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import StorySheet from '@/components/StorySheet.vue'
-import StoryChoiceGroup from '@/components/StoryChoiceGroup.vue'
-import StoryTagGroup from '@/components/StoryTagGroup.vue'
+import StorySheet from '@/components/story/StorySheet.vue'
+import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
+import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 </script>
 
 <style>

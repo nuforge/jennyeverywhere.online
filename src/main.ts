@@ -11,7 +11,7 @@ import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-import VTag from './components/VTag.vue'
+import VTag from './components/tags/VTag.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -96,6 +96,12 @@ const vuetify = createVuetify({
           info: '#2196F3',
           success: '#4CAF50',
           warning: '#FFC107',
+          d20: '#2B75B1',
+          d12: '#00CC88',
+          d10: '#9E3E3B',
+          d8: '#FFBB00',
+          d6: '#82B1FF',
+          d4: '#FF5252',
           'background-variant': '#f5f5f5',
           'sta-career': '#FFBB00',
         },
@@ -112,6 +118,14 @@ const vuetify = createVuetify({
           info: '#2196F3',
           success: '#4CAF50',
           warning: '#FFC107',
+
+          d20: '#2B75B1',
+          d12: '#00CC88',
+          d10: '#9E3E3B',
+          d8: '#FFBB00',
+          d6: '#82B1FF',
+          d4: '#FF5252',
+
           'sta-career': '#FFBB00',
         },
       },
@@ -123,13 +137,20 @@ const vuetify = createVuetify({
       ...aliases,
       ...mdAliases,
       tag: 'mdi-tag-outline',
-      'no-tag': 'mdi-help',
+      'no-tag': 'mdi-circle-small',
       tags: 'mdi-tag-multiple',
       'no-tags': 'mdi-tag-multiple-outline',
       event: 'mdi-timeline',
       'no-event': 'mdi-timeline-outline',
       events: 'mdi-calendar-clock',
       'no-events': 'mdi-calendar-clock-outline',
+
+      d20: 'mdi-dice-d20',
+      d12: 'mdi-dice-d12',
+      d10: 'mdi-dice-d10',
+      d8: 'mdi-dice-d8',
+      d6: 'mdi-dice-d6',
+      d4: 'mdi-dice-d4',
 
       home: 'mdi-home',
       icon: 'mdi-emoticon-happy',

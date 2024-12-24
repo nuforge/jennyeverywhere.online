@@ -1,15 +1,18 @@
 <template>
   <v-item-group selected-class="rounded-te-xl border-b-sm bg-surface border-opacity-100" v-model="selection"
     @update:model-value="updateSelection">
-    <storyChoice v-for="(button, index) in buttons" :key="index" :text="button.text" :icon="button.icon"
-      :color="button.color" />
-  </v-item-group>
+    <v-row no-gutters>
+      <v-col cols="12" md="8" density="compact" v-for="(button, index) in buttons" :key="index">
+        <storyChoice :text="button.text" :icon="button.icon" :color="button.color" />
+      </v-col>
 
+    </v-row>
+  </v-item-group>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import storyChoice from '@/components/StoryChoice.vue'
+import storyChoice from '@/components/story/StoryChoice.vue'
 import { useTagStore } from '@/stores/tags';
 const tags = ref(useTagStore())
 

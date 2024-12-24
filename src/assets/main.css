@@ -10,3 +10,19 @@ a {
 a:hover {
   color: var(--color-text-dark);
 }
+
+h2 {
+  font-size: 1.2rem;
+  line-height: 1.2em;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-dark);
+}
+
+p {
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+p a {
+  opacity: 1;
+}

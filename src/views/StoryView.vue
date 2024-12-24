@@ -1,11 +1,9 @@
 <template>
   <v-container>
     <StorySheet />
-    <v-row>
-      <v-col cols="auto" md="8">
-        <StoryChoiceGroup />
-      </v-col>
-      <v-col cols="12" md="4">
+    <StoryChoiceGroup />
+    <v-row no-gutter>
+      <v-col>
         <StoryTagGroup />
       </v-col>
     </v-row>

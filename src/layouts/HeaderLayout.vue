@@ -4,8 +4,8 @@
       <router-link to="/"><img :src="logo" style="vertical-align: middle" /></router-link>
     </v-app-bar-title>
     <template v-slot:append>
-      <v-btn :prepend-icon="momentum.icon()" @click="momentum.increment()" color="text"
-        :text="momentum.count().toString()"></v-btn>
+      <v-btn :prepend-icon="momentum.icon()" @click.alt.exact="momentum.decrement()" @click.exact="momentum.increment()"
+        color="text" :text="momentum.count().toString()"></v-btn>
     </template>
   </v-app-bar>
 </template>

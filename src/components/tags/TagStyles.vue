@@ -7,10 +7,11 @@
       </v-tooltip>
     </v-btn>
     <v-spacer></v-spacer>
-    <v-btn @click="styles.labels = !styles.labels" :prepend-icon="styles.labels ? `mdi-label` : `mdi-label-off-outline`"
+    <v-btn @click="styles.labels = !styles.labels" :prepend-icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"
       :ripple="false">
       <v-tooltip activator="parent" location="top">
-        Show labels: <v-icon :icon="styles.labels ? `mdi-label` : `mdi-label-off-outline`"></v-icon> {{ styles.labels }}
+        Show labels: <v-icon :icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"></v-icon> {{ !styles.labels
+        }}
       </v-tooltip>
     </v-btn>
     <v-btn @click="styles.icons = !styles.icons" :prepend-icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`"

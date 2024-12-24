@@ -1,16 +1,16 @@
 <template>
   <v-navigation-drawer location="bottom" :scrim="false" class="bg-transparent border-t-0" v-model="state.drawer">
-    <v-container class="bg-surface rounded-t-lg shrink d-flex ">
-      <v-expand-x-transition v-if="state.tags">
-        <v-card v-show="state.tags" flat>
+    <v-container class="bg-surface rounded-t-lg d-flex justify-center pa-0" flat>
+      <v-scale-transition>
+        <v-col v-show="state.tags" flat>
           <TagManagerLayout />
-        </v-card>
-      </v-expand-x-transition>
-      <v-expand-x-transition>
-        <v-card v-show="state.dice" flat>
+        </v-col>
+      </v-scale-transition>
+      <v-scale-transition>
+        <v-col cols="auto" flat>
           <DiceManagerLayout />
-        </v-card>
-      </v-expand-x-transition>
+        </v-col>
+      </v-scale-transition>
     </v-container>
   </v-navigation-drawer>
 </template>

@@ -8,11 +8,8 @@
       <v-col cols="12" md="8" sm="12">
         <v-card class="elevation-8 border-b-sm border-e-md rounded-b-lg" variant="text">
           <v-card-text>
-            <v-chip-group column variant="elevated">
-              <v-tag v-for="(tag, index) in character.attributes" :key="index" :icon="tag.icon" :color="tag.color"
-                :label="tag.name" :value="tag.id" @click="tags.addTag(tag)">
-              </v-tag>
-            </v-chip-group>
+            <tag-group column :tags="character.attributes" class="bg-background rounded elevation-4 px-2"
+              :noLabel="styles.labels" :noIcon="styles.icons" :closable="styles.closable" />
           </v-card-text>
         </v-card>
       </v-col>
@@ -23,10 +20,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import JennyEverywhere from '@/game/characters/JennyEverywhere.ts';
+import TagGroup from '@/components/tags/TagGroup.vue';
 import image from '@/assets/images/characters/jenny-everywhere.png'
 
-import { useTagStore } from '@/stores/tags';
-const tags = ref(useTagStore())
+import { useStyleStore } from '@/stores/styles'
+
+const styles = ref(useStyleStore())
 
 
 const character = ref(JennyEverywhere)

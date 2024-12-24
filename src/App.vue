@@ -1,16 +1,16 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-      <tag-fab location="bottom start" />
       <dice-fab location="bottom end" />
+      <tag-fab location="bottom start" />
       <HeaderLayout />
       <v-main>
         <RouterView />
       </v-main>
       <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
-      <TagManagerLayout v-model="state.drawer" />
       <DiceManagerLayout v-model="state.dice" />
+      <TagManagerLayout v-model="state.drawer" />
       <BottomSheet />
     </v-app>
   </v-responsive>

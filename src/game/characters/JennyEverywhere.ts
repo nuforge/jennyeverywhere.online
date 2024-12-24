@@ -8,10 +8,9 @@ console.log('JennyEverywhere', 'Hello World!')
 import json from '@/game/characters/JennyEverywhere.json'
 
 json.tags.forEach((tag) => {
-  JennyEverywhere.addLabel(
-    tag.value ? `${tag.name}:${tag.value}` : tag.name,
-    tag.color ?? undefined,
-    tag.icon ?? undefined,
-  )
+  const strtag = tag.value !== null ? `${tag.name}:${tag.value}` : tag.name
+
+  JennyEverywhere.addLabel(tag.space, tag.color, tag.icon)
+  JennyEverywhere.addLabel(strtag, tag.color, tag.icon)
 })
 export default JennyEverywhere

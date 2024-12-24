@@ -14,6 +14,7 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import VTag from './components/tags/VTag.vue'
+import VTagItem from './components/tags/VTagItem.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -158,6 +159,8 @@ const vuetify = createVuetify({
       d6: 'mdi-dice-d6',
       d4: 'mdi-dice-d4',
 
+      challenge: 'mdi-hazard-lights',
+
       home: 'mdi-home',
       icon: 'mdi-emoticon-happy',
       next: 'mdi-arrow-right',
@@ -224,6 +227,8 @@ const vuetify = createVuetify({
     },
   },
   components: {
+    VTag,
+    VTagItem,
     VApp,
     VAppBar,
     VAppBarNavIcon,
@@ -270,7 +275,6 @@ const vuetify = createVuetify({
     VChipGroup,
     VItem,
     VItemGroup,
-    VTag,
     VTooltip,
     VColorPicker,
     VLabel,

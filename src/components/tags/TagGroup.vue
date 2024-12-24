@@ -1,9 +1,8 @@
 <template>
   <v-chip-group column multiple>
-
-    <v-tag v-for="(tag, index) in tags" :key="index" :value="tag.id" :icon="tag.icon" :label="tag.name"
-      :color="tag.color" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon">
-    </v-tag>
+    <v-tag-item v-for="tag in tags" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name" :color="tag.color"
+      :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip>
+    </v-tag-item>
   </v-chip-group>
 </template>
 
@@ -12,7 +11,7 @@ import Tag from '@/objects/Tag'
 
 defineProps({
   tags: {
-    type: Array as () => Tag[]
+    type: Object as () => Record<string, Tag>
   },
   noLabel: {
     type: Boolean,
@@ -27,10 +26,6 @@ defineProps({
     default: false
   },
   tooltip: {
-    type: Boolean,
-    default: false
-  },
-  bottom: {
     type: Boolean,
     default: false
   },

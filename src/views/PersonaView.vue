@@ -4,12 +4,12 @@
     <v-card>
       <v-card-title>Attributes</v-card-title>
       <v-card-text>
-        <TagList column class="bg-background rounded elevation-4 px-2" />
+        <tag-group column noValue noLabel :noIcon="true" class="bg-background rounded elevation-4 px-2" />
       </v-card-text>
     </v-card>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import TagList from '@/components/tags/TagList.vue';
+import TagGroup from '@/components/tags/TagGroup.vue';
 </script>

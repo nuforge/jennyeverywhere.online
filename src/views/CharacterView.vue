@@ -9,7 +9,8 @@
         <v-card class="elevation-8 border-b-sm border-e-md rounded-b-lg" variant="text">
           <v-card-text>
             <tag-group column :tags="character.attributes" class="bg-background rounded elevation-4 px-2"
-              :noLabel="styles.labels" :noIcon="styles.icons" :closable="styles.closable" />
+              :noLabel="styles.labels" :noIcon="styles.icons" :closable="styles.closable"
+              @ctrl-click="handleCtrlClick" />
           </v-card-text>
         </v-card>
       </v-col>
@@ -22,11 +23,16 @@ import { ref } from 'vue'
 import JennyEverywhere from '@/game/characters/JennyEverywhere.ts';
 import TagGroup from '@/components/tags/TagGroup.vue';
 import image from '@/assets/images/characters/jenny-everywhere.png'
-
 import { useStyleStore } from '@/stores/styles'
-
+import { useTagStore } from '@/stores/tags'
+import type Tag from '@/objects/Tag';
 const styles = ref(useStyleStore())
+const tags = ref(useTagStore())
 
+
+function handleCtrlClick(tag: Tag) {
+  tags.value.copyTag(tag)
+}
 
 const character = ref(JennyEverywhere)
 // const newbie = ref(Newbie)

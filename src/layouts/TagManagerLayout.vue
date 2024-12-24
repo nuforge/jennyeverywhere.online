@@ -9,7 +9,8 @@
       </v-row>
       <v-row>
         <v-col class="bg-background rounded-lg py-1 mb-4">
-          <TagList :noLabel="!styles.labels" :noIcon="styles.icons" :closable="styles.closable" />
+          <tag-group :tags="tags.tags" column class="bg-background rounded elevation-4 px-2" :noLabel="styles.labels"
+            :noIcon="styles.icons" :closable="styles.closable" />
         </v-col>
       </v-row>
     </v-container>
@@ -18,12 +19,14 @@
 
 <script setup lang="ts">
 import AddTag from '@/components/tags/AddTag.vue'
-import TagList from '@/components/tags/TagList.vue';
+import TagGroup from '@/components/tags/TagGroup.vue';
 import TagStyles from '@/components/tags/TagStyles.vue';
 import { ref } from 'vue'
 import { useStyleStore } from '@/stores/styles'
+import { useTagStore } from '@/stores/tags'
 
 const styles = ref(useStyleStore())
+const tags = ref(useTagStore())
 
 
 </script>

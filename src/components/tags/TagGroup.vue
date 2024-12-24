@@ -1,13 +1,22 @@
 <template>
   <v-chip-group column multiple>
     <v-tag-item v-for="tag in tags" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name" :color="tag.color"
-      :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip>
+      :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip @click.ctrl="manageClick(tag)"
+      :closable="closable">
     </v-tag-item>
   </v-chip-group>
 </template>
 
 <script setup lang="ts">
 import Tag from '@/objects/Tag'
+
+const emit = defineEmits(['ctrl-click'])
+
+function manageClick(tag: Tag) {
+  emit('ctrl-click', tag)
+}
+
+
 
 defineProps({
   tags: {
@@ -22,6 +31,10 @@ defineProps({
     default: false
   },
   noIcon: {
+    type: Boolean,
+    default: false
+  },
+  closable: {
     type: Boolean,
     default: false
   },

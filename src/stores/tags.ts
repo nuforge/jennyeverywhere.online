@@ -11,6 +11,11 @@ export const useTagStore = defineStore('selection', () => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
+  const copyTag = (tag: Tag) => {
+    console.log('copyTag', tag)
+    return (tags.value[tag.id] = tag)
+  }
+
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
     const tag = cleanTag(newName)
     const newTag = !tags.value[tag] ? new Tag(newName) : tags.value[tag]
@@ -60,5 +65,5 @@ export const useTagStore = defineStore('selection', () => {
 
     return temp
   }
-  return { selection, tags, addTag, createTag, addLabel, removeTag, linkText }
+  return { selection, tags, addTag, createTag, addLabel, removeTag, linkText, copyTag }
 })

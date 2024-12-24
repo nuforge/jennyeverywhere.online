@@ -1,8 +1,8 @@
 <template>
   <v-chip-group column multiple>
     <v-tag-item v-for="tag in tags" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name" :color="tag.color"
-      :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip @click.ctrl="manageClick(tag)"
-      :closable="closable">
+      :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip
+      @click.ctrl.exact="manageClick(tag)" :closable="closable">
     </v-tag-item>
   </v-chip-group>
 </template>
@@ -13,6 +13,7 @@ import Tag from '@/objects/Tag'
 const emit = defineEmits(['ctrl-click'])
 
 function manageClick(tag: Tag) {
+  console.log('ctrl-click', tag)
   emit('ctrl-click', tag)
 }
 

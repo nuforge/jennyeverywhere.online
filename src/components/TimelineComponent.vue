@@ -8,7 +8,7 @@
   <v-timeline :direction="timelineDirection" line-inset="8" truncate-line="both">
     <v-timeline-item>
       <template v-slot:opposite>
-        <TagList noLabel />
+        <TagGroup :tags="tags.tags" noLabel v-model="tags.selection" />
       </template>
       <template v-slot:icon>
         <v-avatar :image="PersonaAvatar" rounded="sm"></v-avatar>
@@ -44,9 +44,10 @@
 import { ref } from 'vue';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
-import TagList from '@/components/tags/TagList.vue';
 import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
+import { useTagStore } from '@/stores/tags'
+const tags = ref(useTagStore())
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');

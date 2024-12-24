@@ -13,6 +13,8 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+console.log(aliases)
+console.log(mdAliases)
 import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
 
@@ -80,6 +82,7 @@ import {
   VStepperWindow,
   VStepperWindowItem,
   VSpeedDial,
+  VSystemBar,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -138,9 +141,9 @@ const vuetify = createVuetify({
   icons: {
     defaultSet: 'mdi', // 'mdi' is Material Design Icons; use 'md' for Material Icons
     aliases: {
-      ...aliases,
-      ...mdAliases,
       ...fontAwesomeAliases,
+      ...mdAliases,
+      ...aliases,
       tag: 'mdi-tag-outline',
       'no-tag': 'mdi-circle-small',
       tags: 'mdi-tag-multiple',
@@ -149,6 +152,10 @@ const vuetify = createVuetify({
       'no-event': 'mdi-timeline-outline',
       events: 'mdi-calendar-clock',
       'no-events': 'mdi-calendar-clock-outline',
+      swatches: 'mdi-palette-swatch',
+      'no-swatches': 'mdi-palette-swatch-outline',
+      dropper: 'mdi-eyedropper',
+      'no-dropper': 'mdi-eyedropper-off',
 
       dice: 'mdi-dice-multiple',
       'no-dice': 'mdi-dice-multiple-outline',
@@ -291,6 +298,7 @@ const vuetify = createVuetify({
     VStepperVerticalActions,
     VStepperVerticalItem,
     VSpeedDial,
+    VSystemBar,
   },
 })
 

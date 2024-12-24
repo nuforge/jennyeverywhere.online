@@ -10,7 +10,7 @@
       <v-row>
         <v-col class="bg-background rounded-lg py-1 mb-4">
           <tag-group :tags="tags.tags" column class="bg-background rounded elevation-4 px-2" :noLabel="styles.labels"
-            :noIcon="styles.icons" :closable="styles.closable" />
+            :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection" />
         </v-col>
       </v-row>
     </v-container>

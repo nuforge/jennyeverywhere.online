@@ -4,7 +4,7 @@
       <v-col>
         <v-card-text>
           <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
-            prepend-inner-icon="mdi-label-outline"></v-text-field>
+            prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
           <v-text-field label="icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
             :prepend-inner-icon="icon">
             <template #append>
@@ -27,8 +27,16 @@
       <v-col>
         <v-card-text class="text-center">
           <v-divider>sample</v-divider>
-          <vTagItem :label="text" :icon="icon" :color="color" :value="text" variant="tonal" class="elevation-4">
+          <vTagItem :label="tempTag.name" :icon="icon" :color="color" :value="text" variant="tonal" class="elevation-4">
           </vTagItem>
+          <v-divider>details</v-divider>
+          <div class="d-flex flex-wrap justify-start ga-1">
+            <div v-for="(attr, index) in tempTag" :key="index">
+              <v-tag-item :label="`${attr}`" :value="`${attr}`" variant="tonal" class="elevation-4" :icon="`$${index}`"
+                :space="`${index}`" v-if="attr !== undefined">
+              </v-tag-item>
+            </div>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn @click="addTag()" density="comfortable" prepend-icon="mdi-tag-plus" :disabled="!text" variant="tonal"
@@ -41,20 +49,33 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useTagStore } from '@/stores/tags'
+import vTagItem from '@/components/tags/VTagItem.vue'
 import ColorPickerDialog from '@/components/ColorPickerDialog.vue';
+import Tag from '@/objects/Tag'
 
 const tags = ref(useTagStore());
 const icon = ref('mdi-tag-outline')
 const text = ref('')
 const color = ref('#FFFFFF')
 
+const tempTag = ref(computed(() => {
+  const tag = new Tag(text.value)
+  return {
+    id: tag.id,
+    name: tag.name,
+    space: tag.space,
+    color: color.value,
+    icon: icon.value,
+  }
+}))
+
 
 function applyColorChoice(hex: string) {
-  console.log(hex)
   color.value = hex
 }
+
 function addTag() {
   tags.value.addLabel(text.value, color.value, icon.value)
   text.value = ''

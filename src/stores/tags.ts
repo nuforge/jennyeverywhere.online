@@ -65,5 +65,15 @@ export const useTagStore = defineStore('selection', () => {
 
     return temp
   }
-  return { selection, tags, addTag, createTag, addLabel, removeTag, linkText, copyTag }
+  return {
+    selection,
+    tags,
+    addTag,
+    createTag,
+    addLabel,
+    removeTag,
+    linkText,
+    copyTag,
+    cleanTag,
+  }
 })

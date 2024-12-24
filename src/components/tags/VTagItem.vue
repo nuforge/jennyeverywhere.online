@@ -3,7 +3,8 @@
     <template v-slot:prepend v-if="!noIcon">
       <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevation="">
-        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ space ? `${space} : ${label}` : label }}
+        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> <span class="opacity-50"> {{ space ? `${space} : ` :
+          '' }}</span> {{ label }}
       </v-tooltip>
     </template>
     <template v-slot:default v-if="!noLabel">

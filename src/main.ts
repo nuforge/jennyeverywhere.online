@@ -168,8 +168,13 @@ const vuetify = createVuetify({
 
       challenge: 'mdi-hazard-lights',
 
+      id: 'mdi-account-box-outline',
+      name: 'mdi-account-circle-outline',
+      space: 'mdi-tag-multiple-outline',
+      color: 'mdi-palette',
+
       home: 'mdi-home',
-      icon: 'mdi-emoticon-happy',
+      icon: 'mdi-label-variant-outline',
       next: 'mdi-arrow-right',
       delete: 'mdi-close',
       clear: 'mdi-close',

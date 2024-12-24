@@ -22,7 +22,6 @@ class Dice {
   }
 
   roll(dCount: number = 1) {
-    console.log(`Rolling ${dCount}d${this._faces}`)
     this._rolls = []
 
     for (let i = 0; i < dCount; i++) {
@@ -30,7 +29,7 @@ class Dice {
     }
 
     this._value = this._rolls.reduce((acc, val) => acc + val, 0)
-    console.log(`Rolling ${dCount}d${this._faces}`)
+    console.log(`roll: ${dCount}d${this._faces} : ${this._value}`)
     return this._value
   }
 }

@@ -1,10 +1,8 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-
-      <theme-fab />
-      <tag-fab />
-
+      <tag-fab location="bottom start" />
+      <dice-fab location="bottom end" />
       <HeaderLayout />
       <v-main>
         <RouterView />
@@ -12,6 +10,7 @@
       <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
       <TagManagerLayout v-model="state.drawer" />
+      <DiceManagerLayout v-model="state.dice" />
       <BottomSheet />
     </v-app>
   </v-responsive>
@@ -26,11 +25,13 @@ const tags = ref(useTagStore())
 
 
 import HeaderLayout from './layouts/HeaderLayout.vue';
+import DiceFab from './components/game/DiceFab.vue';
 import TagFab from './components/tags/TagFab.vue';
-import TagManagerLayout from './layouts/TagManagerLayout.vue';
 import BottomNavigationLayout from './layouts/BottomNavigationLayout.vue';
+import TagManagerLayout from './layouts/TagManagerLayout.vue';
 import BottomSheet from './components/BottomSheet.vue';
-import ThemeFab from './components/ThemeFab.vue';
+import DiceManagerLayout from './layouts/DiceManagerLayout.vue';
+
 
 onMounted(async () => {
   tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')

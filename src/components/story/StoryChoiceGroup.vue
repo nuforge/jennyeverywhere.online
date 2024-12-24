@@ -2,7 +2,7 @@
   <v-item-group selected-class="rounded-te-xl border-b-sm bg-surface border-opacity-100" v-model="selection"
     @update:model-value="updateSelection">
     <v-row no-gutters>
-      <v-col cols="12" md="8" density="compact" v-for="(button, index) in buttons" :key="index">
+      <v-col cols="12" density="compact" v-for="(button, index) in buttons" :key="index">
         <storyChoice :text="button.text" :icon="button.icon" :color="button.color" />
       </v-col>
 

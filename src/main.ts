@@ -78,6 +78,7 @@ import {
   VStepperItem,
   VStepperWindow,
   VStepperWindowItem,
+  VSpeedDial,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -285,6 +286,7 @@ const vuetify = createVuetify({
     VStepperWindowItem,
     VStepperVerticalActions,
     VStepperVerticalItem,
+    VSpeedDial,
   },
 })
 

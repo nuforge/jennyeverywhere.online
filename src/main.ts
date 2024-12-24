@@ -8,6 +8,8 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
+import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
+import '@fortawesome/fontawesome-free/css/all.css'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -136,6 +138,7 @@ const vuetify = createVuetify({
     aliases: {
       ...aliases,
       ...mdAliases,
+      ...fontAwesomeAliases,
       tag: 'mdi-tag-outline',
       'no-tag': 'mdi-circle-small',
       tags: 'mdi-tag-multiple',
@@ -145,6 +148,8 @@ const vuetify = createVuetify({
       events: 'mdi-calendar-clock',
       'no-events': 'mdi-calendar-clock-outline',
 
+      dice: 'mdi-dice-multiple',
+      'no-dice': 'mdi-dice-multiple-outline',
       d20: 'mdi-dice-d20',
       d12: 'mdi-dice-d12',
       d10: 'mdi-dice-d10',
@@ -214,6 +219,7 @@ const vuetify = createVuetify({
     sets: {
       mdi,
       md,
+      fa,
     },
   },
   components: {

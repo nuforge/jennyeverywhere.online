@@ -1,5 +1,7 @@
 <template>
   <v-bottom-navigation app elevation="2">
+    <v-btn value="dice" icon="$dice">
+    </v-btn>
     <v-btn value="home" icon="$home" to="/">
     </v-btn>
     <v-btn value="home" icon="$home" to="/jenny-everywhere">

@@ -1,11 +1,9 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-      <v-fab :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'" variant="plain"
-        location="bottom end" app appear @click="state.changeTheme"></v-fab>
 
-      <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" variant="plain" location="bottom start" app appear
-        @click="state.toggleMenu"></v-fab>
+      <theme-fab />
+      <tag-fab />
 
       <HeaderLayout />
       <v-main>
@@ -13,7 +11,7 @@
       </v-main>
       <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
-      <NavigationLayout v-model="state.drawer" />
+      <TagManagerLayout v-model="state.drawer" />
       <BottomSheet />
     </v-app>
   </v-responsive>
@@ -28,9 +26,11 @@ const tags = ref(useTagStore())
 
 
 import HeaderLayout from './layouts/HeaderLayout.vue';
-import NavigationLayout from './layouts/NavigationLayout.vue';
+import TagFab from './components/tags/TagFab.vue';
+import TagManagerLayout from './layouts/TagManagerLayout.vue';
 import BottomNavigationLayout from './layouts/BottomNavigationLayout.vue';
 import BottomSheet from './components/BottomSheet.vue';
+import ThemeFab from './components/ThemeFab.vue';
 
 onMounted(async () => {
   tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')

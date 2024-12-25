@@ -5,6 +5,7 @@ export const useStateStore = defineStore('state', () => {
   const theme = ref('dark')
   const tags = ref(true)
   const dice = ref(false)
+  const snackbar = ref(false)
   const drawer = ref(true)
 
   function changeTheme() {
@@ -22,5 +23,21 @@ export const useStateStore = defineStore('state', () => {
     dice.value = !dice.value
   }
 
-  return { theme, tags, dice, drawer, changeTheme, toggleTags, toggleDice, toggleDrawer }
+  function triggerSnackbar() {
+    console.log('triggerSnackbar')
+    snackbar.value = true
+  }
+
+  return {
+    theme,
+    tags,
+    dice,
+    drawer,
+    snackbar,
+    changeTheme,
+    toggleTags,
+    toggleDice,
+    toggleDrawer,
+    triggerSnackbar,
+  }
 })

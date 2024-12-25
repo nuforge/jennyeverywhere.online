@@ -83,6 +83,7 @@ import {
   VSystemBar,
   VScaleTransition,
   VExpandXTransition,
+  VSnackbar,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -306,6 +307,7 @@ const vuetify = createVuetify({
     VSystemBar,
     VScaleTransition,
     VExpandXTransition,
+    VSnackbar,
   },
 })
 

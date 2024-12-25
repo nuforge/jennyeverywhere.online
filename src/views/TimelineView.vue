@@ -10,9 +10,5 @@
 </template>
 
 <script setup lang="ts">
-import TimelineComponent from '@/components/TimelineComponent.vue';
-
-
+import TimelineComponent from '@/components/timeline/TimelineComponent.vue';
 </script>
-
-<style></style>

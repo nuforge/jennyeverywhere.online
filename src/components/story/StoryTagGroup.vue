@@ -1,5 +1,5 @@
 <template>
-  <tag-group :tags="tags.tags" noLabel noValue v-model="tags.selection" @click="highlightTags()" />
+  <tag-group :tags="tags.taglist.tags" noLabel noValue v-model="tags.selection" @click="highlightTags()" />
 </template>
 
 <script setup lang="ts">

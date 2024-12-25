@@ -1,46 +1,33 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-      <dice-fab location="bottom end" />
-      <tag-fab location="bottom start" />
+      <dice-fab location="top end" />
+      <AvatarFab location="bottom start" />
       <HeaderLayout />
       <v-main>
         <RouterView />
+        <tag-fab location="bottom end" />
       </v-main>
-      <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
-      <ManagerDrawerLayout />
+      <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
+          to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
+      <ManagerDrawerLayout />
+      <DiceSnackbar v-model="state.snackbar" />
     </v-app>
   </v-responsive>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useTagStore } from '@/stores/tags';
+import { ref } from 'vue'
+
+import HeaderLayout from '@/layouts/HeaderLayout.vue';
+import DiceFab from '@/components/fabs/DiceFab.vue';
+import BottomNavigationLayout from '@/layouts/BottomNavigationLayout.vue';
+import ManagerDrawerLayout from '@/layouts/DrawerLayout.vue';
+import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
-const state = ref(useStateStore());
-const tags = ref(useTagStore())
+import AvatarFab from './components/fabs/AvatarFab.vue';
+const state = ref(useStateStore())
 
 
-import HeaderLayout from './layouts/HeaderLayout.vue';
-import DiceFab from './components/game/DiceFab.vue';
-import TagFab from './components/tags/TagFab.vue';
-import BottomNavigationLayout from './layouts/BottomNavigationLayout.vue';
-import ManagerDrawerLayout from './layouts/ManagerDrawerLayout.vue';
-
-
-onMounted(async () => {
-  tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
-  tags.value.addLabel('green portal', 'green', 'mdi-orbit')
-  tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
-  tags.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-
-});
 </script>
-
-<style scoped>
-.v-main {
-  height: 100%;
-}
-</style>

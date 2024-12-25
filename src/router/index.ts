@@ -26,20 +26,17 @@ const router = createRouter({
       alias: ['/jenny-everywhere', '/newbie'],
     },
     {
-      path: '/persona',
-      name: 'persona',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/PersonaView.vue'),
-    },
-    {
       path: '/timeline',
       name: 'timeline',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/TimelineView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/NotFoundView.vue'),
     },
   ],
 })

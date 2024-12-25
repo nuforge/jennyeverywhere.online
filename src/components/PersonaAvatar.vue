@@ -1,11 +1,9 @@
 <template>
-  <router-link to="/persona">
-    <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar">
-    </v-avatar>
-    <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
-      <v-icon icon="mdi-account-circle"></v-icon> Jenny Everywhere
-    </v-tooltip>
-  </router-link>
+  <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar" size="x-large">
+  </v-avatar>
+  <v-tooltip activator="parent" location="end" content-class="bg-background" elevated>
+    <v-icon icon="mdi-comment"></v-icon> Hello!
+  </v-tooltip>
 
 </template>
 

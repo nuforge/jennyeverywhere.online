@@ -15,6 +15,9 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
+import TagFab from '@/components/fabs/TagFab.vue'
+import DiceFab from '@/components/fabs/DiceFab.vue'
+import AvatarFab from '@/components/fabs/AvatarFab.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -83,6 +86,7 @@ import {
   VSystemBar,
   VScaleTransition,
   VExpandXTransition,
+  VSnackbar,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -179,10 +183,14 @@ const vuetify = createVuetify({
       delete: 'mdi-close',
       clear: 'mdi-close',
       close: 'mdi-close',
-      upvote: 'mdi-arrow-up',
-      downvote: 'mdi-arrow-down',
+      upvote: 'mdi-arrow-up-bold',
+      'upvote-off': 'mdi-arrow-up-bold-outline',
+      downvote: 'mdi-arrow-down-bold',
+      'downvote-off': 'mdi-arrow-down-bold-outline',
       comment: 'mdi-comment',
+      'comment-off': 'mdi-comment-outline',
       favorite: 'mdi-heart',
+      'favorite-off': 'mdi-heart-outline',
       share: 'mdi-share',
       addTag: 'mdi-tag-plus',
 
@@ -241,6 +249,9 @@ const vuetify = createVuetify({
   components: {
     VTag,
     VTagItem,
+    TagFab,
+    DiceFab,
+    AvatarFab,
     VApp,
     VAppBar,
     VAppBarNavIcon,
@@ -306,6 +317,7 @@ const vuetify = createVuetify({
     VSystemBar,
     VScaleTransition,
     VExpandXTransition,
+    VSnackbar,
   },
 })
 

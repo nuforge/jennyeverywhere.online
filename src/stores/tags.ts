@@ -15,7 +15,6 @@ export const useTagStore = defineStore('selection', () => {
   }
 
   const copyTag = (tag: Tag) => {
-    console.log('copyTag', tag)
     return taglist.value.addTag(tag)
   }
   const addTag = (newTag: Tag) => {
@@ -50,7 +49,6 @@ export const useTagStore = defineStore('selection', () => {
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
     selection.value.forEach((id) => {
-      console.log('linkText', id)
       if (!taglist.value.getTag(id)) return
       const pattern = taglist.value.getTag(id).name
 

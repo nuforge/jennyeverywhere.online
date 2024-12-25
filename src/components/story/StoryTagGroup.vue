@@ -11,8 +11,6 @@ const tags = ref(useTagStore())
 const story = ref(useStoryStore());
 
 const highlightTags = () => {
-  console.log('highlightTags', tags.value.tags)
-  console.log('highlightTags', tags.value.selection)
   story.value.HTML = (tags.value.linkText(story.value.renderMd()))
 }
 

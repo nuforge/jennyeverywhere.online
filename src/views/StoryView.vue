@@ -1,18 +1,19 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="4">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
-
         <FeedbackBar />
       </v-col>
-      <v-col cols="12" sm="9" id="story-sheet">
+      <v-col cols="12" sm="8" id="story-sheet">
         <MarkdownRenderer :markdown="story" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <StoryTagGroup />
       </v-col>
-      <v-col cols="12" sm="auto">
-      </v-col>
-      <v-col cols="12" sm="6">
+      <v-col cols="12" sm="12">
         <StoryChoiceGroup />
       </v-col>
     </v-row>

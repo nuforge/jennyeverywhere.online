@@ -19,5 +19,4 @@ const name = router.currentRoute.value.params.pathMatch
 [0].toString().toLocaleUpperCase().replace(/-/g, ' ')
 
 
-
 </script>

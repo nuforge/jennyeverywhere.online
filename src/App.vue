@@ -1,11 +1,12 @@
 <template>
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
-      <dice-fab location="bottom end" />
-      <tag-fab location="bottom start" />
+      <dice-fab location="top end" />
+      <AvatarFab location="bottom start" />
       <HeaderLayout />
       <v-main>
         <RouterView />
+        <tag-fab location="bottom end" />
       </v-main>
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
@@ -20,12 +21,13 @@
 import { ref } from 'vue'
 
 import HeaderLayout from '@/layouts/HeaderLayout.vue';
-import DiceFab from '@/components/game/DiceFab.vue';
-import TagFab from '@/components/tags/TagFab.vue';
+import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/layouts/BottomNavigationLayout.vue';
 import ManagerDrawerLayout from '@/layouts/DrawerLayout.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
-const state = ref(useStateStore());
+import AvatarFab from './components/fabs/AvatarFab.vue';
+const state = ref(useStateStore())
+
 
 </script>

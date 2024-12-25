@@ -15,6 +15,9 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
+import TagFab from '@/components/fabs/TagFab.vue'
+import DiceFab from '@/components/fabs/DiceFab.vue'
+import AvatarFab from '@/components/fabs/AvatarFab.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -242,6 +245,9 @@ const vuetify = createVuetify({
   components: {
     VTag,
     VTagItem,
+    TagFab,
+    DiceFab,
+    AvatarFab,
     VApp,
     VAppBar,
     VAppBarNavIcon,

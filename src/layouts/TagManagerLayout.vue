@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+//
 import { onMounted } from 'vue'
 import { useStyleStore } from '@/stores/styles'
 import { useTagStore } from '@/stores/tags'
@@ -17,16 +18,11 @@ import TagStyles from '@/components/tags/TagStyles.vue';
 const tags = useTagStore()
 const styles = useStyleStore()
 
-
-
-onMounted(async () => {
+onMounted(() => {
   tags.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
   tags.addLabel('green portal', 'green', 'mdi-orbit')
   tags.addLabel('flamethrower', 'red', 'mdi-fire')
   tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
   tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-
-
-
 });
 </script>

@@ -7,19 +7,10 @@
   </v-btn-toggle> {{ timelineDirection }}
   <v-timeline :direction="timelineDirection" line-inset="8" truncate-line="both">
     <v-timeline-item>
-      <template v-slot:opposite>
-        <TagGroup :tags="tags.tags" noLabel v-model="tags.selection" />
-      </template>
       <template v-slot:icon>
         <v-avatar :image="PersonaAvatar" rounded="sm"></v-avatar>
       </template>
       Persona Creation
-    </v-timeline-item>
-    <v-timeline-item dot-color="background" fill-dot icon="$event">
-      <router-link to="/">
-        <v-img :src="storyImage" alt="A glowing green portal" cover max-height="120" rounded="lg"
-          max-width="256"></v-img>
-        You wake up on a Monday...</router-link>
     </v-timeline-item>
     <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate" icon-color="background"
       :dot-color="event.color" fill-dot>
@@ -37,6 +28,15 @@
         <p class="pa-3 rounded">{{ event.description }}</p>
       </div>
     </v-timeline-item>
+    <v-timeline-item dot-color="background" fill-dot icon="$event">
+      <template v-slot:opposite>
+        <TagGroup :tags="tags.tags" noLabel v-model="tags.selection" />
+      </template>
+      <router-link to="/">
+        <v-img :src="storyImage" alt="A glowing green portal" cover max-height="120" rounded="lg"
+          max-width="256"></v-img>
+        You wake up on a Monday...</router-link>
+    </v-timeline-item>
   </v-timeline>
 </template>
 
@@ -51,7 +51,7 @@ const tags = ref(useTagStore())
 const events = ref(useTimelineStore().events)
 
 type TimelineDirection = 'horizontal' | 'vertical';
-const timelineDirection = ref<TimelineDirection>('vertical');
+const timelineDirection = ref<TimelineDirection>('horizontal');
 
 
 

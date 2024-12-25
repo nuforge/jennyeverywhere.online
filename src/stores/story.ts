@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
+import story from '@/assets/stories/story.json'
 
 export interface Story {
   title: string
@@ -9,8 +10,10 @@ export interface Story {
 }
 
 export const useStoryStore = defineStore('story', () => {
-  const raw = ref('')
+  const title = ref(story.title)
+  const raw = ref(story.content.reduce((acc, curr) => acc + curr, ''))
   const HTML = ref('')
+  console.log(raw.value)
 
   const md = markdownit({
     html: true,
@@ -21,7 +24,7 @@ export const useStoryStore = defineStore('story', () => {
     await fetch(`${import.meta.env.BASE_URL}src/assets/stories/markdown/story.md`)
       .then((result) => result.text())
       .then((text) => {
-        raw.value = text
+        raw.value = story.content.reduce((acc, curr) => acc + curr, ' ')
         return text
       })
       .catch((e) => console.error(e))
@@ -31,5 +34,5 @@ export const useStoryStore = defineStore('story', () => {
     return md.render(HTML.value ? HTML.value : raw.value)
   }
 
-  return { raw, HTML, fetchStory, renderMd }
+  return { raw, HTML, title, fetchStory, renderMd }
 })

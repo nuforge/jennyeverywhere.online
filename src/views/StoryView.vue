@@ -6,7 +6,8 @@
         <FeedbackBar />
       </v-col>
       <v-col cols="12" sm="8" id="story-sheet">
-        <MarkdownRenderer :markdown="story" />
+        <h2>{{ story.title }}</h2>
+        <MarkdownRenderer :markdown="story.raw" />
       </v-col>
     </v-row>
     <v-row>
@@ -21,27 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 import FeedbackBar from '@/components/FeedbackBar.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-const story = ref('')
-
-
-onMounted(async () => {
-  await fetchStory()
-})
-
-async function fetchStory(filename: string = 'story.md') {
-  return await fetch(`${import.meta.env.BASE_URL}src/assets/stories/markdown/${filename}`)
-    .then((result) => result.text())
-    .then((text) => {
-      return (story.value = text)
-    })
-    .catch((e) => console.error(e))
-}
+import { useStoryStore } from '@/stores/story'
+const story = ref(useStoryStore())
 
 </script>
 

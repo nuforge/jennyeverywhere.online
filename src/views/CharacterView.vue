@@ -6,13 +6,8 @@
         <v-img :src="image" :alt="character.name" max-height="256" />
       </v-col>
       <v-col cols="12" md="8" sm="12">
-        <v-card class="elevation-8 border-b-sm border-e-md rounded-b-lg" variant="text">
-          <v-card-text>
-            <tag-group column :tags="character.attributes" class="bg-background rounded elevation-4 px-2"
-              :noLabel="styles.labels" :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection"
-              @ctrl-click="handleCtrlClick" />
-          </v-card-text>
-        </v-card>
+        <tag-group column :tags="character.attributes" :noLabel="styles.labels" :noIcon="styles.icons"
+          :closable="styles.closable" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
       </v-col>
     </v-row>
   </v-container>

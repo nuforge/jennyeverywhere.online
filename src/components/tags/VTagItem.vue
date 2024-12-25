@@ -1,5 +1,6 @@
 <template>
-  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="noIcon ? color : undefined">
+  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="noIcon ? color : undefined"
+    :value="value">
     <template v-slot:prepend v-if="!noIcon">
       <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface">

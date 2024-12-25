@@ -55,6 +55,7 @@ export const useTagStore = defineStore('selection', () => {
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
     selection.value.forEach((id) => {
+      console.log('id', id)
       if (!tags.value[id]) return
       const pattern = tags.value[id].name
 

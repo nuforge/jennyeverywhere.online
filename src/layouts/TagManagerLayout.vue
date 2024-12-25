@@ -1,17 +1,9 @@
 <template>
-  <v-container class="bg-background rounded-lg">
-    <AddTag v-if="styles.add" class="bg-background rounded-lg py-1 mb-4" />
-    <v-row>
-      <v-col class="pa-0">
-        <TagStyles />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col class="bg-background rounded-lg py-1 mb-4">
-        <tag-group :tags="tags.taglist.tags" column class="bg-background rounded elevation-4 px-2"
-          :noLabel="styles.labels" :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection" />
-      </v-col>
-    </v-row>
+  <v-container class="bg-background rounded-lg elevation-4 ma-0 pa-0">
+    <AddTag v-if="styles.add" class="bg-background rounded-lg py-1 mb-4 " />
+    <TagStyles />
+    <tag-group :tags="tags.taglist.tags" class="pa-2" column :noLabel="styles.labels" :noIcon="styles.icons"
+      :closable="styles.closable" v-model="tags.selection" />
   </v-container>
 </template>
 

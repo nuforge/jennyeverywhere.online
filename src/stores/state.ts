@@ -6,7 +6,7 @@ export const useStateStore = defineStore('state', () => {
   const tags = ref(true)
   const dice = ref(false)
   const snackbar = ref(false)
-  const drawer = ref(true)
+  const drawer = ref(false)
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'

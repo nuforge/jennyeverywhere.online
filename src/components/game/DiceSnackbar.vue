@@ -9,6 +9,6 @@
 <script setup lang="ts">
 import { useDiceStore } from '@/stores/dice';
 const dice = useDiceStore();
-const timeout = 2000
+const timeout = 3600
 
 </script>

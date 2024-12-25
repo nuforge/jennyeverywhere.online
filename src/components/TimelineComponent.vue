@@ -31,7 +31,7 @@
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <tag-group :tags="event.tags" noLabel></tag-group>
+        <tag-group :tags="event.tagList()" noLabel></tag-group>
       </template>
       <div>
         <p class="pa-3 rounded">{{ event.description }}</p>
@@ -52,9 +52,10 @@ const tags = ref(useTagStore())
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
 
-
 defineProps<{
   events: Event[]
 }>()
+
+
 
 </script>

@@ -22,6 +22,17 @@ class Event {
     return format(this._date, 'yywwe.H')
   }
 
+  tagList() {
+    const taglist: Record<string, Tag> = this._tags.reduce(
+      (acc: Record<string, Tag>, item: Tag) => {
+        acc[item.id] = item // Use the `id` as the key
+        return acc
+      },
+      {},
+    )
+    return taglist
+  }
+
   get title() {
     return this._title
   }

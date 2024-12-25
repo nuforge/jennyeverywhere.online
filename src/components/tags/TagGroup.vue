@@ -17,8 +17,6 @@ function manageClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
-
-
 defineProps({
   tags: {
     type: Object as () => Record<string, Tag>

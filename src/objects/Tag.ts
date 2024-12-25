@@ -10,7 +10,7 @@ class Tag {
   constructor(name: string | number, id?: string) {
     const label = name.toString()
     this._id = id ? id : Tag.cleanTag(label)
-    const { value, namespace } = this.splitTag(label)
+    const { value, namespace } = Tag.splitTag(label)
     this._name = value
     this._space = namespace
     return this
@@ -20,7 +20,7 @@ class Tag {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
-  splitTag = (tagName: string) => {
+  static splitTag = (tagName: string) => {
     const label = tagName.toString()
     const value = label.includes(NAMESPACE_SPLIT_CHAR)
       ? label.split(NAMESPACE_SPLIT_CHAR)[1]

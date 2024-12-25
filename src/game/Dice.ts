@@ -13,6 +13,10 @@ class Dice {
     return this._value
   }
 
+  get results() {
+    return this._value
+  }
+
   get rolls() {
     return this._rolls
   }

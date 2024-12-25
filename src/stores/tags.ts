@@ -1,18 +1,14 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
+import TagList from '@/objects/TagList'
 const TAG_WHITESPACE_REPLACER = '-'
 
 export const useTagStore = defineStore('selection', () => {
   const selection = ref<string[]>(['jenny-everywhere'])
-  const tags = ref<Record<string, Tag>>({})
+  const taglist = ref<TagList>(new TagList())
 
-  const filterSpace = (spaceName: string) => {
-    console.log('spacename', spaceName)
-    console.log('tags', tags.value)
-    const filtered = Object.values(tags.value).filter((tag: Tag) => tag.space === spaceName)
-    console.log('Filtered', filtered)
-  }
+  const tags = computed(() => taglist.value.tags)
 
   const cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
@@ -20,33 +16,32 @@ export const useTagStore = defineStore('selection', () => {
 
   const copyTag = (tag: Tag) => {
     console.log('copyTag', tag)
-    return (tags.value[tag.id] = tag)
+    return taglist.value.addTag(tag)
+  }
+  const addTag = (newTag: Tag) => {
+    taglist.value.addTag(newTag)
   }
 
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
     const tag = cleanTag(newName)
-    const newTag = !tags.value[tag] ? new Tag(newName) : tags.value[tag]
+    const newTag = !taglist.value.getTag(tag) ? new Tag(newName) : taglist.value.getTag(tag)
     newTag.icon = newIcon
     newTag.color = newColor
-    return (tags.value[newTag.id] = newTag) //, newColor, newIcon )
-  }
-
-  const addTag = (newTag: Tag) => {
-    tags.value[newTag.id] = newTag
+    return taglist.value.addTag(newTag) //, newColor, newIcon )
   }
 
   // Actions
   const createTag = (newText: string = 'tag') => {
     const tag = new Tag(newText) // , newColor, newIcon)
-    if (tag.space && tags.value[tag.space]) {
-      tag.icon = tags.value[tag.space].icon
-      tag.color = tags.value[tag.space].color
+    if (tag.space && taglist.value.getTag(tag.space)) {
+      tag.icon = taglist.value.getTag(tag.space).icon
+      tag.color = taglist.value.getTag(tag.space).color
     }
-    return (tags.value[tag.id] = tag) //, newColor, newIcon )
+    return taglist.value.addTag(tag) //, newColor, newIcon )
   }
 
   const removeTag = (tag: string) => {
-    delete tags.value[tag]
+    taglist.value.removeTag(tag)
     selection.value = selection.value.filter((item) => item !== tag)
   }
 
@@ -55,9 +50,9 @@ export const useTagStore = defineStore('selection', () => {
     //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
     let temp = text
     selection.value.forEach((id) => {
-      console.log('id', id)
-      if (!tags.value[id]) return
-      const pattern = tags.value[id].name
+      console.log('linkText', id)
+      if (!taglist.value.getTag(id)) return
+      const pattern = taglist.value.getTag(id).name
 
       // Escape special regex characters if pattern is a literal string
       const escapedPattern =
@@ -70,11 +65,11 @@ export const useTagStore = defineStore('selection', () => {
         (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
       )
     })
-
     return temp
   }
   return {
     selection,
+    taglist,
     tags,
     addTag,
     createTag,
@@ -83,6 +78,5 @@ export const useTagStore = defineStore('selection', () => {
     linkText,
     copyTag,
     cleanTag,
-    filterSpace,
   }
 })

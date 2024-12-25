@@ -2,7 +2,7 @@
   <v-container class="bg-surface rounded-t-lg mx-auto ">
     <v-row>
       <v-col class="bg-background rounded-lg py-1 mb-4 text-right">
-        <dice-tag :dice="dice.dice" />
+        <dice-tag :faces="dice.getFaces()" :value="dice.getResults()" :rolls="dice.getRolls()" />
       </v-col>
     </v-row>
   </v-container>

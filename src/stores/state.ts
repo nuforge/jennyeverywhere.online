@@ -24,7 +24,6 @@ export const useStateStore = defineStore('state', () => {
   }
 
   function triggerSnackbar() {
-    console.log('triggerSnackbar')
     snackbar.value = true
   }
 

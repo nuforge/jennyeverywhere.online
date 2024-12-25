@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar :timeout="timeout" color="surface" location="bottom end" close-on-content-click>
+  <v-snackbar :timeout="timeout" color="surface" location="bottom end" close-on-content-click variant="tonal">
 
     <v-icon :icon="`$d${dice.getFaces()}`" /> Rolled {{ dice.getResults() }} on {{ dice.getRolls().length }}d{{
       dice.getFaces() }} dice

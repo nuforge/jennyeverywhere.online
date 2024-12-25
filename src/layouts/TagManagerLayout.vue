@@ -28,13 +28,11 @@ const styles = useStyleStore()
 
 
 onMounted(async () => {
-  console.log('App.vue mounted')
   tags.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
   tags.addLabel('green portal', 'green', 'mdi-orbit')
   tags.addLabel('flamethrower', 'red', 'mdi-fire')
   tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
   tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-  console.log('App.vue mounted: ', tags.tags)
 
 
 

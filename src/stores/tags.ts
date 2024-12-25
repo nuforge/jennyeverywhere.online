@@ -21,7 +21,6 @@ export const useTagStore = defineStore('selection', () => {
   }
 
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
-    console.log('addLabel', newName, newColor, newIcon)
     const tag = cleanTag(newName)
     const newTag = !taglist.value.getTag(tag) ? new Tag(newName) : taglist.value.getTag(tag)
     newTag.icon = newIcon

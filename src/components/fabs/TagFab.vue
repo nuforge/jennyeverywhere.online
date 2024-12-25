@@ -1,6 +1,6 @@
 <template>
   <v-speed-dial transition="fade-transition" location="bottom end" :close-on-content-click="false" persistent
-    v-model="state.drawer">
+    v-model="state.drawer" no-click-animation>
 
     <template v-slot:activator="{ props: activatorProps }">
       <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" location="bottom end" app appear @click="state.toggleDrawer"

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="story-sheet">
     <v-row>
       <v-col cols="12" sm="4">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
@@ -50,5 +50,7 @@ async function fetchStory(filename: string = 'story.md') {
   text-decoration: none;
   transition: color 0.2s;
   font-weight: bold;
+  font-variation-settings:
+    "wdth" 75;
 }
 </style>

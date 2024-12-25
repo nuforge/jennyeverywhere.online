@@ -4,7 +4,7 @@
       @click="toggle">
       <v-card-item density="compact">
         <template v-slot:prepend><v-icon :icon="icon" :color="isSelected ? color : 'text'"
-            :class="isSelected ? null : 'opacity-10'"></v-icon></template>
+            :class="isSelected ? null : 'opacity-80'"></v-icon></template>
         <template v-slot:default> {{ text }}</template>
       </v-card-item>
     </v-card>

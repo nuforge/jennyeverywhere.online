@@ -1,5 +1,6 @@
 <template>
-  <v-navigation-drawer location="bottom" :scrim="false" class="bg-transparent border-t-0" v-model="state.drawer">
+  <v-navigation-drawer location="bottom" :scrim="false" class="bg-transparent border-t-0" v-model="state.drawer"
+    disable-route-watcher>
     <v-container class="bg-surface rounded-t-lg d-flex justify-center pa-0" flat>
       <v-scale-transition>
         <v-col v-show="state.tags" flat>

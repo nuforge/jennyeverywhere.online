@@ -45,16 +45,13 @@ import { ref } from 'vue';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagGroup from '@/components/tags/TagGroup.vue';
-import Event from '@/objects/Event';
 import { useTagStore } from '@/stores/tags'
+import { useTimelineStore } from '@/stores/timelines'
 const tags = ref(useTagStore())
+const events = ref(useTimelineStore().events)
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
-
-defineProps<{
-  events: Event[]
-}>()
 
 
 

@@ -5,11 +5,10 @@ import TagList from '@/objects/TagList'
 const TAG_WHITESPACE_REPLACER = '-'
 
 export const useTagStore = defineStore('selection', () => {
+  const taglist = ref(new TagList())
   const selection = ref<string[]>(['jenny-everywhere'])
-  const taglist = ref<TagList>(new TagList())
 
   const tags = computed(() => taglist.value.tags)
-
   const cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
@@ -18,10 +17,11 @@ export const useTagStore = defineStore('selection', () => {
     return taglist.value.addTag(tag)
   }
   const addTag = (newTag: Tag) => {
-    taglist.value.addTag(newTag)
+    return taglist.value.addTag(newTag)
   }
 
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
+    console.log('addLabel', newName, newColor, newIcon)
     const tag = cleanTag(newName)
     const newTag = !taglist.value.getTag(tag) ? new Tag(newName) : taglist.value.getTag(tag)
     newTag.icon = newIcon

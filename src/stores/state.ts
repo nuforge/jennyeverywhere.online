@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const useStateStore = defineStore('state', () => {
   const theme = ref('dark')
   const tags = ref(true)
-  const dice = ref(true)
-  const drawer = ref(false)
+  const dice = ref(false)
+  const drawer = ref(true)
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'

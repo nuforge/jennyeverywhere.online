@@ -16,15 +16,24 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useStyleStore } from '@/stores/styles'
+import { useTagStore } from '@/stores/tags'
 import AddTag from '@/components/tags/AddTag.vue'
 import TagGroup from '@/components/tags/TagGroup.vue';
 import TagStyles from '@/components/tags/TagStyles.vue';
-import { ref } from 'vue'
-import { useStyleStore } from '@/stores/styles'
-import { useTagStore } from '@/stores/tags'
-
-const styles = ref(useStyleStore())
 const tags = ref(useTagStore())
+const styles = ref(useStyleStore())
 
 
+
+onMounted(async () => {
+  console.log('App.vue mounted')
+  tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
+  tags.value.addLabel('green portal', 'green', 'mdi-orbit')
+  tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
+  tags.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
+  tags.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
+
+});
 </script>

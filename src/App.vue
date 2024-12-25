@@ -8,18 +8,16 @@
         <RouterView />
       </v-main>
       <v-footer>&copy; 2025 - <router-link to="/">JennyEverywhere.online</router-link></v-footer>
-      <ManagerDrawerLayout />
       <BottomNavigationLayout app elevation="2" />
+      <ManagerDrawerLayout />
     </v-app>
   </v-responsive>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useTagStore } from '@/stores/tags';
+import { ref } from 'vue'
 import { useStateStore } from '@/stores/state';
 const state = ref(useStateStore());
-const tags = ref(useTagStore())
 
 
 import HeaderLayout from './layouts/HeaderLayout.vue';
@@ -28,15 +26,6 @@ import TagFab from './components/tags/TagFab.vue';
 import BottomNavigationLayout from './layouts/BottomNavigationLayout.vue';
 import ManagerDrawerLayout from './layouts/ManagerDrawerLayout.vue';
 
-
-onMounted(async () => {
-  tags.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
-  tags.value.addLabel('green portal', 'green', 'mdi-orbit')
-  tags.value.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
-  tags.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-
-});
 </script>
 
 <style scoped>

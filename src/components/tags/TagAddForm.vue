@@ -24,7 +24,7 @@
         </v-card-text>
       </v-col>
       <v-col cols="12" md="5">
-        <v-card-text class="text-center">
+        <v-card-text class="text-center bg-background rounded-lg">
           <v-divider>sample</v-divider>
           <vTagItem :label="tempTag.name" :icon="icon" :color="color" :value="text" variant="tonal" class="elevation-4">
           </vTagItem>

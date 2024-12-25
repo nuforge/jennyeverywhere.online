@@ -1,8 +1,9 @@
 <template>
-  <v-container class="bg-background rounded-lg elevation-4 me-16 pa-0 border-solid border-0 border-t-lg ">
-    <AddTag v-if="styles.add" class="bg-surface rounded-lg py-1 mb-4 " />
-    <tag-group :tags="tags.taglist.tags" class="pa-2" column :noLabel="styles.labels" :noIcon="styles.icons"
-      :closable="styles.closable" v-model="tags.selection" />
+  <v-container class="bg-surface rounded-lg elevation-4 me-15  mb-6 ms-2 pa-0  ">
+    <AddTag v-if="styles.add" class="bg-surface" />
+    <v-divider v-if="styles.add" />
+    <tag-group :tags="tags.taglist.tags" class="pa-1 bg-background ma-2 rounded" column :noLabel="styles.labels"
+      :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection" />
   </v-container>
 </template>
 

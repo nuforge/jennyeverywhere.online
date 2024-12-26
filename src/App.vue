@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 import HeaderLayout from '@/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
@@ -27,7 +26,7 @@ import ManagerDrawerLayout from '@/layouts/DrawerLayout.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';
-const state = ref(useStateStore())
+const state = useStateStore()
 
 
 </script>

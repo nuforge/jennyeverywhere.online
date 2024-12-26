@@ -7,7 +7,7 @@
       </v-col>
       <v-col cols="12" sm="8">
         <h2>{{ story.title }}</h2>
-        <StoryRenderer :markdown="story.raw" />
+        <StoryRenderer />
       </v-col>
     </v-row>
     <v-row>

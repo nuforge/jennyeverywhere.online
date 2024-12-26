@@ -13,11 +13,11 @@
 import { ref } from 'vue'
 import storyChoice from '@/components/story/StoryChoice.vue'
 import { useStoryStore } from '@/stores/story';
-const story = ref(useStoryStore())
+const story = useStoryStore()
 const selection = ref<number>();
 
 const updateSelection = (value: number) => {
 
-  console.log(story.value.choices[value].tags)
+  console.log(story.choices[value].tags)
 }
 </script>

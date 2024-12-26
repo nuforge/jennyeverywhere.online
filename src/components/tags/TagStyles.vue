@@ -30,11 +30,8 @@
 </template>
 
 <script setup lang="ts">
-
-import { ref } from 'vue'
 import { useStyleStore } from '@/stores/styles'
 
-const styles = ref(useStyleStore())
-
+const styles = useStyleStore()
 
 </script>

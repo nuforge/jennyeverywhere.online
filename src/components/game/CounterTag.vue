@@ -5,10 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useCounterStore } from '@/stores/counter';
-
-
-const momentum = ref(useCounterStore())
+const momentum =  useCounterStore() 
 
 </script>

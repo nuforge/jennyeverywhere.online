@@ -8,13 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { usePersonaStore } from '@/stores/persona';
 
-const persona = ref(usePersonaStore())
+const persona = usePersonaStore()
 
 
 onMounted(async () => {
-  persona.value.randomAvatar()
+  persona.randomAvatar()
 })
 </script>

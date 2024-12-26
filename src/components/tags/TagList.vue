@@ -8,17 +8,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useStyleStore } from '@/stores/styles'
 import { useStoryStore } from '@/stores/story'
 import { useTagStore } from '@/stores/tags';
-const tags = ref(useTagStore())
-const story = ref(useStoryStore());
+const tags = useTagStore()
+const story = useStoryStore()
 
-const styles = ref(useStyleStore())
+const styles = useStyleStore()
 
 const highlightTags = () => {
-  story.value.HTML = (tags.value.linkText(story.value.raw))
+  story.HTML = (tags.linkText(story.raw))
 }
 
 

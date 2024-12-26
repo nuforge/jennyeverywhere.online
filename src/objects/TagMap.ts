@@ -19,7 +19,6 @@ class TagMap {
     return Array.from(this._tags.keys())
   }
   get tagList() {
-    console.log(this._tags)
     return Array.from(this._tags.values())
   }
 

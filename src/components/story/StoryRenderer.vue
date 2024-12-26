@@ -1,5 +1,8 @@
 <template>
-  <MarkdownRenderer :markdown="linkItBaby()" class="story-body" />
+  <v-sheet flat class="bg-transparent">
+    <h2>{{ story.title }}</h2>
+    <MarkdownRenderer :markdown="linkItBaby()" class="story-body" />
+  </v-sheet>
 </template>
 
 <script setup lang="ts">

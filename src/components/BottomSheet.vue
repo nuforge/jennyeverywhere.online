@@ -33,10 +33,4 @@ const tags =  useTagStore()
 const label = ref('')
 const color = ref('')
 const icon = ref('')
-
-
-
-
-
-
 </script>

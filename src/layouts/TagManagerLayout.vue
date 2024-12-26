@@ -23,6 +23,5 @@ onMounted(() => {
   tags.addLabel('flamethrower', 'red', 'mdi-fire')
   tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
   tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
-  console.log(tags.tags)
 });
 </script>

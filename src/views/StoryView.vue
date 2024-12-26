@@ -22,13 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 import FeedbackBar from '@/components/FeedbackBar.vue'
 import StoryRenderer from '@/components/story/StoryRenderer.vue';
 import { useStoryStore } from '@/stores/story'
-const story = ref(useStoryStore())
+const story = useStoryStore()
 
 </script>

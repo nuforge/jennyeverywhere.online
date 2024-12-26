@@ -6,7 +6,4 @@
 import TagGroup from '@/components/tags/TagGroup.vue';
 import { useTagStore } from '@/stores/tags'
 const tags = useTagStore()
-
-console.log(tags.tags)
-
 </script>

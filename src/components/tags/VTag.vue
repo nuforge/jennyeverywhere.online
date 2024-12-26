@@ -1,10 +1,11 @@
 <template>
-  <v-chip :value="value" @click="bottom ? sheets.openTag(value, color, icon) : false" tile :closable="closer"
-    class="rounded-lg" variant="text" density="comfortable" :color="!noIcon ? 'text' : color">
+  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="noIcon ? color : undefined"
+    :value="value">
     <template v-slot:prepend v-if="!noIcon">
-      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel" id="tooltip-activator"></v-icon>
-      <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
-        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ label }}
+      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel"></v-icon>
+      <v-tooltip activator="parent" location="bottom" content-class="bg-surface">
+        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> <span class="opacity-50"> {{ space ? `${space} : ` :
+          '' }}</span> {{ label }}
       </v-tooltip>
     </template>
     <template v-slot:default v-if="!noLabel">
@@ -13,16 +14,13 @@
     <template v-slot:append v-if="noIcon && noLabel">
       <v-icon :icon="`$no-tag`" :color="color" :start="!noLabel" id="tooltip-activator"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
-        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ label }}
+        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ space }} {{ label }}
       </v-tooltip>
     </template>
   </v-chip>
 </template>
 
 <script setup lang="ts">
-import { useSheetStore } from '@/stores/sheet'
-
-const sheets =  useSheetStore()
 
 defineProps({
   icon: {
@@ -35,6 +33,10 @@ defineProps({
   },
   value: {
     type: String || Number,
+    default: ''
+  },
+  space: {
+    type: String,
     default: ''
   },
   color: {
@@ -58,10 +60,6 @@ defineProps({
     default: false
   },
   bottom: {
-    type: Boolean,
-    default: false
-  },
-  closer: {
     type: Boolean,
     default: false
   },

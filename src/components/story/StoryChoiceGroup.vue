@@ -13,11 +13,13 @@
 import { ref } from 'vue'
 import storyChoice from '@/components/story/StoryChoice.vue'
 import { useStoryStore } from '@/stores/story';
+import { useTagStore } from '@/stores/tags';
 const story = useStoryStore()
 const selection = ref<number>();
+const tags = useTagStore()
 
 const updateSelection = (value: number) => {
-
-  console.log(story.choices[value].tags)
+  console.log(`choice:${story.choices[value].tags}`, story.choices[value].color, story.choices[value].icon)
+  tags.addLabel(`choice:${story.choices[value].tags}`, story.choices[value].color, story.choices[value].icon)
 }
 </script>

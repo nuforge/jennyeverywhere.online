@@ -2,6 +2,7 @@ import Tag from '@/objects/Tag'
 const TAG_WHITESPACE_REPLACER = '-'
 
 class TagList {
+  protected _list: Map<string, Tag> = new Map()
   protected _tags: Record<string, Tag> = {}
 
   constructor() {

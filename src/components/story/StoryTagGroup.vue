@@ -1,11 +1,12 @@
 <template>
-  <tag-group :tags="tags.taglist.tags" noLabel noValue v-model="tags.selection" />
+  <tag-group :tags="tags.tags" noLabel noValue v-model="tags.selection" />
 </template>
 
 <script setup lang="ts">
 import TagGroup from '@/components/tags/TagGroup.vue';
-import { ref } from 'vue'
 import { useTagStore } from '@/stores/tags'
-const tags = ref(useTagStore())
+const tags = useTagStore()
+
+console.log(tags.tags)
 
 </script>

@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import Tag from '@/objects/Tag'
 
 const emit = defineEmits(['ctrl-click'])
 
@@ -17,9 +16,17 @@ function manageClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
+interface Tag {
+  id: string
+  name: string
+  icon: string
+  color: string
+  space?: string
+}
+
 defineProps({
   tags: {
-    type: Object as () => Record<string, Tag>
+    type: Array<Tag>,
   },
   noLabel: {
     type: Boolean,

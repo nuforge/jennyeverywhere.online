@@ -12,6 +12,8 @@ export interface Story {
 interface Tag {
   id: string
   name: string
+  icon: string
+  color: string
 }
 
 export const useStoryStore = defineStore('story', () => {
@@ -35,7 +37,26 @@ export const useStoryStore = defineStore('story', () => {
     return md.render(text)
   }
 
-  function linkTag(tag: string, body: string = markdown.value) {
+  function linkTag(tag: Tag, body: string = markdown.value) {
+    // Create a RegExp if pattern is a string
+    const pattern = tag.name
+    const icon = tag.icon
+    const color = tag.color
+
+    // Escape special regex characters if pattern is a literal string
+    const escapedPattern =
+      typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern // If already a RegExp, use it as is
+    const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern
+
+    return body.replace(
+      regex,
+      (match) =>
+        `[<i class="mdi ${icon} text-${color}"></i> ${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
+    )
+  }
+
+  function linkString(tag: string, body: string = markdown.value) {
+    // Create a RegExp if pattern is a string
     const pattern = tag
     // Escape special regex characters if pattern is a literal string
     const escapedPattern =
@@ -45,16 +66,34 @@ export const useStoryStore = defineStore('story', () => {
     return body.replace(regex, (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`)
   }
 
-  function linkText(tags: Tag[], text?: string) {
-    // Create a RegExp if pattern is a string
-    //const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern;
-    let temp = text || markdown.value
+  function linkTags(tags: Tag[], text?: string) {
+    let temp = text || raw.value
     tags.forEach((tag) => {
-      if (!tag.id) return
-      temp = linkTag(tag.name, text || markdown.value)
+      temp = linkTag(tag, temp)
     })
     return temp
   }
 
-  return { raw, markdown, HTML, title, choices, renderMd, markitdown, linkText }
+  function linkText(tags: Tag[], text?: string) {
+    let temp = text
+    tags.forEach((tag) => {
+      if (!tag.id) return
+      temp = linkString(tag.name, temp)
+    })
+    return temp
+  }
+
+  return {
+    raw,
+    markdown,
+    HTML,
+    title,
+    choices,
+    renderMd,
+    markitdown,
+    linkText,
+    linkTags,
+    linkString,
+    linkTag,
+  }
 })

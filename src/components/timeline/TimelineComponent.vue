@@ -24,9 +24,7 @@
       <template v-slot:opposite>
         <tag-group :tags="event.tagList()" noLabel></tag-group>
       </template>
-      <div>
-        <p class="pa-3 rounded">{{ event.description }}</p>
-      </div>
+      <MarkdownRenderer :markdown="linkItBaby(event.tagList(), event.description)" />
     </v-timeline-item>
     <v-timeline-item dot-color="background" fill-dot icon="$event">
       <template v-slot:opposite>
@@ -46,12 +44,27 @@ import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.pn
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagGroup from '@/components/tags/TagGroup.vue';
 import { useTagStore } from '@/stores/tags'
+import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
-const tags = ref(useTagStore())
-const events = ref(useTimelineStore().events)
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+const tags = useTagStore()
+const story = useStoryStore()
+const events = useTimelineStore().events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('horizontal');
+
+interface Tag {
+  id: string
+  name: string
+  icon: string
+  color: string
+}
+function linkItBaby(tagList: Record<string, Tag>, text: string) {
+  const md = story.linkTags(Object.values(tagList), text)
+  return story.markitdown(md)
+}
+
 
 
 

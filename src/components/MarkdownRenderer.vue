@@ -65,3 +65,16 @@ const linkText = (text: string) => {
   return temp
 }
 </script>
+<style>
+.story-body {
+  font-size: 1.05em;
+}
+
+.story-body a {
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: bold;
+  font-variation-settings:
+    "wdth" 75;
+}
+</style>

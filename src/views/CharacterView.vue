@@ -32,6 +32,5 @@ function handleCtrlClick(tag: Tag) {
 
 const character = ref(JennyEverywhere)
 
-console.log('CharacterView', character.value)
 
 </script>

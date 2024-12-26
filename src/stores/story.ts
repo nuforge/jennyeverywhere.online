@@ -12,8 +12,8 @@ export interface Story {
 interface Tag {
   id: string
   name: string
-  icon: string
-  color: string
+  icon: string | undefined
+  color: string | undefined
 }
 
 export const useStoryStore = defineStore('story', () => {

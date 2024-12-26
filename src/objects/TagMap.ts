@@ -18,18 +18,20 @@ class TagMap {
   get tagKeys() {
     return Array.from(this._tags.keys())
   }
+  get tagList() {
+    return Array.from(this._tags.values())
+  }
 
-  setTag(id: string, tag: Tag): void {
-    this._tags.set(id, tag)
+  addTag(newTag: Tag) {
+    return this._tags.set(newTag.id, newTag)
+  }
+
+  setTag(id: string, tag: Tag) {
+    return this._tags.set(id, tag)
   }
 
   getTag(id: string): Tag | undefined {
     return this._tags.get(id)
-  }
-
-  addTag(newTag: Tag): Tag {
-    this._tags.set(newTag.id, newTag)
-    return newTag
   }
 
   createTag(newName: string, newColor: string, newIcon: string): Tag {
@@ -51,8 +53,8 @@ class TagMap {
     return tag
   }
 
-  removeTag(tag: string): void {
-    this._tags.delete(tag)
+  removeTag(tag: string) {
+    return this._tags.delete(tag)
   }
 
   linkText(text: string): string {

@@ -19,8 +19,8 @@ function manageCtrlClick(tag: Tag) {
 interface Tag {
   id: string
   name: string
-  icon: string
-  color: string
+  icon: string | undefined
+  color: string | undefined
   space?: string
 }
 

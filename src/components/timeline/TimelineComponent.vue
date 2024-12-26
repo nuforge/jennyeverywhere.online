@@ -12,13 +12,13 @@
       </template>
       Persona Creation
     </v-timeline-item>
-    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate" icon-color="background"
-      :dot-color="event.color" fill-dot>
+    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate"
+      :icon-color="event.tag.color" dot-color="event.tag.color" fill-dot>
       <template v-slot:icon>
-        <v-icon :icon="event.icon" color="background">
+        <v-icon :icon="event.tag.icon" :color="event.tag.color">
         </v-icon>
         <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
-          <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.title }}
+          <v-icon :icon="event.tag.icon" :color="event.tag.color"></v-icon> {{ event.title }}
         </v-tooltip>
       </template>
       <template v-slot:opposite>
@@ -57,10 +57,10 @@ const timelineDirection = ref<TimelineDirection>('horizontal');
 interface Tag {
   id: string
   name: string
-  icon: string
-  color: string
+  icon: string | undefined
+  color: string | undefined
 }
-function linkItBaby(tagList: Record<string, Tag>, text: string) {
+function linkItBaby(tagList: Array<Tag>, text: string) {
   const md = story.linkTags(Object.values(tagList), text)
   return story.markitdown(md)
 }

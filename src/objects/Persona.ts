@@ -36,7 +36,6 @@ class Persona {
     const newTag = new Tag(newName)
     newTag.icon = newIcon ? newIcon : 'mdi-label'
     newTag.color = newColor ? newColor : 'text'
-    console.log('addLabel', newTag)
     return this._attributes.setTag(newTag.id, newTag) //, newColor, newIcon )
   }
 

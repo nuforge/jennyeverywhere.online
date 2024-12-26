@@ -4,7 +4,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStateStore } from '@/stores/state';
-const state = ref(useStateStore());
+import { useStateStore } from '@/stores/state'
+const state = useStateStore()
 </script>

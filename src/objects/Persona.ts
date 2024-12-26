@@ -1,9 +1,10 @@
 import Tag from '@/objects/Tag'
+import TagMap from '@/objects/TagMap'
 
 class Persona {
   protected _id: string
   protected _name: string
-  protected _attributes: Record<string, Tag> = {}
+  protected _attributes: TagMap = new TagMap()
 
   constructor(name: string) {
     this._id = name.toString().toLowerCase().replace(/\s/g, '-')
@@ -23,23 +24,19 @@ class Persona {
   }
 
   get attributes() {
-    return this._attributes
-  }
-
-  set attributes(value: Record<string, Tag>) {
-    this._attributes = value
+    return this._attributes.tagList
   }
 
   addTag(newTag: string | number) {
     const tag = new Tag(newTag.toString())
-    this._attributes[tag.id] = tag
+    this._attributes.setTag(tag.id, tag)
   }
 
   addLabel(newName: string, newColor?: string, newIcon?: string) {
     const newTag = new Tag(newName)
     newTag.icon = newIcon ? newIcon : 'mdi-label'
     newTag.color = newColor ? newColor : 'text'
-    return (this._attributes[newTag.id] = newTag) //, newColor, newIcon )
+    return this._attributes.setTag(newTag.id, newTag) //, newColor, newIcon )
   }
 
   addAttribute(newName: string, newColor?: string, newIcon?: string) {
@@ -47,11 +44,11 @@ class Persona {
   }
 
   removeAttribute(namespace: string) {
-    delete this._attributes[namespace]
+    return this._attributes.removeTag(namespace)
   }
 
   getAttribute(namespace: string) {
-    return this._attributes[namespace]
+    return this._attributes.getTag(namespace)
   }
 
   getAttributes() {

@@ -6,5 +6,31 @@
     "You stumble to the window, pulling it open. Jenny grins, radiating that effortless confidence that makes you want to believe she knows exactly what's going on... even though she probably doesn't.",
     "Behind her, a glowing green portal hums ominously in the middle of the street, swirling with unearthly energy.",
     "A dude with a mohawk and a flamethrower casually steps out, his expression as calm as if he's just picking up groceries."
+  ],
+  "choices": [
+    {
+      "text": "Slam the window shut and pretend this isn't happening?",
+      "icon": "$primary",
+      "color": "primary",
+      "tags": ["location:window", "dude with a mohawk", "flamethrower"]
+    },
+    {
+      "text": "Grab a pillow, because clearly you're still dreaming?",
+      "icon": "$secondary",
+      "color": "secondary",
+      "tags": ["pillow", "jetpack", "scarf", "pajamas"]
+    },
+    {
+      "text": "Ask Jenny why there's a portal in the middle of the road?",
+      "icon": "$tertiary",
+      "color": "tertiary",
+      "tags": ["Jenny Everywhere", "portal", "road"]
+    },
+    {
+      "text": "Shift to another reality?",
+      "icon": "$quaternary",
+      "color": "quaternary",
+      "tags": ["Jenny Everywhere", "shift", "power"]
+    }
   ]
 }

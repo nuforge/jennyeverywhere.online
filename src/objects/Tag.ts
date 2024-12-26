@@ -5,11 +5,13 @@ class Tag {
   protected _id: string
   protected _name: string
   protected _space?: string
-  protected _style: Record<string, string> = {}
+  protected _style: Record<string, string | undefined> = {}
 
-  constructor(name: string | number, id?: string) {
+  constructor(name: string, color?: string, icon?: string) {
     const label = name.toString()
-    this._id = id ? id : Tag.cleanTag(label)
+    this._id = Tag.cleanTag(label)
+    this.color = color
+    this.icon = icon
     const { value, namespace } = Tag.splitTag(label)
     this._name = value
     this._space = namespace
@@ -67,24 +69,24 @@ class Tag {
     this._space = value
   }
 
-  get icon() {
+  get icon(): string | undefined {
     return this._style.icon
   }
 
-  set symbol(value: { icon: string; color: string }) {
+  set symbol(value: { icon: string | undefined; color: string | undefined }) {
     this._style.icon = value.icon
     this._style.color = value.color
   }
 
-  set icon(value: string) {
+  set icon(value: string | undefined) {
     this._style.icon = value
   }
 
-  get color() {
+  get color(): string | undefined {
     return this._style.color
   }
 
-  set color(value: string) {
+  set color(value: string | undefined) {
     this._style.color = value
   }
 }

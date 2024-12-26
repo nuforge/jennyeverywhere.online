@@ -20,10 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useSheetStore } from '@/stores/sheet'
 
-const sheets = ref(useSheetStore());
+const sheets =  useSheetStore()
 
 defineProps({
   icon: {

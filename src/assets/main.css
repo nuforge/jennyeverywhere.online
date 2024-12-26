@@ -1,28 +1,16 @@
 @import './base.css';
 @import './sta.css';
+@import './story.css';
 
 a {
-  color: var(--color-text-light);
+  color: var(--color-link);
   text-decoration: none;
-  transition: color 0.5s;
-}
-
-a:hover {
-  color: var(--color-text-dark);
-}
-
-h2 {
-  font-size: 1.2rem;
-  line-height: 1.2em;
-  margin-bottom: 0.5rem;
-  color: var(--color-text-dark);
+  font-weight: normal;
+  transition: color 0.3s;
+  font-variation-settings: 'wdth' 75;
 }
 
 p {
   margin-bottom: 0.5rem;
   opacity: 0.8;
-}
-
-p a {
-  opacity: 1;
 }

@@ -33,11 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useStateStore } from '@/stores/state';
 import { useStyleStore } from '@/stores/styles'
 
-const styles = ref(useStyleStore())
-const state = ref(useStateStore());
+const styles = useStyleStore()
+const state = useStateStore()
 
 </script>

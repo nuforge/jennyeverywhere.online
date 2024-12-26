@@ -1,9 +1,10 @@
 import Tag from '@/objects/Tag'
+import TagMap from '@/objects/TagMap'
 
 class Character {
   private _name: string
+  private _taglist: TagMap = new TagMap()
   private _tags: { [key: string]: Tag } = {}
-  private _index: { [key: string]: Array<string> } = {}
 
   constructor(name: string) {
     // Initialize momentum with a default or specified value.
@@ -15,25 +16,17 @@ class Character {
     return this._name
   }
 
-  get tags(): { [key: string]: Tag } {
+  get taglist(): TagMap {
+    return this._taglist
+  }
+
+  //const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
+  addTag(tag: Tag): void {
+    this._taglist.setTag(tag.id, tag)
+  }
+
+  getTags(): { [key: string]: Tag } {
     return this._tags
-  }
-
-  addTag(tag: Tag, type: string = 'tag'): void {
-    this._tags[tag.id] = tag
-    this._index[type] = (this._index[type] ?? []).concat(tag.id)
-  }
-
-  getTags = (type: string = 'tag'): { [key: string]: Tag } => {
-    const results = Object.keys(this._tags).filter((tag) => {
-      return this._index[type].includes(tag)
-    })
-
-    const tagObjects: { [key: string]: Tag } = {}
-    results.forEach((id) => {
-      tagObjects[id] = this._tags[id]
-    })
-    return tagObjects
   }
 }
 

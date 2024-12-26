@@ -9,9 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useStateStore } from '@/stores/state';
-const state = ref(useStateStore());
+const state = useStateStore()
 
 import TagManagerLayout from './TagManagerLayout.vue';
 import DiceManagerLayout from './DiceManagerLayout.vue';

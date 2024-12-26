@@ -54,7 +54,7 @@ import vTagItem from '@/components/tags/VTagItem.vue'
 import ColorPickerDialog from '@/components/ColorPickerDialog.vue';
 import Tag from '@/objects/Tag'
 
-const tags = ref(useTagStore());
+const tags = useTagStore()
 const icon = ref('mdi-tag-outline')
 const text = ref('')
 const color = ref('#FFFFFF')
@@ -76,7 +76,7 @@ function applyColorChoice(hex: string) {
 }
 
 function addTag() {
-  tags.value.addLabel(text.value, color.value, icon.value)
+  tags.addLabel(text.value, color.value, icon.value)
   text.value = ''
 }
 

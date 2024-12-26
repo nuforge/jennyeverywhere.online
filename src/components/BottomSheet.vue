@@ -27,16 +27,10 @@ import { ref } from 'vue';
 import { useSheetStore } from '@/stores/sheet';
 import { useTagStore } from '@/stores/tags'
 
-const sheet = ref(useSheetStore())
-const tags = ref(useTagStore())
+const sheet = useSheetStore()
+const tags =  useTagStore()
 
 const label = ref('')
 const color = ref('')
 const icon = ref('')
-
-
-
-
-
-
 </script>

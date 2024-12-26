@@ -12,25 +12,23 @@
       </template>
       Persona Creation
     </v-timeline-item>
-    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate" icon-color="background"
-      :dot-color="event.color" fill-dot>
+    <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate"
+      :icon-color="event.tag.color" dot-color="background" fill-dot>
       <template v-slot:icon>
-        <v-icon :icon="event.icon" color="background">
+        <v-icon :icon="event.tag.icon" :color="event.tag.color">
         </v-icon>
         <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
-          <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.title }}
+          <v-icon :icon="event.tag.icon" :color="event.tag.color"></v-icon> {{ event.title }}
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <tag-group :tags="event.tagList()" noLabel></tag-group>
+        <tag-group :tags="event.tagList()" noLabel @ctrl-click="handleCtrlClick" v-model="tags.selection"></tag-group>
       </template>
-      <div>
-        <p class="pa-3 rounded">{{ event.description }}</p>
-      </div>
+      <MarkdownRenderer :markdown="linkItBaby(event.tagList(), event.description)" />
     </v-timeline-item>
     <v-timeline-item dot-color="background" fill-dot icon="$event">
       <template v-slot:opposite>
-        <TagGroup :tags="tags.tags" noLabel v-model="tags.selection" />
+        <tag-group :tags="tags.tags" noLabel v-model="tags.selection" @ctrl-click="handleCtrlClick" />
       </template>
       <router-link to="/">
         <v-img :src="storyImage" alt="A glowing green portal" cover max-height="120" rounded="lg"
@@ -42,16 +40,35 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type Tag from '@/objects/Tag';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagGroup from '@/components/tags/TagGroup.vue';
 import { useTagStore } from '@/stores/tags'
+import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
-const tags = ref(useTagStore())
-const events = ref(useTimelineStore().events)
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+const tags = useTagStore()
+const story = useStoryStore()
+const events = useTimelineStore().events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('horizontal');
+
+
+function linkItBaby(tagList: Array<Tag>, text: string) {
+
+  const selected = tagList.filter(tag => tags.selection.includes(tag.id))
+  const md = story.linkTags(selected, text)
+  return story.markitdown(md)
+}
+
+
+function handleCtrlClick(tag: Tag) {
+
+  console.log('handleCtrlClick', tag)
+  tags.copyTag(tag)
+}
 
 
 

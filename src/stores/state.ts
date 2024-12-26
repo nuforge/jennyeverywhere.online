@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useTheme } from 'vuetify'
 
 export const useStateStore = defineStore('state', () => {
   const theme = ref('dark')
@@ -7,9 +8,11 @@ export const useStateStore = defineStore('state', () => {
   const dice = ref(false)
   const snackbar = ref(false)
   const drawer = ref(false)
+  const vuetify = useTheme()
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'
+    vuetify.global.name.value = theme.value
   }
 
   function toggleDrawer() {

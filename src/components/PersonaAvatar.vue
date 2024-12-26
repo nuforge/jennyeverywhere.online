@@ -2,19 +2,19 @@
   <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar" size="x-large">
   </v-avatar>
   <v-tooltip activator="parent" location="end" content-class="bg-background" elevated>
-    <v-icon icon="mdi-comment"></v-icon> Hello!
+    <v-icon icon="mdi-account-circle"></v-icon> Jenny Everywhere
   </v-tooltip>
 
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { usePersonaStore } from '@/stores/persona';
 
-const persona = ref(usePersonaStore())
+const persona = usePersonaStore()
 
 
 onMounted(async () => {
-  persona.value.randomAvatar()
+  persona.randomAvatar()
 })
 </script>

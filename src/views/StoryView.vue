@@ -1,13 +1,13 @@
 <template>
-  <v-container class="story-sheet">
+  <v-container>
     <v-row>
       <v-col cols="12" sm="4">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
         <FeedbackBar />
       </v-col>
-      <v-col cols="12" sm="8" id="story-sheet">
+      <v-col cols="12" sm="8">
         <h2>{{ story.title }}</h2>
-        <MarkdownRenderer :markdown="story.raw" />
+        <StoryRenderer />
       </v-col>
     </v-row>
     <v-row>
@@ -22,23 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 import FeedbackBar from '@/components/FeedbackBar.vue'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import StoryRenderer from '@/components/story/StoryRenderer.vue';
 import { useStoryStore } from '@/stores/story'
-const story = ref(useStoryStore())
+const story = useStoryStore()
 
 </script>
-
-<style>
-.story-sheet a {
-  text-decoration: none;
-  transition: color 0.2s;
-  font-weight: bold;
-  font-variation-settings:
-    "wdth" 75;
-}
-</style>

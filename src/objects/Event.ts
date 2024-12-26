@@ -1,12 +1,14 @@
 import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
+import TagMap from './TagMap'
 
 class Event {
   protected _id: string
   protected _title: string
   protected _description: string
   protected _date: Date
-  protected _tags: Tag[] = []
+  protected _tags: TagMap = new TagMap()
+  protected _tag: Tag
 
   constructor(title: string, description: string, date?: Date) {
     this._title = title
@@ -14,7 +16,8 @@ class Event {
     this._description = description
 
     this._date = date || new Date()
-    this.addTag(`date:${this.formattedDate}`).addIcon('$events').addColor('grey-darken-2')
+    this._tag = new Tag(`date:${this.formattedDate}`, 'datetime', 'mdi-web-clock')
+    console.log('Event', this._tag)
     return this
   }
 
@@ -23,20 +26,19 @@ class Event {
   }
 
   tagList() {
-    const taglist: Record<string, Tag> = this._tags.reduce(
-      (acc: Record<string, Tag>, item: Tag) => {
-        acc[item.id] = item // Use the `id` as the key
-        return acc
-      },
-      {},
-    )
+    const taglist: Array<Tag> = this._tags.tagList.reduce((acc: Array<Tag>, tag: Tag) => {
+      acc.push(tag)
+      return acc
+    }, [])
     return taglist
   }
 
   get title() {
     return this._title
   }
-
+  get tag() {
+    return this._tag
+  }
   get description() {
     return this._description
   }
@@ -49,25 +51,20 @@ class Event {
     return this._tags
   }
 
-  get icon() {
-    return this._tags[0].icon
-  }
-  get color() {
-    return this._tags[0].color
-  }
-
-  addTag(tag: string) {
-    this._tags.unshift(new Tag(tag))
+  createTag(tagName: string, tagColor: string, tagIcon: string) {
+    const tag = new Tag(tagName)
+    tag.color = tagColor
+    tag.icon = tagIcon
+    this.addTag(tag)
     return this
   }
 
-  addIcon(icon: string) {
-    this._tags[0].icon = icon
+  newTag(tagName: string) {
+    this.addTag(new Tag(tagName))
     return this
   }
-
-  addColor(color: string) {
-    this._tags[0].color = color
+  addTag(newTag: Tag) {
+    this._tags.addTag(newTag)
     return this
   }
 }

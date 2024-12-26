@@ -1,6 +1,6 @@
 <template>
-  <v-snackbar :timeout="timeout" color="surface" location="top end" close-on-content-click>
-    <v-icon :icon="`$d${dice.getFaces()}`" :color="`d${dice.getFaces()}`" /> Rolled {{ dice.getResults() }} on {{
+  <v-snackbar :timeout="timeout" :color="`d${dice.getFaces()}`" location="bottom end" close-on-content-click>
+    <v-icon :icon="`$d${dice.getFaces()}`" /> Rolled {{ dice.getResults() }} on {{
       dice.getRolls().length }}d{{
       dice.getFaces() }} dice
   </v-snackbar>

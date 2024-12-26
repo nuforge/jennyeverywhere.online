@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 import TagList from '@/objects/TagList'
@@ -7,6 +7,7 @@ const TAG_WHITESPACE_REPLACER = '-'
 export const useTagStore = defineStore('selection', () => {
   const taglist = ref(new TagList())
   const selection = ref<string[]>(['jenny-everywhere'])
+  const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
 
   const tags = taglist.value.tags
 
@@ -68,6 +69,7 @@ export const useTagStore = defineStore('selection', () => {
 
   return {
     selection,
+    selected,
     taglist,
     tags,
     addTag,

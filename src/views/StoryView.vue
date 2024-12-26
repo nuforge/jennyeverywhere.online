@@ -1,11 +1,11 @@
 <template>
-  <v-container class="story-sheet">
+  <v-container>
     <v-row>
       <v-col cols="12" sm="4">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
         <FeedbackBar />
       </v-col>
-      <v-col cols="12" sm="8" id="story-sheet">
+      <v-col cols="12" sm="8" class="story-sheet">
         <h2>{{ story.title }}</h2>
         <MarkdownRenderer :markdown="story.raw" />
       </v-col>
@@ -33,12 +33,4 @@ const story = ref(useStoryStore())
 
 </script>
 
-<style>
-.story-sheet a {
-  text-decoration: none;
-  transition: color 0.2s;
-  font-weight: bold;
-  font-variation-settings:
-    "wdth" 75;
-}
-</style>
+<style></style>

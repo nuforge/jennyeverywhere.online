@@ -1,7 +1,7 @@
 <template>
   <div id="markdown-renderer">
     <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-if="props.markdown" v-html="getRawHtml()"></div>
+    <div v-if="props.markdown" v-html="getRawHtml()" class="story-body"></div>
   </div>
 </template>
 
@@ -65,3 +65,12 @@ const linkText = (text: string) => {
   return temp
 }
 </script>
+<style>
+.story-body a {
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: bold;
+  font-variation-settings:
+    "wdth" 75;
+}
+</style>

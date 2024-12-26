@@ -5,9 +5,9 @@
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
         <FeedbackBar />
       </v-col>
-      <v-col cols="12" sm="8" class="story-sheet">
+      <v-col cols="12" sm="8">
         <h2>{{ story.title }}</h2>
-        <MarkdownRenderer :markdown="story.raw" />
+        <StoryRenderer :markdown="story.raw" />
       </v-col>
     </v-row>
     <v-row>
@@ -27,10 +27,8 @@ import img from '@/assets/stories/gallery/001.png'
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryTagGroup from '@/components/story/StoryTagGroup.vue'
 import FeedbackBar from '@/components/FeedbackBar.vue'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import StoryRenderer from '@/components/story/StoryRenderer.vue';
 import { useStoryStore } from '@/stores/story'
 const story = ref(useStoryStore())
 
 </script>
-
-<style></style>

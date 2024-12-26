@@ -17,9 +17,10 @@ interface Tag {
 export const useStoryStore = defineStore('story', () => {
   const title = ref(story.title)
   const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
+
+  const choices = ref(story.choices)
   const markdown = computed(() => markitdown(raw.value))
   const HTML = ref(raw.value)
-  console.log(raw.value)
 
   const md = markdownit({
     html: true,
@@ -55,5 +56,5 @@ export const useStoryStore = defineStore('story', () => {
     return temp
   }
 
-  return { raw, markdown, HTML, title, renderMd, markitdown, linkText }
+  return { raw, markdown, HTML, title, choices, renderMd, markitdown, linkText }
 })

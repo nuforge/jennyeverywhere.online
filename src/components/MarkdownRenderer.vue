@@ -1,7 +1,7 @@
 <template>
-  <div id="markdown-renderer">
+  <div id="markdown-renderer" class="markdown-body">
     <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-if="props.markdown" v-html="markdown" class="story-body"></div>
+    <div v-if="props.markdown" v-html="markdown"></div>
   </div>
 </template>
 
@@ -14,16 +14,3 @@ const props = defineProps({
 })
 
 </script>
-<style>
-.story-body {
-  font-size: 1.05em;
-}
-
-.story-body a {
-  text-decoration: none;
-  transition: color 0.2s;
-  font-weight: bold;
-  font-variation-settings:
-    "wdth" 75;
-}
-</style>

@@ -1,0 +1,46 @@
+:root {
+  --st-c-title: #333333;
+  --st-c-body: #323232;
+
+  --st-c-link: #323232;
+  --st-c-quote: #2ca0ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --st-c-title: #dddddd;
+    --st-c-body: #bbbbbb;
+
+    --st-c-link: #ffffff;
+    --st-c-quote: #2ca0ff;
+  }
+}
+
+.markdown-body,
+.story-body {
+  color: var(--st-c-body);
+  font-size: 1.05em;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+.markdown-body a,
+.markdown-body p a,
+.story-body a,
+.story-body p a {
+  color: var(--st-c-link);
+  text-decoration: none;
+  font-size: 1.1em;
+  transition: color 0.3s;
+  line-height: 1.2;
+  font-variation-settings: 'wdth' 75;
+}
+.markdown-body h2,
+.story-body h2 {
+  color: var(--st-c-title);
+  font-style: italic;
+}
+.markdown-body em,
+.story-body em {
+  color: var(--st-c-quote);
+  font-style: italic;
+}

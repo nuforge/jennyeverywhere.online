@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
+import TagMap from '@/objects/TagMap'
 import story from '@/assets/stories/story.json'
 
 export interface Story {
@@ -19,8 +20,10 @@ interface Tag {
 export const useStoryStore = defineStore('story', () => {
   const title = ref(story.title)
   const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
-
   const choices = ref(story.choices)
+  const tagMap = ref(new TagMap())
+  const tags = computed(() => tagMap.value.tagList)
+
   const markdown = computed(() => markitdown(raw.value))
   const HTML = ref(raw.value)
 
@@ -88,6 +91,8 @@ export const useStoryStore = defineStore('story', () => {
     markdown,
     HTML,
     title,
+    tags,
+    tagMap,
     choices,
     renderMd,
     markitdown,

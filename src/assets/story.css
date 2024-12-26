@@ -27,7 +27,6 @@
 .markdown-body p a,
 .story-body a,
 .story-body p a {
-  color: var(--st-c-link);
   text-decoration: none;
   font-size: 1.1em;
   transition: color 0.3s;

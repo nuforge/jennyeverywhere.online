@@ -3,14 +3,16 @@
 @import './story.css';
 
 a {
-  color: var(--color-link);
+  color: inherit;
   text-decoration: none;
-  font-weight: normal;
+  font-weight: 500;
   transition: color 0.3s;
   font-variation-settings: 'wdth' 75;
+}
+a:hover {
+  color: var(--color-link-hover);
 }
 
 p {
   margin-bottom: 0.5rem;
-  opacity: 0.8;
 }

@@ -7,30 +7,31 @@
     "Behind her, a glowing green portal hums ominously in the middle of the street, swirling with unearthly energy.",
     "A dude with a mohawk and a flamethrower casually steps out, his expression as calm as if he's just picking up groceries."
   ],
+  "tags": ["Jenny Everywhere", "portal", "mohawk", "flamethrower"],
   "choices": [
     {
       "text": "Slam the window shut and pretend this isn't happening?",
       "icon": "$primary",
       "color": "primary",
-      "tags": ["location:window", "dude with a mohawk", "flamethrower"]
+      "tags": ["window", "slam", "pretend"]
     },
     {
       "text": "Grab a pillow, because clearly you're still dreaming?",
       "icon": "$secondary",
       "color": "secondary",
-      "tags": ["pillow", "jetpack", "scarf", "pajamas"]
+      "tags": ["pillow", "dreaming", "pajamas"]
     },
     {
       "text": "Ask Jenny why there's a portal in the middle of the road?",
       "icon": "$tertiary",
       "color": "tertiary",
-      "tags": ["Jenny Everywhere", "portal", "road"]
+      "tags": ["Jenny", "portal", "road", "action:ask question"]
     },
     {
       "text": "Shift to another reality?",
       "icon": "$quaternary",
       "color": "quaternary",
-      "tags": ["Jenny Everywhere", "shift", "power"]
+      "tags": ["Jenny Everywhere", "shift", "dice", "action:shift"]
     }
   ]
 }

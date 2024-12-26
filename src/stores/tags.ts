@@ -9,13 +9,24 @@ export const useTagStore = defineStore('tags', () => {
   const selection = ref<string[]>(['jenny-everywhere'])
   const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
   const tags = computed(() => taglist.value.tagList)
+  const clipboard = ref(new Tag(''))
+
   const cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
+  const tempTag = (newText: string = 'tag') => {
+    clipboard.value = new Tag(newText)
+  }
   const copyTag = (tag: Tag) => {
+    clipboard.value = tag
     return taglist.value.addTag(tag)
   }
+
+  const pasteTag = () => {
+    return clipboard.value
+  }
+
   const addTag = (newTag: Tag) => {
     return taglist.value.addTag(newTag)
   }
@@ -52,12 +63,15 @@ export const useTagStore = defineStore('tags', () => {
     selected,
     taglist,
     tags,
+    clipboard,
+    tempTag,
     addTag,
     createTag,
     addLabel,
     removeTag,
     linkText,
     copyTag,
+    pasteTag,
     cleanTag,
   }
 })

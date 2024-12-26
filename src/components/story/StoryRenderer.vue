@@ -1,5 +1,5 @@
 <template>
-  <v-sheet flat class="bg-transparent" @click.right.prevent="getSelectionText()">
+  <v-sheet flat class="bg-transparent" @click.right.exact.prevent="getSelectionText()">
     <h2>{{ story.title }}</h2>
     <MarkdownRenderer :markdown="linkItBaby()" class="story-body" />
   </v-sheet>
@@ -9,7 +9,7 @@
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
 const tags = useTagStore()
 const story = useStoryStore()
@@ -24,12 +24,13 @@ function getSelectionText() {
       text = selection.toString();
     }
   }
-  state.add = true
-  //tags.createTag(text)
-  console.log(state)
 
-  return text;
+  tags.tempTag(text);
+  state.add = true
+  return tags.tempTag.name
 }
+
+
 function linkItBaby() {
   const selected = tags.tags.filter(tag => tags.selection.includes(tag.id))
   const md = story.linkTags(selected, story.raw)

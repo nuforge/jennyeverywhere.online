@@ -2,7 +2,6 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
-const TAG_WHITESPACE_REPLACER = '-'
 
 export const useTagStore = defineStore('tags', () => {
   const taglist = ref(new TagMap())
@@ -12,7 +11,7 @@ export const useTagStore = defineStore('tags', () => {
   const clipboard = ref(new Tag(''))
 
   const cleanTag = (name: string | number) => {
-    return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
+    return Tag.cleanTag(name)
   }
 
   const tempTag = (newText: string = 'tag') => {
@@ -25,6 +24,9 @@ export const useTagStore = defineStore('tags', () => {
 
   const pasteTag = () => {
     return clipboard.value
+  }
+  const emptyClipboard = () => {
+    clipboard.value = new Tag('')
   }
 
   const addTag = (newTag: Tag) => {
@@ -73,5 +75,6 @@ export const useTagStore = defineStore('tags', () => {
     copyTag,
     pasteTag,
     cleanTag,
+    emptyClipboard,
   }
 })

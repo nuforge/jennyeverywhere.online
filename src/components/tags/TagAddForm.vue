@@ -86,6 +86,7 @@ function addTag() {
 
 onMounted(() => {
   text.value = tags.pasteTag().name
+  tags.emptyClipboard()
 })
 
 </script>

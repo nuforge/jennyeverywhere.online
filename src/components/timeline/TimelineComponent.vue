@@ -13,7 +13,7 @@
       Persona Creation
     </v-timeline-item>
     <v-timeline-item v-for="event in events" :key="event.title" :date="event.formattedDate"
-      :icon-color="event.tag.color" dot-color="event.tag.color" fill-dot>
+      :icon-color="event.tag.color" dot-color="background" fill-dot>
       <template v-slot:icon>
         <v-icon :icon="event.tag.icon" :color="event.tag.color">
         </v-icon>
@@ -22,13 +22,13 @@
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <tag-group :tags="event.tagList()" noLabel></tag-group>
+        <tag-group :tags="event.tagList()" noLabel @ctrl-click="handleCtrlClick" v-model="tags.selection"></tag-group>
       </template>
       <MarkdownRenderer :markdown="linkItBaby(event.tagList(), event.description)" />
     </v-timeline-item>
     <v-timeline-item dot-color="background" fill-dot icon="$event">
       <template v-slot:opposite>
-        <TagGroup :tags="tags.tags" noLabel v-model="tags.selection" />
+        <tag-group :tags="tags.tags" noLabel v-model="tags.selection" @ctrl-click="handleCtrlClick" />
       </template>
       <router-link to="/">
         <v-img :src="storyImage" alt="A glowing green portal" cover max-height="120" rounded="lg"
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type Tag from '@/objects/Tag';
 import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagGroup from '@/components/tags/TagGroup.vue';
@@ -54,17 +55,20 @@ const events = useTimelineStore().events
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('horizontal');
 
-interface Tag {
-  id: string
-  name: string
-  icon: string | undefined
-  color: string | undefined
-}
+
 function linkItBaby(tagList: Array<Tag>, text: string) {
-  const md = story.linkTags(Object.values(tagList), text)
+
+  const selected = tagList.filter(tag => tags.selection.includes(tag.id))
+  const md = story.linkTags(selected, text)
   return story.markitdown(md)
 }
 
+
+function handleCtrlClick(tag: Tag) {
+
+  console.log('handleCtrlClick', tag)
+  tags.copyTag(tag)
+}
 
 
 

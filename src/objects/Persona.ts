@@ -24,7 +24,7 @@ class Persona {
   }
 
   get attributes() {
-    return Array.from(this._attributes ? this._attributes.tags.values() : [])
+    return this._attributes.tagList
   }
 
   addTag(newTag: string | number) {

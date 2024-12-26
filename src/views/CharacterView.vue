@@ -16,11 +16,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import JennyEverywhere from '@/game/characters/JennyEverywhere.ts';
-import TagGroup from '@/components/tags/TagGroup.vue';
 import image from '@/assets/images/characters/jenny-everywhere.png'
 import { useStyleStore } from '@/stores/styles'
 import { useTagStore } from '@/stores/tags'
 import type Tag from '@/objects/Tag';
+import TagGroup from '@/components/tags/TagGroup.vue';
 const styles = useStyleStore()
 const tags = useTagStore()
 

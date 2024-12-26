@@ -8,7 +8,7 @@ export const useTagStore = defineStore('tags', () => {
   const taglist = ref(new TagMap())
   const selection = ref<string[]>(['jenny-everywhere'])
   const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
-  const tags = computed(() => Array.from(taglist.value.tags.values()))
+  const tags = computed(() => taglist.value.tagList)
   const cleanTag = (name: string | number) => {
     return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }

@@ -113,6 +113,7 @@ const vuetify = createVuetify({
           d8: '#FFBB00',
           d6: '#82B1FF',
           d4: '#FF5252',
+          datetime: '#1B1B1B',
           'background-variant': '#f5f5f5',
           'sta-career': '#FFBB00',
         },
@@ -136,6 +137,8 @@ const vuetify = createVuetify({
           d8: '#FFBB00',
           d6: '#82B1FF',
           d4: '#FF5252',
+
+          datetime: '#696969',
 
           'sta-career': '#FFBB00',
         },

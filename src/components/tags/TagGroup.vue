@@ -8,20 +8,12 @@
 </template>
 
 <script setup lang="ts">
+import type Tag from '@/objects/Tag'
 
 const emit = defineEmits(['click', 'ctrl-click'])
 
 function manageCtrlClick(tag: Tag) {
-  console.log('ctrl-click', tag)
   emit('ctrl-click', tag)
-}
-
-interface Tag {
-  id: string
-  name: string
-  icon: string | undefined
-  color: string | undefined
-  space?: string
 }
 
 defineProps({

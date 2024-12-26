@@ -22,6 +22,11 @@ class TagMap {
     return Array.from(this._tags.values())
   }
 
+  clearTags() {
+    this._tags.clear()
+    return this
+  }
+
   addTag(newTag: Tag) {
     return this._tags.set(newTag.id, newTag)
   }

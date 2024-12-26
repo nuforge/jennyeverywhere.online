@@ -1,7 +1,5 @@
 <template>
   <v-form @submit.prevent>
-    <v-row>
-      <v-col cols="12" md="7">
         <v-card-text>
           <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
             prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
@@ -22,8 +20,6 @@
             </template>
           </v-text-field>
         </v-card-text>
-      </v-col>
-      <v-col cols="12" md="5">
         <v-card-text class="text-center bg-background rounded-lg">
           <v-divider>sample</v-divider>
           <vTagItem :label="tempTag.name" :icon="icon" :color="color" :value="text" variant="tonal" class="elevation-4">
@@ -41,8 +37,6 @@
           <v-btn @click="addTag()" density="comfortable" prepend-icon="mdi-tag-plus" :disabled="!text" variant="tonal"
             block></v-btn>
         </v-card-actions>
-      </v-col>
-    </v-row>
   </v-form>
 </template>
 

@@ -12,6 +12,7 @@
           to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
       <ManagerDrawerLayout />
+      <TagAddDailog v-model="state.add" />
       <DiceSnackbar v-model="state.snackbar" />
     </v-app>
   </v-responsive>
@@ -23,6 +24,7 @@ import HeaderLayout from '@/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/layouts/BottomNavigationLayout.vue';
 import ManagerDrawerLayout from '@/layouts/DrawerLayout.vue';
+import TagAddDailog from '@/components/tags/TagAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';

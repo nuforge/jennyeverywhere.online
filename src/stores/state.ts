@@ -5,6 +5,7 @@ import { useTheme } from 'vuetify'
 export const useStateStore = defineStore('state', () => {
   const theme = ref('dark')
   const tags = ref(true)
+  const add = ref(false)
   const dice = ref(false)
   const snackbar = ref(false)
   const drawer = ref(false)
@@ -33,6 +34,7 @@ export const useStateStore = defineStore('state', () => {
   return {
     theme,
     tags,
+    add,
     dice,
     drawer,
     snackbar,

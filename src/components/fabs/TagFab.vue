@@ -23,10 +23,10 @@
         }}
       </v-tooltip>
     </v-btn>
-    <v-btn @click="styles.add = !styles.add" :prepend-icon="styles.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
       :ripple="false" size="small" :key="4">
       <v-tooltip activator="parent" location="start">
-        <v-icon :icon="styles.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
+        <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
       </v-tooltip>
     </v-btn>
   </v-speed-dial>

@@ -8,10 +8,12 @@
 <script setup lang="ts">
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
+import { useStateStore } from '@/stores/state'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 const tags = useTagStore()
 const story = useStoryStore()
+const state = useStateStore()
 
 
 function getSelectionText() {
@@ -22,9 +24,9 @@ function getSelectionText() {
       text = selection.toString();
     }
   }
-
-  tags.createTag(text)
-  console.log(text)
+  state.add = true
+  //tags.createTag(text)
+  console.log(state)
 
   return text;
 }

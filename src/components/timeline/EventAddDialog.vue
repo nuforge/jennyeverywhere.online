@@ -15,13 +15,15 @@
               <v-text-field v-model="event.date" label="Date/time" required density="compact"
                 prepend-inner-icon="mdi-web-clock" variant="solo-filled"></v-text-field>
               <v-textarea label="Description" v-model="event.description" name="Description" auto-grow required
-                density="compact" prepend-inner-icon="mdi-calendar-text"></v-textarea>
+                density="compact" prepend-inner-icon="mdi-calendar-text" variant="solo-filled"></v-textarea>
               <ColorPicker v-model="event.color" label="Color" variant="solo-filled" />
               <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" variant="solo-filled" />
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="saveEvent">Save</v-btn>
-              <v-btn @click="cancelEvent">Cancel</v-btn>
+              <v-btn @click="cancelEvent" text="Cancel" prepend-icon="$close" variant="plain"></v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="saveEvent" text="Add Event" density="comfortable" prepend-icon="mdi-calendar-edit"
+                class="elevation-2" variant="tonal"></v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -31,15 +33,15 @@
               <v-expansion-panel-title static>
                 <v-tag dense label="Public Tags" icon="mdi-tag"></v-tag>
               </v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
+              <v-expansion-panel-text class="bg-background ">
+                <tag-group :tags="tagList"></tag-group>
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
                 <v-tag dense label="Description" icon="mdi-text-box-outline"></v-tag>
               </v-expansion-panel-title>
-              <v-expansion-panel-text eager>
+              <v-expansion-panel-text class="bg-background ">
                 <MarkdownRenderer :text="event.description" />
               </v-expansion-panel-text>
             </v-expansion-panel>
@@ -47,8 +49,8 @@
               <v-expansion-panel-title static>
                 <v-tag dense label="System Tags" icon="mdi-tag-hidden" color="disabled"></v-tag>
               </v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <tag-group :tags="systemTags" class="bg-background pa-2 my-1 rounded" disabled></tag-group>
+              <v-expansion-panel-text class="bg-background ">
+                <tag-group :tags="systemTags" disabled></tag-group>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>

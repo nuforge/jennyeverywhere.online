@@ -1,28 +1,30 @@
 <template>
-  <v-dialog v-model="state.add" scrim="#000000">
+  <v-dialog v-model="state.add" :scrim="false" class="elevation-10">
     <form @submit.prevent="addTag()">
       <v-row>
+        <v-spacer></v-spacer>
         <v-col>
-          <v-card>
+          <v-card class="elevation-10">
             <v-card-title class="d-flex align-center">
               <v-icon size="small" icon="$tag-add" class="me-1"></v-icon> Add Tag
               <v-spacer></v-spacer>
               <v-icon @click="admin = !admin" :icon="admin ? 'mdi-eye' : 'mdi-eye-outline'" size="sm"></v-icon>
             </v-card-title>
             <v-card-text>
-              <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
-                prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
+              <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"
+                variant="solo-filled" prepend-inner-icon="mdi-label-outline" autofocus
+                persistent-counter></v-text-field>
 
-              <tag-autocomplete v-model="icon" @keydown.enter="addTag()" :prepend-inner-icon="icon" />
+              <tag-autocomplete v-model="icon" @keydown.enter="addTag()" :prepend-inner-icon="icon"
+                variant="solo-filled" />
 
-              <ColorPicker v-model="color" label="color" @keydown.enter="addTag()" />
+              <ColorPicker v-model="color" label="color" @keydown.enter="addTag()" variant="solo-filled" />
             </v-card-text>
             <v-card-actions>
-              <v-btn text="Cancel" density="comfortable" prepend-icon="mdi-close" variant="tonal"
-                @click="state.add = !state.add"></v-btn>
+              <v-btn text="Cancel" prepend-icon="$close" variant="plain" @click="state.add = !state.add"></v-btn>
               <v-spacer></v-spacer>
-              <v-btn @click="addTag()" text="Add" density="comfortable" prepend-icon="mdi-tag-plus" :disabled="!text"
-                variant="tonal"></v-btn>
+              <v-btn @click="addTag()" text="Add Tag" density="comfortable" prepend-icon="mdi-tag-plus"
+                :disabled="!text" class="elevation-2" variant="tonal"></v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -46,7 +48,7 @@
                 <div class="d-flex flex-wrap justify-start ga-1">
                   <div v-for="(attr, index) in tempTag" :key="index">
                     <v-tag-item :label="`${attr}`" :value="`${attr}`" variant="tonal" class="elevation-4 "
-                      :icon="`$${index}`" :space="`${index}`" v-if="attr !== undefined">
+                      :icon="`$${index}`" :space="`${index}`" v-if="attr">
                     </v-tag-item>
                   </div>
                 </div>
@@ -54,6 +56,7 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
+        <v-spacer></v-spacer>
       </v-row>
     </form>
   </v-dialog>

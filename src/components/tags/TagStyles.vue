@@ -1,7 +1,7 @@
 <template>
   <v-btn-toggle density="compact" variant="plain">
 
-    <v-btn @click="styles.closable = !styles.closable" :prepend-icon="styles.closable ? `$removetag` : `$removetag-off`"
+    <v-btn @click="styles.closable = !styles.closable" :prepend-icon="styles.closable ? `$delete` : `$delete-off`"
       :ripple="false">
       <v-tooltip activator="parent" location="top" text="Delete Tags" variant="text"></v-tooltip>
     </v-btn>

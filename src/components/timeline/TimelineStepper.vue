@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Tag from '@/objects/Tag';
-import TagGroup from './tags/TagGroup.vue';
+import TagGroup from '@/components/tags/TagGroup.vue';
 
 const steps = ref(0)
 

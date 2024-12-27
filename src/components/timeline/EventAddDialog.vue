@@ -3,24 +3,25 @@
     <form @submit.prevent="saveEvent">
       <v-row>
         <v-col>
-          <v-card>
+          <v-card class="bg-background">
             <v-card-title class="d-flex justify-space-between align-center">
-              <v-icon>mdi-calendar-edit</v-icon> Add Event
+              <v-icon icon="mdi-calendar-edit" class="me-2"></v-icon> Add Event
               <v-spacer></v-spacer>
-              <v-icon @click="admin = !admin" :icon="admin ? 'mdi-eye' : 'mdi-eye-outline'" size="sm"></v-icon>
+              <v-icon @click="admin = !admin" :icon="admin ? 'mdi-eye' : 'mdi-eye-outline'" size="sm"
+                variant="plain"></v-icon>
             </v-card-title>
             <v-card-text>
               <v-text-field v-model="event.name" label="Name" required density="compact" prepend-inner-icon="mdi-label"
-                variant="solo-filled"></v-text-field>
+                variant="solo-filled" clearable></v-text-field>
               <v-text-field v-model="event.date" label="Date/time" required density="compact"
-                prepend-inner-icon="mdi-web-clock" variant="solo-filled"></v-text-field>
+                prepend-inner-icon="mdi-web-clock" variant="solo-filled" clearable></v-text-field>
               <v-textarea label="Description" v-model="event.description" name="Description" auto-grow required
-                density="compact" prepend-inner-icon="mdi-calendar-text" variant="solo-filled"></v-textarea>
+                density="compact" prepend-inner-icon="mdi-calendar-text" variant="solo-filled" clearable></v-textarea>
               <ColorPicker v-model="event.color" label="Color" variant="solo-filled" />
               <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" variant="solo-filled" />
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="cancelEvent" text="Cancel" prepend-icon="$close" variant="plain"></v-btn>
+              <v-btn @click="cancelEvent" text="Close" prepend-icon="$close" variant="plain"></v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="saveEvent" text="Add Event" density="comfortable" prepend-icon="mdi-calendar-edit"
                 class="elevation-2" variant="tonal"></v-btn>
@@ -50,7 +51,7 @@
                 <v-tag dense label="System Tags" icon="mdi-tag-hidden" color="disabled"></v-tag>
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <tag-group :tags="systemTags" disabled></tag-group>
+                <tag-group :tags="systemTags"></tag-group>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -80,15 +81,15 @@ const panels = ref([0, 1])
 const admin = ref(true)
 
 
-const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard', 'stardate:44002.3'))
+const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard'))
 
 const systemTags = computed(() => {
   const tags = []
   const tag = new Tag(`${event.value.name}`)
-  tags.push(new Tag(`name:${tag.name}`, 'system', `mdi-tag-outline`))   // Name
-  tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-label-outline`)) // ID
-  tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `$system`)) // Timestamp
-  tags.push(new Tag(`event`, 'system', 'mdi-calendar')) // Event
+  tags.push(new Tag(`name:${tag.name}`, 'system', `mdi-label-variant-outline`))   // Name
+  tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-identifier`)) // ID
+  tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `mdi-calendar-clock`)) // Timestamp
+  tags.push(new Tag(`event`, 'system', 'mdi-calendar-outline')) // Event
   tags.push(new Tag(`icon:${event.value.icon}`, 'system', `${event.value.icon}`)) // Icon
   tags.push(new Tag(`color:${event.value.color}`, event.value.color, `$color`)) // Color
 
@@ -105,14 +106,14 @@ const tagList = computed(() => {
 
     tags.push(new Tag(`${tag.name}`, tag.color, tag.icon))
   }
-  tags.push(new Tag(`${event.value.date}`, '$system', `$timestamp`))
-
   tags.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
   tags.push(new Tag(`planet:Earth`, `#2079FF`, `mdi-earth`))
   tags.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
   tags.push(new Tag(`captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
   tags.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
   tags.push(new Tag(`borg:assimilate`, `#73C25F`, `mdi-memory`))
+  tags.push(new Tag(`stardate:44002.3`, 'system', `mdi-web-clock`)) // Timestamp
+  tags.push(new Tag(`battle`, `#AA0000`, `mdi-sword`))
   tags.push(new Tag(`invasion`))
   tags.push(new Tag(`starship`))
 

@@ -6,26 +6,26 @@ class Event {
   protected _id: string
 
   protected _name: string
-  protected _date: string
+  protected _stamp: Date
   protected _description: string
-  protected _icon?: string
+  protected _icon: string
   protected _color: string
   protected _tags: TagMap = new TagMap()
 
-  constructor(name: string, description?: string, date?: string) {
+  constructor(name: string, description?: string) {
     this._name = name
     this._id = name.toLowerCase().replace(/\s/g, '-')
     this._description = description || ''
 
-    this._icon = 'mdi-web-clock'
-    this._color = '#323232'
-    this._date = date || format(new Date(), 'yywwe.H').toString()
-    this._tags.addTag(new Tag(`date:${this._date}`, this._color, this._icon))
+    this._icon = 'mdi-calendar'
+    this._color = 'text'
+    this._stamp = new Date()
+    this._tags.addTag(new Tag(`stamp:${this._stamp}`, this._color, this._icon))
     return this
   }
 
   get formattedDate() {
-    return this._date
+    return this._stamp
   }
 
   tagList() {
@@ -47,8 +47,11 @@ class Event {
     return this._description
   }
 
+  get stamp() {
+    return this._stamp
+  }
   get date() {
-    return this._date
+    return format(this._stamp, 'yyww.h').toString()
   }
 
   get id() {
@@ -71,11 +74,11 @@ class Event {
     this._description = newDescription
   }
 
-  set date(newDate: string) {
-    this._date = newDate
+  set stamp(newDate: Date) {
+    this._stamp = newDate
   }
 
-  set icon(newIcon: string | undefined) {
+  set icon(newIcon: string) {
     this._icon = newIcon
   }
 
@@ -83,10 +86,12 @@ class Event {
     this._color = newColor
   }
 
-  createTag(tagName: string, tagColor?: string, tagIcon?: string) {
+  createTag(tagName: string, tagColor: string, tagIcon: string) {
     const tag = new Tag(tagName)
     tag.color = tagColor
     tag.icon = tagIcon
+    this._icon = tag.icon
+    this._color = tag.color
     this.addTag(tag)
     return this
   }

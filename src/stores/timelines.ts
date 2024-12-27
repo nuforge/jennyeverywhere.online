@@ -16,14 +16,15 @@ export const useTimelineStore = defineStore('timeline', () => {
       'Career Promotion',
       'Assigned to the USS Mandelbrot and received a promotion to Lieutenant (junior grade)',
     )
-      .createTag('rank:Lieutenant (junior grade)', 'sta-career', 'mdi-chevron-double-up')
-      .createTag('ship:USS Mandelbrot', 'secondary', 'mdi-rocket'),
+      .createTag('ship:USS Mandelbrot', 'secondary', 'mdi-rocket')
+      .createTag('rank:Lieutenant (junior grade)', 'sta-career', 'mdi-chevron-double-up'),
   ])
 
   const addEvent = (newEvent: Event, tags: Array<Tag>) => {
-    const event = new Event(newEvent.name, newEvent.description, newEvent.date)
+    const event = new Event(newEvent.name, newEvent.description)
     tags.forEach((tag) => {
       event.createTag(tag.name, tag.color, tag.icon)
+      console.log('tag', tag)
     })
     events.value.unshift(event)
   }

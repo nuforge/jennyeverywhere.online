@@ -4,7 +4,7 @@
       <v-row>
         <v-spacer></v-spacer>
         <v-col>
-          <v-card class="elevation-10">
+          <v-card class="elevation-10 bg-background">
             <v-card-title class="d-flex align-center">
               <v-icon size="small" icon="$tag-add" class="me-1"></v-icon> Add Tag
               <v-spacer></v-spacer>
@@ -21,7 +21,7 @@
               <ColorPicker v-model="color" label="color" @keydown.enter="addTag()" variant="solo-filled" />
             </v-card-text>
             <v-card-actions>
-              <v-btn text="Cancel" prepend-icon="$close" variant="plain" @click="state.add = !state.add"></v-btn>
+              <v-btn text="Close" prepend-icon="$close" variant="plain" @click="state.add = !state.add"></v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="addTag()" text="Add Tag" density="comfortable" prepend-icon="mdi-tag-plus"
                 :disabled="!text" class="elevation-2" variant="tonal"></v-btn>

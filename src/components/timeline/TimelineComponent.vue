@@ -8,9 +8,20 @@
       </v-btn-toggle>
     </v-col>
   </v-row>
-  <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain" text="Add
-    Event"></v-btn>
-  <v-timeline :direction="timelineDirection" truncate-line="end">
+  <v-timeline :direction="timelineDirection" truncate-line="both">
+
+    <v-timeline-item dot-color="background" fill-dot>
+      <template v-slot:icon>
+        <v-icon icon="mdi-help" color="disabled">
+        </v-icon>
+        <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
+          <v-icon icon="mdi-help"></v-icon> The Future
+        </v-tooltip>
+      </template>
+
+      <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
+        text="Add Event"></v-btn>
+    </v-timeline-item>
 
     <v-timeline-item v-for="event in events" :key="event.name" :date="event.formattedDate" dot-color="background"
       fill-dot>

@@ -2,6 +2,7 @@
   <v-dialog v-model="state.event" scrim="#000000">
     <form @submit.prevent="saveEvent">
       <v-row>
+        <v-spacer v-if="!admin"></v-spacer>
         <v-col>
           <v-card class="bg-background">
             <v-card-title class="d-flex justify-space-between align-center">
@@ -56,6 +57,7 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
+        <v-spacer v-if="!admin"></v-spacer>
       </v-row>
     </form>
   </v-dialog>

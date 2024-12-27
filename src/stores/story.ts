@@ -70,11 +70,19 @@ export const useStoryStore = defineStore('story', () => {
   }
 
   function linkTags(tags: Tag[], text?: string) {
-    let temp = text || raw.value
-    tags.forEach((tag) => {
-      temp = linkTag(tag, temp)
-    })
-    return temp
+    return tags.reduce((updatedText, tag) => {
+      const icon = tag.icon || 'default'
+      const color = tag.color || 'default'
+      const pattern = tag.name
+      const escapedPattern =
+        typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern
+      const regex = new RegExp(escapedPattern, 'g')
+      return updatedText.replace(
+        regex,
+        (match) =>
+          `[<i class="mdi ${icon} text-${color}"></i> ${match}](${match.toLowerCase().replace(/\s/g, '-')})`,
+      )
+    }, text || raw.value)
   }
 
   function linkText(tags: Tag[], text?: string) {

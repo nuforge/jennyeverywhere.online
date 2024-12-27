@@ -13,7 +13,7 @@
       "text": "Slam the window shut and pretend this isn't happening?",
       "icon": "$primary",
       "color": "primary",
-      "tags": ["window", "slam", "pretend"]
+      "tags": ["window", "slam", "state:denial"]
     },
     {
       "text": "Grab a pillow, because clearly you're still dreaming?",
@@ -25,13 +25,13 @@
       "text": "Ask Jenny why there's a portal in the middle of the road?",
       "icon": "$tertiary",
       "color": "tertiary",
-      "tags": ["Jenny", "portal", "road", "action:ask question"]
+      "tags": ["portal", "road", "action:ask question"]
     },
     {
       "text": "Shift to another reality?",
       "icon": "$quaternary",
       "color": "quaternary",
-      "tags": ["Jenny Everywhere", "shift", "dice", "action:shift"]
+      "tags": ["action:shift"]
     }
   ]
 }

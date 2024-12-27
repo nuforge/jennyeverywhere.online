@@ -60,7 +60,7 @@ const tags = useTagStore()
 
 const text = ref('')
 const color = ref('#FFFFFF')
-const icon = ref('tag-outline')
+const icon = ref('tag')
 const mdicon = computed(() => `mdi-${icon.value}`)
 
 const tempTag = ref(computed(() => {

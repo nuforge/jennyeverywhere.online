@@ -149,6 +149,7 @@ export const vuetify = createVuetify({
       'no-tag': 'mdi-tag-outline',
       tags: 'mdi-tag-multiple',
       'no-tags': 'mdi-tag-multiple-outline',
+      'tag-add': 'mdi-tag-plus',
       event: 'mdi-timeline',
       'no-event': 'mdi-timeline-outline',
       events: 'mdi-calendar-clock',

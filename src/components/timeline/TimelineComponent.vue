@@ -26,7 +26,7 @@
           <tag-group :tags="event.tagList()" @ctrl-click="handleCtrlClick" v-model="tags.selection" />
         </v-card>
       </template>
-      <h2>{{ event.title }}</h2>
+      <h2>{{ event.name }}</h2>
       <MarkdownRenderer :text="event.description" />
     </v-timeline-item>
   </v-timeline>
@@ -47,8 +47,6 @@ const events = useTimelineStore().events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
-
-
 
 function handleCtrlClick(tag: Tag) {
 

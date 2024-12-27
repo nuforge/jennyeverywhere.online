@@ -9,20 +9,21 @@
         <v-color-picker label="color" density="compact" mode="hex" :modes="['hex']" v-model="color"
           :show-swatches="swatches" :hide-canvas="!canvas" :hide-inputs="!inputs"
           :hide-sliders="!sliders"></v-color-picker>
-        <v-card-actions><v-btn-toggle multiple density="compact">
-            <v-btn icon @click="canvas = !canvas" variant="plain">
+        <v-card-actions>
+          <v-btn-toggle multiple density="compact">
+            <v-btn icon @click="canvas = !canvas" variant="plain" size="sm">
               <v-icon :icon="canvas ? 'mdi-rectangle' : 'mdi-rectangle-outline'"></v-icon>
               <v-tooltip activator="parent" text="Canvas" location="bottom" />
             </v-btn>
-            <v-btn icon @click="sliders = !sliders" variant="plain">
+            <v-btn icon @click="sliders = !sliders" variant="plain" size="sm">
               <v-icon :icon="sliders ? '$dropper' : '$no-dropper'"></v-icon>
               <v-tooltip activator="parent" text="Dropper" location="bottom" />
             </v-btn>
-            <v-btn icon @click="inputs = !inputs" variant="plain">
+            <v-btn icon @click="inputs = !inputs" variant="plain" size="sm">
               <v-icon :icon="inputs ? 'mdi-pound-box' : 'mdi-pound-box-outline'"></v-icon>
               <v-tooltip activator="parent" text="Inputs" location="bottom" />
             </v-btn>
-            <v-btn icon @click="swatches = !swatches" variant="plain">
+            <v-btn icon @click="swatches = !swatches" variant="plain" size="sm">
               <v-icon :icon="swatches ? '$swatches' : '$no-swatches'"></v-icon>
               <v-tooltip activator="parent" text="Swatches" location="bottom" />
             </v-btn>

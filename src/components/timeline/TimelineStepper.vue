@@ -20,7 +20,7 @@
         </v-card>
       </v-stepper-window-item>
       <v-stepper-window-item v-for="(event, index) in events" :key="index" :value="index">
-        <v-card flat>{{ event.title }}
+        <v-card flat>{{ event.name }}
           <v-card-text>{{ event.description }}</v-card-text>
           <tag-group :tags="event.tagList()" noLabel></tag-group>
         </v-card>

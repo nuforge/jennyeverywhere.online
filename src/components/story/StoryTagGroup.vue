@@ -10,8 +10,5 @@ import { useTagStore } from '@/stores/tags'
 const tags = useTagStore()
 const story = useStoryStore()
 
-const taglist = computed(() => {
-  // Combine the two sets of tags into one iterable
-  return [...tags.tags, ...story.tags];
-});
+const taglist = computed(() => [...tags.tags, ...story.tags]);
 </script>

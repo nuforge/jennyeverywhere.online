@@ -1,6 +1,6 @@
 <template>
   <v-chip-group column multiple>
-    <v-tag-item v-for="(tag, index) in tags" :key="index" :value="tag.id" :icon="tag.icon" :label="tag.name"
+    <v-tag-item v-for="tag in tags as Tag[]" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
       :color="tag.color" :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip
       @click.ctrl.exact="manageCtrlClick(tag)" :closable="closable">
     </v-tag-item>
@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import type Tag from '@/objects/Tag'
+import Tag from '@/objects/Tag'
+import { defineProps, defineEmits } from 'vue'
 
 const emit = defineEmits(['click', 'ctrl-click'])
 
@@ -16,10 +17,12 @@ function manageCtrlClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
-defineProps({
+const props = defineProps({
   tags: {
-    type: Array<Tag>,
+    type: Array, // Runtime validation as an array
+    required: true,
   },
+
   noLabel: {
     type: Boolean,
     default: false
@@ -41,4 +44,5 @@ defineProps({
     default: false
   },
 })
+
 </script>

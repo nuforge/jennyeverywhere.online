@@ -38,7 +38,7 @@ function openAddTagDialog() {
 
 function linkItBaby() {
   const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-  const md = story.linkTags(selected, story.html)
+  const md = story.linkTags(selected, story.HTML)
   return story.markitdown(md)
 }
 

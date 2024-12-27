@@ -56,7 +56,7 @@ type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('horizontal');
 
 
-function linkItBaby(tagList: Array<Tag>, text: string) {
+function linkItBaby(tagList: Tag[], text: string) {
 
   const selected = tagList.filter(tag => tags.selection.includes(tag.id))
   const md = story.linkTags(selected, text)

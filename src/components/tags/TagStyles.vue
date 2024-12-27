@@ -1,9 +1,9 @@
 <template>
   <v-btn-toggle density="compact" class="d-flex justify-space-between bg-surface rounded-t-lg" variant="plain">
-    <v-btn @click="styles.add = !styles.add" :prepend-icon="styles.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
       :ripple="false">
       <v-tooltip activator="parent" location="top">
-        <v-icon :icon="styles.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
+        <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
       </v-tooltip>
     </v-btn>
     <v-spacer></v-spacer>
@@ -31,7 +31,9 @@
 
 <script setup lang="ts">
 import { useStyleStore } from '@/stores/styles'
+import { useStateStore } from '@/stores/state'
 
 const styles = useStyleStore()
+const state = useStateStore()
 
 </script>

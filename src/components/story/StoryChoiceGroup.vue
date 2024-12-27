@@ -20,7 +20,7 @@ const selection = ref<number>();
 const updateSelection = (value: number) => {
   const choice = story.choices[value]
   story.tagMap.clearTags()
-  console.log(selection.value, story.choices[selection.value].tags)
+  if (selection.value === undefined) return
   story.choices[selection.value].tags.forEach((tag) => {
     story.tagMap.addTag(new Tag(`${tag}`, choice.color, choice.icon))
   })

@@ -11,7 +11,7 @@ export const useTimelineStore = defineStore('timeline', () => {
     new Event(
       'Scientific Discovery',
       'Discovered a wormhole while navigating through unexplored space',
-    ).createTag('career event:Discovered a wormhole', 'blue', '$wormhole'),
+    ).createTag('career event:Discovered a wormhole', 'blue', 'mdi-orbit'),
     new Event(
       'Career Promotion',
       'Assigned to the USS Mandelbrot and received a promotion to Lieutenant (junior grade)',
@@ -21,11 +21,11 @@ export const useTimelineStore = defineStore('timeline', () => {
   ])
 
   const addEvent = (newEvent: Event, tags: Array<Tag>) => {
-    const event = new Event(newEvent.title, newEvent.description, newEvent.date)
+    const event = new Event(newEvent.name, newEvent.description, newEvent.date)
     tags.forEach((tag) => {
       event.createTag(tag.name, tag.color, tag.icon)
     })
-    events.value.push(event)
+    events.value.unshift(event)
   }
 
   return { timeline, events, addEvent }

@@ -76,6 +76,10 @@ import {
   VScaleTransition,
   VExpandXTransition,
   VSnackbar,
+  VExpansionPanel,
+  VExpansionPanels,
+  VExpansionPanelText,
+  VExpansionPanelTitle,
 } from 'vuetify/components'
 import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
 
@@ -141,8 +145,8 @@ export const vuetify = createVuetify({
       ...fontAwesomeAliases,
       ...mdAliases,
       ...aliases,
-      tag: 'mdi-tag-outline',
-      'no-tag': 'mdi-circle-small',
+      tag: 'mdi-tag',
+      'no-tag': 'mdi-tag-outline',
       tags: 'mdi-tag-multiple',
       'no-tags': 'mdi-tag-multiple-outline',
       event: 'mdi-timeline',
@@ -317,5 +321,9 @@ export const vuetify = createVuetify({
     VScaleTransition,
     VExpandXTransition,
     VSnackbar,
+    VExpansionPanel,
+    VExpansionPanels,
+    VExpansionPanelText,
+    VExpansionPanelTitle,
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <div id="markdown-renderer" class="markdown-body" @click.right.prevent="manageRightClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-if="props.text" v-html="textToHTML(props.text)"></div>
+    <div v-if="text" v-html="textToHTML(text)"></div>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ const taglist = computed(() => {
 });
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click'])
-const props = defineProps({
+defineProps({
   text: {
     type: String,
   },

@@ -5,16 +5,16 @@ import TagMap from './TagMap'
 class Event {
   protected _id: string
 
-  protected _title: string
+  protected _name: string
   protected _date: string
   protected _description: string
   protected _icon?: string
   protected _color: string
   protected _tags: TagMap = new TagMap()
 
-  constructor(title: string, description?: string, date?: string) {
-    this._title = title
-    this._id = title.toLowerCase().replace(/\s/g, '-')
+  constructor(name: string, description?: string, date?: string) {
+    this._name = name
+    this._id = name.toLowerCase().replace(/\s/g, '-')
     this._description = description || ''
 
     this._icon = 'mdi-web-clock'
@@ -25,7 +25,7 @@ class Event {
   }
 
   get formattedDate() {
-    return format(this._date, 'yywwe.H')
+    return this._date
   }
 
   tagList() {
@@ -36,8 +36,8 @@ class Event {
     return taglist
   }
 
-  get title() {
-    return this._title
+  get name() {
+    return this._name
   }
   get tags() {
     return this._tags
@@ -63,8 +63,8 @@ class Event {
     return this._color
   }
 
-  set title(newTitle: string) {
-    this._title = newTitle
+  set name(newTitle: string) {
+    this._name = newTitle
   }
 
   set description(newDescription: string) {

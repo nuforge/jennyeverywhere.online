@@ -2,13 +2,15 @@
   <v-dialog v-model="state.event" scrim="#000000">
     <form @submit.prevent="saveEvent">
       <v-card>
-        <v-card-title>
+        <v-card-title class="d-flex justify-space-between align-center">
           <v-icon>mdi-calendar-edit</v-icon> Add Event
+          <v-spacer></v-spacer>
+          <v-icon @click="admin = !admin" :icon="admin ? 'mdi-eye' : 'mdi-eye-outline'" size="sm"></v-icon>
         </v-card-title>
         <v-card-text>
           <v-row>
             <v-col>
-              <v-text-field v-model="event.title" label="Name" required density="compact" prepend-inner-icon="mdi-label"
+              <v-text-field v-model="event.name" label="Name" required density="compact" prepend-inner-icon="mdi-label"
                 variant="outlined"></v-text-field>
               <v-text-field v-model="event.date" label="Date/time" required density="compact"
                 prepend-inner-icon="mdi-web-clock" variant="outlined"></v-text-field>
@@ -17,13 +19,34 @@
               <ColorPicker v-model="event.color" label="Color" />
               <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" />
             </v-col>
-            <v-col>
-              <v-divider>Public Tags</v-divider>
-              <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
-              <v-divider>System Tags</v-divider>
-              <tag-group :tags="hiddenTags" class="bg-background pa-2 my-1 rounded"></tag-group>
-              <v-divider>Description</v-divider>
-              <MarkdownRenderer :text="event.description" />
+            <v-col v-show="admin">
+              <v-expansion-panels multiple variant="accordion" v-model="panels">
+                <v-expansion-panel>
+                  <v-expansion-panel-title static>
+                    <v-tag dense label="Public Tags" icon="mdi-tag"></v-tag>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                    <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-title static>
+                    Description
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text eager>
+                    <MarkdownRenderer :text="event.description" />
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                  <v-expansion-panel-title static>
+                    <v-tag dense label="System Tags" icon="mdi-tag-outline"></v-tag>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                    <tag-group :tags="hiddenTags" class="bg-background pa-2 my-1 rounded" disabled></tag-group>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+              </v-expansion-panels>
             </v-col>
           </v-row>
         </v-card-text>
@@ -52,12 +75,15 @@ import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
 import MarkdownRenderer from '../MarkdownRenderer.vue';
 
+const panels = ref([0, 1])
+const admin = ref(true)
+
 
 const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard', 'stardate:44002.3'))
 
 const hiddenTags = computed(() => {
   const tags = []
-  const tag = new Tag(`${event.value.title}`)
+  const tag = new Tag(`${event.value.name}`)
   tags.push(new Tag(`name:${tag.name}`, 'system', `mdi-tag-outline`))   // Name
   tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-label-outline`)) // ID
   tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `$system`)) // Timestamp
@@ -70,9 +96,9 @@ const hiddenTags = computed(() => {
 
 const tagList = computed(() => {
   const tags = []
-  if (event.value.title !== '') {
+  if (event.value.name !== '') {
 
-    const tag = new Tag(`${event.value.title}`)
+    const tag = new Tag(`${event.value.name}`)
     tag.icon = event.value.icon
     tag.color = event.value.color
 
@@ -81,9 +107,13 @@ const tagList = computed(() => {
   tags.push(new Tag(`${event.value.date}`, '$system', `$timestamp`))
 
   tags.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
-  tags.push(new Tag(`Species:Borg`, `#73C25F`, `mdi-account-group`))
-  tags.push(new Tag(`Captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
+  tags.push(new Tag(`planet:Earth`, `#2079FF`, `mdi-earth`))
+  tags.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
+  tags.push(new Tag(`captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
   tags.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
+  tags.push(new Tag(`borg:assimilate`, `#73C25F`, `mdi-memory`))
+  tags.push(new Tag(`invasion`))
+  tags.push(new Tag(`starship`))
 
   return tags as Tag[]
 })
@@ -92,7 +122,7 @@ const tagList = computed(() => {
 function saveEvent() {
   // Save the event
   timeline.addEvent(event.value, tagList.value)
-  console.log(timeline.events)
+  state.eventClose()
 }
 
 function cancelEvent() {

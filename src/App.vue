@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="border rounded">
+  <v-responsive class="rounded">
     <v-app :theme="state.theme">
       <dice-fab location="top end" />
       <tag-fab location="bottom end" />

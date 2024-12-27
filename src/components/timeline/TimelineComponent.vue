@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type Tag from '@/objects/Tag';
-import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar-13.png';
+import PersonaAvatar from '@/assets/images/avatars/jenny-everywhere-avatar.png';
 import storyImage from '@/assets/stories/gallery/001.png'
 import TagGroup from '@/components/tags/TagGroup.vue';
 import { useTagStore } from '@/stores/tags'

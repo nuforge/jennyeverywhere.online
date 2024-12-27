@@ -1,5 +1,5 @@
 <template>
-  <v-btn-toggle density="compact" class="d-flex justify-space-between bg-surface rounded-t-lg" variant="plain">
+  <v-btn-toggle density="compact" variant="plain">
     <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
       :ripple="false">
       <v-tooltip activator="parent" location="top">

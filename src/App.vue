@@ -2,6 +2,7 @@
   <v-responsive class="border rounded">
     <v-app :theme="state.theme">
       <dice-fab location="top end" />
+      <tag-fab location="bottom end" />
       <AvatarFab location="bottom start" />
       <HeaderLayout />
       <v-main>

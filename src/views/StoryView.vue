@@ -13,7 +13,7 @@
       <v-col cols="12" sm="8">
         <StoryChoiceGroup />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="4">
         <StoryTagGroup />
       </v-col>
     </v-row>

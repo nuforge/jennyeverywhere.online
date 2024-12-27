@@ -1,9 +1,8 @@
 <template>
-  <v-container class="bg-surface rounded-lg elevation-2 mb-2 ms-2 pa-0  ">
-    <tag-group :tags="tags.tags" class="pa-1 bg-background ma-2 rounded" column :noLabel="styles.labels"
+  <v-container class="bg-surface elevation-10 ma-2 pa-1 rounded-lg">
+    <tag-group :tags="tags.tags" class="bg-background rounded-lg ma-1 pa-2" column :noLabel="styles.labels"
       :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection" />
-    <v-divider class="bg-surface" />
-    <TagStyles />
+    <TagStyles class="d-flex justify-space-between  bg-surface " />
   </v-container>
 </template>
 

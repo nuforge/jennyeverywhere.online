@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useTheme } from 'vuetify'
 
@@ -9,26 +9,51 @@ export const useStateStore = defineStore('state', () => {
   const dice = ref(false)
   const snackbar = ref(false)
   const drawer = ref(false)
+  const dragging = ref(false)
   const vuetify = useTheme()
+
+  const tagmanager = computed(() => drawer.value || dragging.value)
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'
     vuetify.global.name.value = theme.value
   }
 
-  function toggleDrawer() {
+  // Drawer
+  function drawerOpen() {
+    drawer.value = true
+  }
+  function drawerClose() {
+    drawer.value = false
+  }
+  function drawerToggle() {
     drawer.value = !drawer.value
   }
+
+  // Tags
   function toggleTags() {
     tags.value = !tags.value
   }
 
+  // Dice
   function toggleDice() {
     dice.value = !dice.value
   }
 
   function triggerSnackbar() {
     snackbar.value = true
+  }
+
+  // Dragging
+
+  function dragStart() {
+    dragging.value = true
+  }
+  function dragEnd() {
+    dragging.value = false
+  }
+  function dragDrop() {
+    drawer.value = true
   }
 
   return {
@@ -38,10 +63,17 @@ export const useStateStore = defineStore('state', () => {
     dice,
     drawer,
     snackbar,
+    dragging,
+    tagmanager,
     changeTheme,
     toggleTags,
     toggleDice,
-    toggleDrawer,
+    drawerToggle,
+    drawerOpen,
+    drawerClose,
     triggerSnackbar,
+    dragStart,
+    dragEnd,
+    dragDrop,
   }
 })

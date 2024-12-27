@@ -8,6 +8,8 @@ import 'vuetify/styles'
 import App from './App.vue'
 import router from './router'
 import { vuetify } from './vuetify'
+
+// Styles
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'material-design-icons-iconfont/dist/material-design-icons.css'

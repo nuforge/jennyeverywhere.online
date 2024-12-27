@@ -3,7 +3,7 @@
     v-model="state.drawer" no-click-animation>
 
     <template v-slot:activator="{ props: activatorProps }">
-      <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" location="bottom end" app appear @click="state.toggleDrawer"
+      <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" location="bottom end" app appear @click="state.drawerToggle"
         v-bind="activatorProps" variant="plain"></v-fab>
     </template>
     <v-btn @click="styles.closable = !styles.closable"

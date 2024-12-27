@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps({
   icon: {
     type: String,

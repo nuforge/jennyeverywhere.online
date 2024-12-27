@@ -19,14 +19,17 @@ export const useTagStore = defineStore('tags', () => {
   }
   const copyTag = (tag: Tag) => {
     clipboard.value = tag
-    return taglist.value.addTag(tag)
+  }
+
+  const clipboardSave = () => {
+    return addTag(clipboard.value as Tag)
+  }
+  const clipboardEmpty = () => {
+    return (clipboard.value = new Tag(''))
   }
 
   const pasteTag = () => {
-    return clipboard.value
-  }
-  const emptyClipboard = () => {
-    clipboard.value = new Tag('')
+    return clipboard.value as Tag
   }
 
   const addTag = (newTag: Tag) => {
@@ -75,6 +78,7 @@ export const useTagStore = defineStore('tags', () => {
     copyTag,
     pasteTag,
     cleanTag,
-    emptyClipboard,
+    clipboardEmpty,
+    clipboardSave,
   }
 })

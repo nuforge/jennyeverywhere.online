@@ -27,7 +27,7 @@ const tags = useTagStore()
 
 
 function handleCtrlClick(tag: Tag) {
-  tags.copyTag(tag)
+  tags.addTag(tag)
 }
 
 const character = ref(JennyEverywhere)

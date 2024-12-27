@@ -67,7 +67,7 @@ function linkItBaby(tagList: Tag[], text: string) {
 function handleCtrlClick(tag: Tag) {
 
   console.log('handleCtrlClick', tag)
-  tags.copyTag(tag)
+  tags.addTag(tag)
 }
 
 

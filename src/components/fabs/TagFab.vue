@@ -1,5 +1,5 @@
 <template>
-  <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" location="bottom end" app appear @click="state.toggleDrawer"
+  <v-fab :icon="state.drawer ? `$tags` : `$no-tags`" location="bottom end" app appear @click="state.drawerToggle"
     variant="plain"></v-fab>
 </template>
 

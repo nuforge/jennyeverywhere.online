@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer location="bottom" :scrim="false" class="bg-transparent border-t-0" v-model="state.drawer"
+  <v-navigation-drawer location="bottom" :scrim="false" class="bg-transparent border-t-0" v-model="state.tagmanager"
     disable-route-watcher>
     <v-container class="g-transparent rounded-t-lg d-flex justify-center pa-0" flat>
       <TagManagerLayout v-if="state.tags" />

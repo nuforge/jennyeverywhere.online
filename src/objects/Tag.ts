@@ -8,18 +8,21 @@ class Tag {
   protected _style: Record<string, string | undefined> = {}
 
   constructor(name: string, color?: string, icon?: string) {
-    const label = name.toString()
+    const label = Tag.cleanLabel(name)
     this._id = Tag.cleanTag(label)
     this.color = color
     this.icon = icon
     const { value, namespace } = Tag.splitTag(label)
-    this._name = value
+    this._name = value.trim()
     this._space = namespace
     return this
   }
 
+  static cleanLabel = (text: string) => {
+    return text.toString().trim()
+  }
   static cleanTag = (name: string | number) => {
-    return name.toString().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
+    return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
   static splitTag = (tagName: string) => {

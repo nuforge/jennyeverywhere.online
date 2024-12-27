@@ -1,7 +1,7 @@
 <template>
   <v-dialog width="auto" v-model="dialog" :scrim="false" persistent>
     <template v-slot:activator="{ props: activatorProps }">
-      <v-btn icon="mdi-palette" v-bind="activatorProps" size="small" density="compact" variant="plain"
+      <v-btn icon="$palette" v-bind="activatorProps" size="small" density="compact" variant="plain"
         :ripple="false"></v-btn>
     </template>
     <template v-slot:default="{ isActive }">

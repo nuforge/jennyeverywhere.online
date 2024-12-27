@@ -20,13 +20,12 @@ const inputValue = ref(props.modelValue);
 
 const emit = defineEmits(['update:modelValue']);
 
-
 function applyColorChoice(hex: string) {
   inputValue.value = hex;
+  updateValue();
 }
 
 function updateValue() {
-  console.log('applyColorChoice', inputValue.value);
   emit('update:modelValue', inputValue.value);
 }
 </script>

@@ -1,66 +1,94 @@
 <template>
-  <v-dialog v-model="state.event" max-width="500">
-    <v-card>
-      <v-card-title>
-        <v-icon>mdi-calendar-edit</v-icon> Add Event
-      </v-card-title>
-      <v-card-text>
-        <v-text-field v-model="event.title" label="Title" required density="compact"></v-text-field>
-        <v-text-field v-model="event.formattedDate" label="Date" required density="compact"></v-text-field>
-        <v-text-field v-model="event.description" label="Description" required density="compact"></v-text-field>
-
-        <ColorPicker v-model="color" label="Color" />
-
-        <tag-autocomplete v-model="event.icon" :prepend-inner-icon="`mdi-${event.icon}`" />
-
-        <v-divider>tags</v-divider>
-        <tag-group :tags="event.tags" noLabel class="bg-background pa-2 my-1 rounded"></tag-group>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn @click="saveEvent">Save</v-btn>
-        <v-btn @click="cancelEvent">Cancel</v-btn>
-      </v-card-actions>
-    </v-card>
+  <v-dialog v-model="state.event" max-width="500" scrim="#000000">
+    <form @submit.prevent="saveEvent">
+      <v-card>
+        <v-card-title>
+          <v-icon>mdi-calendar-edit</v-icon> Add Event
+        </v-card-title>
+        <v-card-text>
+          <v-text-field v-model="event.title" label="Name" required density="compact" prepend-inner-icon="mdi-label"
+            variant="outlined"></v-text-field>
+          <v-text-field v-model="event.date" label="Date/time" required density="compact"
+            prepend-inner-icon="mdi-web-clock" variant="outlined"></v-text-field>
+          <v-textarea label="Description" v-model="event.description" name="Description" auto-grow required
+            density="compact" prepend-inner-icon="mdi-calendar-text" variant="outlined"></v-textarea>
+          <ColorPicker v-model="event.color" label="Color" />
+          <tag-autocomplete v-model="event.icon" :prepend-inner-icon="`mdi-${event.icon}`" />
+          <v-divider>tags</v-divider>
+          <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="saveEvent">Save</v-btn>
+          <v-btn @click="cancelEvent">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </form>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStateStore } from '@/stores/state'
+import { useTimelineStore } from '@/stores/timelines'
+
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
 const state = useStateStore()
+const timeline = useTimelineStore()
 
 import Tag from '@/objects/Tag';
 import TagGroup from '@/components/tags/TagGroup.vue';
+import Event from '@/objects/Event';
 
-const color = ref('#FFFFFF')
 
-interface Event {
-  title: string;
-  formattedDate: string;
-  icon: string;
-  color: string;
-  tags: Array<Tag>;
-  description: string;
-}
+const event = ref(new Event('battle:wolf 359', 'The battle of wolf 359', 'stardate:23404.7'))
 
-const event = ref<Event>({
-  title: '',
-  formattedDate: '',
-  icon: 'web-clock',
-  color: '#FFFFFF',
-  tags: [],
-  description: '',
+const tagList = computed(() => {
+  const tags = []
+
+  if (event.value.title !== '') {
+
+    const tag = new Tag(`${event.value.title}`)
+    tag.icon = `mdi-${event.value.icon}`
+    tag.color = event.value.color
+
+    tags.push(tag)
+    if (tag.space)
+      tags.push(new Tag(`name:${tag.name}`, '$system', `mdi-label`))
+    tags.push(new Tag(`event:${tag.space}`, '$system', `$event`))
+  }
+
+  tags.push(new Tag(`${event.value.date}`, '$system', `$timestamp`))
+
+  tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `$system`))
+
+
+  tags.push(new Tag(`event`, undefined, 'mdi-calendar'))
+  const iconTag = new Tag(`icon:mdi-${event.value.icon}`)
+  iconTag.icon = `mdi-${event.value.icon}`
+
+  tags.push(iconTag)
+
+  const colorTag = new Tag(`color:${event.value.color}`)
+  colorTag.icon = `$color`
+  colorTag.color = event.value.color
+
+  tags.push(colorTag)
+
+  return tags as Tag[]
 })
+
 
 function saveEvent() {
   // Save the event
+  timeline.addEvent(event.value, tagList.value)
+  console.log(timeline.events)
 }
 
 function cancelEvent() {
   // Cancel the event
+  state.event = false
 }
 
 

@@ -7,7 +7,7 @@
       </v-col>
       <v-col cols="12" md="8" sm="12">
         <tag-group column :tags="character.attributes" :noLabel="styles.labels" :noIcon="styles.icons"
-          :closable="styles.closable" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
+          v-model="tags.selection" @ctrl-click="handleCtrlClick" />
       </v-col>
     </v-row>
   </v-container>

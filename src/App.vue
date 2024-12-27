@@ -8,7 +8,6 @@
       <v-main>
         <RouterView />
       </v-main>
-      <v-btn @click="state.event = !state.event">Add Event</v-btn>
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />

@@ -7,7 +7,7 @@ class TagMap {
 
   taglistAGAIN = computed(() => {
     // Combine `_tags` (Map<string, Tag>) with `story.tags` (Array<Tag>)
-    return [...this._tags.values()]
+    return [...this._tags.values()] as Tag[]
   })
 
   static cleanTag = (name: string | number) => {

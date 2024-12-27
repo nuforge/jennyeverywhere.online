@@ -102,6 +102,7 @@ export const vuetify = createVuetify({
           d6: '#82B1FF',
           d4: '#FF5252',
           datetime: '#1B1B1B',
+          system: '#323232',
           'background-variant': '#f5f5f5',
           'sta-career': '#FFBB00',
         },
@@ -127,6 +128,7 @@ export const vuetify = createVuetify({
           d4: '#FF5252',
 
           datetime: '#696969',
+          system: '#323232',
 
           'sta-career': '#FFBB00',
         },
@@ -152,6 +154,7 @@ export const vuetify = createVuetify({
       dropper: 'mdi-eyedropper',
       'no-dropper': 'mdi-eyedropper-off',
       timestamp: 'mdi-web-clock',
+      system: 'mdi-code-braces',
 
       dice: 'mdi-dice-multiple',
       'no-dice': 'mdi-dice-multiple-outline',
@@ -167,7 +170,9 @@ export const vuetify = createVuetify({
       id: 'mdi-account-box-outline',
       name: 'mdi-account-circle-outline',
       space: 'mdi-tag-multiple-outline',
-      color: 'mdi-palette',
+      palette: 'mdi-palette',
+      color: 'mdi-circle-opacity',
+      date: 'mdi-web-clock',
 
       home: 'mdi-home',
       icon: 'mdi-label-variant-outline',

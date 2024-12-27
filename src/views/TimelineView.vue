@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Timelines</h1>
+    <h1>Timeline</h1>
     <v-row>
       <v-col>
         <TimelineComponent />

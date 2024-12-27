@@ -8,11 +8,13 @@
       <v-main>
         <RouterView />
       </v-main>
+      <v-btn @click="state.event = !state.event">Add Event</v-btn>
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
       <BottomNavigationLayout app elevation="2" />
       <DrawerLayout />
-      <TagAddDailog v-model="state.add" />
+      <EventAddDialog />
+      <TagAddDailog />
       <DiceSnackbar v-model="state.snackbar" />
     </v-app>
   </v-responsive>
@@ -25,6 +27,7 @@ import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/views/layouts/BottomNavigationLayout.vue';
 import DrawerLayout from '@/views/layouts/DrawerLayout.vue';
 import TagAddDailog from '@/components/tags/TagAddDialog.vue';
+import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';

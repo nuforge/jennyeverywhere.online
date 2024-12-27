@@ -151,6 +151,7 @@ export const vuetify = createVuetify({
       'no-swatches': 'mdi-palette-swatch-outline',
       dropper: 'mdi-eyedropper',
       'no-dropper': 'mdi-eyedropper-off',
+      timestamp: 'mdi-web-clock',
 
       dice: 'mdi-dice-multiple',
       'no-dice': 'mdi-dice-multiple-outline',

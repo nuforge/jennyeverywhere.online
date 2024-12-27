@@ -1,5 +1,5 @@
 <template>
-  <v-container class="bg-surface elevation-10 ma-2 pa-1 rounded-lg">
+  <v-container class="bg-surface elevation-10 ma-2 ms-16 pa-1 rounded-lg">
     <tag-group :tags="tags.tags" class="bg-background rounded-lg ma-1 pa-2" column :noLabel="styles.labels"
       :noIcon="styles.icons" :closable="styles.closable" v-model="tags.selection" @drop="dragDrop"
       @dragover="dragOver" />

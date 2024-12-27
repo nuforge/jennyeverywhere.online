@@ -4,26 +4,9 @@
       <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()" variant="outlined"
         prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
 
-      <v-autocomplete label="mdi-* icon" v-model="icon" density="compact" @keydown.enter="addTag()" variant="outlined"
-        :prepend-inner-icon="mdicon" :items="icons">
-        <template v-slot:item="{ props, item }">
-          <v-list-item v-bind="props" :prepend-icon="`mdi-${item.raw}`" :text="`mdi-${item.raw}`"></v-list-item>
-        </template>
+      <tag-autocomplete v-model="icon" @keydown.enter="addTag()" :prepend-inner-icon="mdicon" />
 
-        <template #append>
-          <v-btn icon="mdi-search-web" target="_blank" rel="noopener noreferrer"
-            href="https://pictogrammers.com/library/mdi/" size="small" density="compact" variant="plain"
-            :ripple="false"></v-btn>
-        </template>
-      </v-autocomplete>
-      <v-text-field label="color" v-model="color" density="compact" @keydown.enter="addTag()" variant="outlined">
-        <template #prepend-inner>
-          <v-icon icon="mdi-circle-opacity" :color="color"></v-icon>
-        </template>
-        <template #append>
-          <ColorPickerDialog @apply-color="applyColorChoice" />
-        </template>
-      </v-text-field>
+      <ColorPicker v-model="color" label="color" @keydown.enter="addTag()" />
     </v-card-text>
     <v-card-text class="text-center bg-background rounded-lg">
       <v-divider>sample</v-divider>
@@ -50,11 +33,10 @@
 import { computed, ref, onMounted } from 'vue'
 import { useTagStore } from '@/stores/tags'
 import vTagItem from '@/components/tags/VTagItem.vue'
-import ColorPickerDialog from '@/components/ColorPickerDialog.vue';
+import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
+import ColorPicker from '@/components/form/ColorPicker.vue';
 import Tag from '@/objects/Tag'
 
-import json from '@/assets/icons.json'
-const icons = json.map((icon) => icon.name)
 
 const tags = useTagStore()
 
@@ -74,10 +56,6 @@ const tempTag = ref(computed(() => {
   }
 }))
 
-
-function applyColorChoice(hex: string) {
-  color.value = hex
-}
 
 function addTag() {
   tags.addLabel(text.value, color.value, mdicon.value)

@@ -1,10 +1,15 @@
 <template>
-  <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
-    <v-btn icon="mdi-align-vertical-center" value="horizontal"
-      :variant="timelineDirection === 'horizontal' ? 'text' : 'plain'" size="small"></v-btn>
-    <v-btn icon="mdi-align-horizontal-center" value="vertical"
-      :variant="timelineDirection === 'vertical' ? 'text' : 'plain'" size="small"></v-btn>
-  </v-btn-toggle> {{ timelineDirection }}
+  <v-row no-gutters>
+    <v-col cols="12" class="d-flex justify-space-between align-center">
+      <v-spacer></v-spacer>
+      <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
+        <v-btn icon="mdi-align-vertical-center" value="horizontal"
+          :variant="timelineDirection === 'horizontal' ? 'text' : 'plain'" size="small"></v-btn>
+        <v-btn icon="mdi-align-horizontal-center" value="vertical"
+          :variant="timelineDirection === 'vertical' ? 'text' : 'plain'" size="small"></v-btn>
+      </v-btn-toggle> {{ timelineDirection }}
+    </v-col>
+  </v-row>
   <v-timeline :direction="timelineDirection" line-inset="8" truncate-line="both">
     <v-timeline-item>
       <template v-slot:icon>

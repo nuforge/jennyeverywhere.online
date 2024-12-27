@@ -6,17 +6,25 @@
         <PersonaAvatar />
       </v-fab>
     </template>
-    <v-btn key="1" :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'"
+    <v-btn key="1" icon to="/jenny-everywhere"><v-icon icon="mdi-account-circle" color="teal"></v-icon></v-btn>
+    <v-btn key="2" :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'"
       @click="state.changeTheme"></v-btn>
-    <v-btn key="2" icon="$success"></v-btn>
-    <v-btn key="3" icon="$info"></v-btn>
-    <v-btn key="4" icon to="/jenny-everywhere"><v-icon icon="mdi-account-circle" color="teal"></v-icon></v-btn>
+    <v-btn key="3" icon="$dice" @click="rollDice()"></v-btn>
+    <v-btn key="4" :icon="state.drawer ? `$tags` : `$no-tags`" @click="state.toggleDrawer"></v-btn>
   </v-speed-dial>
 </template>
 
 <script setup lang="ts">
 import PersonaAvatar from '@/components/PersonaAvatar.vue';
 import { useStateStore } from '@/stores/state'
+import { useDiceStore } from '@/stores/dice';
 const state = useStateStore()
+const dice = useDiceStore()
+
+
+const rollDice = () => {
+  dice.rollDice()
+  state.triggerSnackbar()
+}
 
 </script>

@@ -3,7 +3,6 @@
     disable-route-watcher>
     <v-container class="g-transparent rounded-t-lg d-flex justify-center pa-0" flat>
       <TagManagerLayout v-if="state.tags" />
-      <DiceManagerLayout v-if="state.dice" />
     </v-container>
   </v-navigation-drawer>
 </template>
@@ -13,7 +12,6 @@ import { useStateStore } from '@/stores/state';
 const state = useStateStore()
 
 import TagManagerLayout from './TagManagerLayout.vue';
-import DiceManagerLayout from './DiceManagerLayout.vue';
 
 
 </script>

@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import JennyEverywhere from '@/game/characters/JennyEverywhere.ts';
+import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
 import image from '@/assets/images/characters/jenny-everywhere.png'
 import { useStyleStore } from '@/stores/styles'
 import { useTagStore } from '@/stores/tags'

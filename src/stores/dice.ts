@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import Dice from '@/game/Dice'
+import Dice from '@/objects/game/Dice'
 
 export const useDiceStore = defineStore('dice', () => {
   const die = ref<Dice>(new Dice(20))

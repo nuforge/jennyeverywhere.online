@@ -20,10 +20,10 @@
 
 <script setup lang="ts">
 
-import HeaderLayout from '@/layouts/HeaderLayout.vue';
+import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
-import BottomNavigationLayout from '@/layouts/BottomNavigationLayout.vue';
-import ManagerDrawerLayout from '@/layouts/DrawerLayout.vue';
+import BottomNavigationLayout from '@/views/layouts/BottomNavigationLayout.vue';
+import ManagerDrawerLayout from '@/views/layouts/DrawerLayout.vue';
 import TagAddDailog from '@/components/tags/TagAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';

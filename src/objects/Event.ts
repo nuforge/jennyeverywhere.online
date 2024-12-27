@@ -7,20 +7,20 @@ class Event {
 
   protected _title: string
   protected _date: string
-  protected _description?: string
+  protected _description: string
   protected _icon?: string
-  protected _color?: string
+  protected _color: string
   protected _tags: TagMap = new TagMap()
 
   constructor(title: string, description?: string, date?: string) {
     this._title = title
     this._id = title.toLowerCase().replace(/\s/g, '-')
-    this._description = description || undefined
+    this._description = description || ''
 
     this._icon = 'mdi-web-clock'
     this._color = '#323232'
     this._date = date || format(new Date(), 'yywwe.H').toString()
-    this._tags.addTag(new Tag(`date:${this.formattedDate}`, this._color, this._icon))
+    this._tags.addTag(new Tag(`date:${this._date}`, this._color, this._icon))
     return this
   }
 
@@ -67,7 +67,7 @@ class Event {
     this._title = newTitle
   }
 
-  set description(newDescription: string | undefined) {
+  set description(newDescription: string) {
     this._description = newDescription
   }
 
@@ -79,11 +79,11 @@ class Event {
     this._icon = newIcon
   }
 
-  set color(newColor: string | undefined) {
+  set color(newColor: string) {
     this._color = newColor
   }
 
-  createTag(tagName: string, tagColor: string, tagIcon: string) {
+  createTag(tagName: string, tagColor?: string, tagIcon?: string) {
     const tag = new Tag(tagName)
     tag.color = tagColor
     tag.icon = tagIcon

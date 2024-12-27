@@ -44,7 +44,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 const state = useStateStore()
 const tags = useTagStore()
 const story = useStoryStore()
-const events = useTimelineStore().events.reverse()
+const events = useTimelineStore().events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');

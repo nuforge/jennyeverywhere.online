@@ -76,6 +76,12 @@ const tagList = computed(() => {
 
   tags.push(colorTag)
 
+
+  tags.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
+  tags.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
+  tags.push(new Tag(`Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
+  tags.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
+
   return tags as Tag[]
 })
 

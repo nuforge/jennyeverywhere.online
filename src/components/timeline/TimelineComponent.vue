@@ -23,7 +23,7 @@
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <tag-group :tags="event.tagList()" noLabel @ctrl-click="handleCtrlClick" v-model="tags.selection"></tag-group>
+        <tag-group :tags="event.tagList()" @ctrl-click="handleCtrlClick" v-model="tags.selection"></tag-group>
       </template>
       <h2>{{ event.title }}</h2>
       <MarkdownRenderer :markdown="linkItBaby(event.tagList(), event.description)" />

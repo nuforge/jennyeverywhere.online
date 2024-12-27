@@ -1,18 +1,18 @@
 <template>
-  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="noIcon ? color : undefined"
+  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="styles.icons ? color : undefined"
     :value="value">
-    <template v-slot:prepend v-if="!noIcon">
-      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!noLabel"></v-icon>
+    <template v-slot:prepend v-if="!styles.icons">
+      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!styles.labels"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface">
         <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> <span class="opacity-50"> {{ space ? `${space} : ` :
           '' }}</span> {{ label }}
       </v-tooltip>
     </template>
-    <template v-slot:default v-if="!noLabel">
+    <template v-slot:default v-if="!styles.labels">
       {{ label }}
     </template>
-    <template v-slot:append v-if="noIcon && noLabel">
-      <v-icon :icon="`$no-tag`" :color="color" :start="!noLabel" id="tooltip-activator"></v-icon>
+    <template v-slot:append v-if="styles.icons && styles.labels">
+      <v-icon :icon="`$no-tag`" :color="color" :start="!styles.labels" id="tooltip-activator"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
         <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ space }} {{ label }}
       </v-tooltip>
@@ -21,6 +21,10 @@
 </template>
 
 <script setup lang="ts">
+import { useStyleStore } from '@/stores/styles';
+
+const styles = useStyleStore()
+
 defineProps({
   icon: {
     type: String,

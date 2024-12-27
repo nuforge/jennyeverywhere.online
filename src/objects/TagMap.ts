@@ -1,8 +1,15 @@
 import Tag from '@/objects/Tag'
+import { computed } from 'vue'
 const TAG_WHITESPACE_REPLACER = '-'
 
 class TagMap {
   protected _tags: Map<string, Tag> = new Map()
+
+  taglistAGAIN = computed(() => {
+    // Combine `_tags` (Map<string, Tag>) with `story.tags` (Array<Tag>)
+    return [...this._tags.values()]
+  })
+
   static cleanTag = (name: string | number) => {
     return Tag.cleanTag(name)
   }
@@ -12,14 +19,15 @@ class TagMap {
   }
 
   get tags() {
-    return this._tags
+    return this._tags.values()
   }
 
   get tagKeys() {
-    return Array.from(this._tags.keys())
+    return this._tags.keys()
   }
-  get tagList() {
-    return Array.from(this._tags.values())
+
+  get tagList(): Tag[] {
+    return [...this._tags.values()] as Tag[]
   }
 
   clearTags() {

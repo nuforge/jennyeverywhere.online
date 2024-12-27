@@ -30,7 +30,7 @@ interface Event {
   formattedDate: string;
   icon: string;
   color: string;
-  tags: Record<string, Tag>
+  tags: Array<Tag>;
   description: string; // Add this line
 }
 

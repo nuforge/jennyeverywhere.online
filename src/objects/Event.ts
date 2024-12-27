@@ -17,7 +17,6 @@ class Event {
 
     this._date = date || new Date()
     this._tag = new Tag(`date:${this.formattedDate}`, 'datetime', 'mdi-web-clock')
-    console.log('Event', this._tag)
     return this
   }
 

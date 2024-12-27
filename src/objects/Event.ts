@@ -18,9 +18,9 @@ class Event {
     this._description = description || undefined
 
     this._icon = 'mdi-web-clock'
-    this._color = 'system'
+    this._color = '#323232'
     this._date = date || format(new Date(), 'yywwe.H').toString()
-    this._tags.addTag(new Tag(`date:${this.formattedDate}`, 'datetime', 'mdi-web-clock'))
+    this._tags.addTag(new Tag(`date:${this.formattedDate}`, this._color, this._icon))
     return this
   }
 

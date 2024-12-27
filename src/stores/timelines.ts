@@ -22,8 +22,10 @@ export const useTimelineStore = defineStore('timeline', () => {
 
   const addEvent = (newEvent: Event, tags: Array<Tag>) => {
     const event = new Event(newEvent.title, newEvent.description, newEvent.date)
+    tags.forEach((tag) => {
+      event.createTag(tag.name, tag.color, tag.icon)
+    })
     events.value.push(event)
-    console.log('Adding event:', event)
   }
 
   return { timeline, events, addEvent }

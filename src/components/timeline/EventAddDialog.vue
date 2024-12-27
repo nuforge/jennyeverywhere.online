@@ -13,7 +13,7 @@
           <v-textarea label="Description" v-model="event.description" name="Description" auto-grow required
             density="compact" prepend-inner-icon="mdi-calendar-text" variant="outlined"></v-textarea>
           <ColorPicker v-model="event.color" label="Color" />
-          <tag-autocomplete v-model="event.icon" :prepend-inner-icon="`mdi-${event.icon}`" />
+          <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" />
           <v-divider>tags</v-divider>
           <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
         </v-card-text>
@@ -42,7 +42,7 @@ import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
 
 
-const event = ref(new Event('battle:wolf 359', 'The battle of wolf 359', 'stardate:23404.7'))
+const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard', 'stardate:44002.3'))
 
 const tagList = computed(() => {
   const tags = []
@@ -50,13 +50,13 @@ const tagList = computed(() => {
   if (event.value.title !== '') {
 
     const tag = new Tag(`${event.value.title}`)
-    tag.icon = `mdi-${event.value.icon}`
+    tag.icon = event.value.icon
     tag.color = event.value.color
 
     tags.push(tag)
+    tags.push(new Tag(`name:${tag.name}`, '$system', `mdi-label`))
     if (tag.space)
-      tags.push(new Tag(`name:${tag.name}`, '$system', `mdi-label`))
-    tags.push(new Tag(`event:${tag.space}`, '$system', `$event`))
+      tags.push(new Tag(`event:${tag.space}`, '$system', `$event`))
   }
 
   tags.push(new Tag(`${event.value.date}`, '$system', `$timestamp`))
@@ -65,8 +65,8 @@ const tagList = computed(() => {
 
 
   tags.push(new Tag(`event`, undefined, 'mdi-calendar'))
-  const iconTag = new Tag(`icon:mdi-${event.value.icon}`)
-  iconTag.icon = `mdi-${event.value.icon}`
+  const iconTag = new Tag(`icon:${event.value.icon}`)
+  iconTag.icon = `${event.value.icon}`
 
   tags.push(iconTag)
 

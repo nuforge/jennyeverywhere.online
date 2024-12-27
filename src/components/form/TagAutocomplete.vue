@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete label="mdi-* icon" density="compact" variant="outlined" :items="icons">
     <template v-slot:item="{ props, item }">
-      <v-list-item v-bind="props" :prepend-icon="`mdi-${item.raw}`" :text="`mdi-${item.raw}`"></v-list-item>
+      <v-list-item v-bind="props" :prepend-icon="`${item.raw}`" :text="`mdi-${item.raw}`"></v-list-item>
     </template>
 
     <template #append>
@@ -15,6 +15,6 @@
 
 <script setup lang="ts">
 import json from '@/assets/icons.json'
-const icons = json.map((icon) => icon.name)
+const icons = json.map((icon) => `mdi-${icon.name}`)
 
 </script>

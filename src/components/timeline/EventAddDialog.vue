@@ -18,8 +18,12 @@
               <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" />
             </v-col>
             <v-col>
+              <v-divider>Public Tags</v-divider>
               <tag-group :tags="tagList" class="bg-background pa-2 my-1 rounded"></tag-group>
+              <v-divider>System Tags</v-divider>
               <tag-group :tags="hiddenTags" class="bg-background pa-2 my-1 rounded"></tag-group>
+              <v-divider>Description</v-divider>
+              <MarkdownRenderer :text="event.description" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -46,6 +50,7 @@ const timeline = useTimelineStore()
 import Tag from '@/objects/Tag';
 import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
+import MarkdownRenderer from '../MarkdownRenderer.vue';
 
 
 const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard', 'stardate:44002.3'))

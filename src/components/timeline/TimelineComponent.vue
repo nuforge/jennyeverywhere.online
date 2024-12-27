@@ -26,7 +26,7 @@
         <tag-group :tags="event.tagList()" @ctrl-click="handleCtrlClick" v-model="tags.selection"></tag-group>
       </template>
       <h2>{{ event.title }}</h2>
-      <MarkdownRenderer :markdown="linkItBaby(event.tagList(), event.description)" />
+      <MarkdownRenderer :text="linkItBaby(event.tagList(), event.description)" />
     </v-timeline-item>
   </v-timeline>
 </template>

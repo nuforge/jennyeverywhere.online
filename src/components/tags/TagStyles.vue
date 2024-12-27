@@ -1,10 +1,9 @@
 <template>
   <v-btn-toggle density="compact" variant="plain">
-    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+
+    <v-btn @click="styles.closable = !styles.closable" :prepend-icon="styles.closable ? `$removetag` : `$removetag-off`"
       :ripple="false">
-      <v-tooltip activator="parent" location="top">
-        <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
-      </v-tooltip>
+      <v-tooltip activator="parent" location="top" text="Delete Tags" variant="text"></v-tooltip>
     </v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="styles.labels = !styles.labels" :prepend-icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"
@@ -21,9 +20,11 @@
       </v-tooltip>
     </v-btn>
     <v-spacer></v-spacer>
-    <v-btn @click="styles.closable = !styles.closable"
-      :prepend-icon="styles.closable ? `mdi-delete` : `mdi-delete-outline`" :ripple="false">
-      <v-tooltip activator="parent" location="top" text="Delete Tags" variant="text"></v-tooltip>
+    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+      :ripple="false">
+      <v-tooltip activator="parent" location="top">
+        <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
+      </v-tooltip>
     </v-btn>
   </v-btn-toggle>
 

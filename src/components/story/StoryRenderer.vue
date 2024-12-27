@@ -1,12 +1,11 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :markdown="linkItBaby()" class="story-body" @right-click="openAddTagDialog()" />
+    <MarkdownRenderer :text="story.raw" class="story-body" @right-click="openAddTagDialog()" />
   </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
@@ -15,11 +14,6 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
-
-const taglist = computed(() => {
-  // Combine the two sets of tags into one iterable
-  return [...tags.tags, ...story.tags];
-});
 
 function openAddTagDialog() {
   let text = "";
@@ -36,10 +30,5 @@ function openAddTagDialog() {
 }
 
 
-function linkItBaby() {
-  const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-  const md = story.linkTags(selected, story.HTML)
-  return story.markitdown(md)
-}
 
 </script>

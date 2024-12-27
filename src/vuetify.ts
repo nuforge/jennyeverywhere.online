@@ -190,6 +190,8 @@ export const vuetify = createVuetify({
       'favorite-off': 'mdi-heart-outline',
       share: 'mdi-share',
       addTag: 'mdi-tag-plus',
+      removetag: 'mdi-tag-remove',
+      'removetag-off': 'mdi-tag-remove-outline',
 
       primary: 'mdi-cards-spade',
       secondary: 'mdi-cards-club',

@@ -251,6 +251,46 @@ export const vuetify = createVuetify({
       fa,
     },
   },
+  defaults: {
+    VTooltip: {
+      location: 'top',
+    },
+    VCard: {
+      class: 'bg-surface rounded rounded-b-lg',
+    },
+    VCardActions: {
+      density: 'compact',
+      VBtn: {
+        density: 'compact',
+        size: 'small',
+        ripple: false,
+        rounded: true,
+        variant: 'plain',
+      },
+      VBtnToggle: {
+        VBtn: {},
+      },
+    },
+    VCardText: {
+      class: 'ma-0 pa-0',
+    },
+    VChipGroup: {
+      class: 'bg-background  rounded-b-lg px-1 ma-1 mt-0',
+    },
+    VBtnToggle: {
+      density: 'compact',
+      size: 'small',
+      variant: 'plain',
+      VBtn: {
+        density: 'compact',
+        size: 'small',
+        ripple: false,
+      },
+    },
+    VLabel: {
+      class: 'text-uppercase text-disabled text-caption	',
+    },
+  },
   components: {
     VTag,
     VTagItem,

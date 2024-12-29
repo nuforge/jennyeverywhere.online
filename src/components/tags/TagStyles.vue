@@ -1,40 +1,29 @@
 <template>
-  <v-btn-toggle density="compact" variant="plain">
-
-    <v-btn @click="styles.closable = !styles.closable" :prepend-icon="styles.closable ? `$delete` : `$delete-off`"
-      :ripple="false">
-      <v-tooltip activator="parent" location="top" text="Delete Tags" variant="text"></v-tooltip>
-    </v-btn>
-    <v-spacer></v-spacer>
-    <v-btn @click="styles.labels = !styles.labels" :prepend-icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"
-      :ripple="false">
-      <v-tooltip activator="parent" location="top">
+  <VBtnToggle>
+    <v-btn @click="styles.labels = !styles.labels"
+      :prepend-icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`">
+      <v-tooltip activator="parent">
         Show labels: <v-icon :icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"></v-icon> {{ !styles.labels
         }}
       </v-tooltip>
     </v-btn>
-    <v-btn @click="styles.icons = !styles.icons" :prepend-icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`"
-      :ripple="false">
-      <v-tooltip activator="parent" location="top">
+    <v-btn @click="styles.icons = !styles.icons" :prepend-icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`">
+      <v-tooltip activator="parent">
         Show icons: <v-icon :icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`"></v-icon> {{ !styles.icons }}
       </v-tooltip>
     </v-btn>
-    <v-btn @click="styles.color = !styles.color" :prepend-icon="styles.color ? `mdi-palette` : `mdi-palette-outline`"
-      :ripple="false">
-      <v-tooltip activator="parent" location="top">
+    <v-btn @click="styles.color = !styles.color" :prepend-icon="styles.color ? `mdi-palette` : `mdi-palette-outline`">
+      <v-tooltip activator="parent">
         Show color: <v-icon :icon="styles.color ? `mdi-palette-outline` : `mdi-palette`"></v-icon> {{ styles.color
         }}
       </v-tooltip>
     </v-btn>
-    <v-spacer></v-spacer>
-    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
-      :ripple="false">
-      <v-tooltip activator="parent" location="top">
+    <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
+      <v-tooltip activator="parent">
         <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
       </v-tooltip>
     </v-btn>
-  </v-btn-toggle>
-
+  </VBtnToggle>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,4 @@
 <template>
-
   <TagTray :tags="taglist" :selected="tags.selection" />
 </template>
 

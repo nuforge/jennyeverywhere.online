@@ -22,7 +22,6 @@ import type Tag from '@/objects/Tag';
 const tags = useTagStore()
 
 
-
 function handleCtrlClick(tag: Tag) {
   tags.addTag(tag)
 }

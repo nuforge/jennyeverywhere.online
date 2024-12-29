@@ -34,7 +34,8 @@
       </template>
       <template v-slot:opposite>
         <v-card>
-          <tag-group :tags="event.tagList()" @ctrl-click="handleCtrlClick" v-model="tags.selection" />
+
+          <TagTray :tags="event.tagList()" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
         </v-card>
       </template>
       <h2>{{ event.name }}</h2>
@@ -46,11 +47,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type Tag from '@/objects/Tag';
-import TagGroup from '@/components/tags/TagGroup.vue';
 import { useTagStore } from '@/stores/tags'
 import { useStateStore } from '@/stores/state'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import TagTray from '../tags/TagTray.vue';
 
 const state = useStateStore()
 const tags = useTagStore()

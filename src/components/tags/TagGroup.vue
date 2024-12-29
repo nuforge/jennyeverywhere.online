@@ -1,9 +1,9 @@
 <template>
-  <v-chip-group column multiple class="bg-background rounded-lg ma-1 pa-1">
+  <v-chip-group column multiple>
     <v-tag-item v-for="tag in (tags as Tag[])" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
       :color="tag.color" :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip
       @click.ctrl.exact="manageCtrlClick(tag)" :closable="closable" draggable @dragstart="dragStart($event, tag)"
-      @dragend="state.dragEnd">
+      @dragend="emit('dragend', tag)">
     </v-tag-item>
   </v-chip-group>
 </template>
@@ -18,13 +18,15 @@ const state = useStateStore()
 const tagstore = useTagStore()
 
 
-const emit = defineEmits(['click', 'ctrl-click'])
+const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend'])
 
 function manageCtrlClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
 const dragStart = (ev: DragEvent, tag: Tag) => {
+  emit('dragstart', tag)
+  console.log('TagGroup.dragStart', tag)
   if (!ev.dataTransfer) return
   ev.dataTransfer.clearData();
   tagstore.copyTag(tag)

@@ -36,7 +36,7 @@
                 <VTagItem dense label="Public Tags" icon="mdi-tag" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <TagTray :tags="eventTags" noLabel @close="removeTag"></TagTray>
+                <TagTray :tags="evTags.tags" noLabel @close="removeTag"></TagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -52,7 +52,7 @@
                 <VTagItem dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <TagGroup :tags="systemTags" />
+                <TagTray :tags="systemTags" noLabel></TagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -75,13 +75,16 @@ const state = useStateStore()
 const timeline = useTimelineStore()
 
 import Tag from '@/objects/Tag';
-import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagTray from '@/components/tags/TagTray.vue';
+import { default as tagTray } from '@/objects/TagTray';
+
 const panels = ref([0, 1])
 const admin = ref(true)
 const eventTags = ref<Tag[]>([])
+
+const evTags = ref(new tagTray([]))
 
 
 const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard'))
@@ -95,19 +98,20 @@ const systemTags = computed(() => {
   tags.push(new Tag(`event`, 'system', 'mdi-calendar-outline')) // Event
   tags.push(new Tag(`icon:${event.value.icon}`, 'system', `${event.value.icon}`)) // Icon
   tags.push(new Tag(`color:${event.value.color}`, event.value.color, `$color`)) // Color
-
+  evTags.value.copy(tags as Tag[])
   return tags as Tag[]
 })
 
 function removeTag(tag: Tag) {
-  console.log('removeTag', tag)
+  console.log('EAD: removeTag', tag)
+  evTags.value.map.deleteTag(tag)
 }
 
 
 function saveEvent() {
   // Save the event
-  console.log('saveEvent', eventTags.value.length)
-  timeline.addEvent(event.value, eventTags.value)
+  console.log('EAD: saveEvent', evTags.value.tags)
+  timeline.addEvent(event.value, evTags.value.tags)
   state.eventClose()
 }
 
@@ -122,7 +126,7 @@ onMounted(() => {
     const tag = new Tag(`${event.value.name}`)
     tag.icon = event.value.icon
     tag.color = event.value.color
-
+    evTags.value.copy(new Tag(`${tag.name}`, tag.color, tag.icon))
     eventTags.value.push(new Tag(`${tag.name}`, tag.color, tag.icon))
   }
   eventTags.value.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
@@ -136,7 +140,7 @@ onMounted(() => {
   eventTags.value.push(new Tag(`invasion`))
   eventTags.value.push(new Tag(`starship`))
 
-  console.log('EventAddDialog.onMounted', event.value)
+  evTags.value.copy(eventTags.value as Tag[])
 })
 
 

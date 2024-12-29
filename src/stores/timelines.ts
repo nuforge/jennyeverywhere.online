@@ -20,7 +20,8 @@ export const useTimelineStore = defineStore('timeline', () => {
       .createTag('rank:Lieutenant (junior grade)', 'sta-career', 'mdi-chevron-double-up'),
   ])
 
-  const addEvent = (newEvent: Event, tags: Array<Tag>) => {
+  const addEvent = (newEvent: Event, tags: Tag[]) => {
+    console.log('add Event: ', newEvent)
     const event = new Event(newEvent.name, newEvent.description)
     tags.forEach((tag) => {
       event.createTag(tag.name, tag.color, tag.icon)

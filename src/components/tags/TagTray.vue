@@ -1,5 +1,5 @@
 <template>
-  <v-card :variant="state.dragging ? 'elevated' : 'flat'" @dragover="onDragOver">
+  <v-card :variant="state.dragging ? 'elevated' : 'flat'" @dragover="onDragOver" @dragend="onDragEnd">
     <v-card-actions :class="tray.dragging ? `bg-surface` : `bg-background`">
       <VBtnToggle>
         <v-btn @click="tray.closable = !tray.closable"
@@ -40,11 +40,10 @@
         </v-btn>
       </VBtnToggle>
     </v-card-actions>
-
     <v-card-text>
       <TagGroup :tags="(tagMerge as Tag[])" @drop="onDragDrop" @dragover="onDragOver" @click="emit('click', $event)"
         @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd" :closable="showClosable"
-        v-model="tray.selected" />
+        v-model="tray.selected" @close="onClose" />
     </v-card-text>
   </v-card>
 </template>
@@ -89,7 +88,8 @@ const props = defineProps({
 
 // TAGS & CLICKS
 
-function tagClosed(tag: Tag) {
+function onClose(tag: Tag) {
+  console.log('TagTray.onClose', tag)
   emit('close', tag)
   tray.value.map.removeTag(tag.id)
 }
@@ -167,7 +167,7 @@ const onDragDrop = () => {
 const dropDeleteTags = () => {
   //console.log('dropDeleteTags', clipboard.paste())
   const tags = clipboard.paste(true) as Tag[]
-  tags.forEach((tag) => { tagClosed(tag) })
+  tags.forEach((tag) => { onClose(tag) })
   tray.value.map.removeTags(tags)
   clipboard.clear()
   state.dragDrop()

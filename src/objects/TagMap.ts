@@ -76,17 +76,14 @@ class TagMap {
   }
 
   deleteTag(tag: Tag) {
-    console.log('deleteTag', tag.id, this._tags, this._tags.delete(tag.id), this._tags)
-    return this
+    return this._tags.delete(tag.id)
   }
 
   removeTag(tag: string) {
-    console.log('removeTag', tag)
     return this._tags.delete(tag)
   }
 
   removeTags = (tags: Tag[]) => {
-    console.log('removeTags', tags)
     tags.forEach((tag) => this.removeTag(tag.id))
   }
 

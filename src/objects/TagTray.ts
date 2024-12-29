@@ -95,12 +95,11 @@ class TagTray {
 
   // ACTIONS
 
-  copy(copyValue: Tag | Tag[] | TagMap) {
-    console.log(TagTray.name, 'copy', copyValue)
+  copy(copyValue: Tag | Tag[]) {
     if (Array.isArray(copyValue)) {
-      return copyValue
+      return this._tags.addTags(copyValue)
     } else {
-      return copyValue
+      return this._tags.addTag(copyValue)
     }
   }
 

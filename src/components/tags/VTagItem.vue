@@ -1,10 +1,10 @@
 <template>
   <v-chip variant="text" density="comfortable" tile class="rounded-lg"
-    :color="styles.icons ? styles.color ? color : 'text' : undefined" :value="value" close-icon="mdi-close"
-    @click:close="closeTag($event, label)" :closable="styles.closable" @click="clickTag($event, label)">
+    :color="styles.icons ? styles.color ? color : 'text' : undefined" :value="value" :closable="styles.closable"
+    close-icon="mdi-close" @click:close="closeTag($event, value)" @click="clickTag($event, value)">
     <template v-slot:prepend v-if="!styles.icons">
       <v-icon :icon="icon ? icon : `$tag`" :color="styles.color ? color : 'text'" :start="!styles.labels"
-        @click="clickIcon($event, label)"></v-icon>
+        @click="clickIcon($event, value)"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface">
         <v-icon :icon="icon" :color="styles.color ? color : 'text'" v-if="icon"></v-icon> <span class="opacity-50"> {{
           space ? `${space} : ` :
@@ -21,6 +21,7 @@
 import { useStyleStore } from '@/stores/styles';
 
 const styles = useStyleStore()
+
 
 defineProps({
   icon: {
@@ -68,16 +69,23 @@ defineProps({
     default: false
   },
 })
+
+
+const emit = defineEmits(['click', 'close', 'click-icon'])
+
+
 function clickTag(event: Event, value: string | number) {
-  console.log('VTagItem.clickTag', event, value)
+  emit('click', value)
 }
 
 function closeTag(event: Event, value: string | number) {
-  console.log('VTagItem.closeTag', event, value)
+  console.log('VTagItem.closeTag', value)
+  emit('close', value)
 }
 
 function clickIcon(event: Event, value: string | number) {
-  console.log('VTagItem.clickIcon', event, value)
+  console.log('VTagItem.clickIcon', value)
+  emit('click-icon', value)
 }
 
 

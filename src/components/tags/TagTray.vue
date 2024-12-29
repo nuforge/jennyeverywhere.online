@@ -5,7 +5,8 @@
       <v-chip-group column multiple class="bg-background pa-2" @drop="dragDrop($event, taglist)" @dragover="dragOver">
         <v-tag-item v-for="tag in (tagMerge as Tag[])" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
           :color="tag.color" :space="tag.space" tooltip @click.ctrl.exact="manageCtrlClick(tag)" draggable
-          @dragstart="dragStart($event, tag)" @dragend="dragEnd($event, tag)">
+          @dragstart="dragStart($event, tag)" @dragend="dragEnd($event, tag)" @click="emit('click', tag)"
+          @close="tagClosed(tag)">
         </v-tag-item>
       </v-chip-group>
     </v-card-text>
@@ -13,26 +14,29 @@
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state'
-const state = useStateStore()
-
 import { defineProps, defineEmits, computed, ref, onMounted } from 'vue';
 import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
-import { useClipboardStore } from '@/stores/clipboard'
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 
-const dragImage = ref<HTMLImageElement | null>(null);
+import { useClipboardStore } from '@/stores/clipboard'
+import { useStateStore } from '@/stores/state'
+
 const taglist = ref(new TagMap())
+const dragImage = ref<HTMLImageElement | null>(null);
+
+const state = useStateStore()
 const clipboard = useClipboardStore()
+
 
 const tagMerge = computed(() => {
   const tm = Array.from([...taglist.value.tags, ...props.tags]) as Tag[]
   return tm
 })
 
+// EMIT AND PROPS
 
-const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend'])
+const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])
 const props = defineProps({
   tags: {
     type: Array as () => Tag[],
@@ -44,10 +48,20 @@ const props = defineProps({
   }
 })
 
+
+// TAGS & CLICKS
+
+function tagClosed(tag: Tag) {
+  console.log('TagTray - tagClosed', tag, taglist)
+  emit('close', tag)
+  taglist.value.removeTag(tag.id)
+}
+
 function manageCtrlClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
+// DRAG AND DROP
 const dragStart = (event: DragEvent, tag: Tag) => {
   console.log('dragStart', tag.id)
   state.dragStart()
@@ -83,6 +97,7 @@ const dragDrop = (event: DragEvent, tags: TagMap) => {
   clipboard.clear()
 }
 
+// MOUNTED
 
 onMounted(() => {
   // Preload the image

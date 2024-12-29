@@ -67,7 +67,7 @@ class TagMap {
   }
 
   deleteTag(tag: Tag) {
-    console.log('deleteTag', tag.id, this._tags, this._tags.delete(tag.id))
+    console.log('deleteTag', tag.id, this._tags, this._tags.delete(tag.id), this._tags)
     return this
   }
 

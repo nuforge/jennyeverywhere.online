@@ -36,7 +36,7 @@
                 <v-tag dense label="Public Tags" icon="mdi-tag"></v-tag>
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <tag-group :tags="tagList"></tag-group>
+                <TagTray :tags="eventTags" noLabel @close="removeTag"></TagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStateStore } from '@/stores/state'
 import { useTimelineStore } from '@/stores/timelines'
 
@@ -78,9 +78,10 @@ import Tag from '@/objects/Tag';
 import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
 import MarkdownRenderer from '../MarkdownRenderer.vue';
+import TagTray from '../tags/TagTray.vue';
 const panels = ref([0, 1])
-
 const admin = ref(true)
+const eventTags = ref<Tag[]>([])
 
 
 const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard'))
@@ -98,34 +99,16 @@ const systemTags = computed(() => {
   return tags as Tag[]
 })
 
-const tagList = computed(() => {
-  const tags = []
-  if (event.value.name !== '') {
-
-    const tag = new Tag(`${event.value.name}`)
-    tag.icon = event.value.icon
-    tag.color = event.value.color
-
-    tags.push(new Tag(`${tag.name}`, tag.color, tag.icon))
-  }
-  tags.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
-  tags.push(new Tag(`planet:Earth`, `#2079FF`, `mdi-earth`))
-  tags.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
-  tags.push(new Tag(`captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
-  tags.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
-  tags.push(new Tag(`borg:assimilate`, `#73C25F`, `mdi-memory`))
-  tags.push(new Tag(`stardate:44002.3`, 'system', `mdi-web-clock`)) // Timestamp
-  tags.push(new Tag(`battle`, `#AA0000`, `mdi-sword`))
-  tags.push(new Tag(`invasion`))
-  tags.push(new Tag(`starship`))
-
-  return tags as Tag[]
-})
+function removeTag(tag: Tag) {
+  eventTags.value.
+    console.log('removeTag', tag)
+}
 
 
 function saveEvent() {
   // Save the event
-  timeline.addEvent(event.value, tagList.value)
+  console.log('saveEvent', eventTags.value.length)
+  timeline.addEvent(event.value, eventTags.value)
   state.eventClose()
 }
 
@@ -134,6 +117,28 @@ function cancelEvent() {
   state.event = false
 }
 
+onMounted(() => {
+  if (event.value.name !== '') {
+
+    const tag = new Tag(`${event.value.name}`)
+    tag.icon = event.value.icon
+    tag.color = event.value.color
+
+    eventTags.value.push(new Tag(`${tag.name}`, tag.color, tag.icon))
+  }
+  eventTags.value.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
+  eventTags.value.push(new Tag(`planet:Earth`, `#2079FF`, `mdi-earth`))
+  eventTags.value.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
+  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
+  eventTags.value.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
+  eventTags.value.push(new Tag(`borg:assimilate`, `#73C25F`, `mdi-memory`))
+  eventTags.value.push(new Tag(`stardate:44002.3`, 'system', `mdi-web-clock`)) // Timestamp
+  eventTags.value.push(new Tag(`battle`, `#AA0000`, `mdi-sword`))
+  eventTags.value.push(new Tag(`invasion`))
+  eventTags.value.push(new Tag(`starship`))
+
+  console.log('EventAddDialog.onMounted', event.value)
+})
 
 
 </script>

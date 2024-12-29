@@ -24,7 +24,6 @@ export const useTimelineStore = defineStore('timeline', () => {
     const event = new Event(newEvent.name, newEvent.description)
     tags.forEach((tag) => {
       event.createTag(tag.name, tag.color, tag.icon)
-      console.log('tag', tag)
     })
     events.value.unshift(event)
   }

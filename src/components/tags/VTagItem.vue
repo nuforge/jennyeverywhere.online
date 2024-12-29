@@ -1,20 +1,22 @@
 <template>
-  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="styles.icons ? color : undefined"
-    :value="value">
+  <v-chip variant="text" density="comfortable" tile class="rounded-lg"
+    :color="styles.icons ? styles.color ? color : 'text' : undefined" :value="value">
     <template v-slot:prepend v-if="!styles.icons">
-      <v-icon :icon="icon ? icon : `$tag`" :color="color" :start="!styles.labels"></v-icon>
+      <v-icon :icon="icon ? icon : `$tag`" :color="styles.color ? color : 'text'" :start="!styles.labels"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface">
-        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> <span class="opacity-50"> {{ space ? `${space} : ` :
-          '' }}</span> {{ label }}
+        <v-icon :icon="icon" :color="styles.color ? color : 'text'" v-if="icon"></v-icon> <span class="opacity-50"> {{
+          space ? `${space} : ` :
+            '' }}</span> {{ label }}
       </v-tooltip>
     </template>
     <template v-slot:default v-if="!styles.labels">
       {{ label }}
     </template>
     <template v-slot:append v-if="styles.icons && styles.labels">
-      <v-icon :icon="`$no-tag`" :color="color" :start="!styles.labels" id="tooltip-activator"></v-icon>
+      <v-icon :icon="`$no-tag`" :color="styles.color ? color : 'text'" :start="!styles.labels"
+        id="tooltip-activator"></v-icon>
       <v-tooltip activator="parent" location="bottom" content-class="bg-surface" elevated>
-        <v-icon :icon="icon" :color="color" v-if="icon"></v-icon> {{ space }} {{ label }}
+        <v-icon :icon="icon" :color="styles.color ? color : 'text'" v-if="icon"></v-icon> {{ space }} {{ label }}
       </v-tooltip>
     </template>
   </v-chip>

@@ -13,7 +13,7 @@ export const useStateStore = defineStore('state', () => {
   const dragging = ref(false)
   const vuetify = useTheme()
 
-  const tagmanager = computed(() => drawer.value || dragging.value)
+  const tagmanager = computed(() => drawer.value)
 
   function changeTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark'

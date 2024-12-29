@@ -5,7 +5,7 @@ import TagMap from '@/objects/TagMap'
 
 export const useTagStore = defineStore('tags', () => {
   const taglist = ref(new TagMap())
-  const selection = ref<string[]>(['jenny-everywhere'])
+  const selection = ref<string[]>([''])
   const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
   const tags = computed(() => taglist.value.tagList)
   const clipboard = ref(new Tag(''))

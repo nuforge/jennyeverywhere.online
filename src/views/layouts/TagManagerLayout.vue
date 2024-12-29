@@ -18,15 +18,11 @@ import TagTray from '@/components/tags/TagTray.vue';
 
 const tags = useTagStore()
 
-
-
-
-
 onMounted(() => {
   tags.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
-  tags.addLabel('green portal', 'green', 'mdi-orbit')
-  tags.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
-  tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
+  // tags.addLabel('green portal', 'green', 'mdi-orbit')
+  // tags.addLabel('flamethrower', 'red', 'mdi-fire')
+  // tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
+  // tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
 });
 </script>

@@ -4,37 +4,53 @@ import Tag from '@/objects/Tag'
 
 export const useClipboardStore = defineStore('clipboard', () => {
   const dragging = ref(false)
-  const clipboard = ref<any>(undefined)
+  const clipboard = ref<Tag[]>([])
+
+  function cut(tag: Tag) {
+    return copy(tag)
+  }
+
+  function copy(copyValue: Tag | Tag[]) {
+    if (Array.isArray(copyValue)) {
+      return copyTags(copyValue)
+    } else {
+      return copyTag(copyValue)
+    }
+  }
 
   function copyTag(tag: Tag) {
-    clipboard.value = tag
+    return clipboard.value.push(tag)
+  }
+
+  function copyTags(tags: Tag[]) {
+    return clipboard.value.push(...tags)
   }
 
   function clear() {
     dragging.value = false
-    clipboard.value = undefined
+    return (clipboard.value = [])
   }
-  function pasteTag() {
-    return clipboard.value
-  }
-  // Dragging
 
-  function dragStart() {
-    dragging.value = true
+  function paste(clear: boolean = false) {
+    const pasted = [...clipboard.value]
+    if (clear) {
+      clipboard.value = []
+    }
+    return pasted
   }
-  function dragEnd() {
-    dragging.value = false
+
+  function pasteTag(clear: boolean = false) {
+    return clear ? clipboard.value[0] : clipboard.value.pop()
   }
-  function dragDrop() {}
 
   return {
     dragging,
     clipboard,
+    copy,
+    cut,
     clear,
+    paste,
     copyTag,
     pasteTag,
-    dragStart,
-    dragEnd,
-    dragDrop,
   }
 })

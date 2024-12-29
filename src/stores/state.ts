@@ -65,7 +65,7 @@ export const useStateStore = defineStore('state', () => {
     dragging.value = false
   }
   function dragDrop() {
-    dragging.value = true
+    dragging.value = false
   }
 
   return {

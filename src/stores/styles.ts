@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useStyleStore = defineStore('styles', () => {
-  const closable = ref(true)
+  const closable = ref(false)
   const labels = ref(false)
   const icons = ref(false)
 

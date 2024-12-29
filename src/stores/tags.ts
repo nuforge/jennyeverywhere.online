@@ -4,11 +4,13 @@ import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
 
 export const useTagStore = defineStore('tags', () => {
-  const taglist = ref(new TagMap())
+  const tagMap = ref(new TagMap())
   const selection = ref<string[]>([''])
-  const selected = computed(() => selection.value.map((tag) => taglist.value.getTag(tag)))
-  const tags = computed(() => taglist.value.tagList)
+  const selected = computed(() => selection.value.map((tag) => tagMap.value.getTag(tag)))
+  const tags = computed(() => tagMap.value.tagList)
   const clipboard = ref(new Tag(''))
+
+  const taglist = tagMap
 
   const cleanTag = (name: string | number) => {
     return Tag.cleanTag(name)
@@ -33,40 +35,45 @@ export const useTagStore = defineStore('tags', () => {
   }
 
   const addTag = (newTag: Tag) => {
-    return taglist.value.addTag(newTag)
+    return tagMap.value.addTag(newTag)
   }
 
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
     const tag = cleanTag(newName)
-    const existingTag = taglist.value.getTag(tag)
+    const existingTag = tagMap.value.getTag(tag)
     const newTag = existingTag ? existingTag : new Tag(newName)
     newTag.icon = newIcon
     newTag.color = newColor
-    return taglist.value.addTag(newTag)
+    return tagMap.value.addTag(newTag)
   }
 
   const createTag = (newText: string = 'tag') => {
     const tag = new Tag(newText)
-    if (tag.space && taglist.value.getTag(tag.space)) {
-      tag.icon = taglist.value.getTag(tag.space)?.icon || ''
-      tag.color = taglist.value.getTag(tag.space)?.color || ''
+    if (tag.space && tagMap.value.getTag(tag.space)) {
+      tag.icon = tagMap.value.getTag(tag.space)?.icon || ''
+      tag.color = tagMap.value.getTag(tag.space)?.color || ''
     }
-    return taglist.value.addTag(tag)
+    return tagMap.value.addTag(tag)
   }
 
   const removeTag = (tag: string) => {
-    taglist.value.removeTag(tag)
+    tagMap.value.removeTag(tag)
     selection.value = selection.value.filter((item) => item !== tag)
   }
 
+  const removeTags = (tags: Tag[]) => {
+    tags.forEach((tag) => removeTag(tag.id))
+  }
+
   function linkText(text: string) {
-    return taglist.value.linkText(text)
+    return tagMap.value.linkText(text)
   }
 
   return {
     selection,
     selected,
-    taglist,
+    tagMap,
+    taglist, //deprecated
     tags,
     clipboard,
     tempTag,
@@ -74,6 +81,7 @@ export const useTagStore = defineStore('tags', () => {
     createTag,
     addLabel,
     removeTag,
+    removeTags,
     linkText,
     copyTag,
     pasteTag,

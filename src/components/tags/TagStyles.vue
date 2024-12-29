@@ -19,6 +19,13 @@
         Show icons: <v-icon :icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`"></v-icon> {{ !styles.icons }}
       </v-tooltip>
     </v-btn>
+    <v-btn @click="styles.color = !styles.color" :prepend-icon="styles.color ? `mdi-palette` : `mdi-palette-outline`"
+      :ripple="false">
+      <v-tooltip activator="parent" location="top">
+        Show color: <v-icon :icon="styles.color ? `mdi-palette-outline` : `mdi-palette`"></v-icon> {{ styles.color
+        }}
+      </v-tooltip>
+    </v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
       :ripple="false">

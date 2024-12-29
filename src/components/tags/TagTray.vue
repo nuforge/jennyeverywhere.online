@@ -1,6 +1,6 @@
 <template>
   <v-card density="compact" flat>
-    <v-card-text> {{ selection }}
+    <v-card-text>
       <v-chip-group column multiple class="bg-background rounded-lg pa-2" @drop="dragDrop($event, taglist)"
         @dragover="dragOver">
         <v-tag-item v-for="tag in (tagMerge as Tag[])" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
@@ -13,10 +13,15 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, ref } from 'vue';
+
+import { defineProps, defineEmits, computed, ref, onMounted } from 'vue';
 import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
 import { useClipboardStore } from '@/stores/clipboard'
+
+
+import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+const dragImage = ref<HTMLImageElement | null>(null);
 
 const taglist = ref(new TagMap())
 
@@ -37,7 +42,6 @@ const props = defineProps({
   },
   selected: {
     type: Array as () => string[],
-    required: true
   }
 })
 
@@ -49,9 +53,14 @@ const dragStart = (event: DragEvent, tag: Tag) => {
   console.log('dragStart', tag.id)
   if (!event.dataTransfer) return
   event.dataTransfer.clearData();
-  event.dataTransfer.setData('text/plain', tag.id);
-  clipboard.copyTag(tag)
   event.dataTransfer.effectAllowed = "move";
+  if (dragImage.value) {
+    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+  } else {
+    console.warn('Drag image not ready!');
+  }
+  event.dataTransfer?.setData('text/plain', tag.id);
+  clipboard.copyTag(tag)
 }
 
 const dragOver = (event: DragEvent) => {
@@ -71,5 +80,17 @@ const dragDrop = (event: DragEvent, tags: TagMap) => {
   tags.addTag(clipboard.pasteTag())
   clipboard.clear()
 }
+
+
+onMounted(() => {
+  // Preload the image
+  const img = new Image();
+  img.src = imgSrc;
+
+  img.onload = () => {
+    dragImage.value = img;
+    console.log('Image preloaded and ready to use:', img);
+  };
+});
 
 </script>

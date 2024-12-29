@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="state.add" :scrim="false" class="elevation-10">
+  <v-dialog v-model="state.add" scrim="#000000" class="elevation-10">
     <form @submit.prevent="addTag()">
       <v-row>
         <v-spacer></v-spacer>

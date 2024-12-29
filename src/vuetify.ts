@@ -5,7 +5,6 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
-import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
 import TagFab from '@/components/fabs/TagFab.vue'
 import DiceFab from '@/components/fabs/DiceFab.vue'
@@ -287,12 +286,17 @@ export const vuetify = createVuetify({
         ripple: false,
       },
     },
+    VExpansionPanels: {
+      VExpansionPanel: {
+        VExpansionPanelTitle: {},
+        VExpansionPanelText: {},
+      },
+    },
     VLabel: {
       class: 'text-uppercase text-disabled text-caption	',
     },
   },
   components: {
-    VTag,
     VTagItem,
     TagFab,
     DiceFab,

@@ -73,7 +73,6 @@ defineProps({
 
 const emit = defineEmits(['click', 'close', 'click-icon'])
 
-
 function clickTag(event: Event, value: string | number) {
   emit('click', value)
 }

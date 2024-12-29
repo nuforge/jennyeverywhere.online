@@ -32,24 +32,22 @@
           <v-expansion-panels multiple variant="accordion" v-model="panels">
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <v-tag dense label="Tag" icon="mdi-tag"></v-tag>
+                <VTagItem dense label="Tag" icon="mdi-tag"></VTagItem>
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background">
-                <vTagItem :label="tempTag.name" :icon="icon" :color="color" :value="text" variant="tonal"
-                  class="elevation-4">
-                </vTagItem>
+                <VTagItem :label="tempTag.name" :icon="icon" :color="color" :value="text" variant="tonal"
+                  class="elevation-4" />
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <v-tag dense label="System Tags" icon="mdi-tag-hidden" color="disabled"></v-tag>
+                <VTagItem dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background">
                 <div class="d-flex flex-wrap justify-start ga-1">
                   <div v-for="(attr, index) in tempTag" :key="index">
-                    <v-tag-item :label="`${attr}`" :value="`${attr}`" variant="tonal" class="elevation-4 "
-                      :icon="`$${index}`" :space="`${index}`" v-if="attr">
-                    </v-tag-item>
+                    <VTagItem :label="`${attr}`" :value="`${attr}`" variant="tonal" class="elevation-4 "
+                      :icon="`$${index}`" :space="`${index}`" v-if="attr" />
                   </div>
                 </div>
               </v-expansion-panel-text>
@@ -65,7 +63,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import vTagItem from '@/components/tags/VTagItem.vue'
+import VTagItem from '@/components/tags/VTagItem.vue'
 import { useStateStore } from '@/stores/state'
 import { useTagStore } from '@/stores/tags'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';

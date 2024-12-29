@@ -33,7 +33,7 @@
           <v-expansion-panels multiple variant="accordion" v-model="panels">
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <v-tag dense label="Public Tags" icon="mdi-tag"></v-tag>
+                <VTagItem dense label="Public Tags" icon="mdi-tag" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
                 <TagTray :tags="eventTags" noLabel @close="removeTag"></TagTray>
@@ -41,7 +41,7 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <v-tag dense label="Description" icon="mdi-text-box-outline"></v-tag>
+                <VTagItem dense label="Description" icon="mdi-text-box-outline" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
                 <MarkdownRenderer :text="event.description" />
@@ -49,10 +49,10 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <v-tag dense label="System Tags" icon="mdi-tag-hidden" color="disabled"></v-tag>
+                <VTagItem dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <tag-group :tags="systemTags"></tag-group>
+                <TagGroup :tags="systemTags" />
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -77,8 +77,8 @@ const timeline = useTimelineStore()
 import Tag from '@/objects/Tag';
 import TagGroup from '@/components/tags/TagGroup.vue';
 import Event from '@/objects/Event';
-import MarkdownRenderer from '../MarkdownRenderer.vue';
-import TagTray from '../tags/TagTray.vue';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import TagTray from '@/components/tags/TagTray.vue';
 const panels = ref([0, 1])
 const admin = ref(true)
 const eventTags = ref<Tag[]>([])
@@ -100,8 +100,7 @@ const systemTags = computed(() => {
 })
 
 function removeTag(tag: Tag) {
-  eventTags.value.
-    console.log('removeTag', tag)
+  console.log('removeTag', tag)
 }
 
 

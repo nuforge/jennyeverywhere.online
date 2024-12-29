@@ -1,39 +1,31 @@
 <template>
-  <v-card :variant="state.dragging ? 'elevated' : 'flat'" @dragover="dragOver">
+  <v-card :variant="state.dragging ? 'elevated' : 'flat'" @dragover="onDragOver">
     <v-card-actions :class="tray.dragging ? `bg-surface` : `bg-background`">
       <VBtnToggle>
-
-        <v-btn @click="styles.closable = !styles.closable"
-          :prepend-icon="styles.closable ? `mdi-delete-outline` : `mdi-delete`" @drop="dropDeleteTags">
+        <v-btn @click="tray.closable = !tray.closable"
+          :prepend-icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`" @drop="dropDeleteTags">
           <v-tooltip activator="parent">
-            Show Tag Closers: <v-icon :icon="styles.closable ? `mdi-delete-outline` : `mdi-delete`"></v-icon> {{
-              !styles.closable
+            Show Tag Closers: <v-icon :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"></v-icon> {{
+              !tray.closable
             }}
           </v-tooltip>
         </v-btn>
-        <v-btn @click="styles.labels = !styles.labels"
-          :prepend-icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`">
+        <v-btn @click="tray.labels = !tray.labels" :prepend-icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`">
           <v-tooltip activator="parent">
-            Show labels: <v-icon :icon="styles.labels ? `mdi-label-off-outline` : `mdi-label`"></v-icon> {{
-              !styles.labels
+            Show labels: <v-icon :icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`"></v-icon> {{
+              !tray.labels
             }}
           </v-tooltip>
         </v-btn>
-        <v-btn @click="styles.icons = !styles.icons" :prepend-icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`">
+        <v-btn @click="tray.icons = !tray.icons" :prepend-icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`">
           <v-tooltip activator="parent">
-            Show icons: <v-icon :icon="styles.icons ? `mdi-eye-off-outline` : `mdi-eye`"></v-icon> {{ !styles.icons }}
+            Show icons: <v-icon :icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`"></v-icon> {{ !tray.icons }}
           </v-tooltip>
         </v-btn>
-        <v-btn @click="styles.color = !styles.color"
-          :prepend-icon="styles.color ? `mdi-palette` : `mdi-palette-outline`">
+        <v-btn @click="tray.color = !tray.color" :prepend-icon="tray.color ? `mdi-palette` : `mdi-palette-outline`">
           <v-tooltip activator="parent">
-            Show color: <v-icon :icon="styles.color ? `mdi-palette-outline` : `mdi-palette`"></v-icon> {{ styles.color
+            Show color: <v-icon :icon="tray.color ? `mdi-palette-outline` : `mdi-palette`"></v-icon> {{ tray.color
             }}
-          </v-tooltip>
-        </v-btn>
-        <v-btn :prepend-icon="`mdi-drag`" @dragstart="dragTrayStart($event, tagMerge)" :draggable="true">
-          <v-tooltip activator="parent">
-            <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
           </v-tooltip>
         </v-btn>
         <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
@@ -41,20 +33,19 @@
             <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
           </v-tooltip>
         </v-btn>
-
+        <v-btn prepend-icon="mdi-drag" @dragstart="onDragTrayStart($event, tagMerge)" :draggable="true">
+          <v-tooltip activator="parent">
+            <v-icon icon="mdi-drag"></v-icon> Drag All Tags
+          </v-tooltip>
+        </v-btn>
       </VBtnToggle>
     </v-card-actions>
 
-
     <v-card-text>
-      <v-chip-group draggable column multiple @drop="dragDrop" @dragover="dragOver" v-model="tray.selected">
-        <v-tag-item v-for="tag in (tagMerge as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
-          :label="tag.name" :color="tag.color" :space="tag.space" @click="emit('click', tag)" @close="tagClosed(tag)"
-          @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="dragTagStart($event, tag)" @dragend="dragTagEnd">
-        </v-tag-item>
-      </v-chip-group>
+      <TagGroup :tags="(tagMerge as Tag[])" @drop="onDragDrop" @dragover="onDragOver" @click="emit('click', $event)"
+        @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd" :closable="showClosable"
+        v-model="tray.selected" />
     </v-card-text>
-
   </v-card>
 </template>
 
@@ -71,6 +62,7 @@ import { useStateStore } from '@/stores/state'
 import { useStyleStore } from '@/stores/styles'
 
 import TagTray from '@/objects/TagTray';
+import TagGroup from './TagGroup.vue';
 
 const tray = ref(new TagTray())
 
@@ -79,6 +71,8 @@ const styles = useStyleStore()
 const clipboard = useClipboardStore()
 
 const tagMerge = computed(() => Array.from([...tray.value.tags, ...props.tags]) as Tag[])
+
+const showClosable = computed(() => tray.value.closable || styles.closable)
 
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])
@@ -123,35 +117,25 @@ const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
   event.dataTransfer?.setData('text/plain', 'tag');
 }
 
-const dragStart = () => {
+const onDragStart = () => {
   tray.value.dragging = true
   state.dragStart()
 }
 
-const dragTagStart = (event: DragEvent, tag: Tag) => {
-  // console.log('Tag.Start', tag.id)
-  writeDataTransfer(event, 'tag', tag.id)
-  state.dragStart()
-
-  console.log('Tag.Start: tray.value.selected', tray.value.selected)
-
-  clipboard.copy(tag)
-  dragStart()
-}
 
 
-const dragTrayStart = (event: DragEvent, tags: Tag[]) => {
+const onDragTrayStart = (event: DragEvent, tags: Tag[]) => {
   //console.log('Tray.Start', tags)
   state.dragStart()
   clipboard.copy(tags)
   writeDataTransfer(event, 'list', 'test');
-  dragStart()
+  onDragStart()
 }
 
 
 // DRAG OVER
 
-const dragOver = (event: DragEvent) => {
+const onDragOver = (event: DragEvent) => {
   event.preventDefault();
   if (event.dataTransfer) {
     //console.log(event.dataTransfer.getData('text/plain'));
@@ -161,26 +145,21 @@ const dragOver = (event: DragEvent) => {
 
 // DRAG END
 
-const dragEnd = () => {
+const onDragEnd = () => {
   clipboard.clear()
   tray.value.dragging = false
   // console.log('drag.End')
   state.dragEnd()
 }
 
-const dragTagEnd = () => {
-  // console.log('Tag.End', tag)
-  dragEnd()
-}
-
 
 // DRAG DROP
 
-const dragDrop = () => {
+const onDragDrop = () => {
   tray.value.dragging = false
   //console.log('drag.Drop')
   //const tagMapDifference = tagMap.value.difference(tags)
-  //console.log('TagTray.dragDrop', tags, tagMap.value.tagList, tagMapDifference)
+  //console.log('TagTray.onDragDrop', tags, tagMap.value.tagList, tagMapDifference)
   tray.value.map.addTags(clipboard.paste(true) as Tag[])
   state.dragDrop()
 }

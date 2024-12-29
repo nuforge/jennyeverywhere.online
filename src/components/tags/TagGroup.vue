@@ -1,38 +1,71 @@
 <template>
-  <v-chip-group column multiple>
-    <v-tag-item v-for="tag in (tags as Tag[])" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
-      :color="tag.color" :space="tag.space" :noValue="noValue" :noLabel="noLabel" :noIcon="noIcon" tooltip
-      @click.ctrl.exact="manageCtrlClick(tag)" :closable="closable" draggable @dragstart="dragStart($event, tag)"
-      @dragend="emit('dragend', tag)">
+  <v-chip-group draggable column multiple>
+    <v-tag-item v-for="tag in (tags as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
+      :label="tag.name" :color="tag.color" :space="tag.space" :closable="closable" :noValue="noValue" :noLabel="noLabel"
+      :noIcon="noIcon" @click="emit('click', tag)" @close="onTagClosed(tag)" @click.ctrl.exact="manageCtrlClick(tag)"
+      @dragstart="onDragStart($event, tag)" @dragend="onDragend">
     </v-tag-item>
   </v-chip-group>
 </template>
 
+
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, onMounted, ref } from 'vue'
+import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+const dragImage = ref<HTMLImageElement | null>(null);
+
 import { useStateStore } from '@/stores/state';
-import { useTagStore } from '@/stores/tags';
+import { useClipboardStore } from '@/stores/clipboard'
 import Tag from '@/objects/Tag'
 
 const state = useStateStore()
-const tagstore = useTagStore()
+const clipboard = useClipboardStore()
 
-
-const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend'])
+const emit = defineEmits(['click', 'close', 'ctrl-click', 'dragstart', 'dragend'])
 
 function manageCtrlClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
-const dragStart = (ev: DragEvent, tag: Tag) => {
+const onTagClosed = (tag: Tag) => {
+  emit('close', tag)
+}
+
+const onDragStart = (event: DragEvent, tag: Tag) => {
   emit('dragstart', tag)
   console.log('TagGroup.dragStart', tag)
-  if (!ev.dataTransfer) return
-  ev.dataTransfer.clearData();
-  tagstore.copyTag(tag)
+  if (!event.dataTransfer) return
+  writeDataTransfer(event, 'tag', tag.id)
+  event.dataTransfer.clearData();
+  clipboard.copy(tag)
   state.dragStart()
-  ev.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.effectAllowed = "move";
 }
+
+const onDragend = (event: DragEvent, tag: Tag) => {
+  clipboard.clear()
+  // console.log('drag.End')
+  state.dragEnd()
+  emit('dragend', tag)
+}
+
+
+const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
+  if (!event.dataTransfer) return
+  event.dataTransfer.clearData();
+  event.dataTransfer.setData(type, data);
+
+  if (dragImage.value) {
+    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+  } else {
+    console.warn('Drag image not ready!');
+  }
+  if (!event.dataTransfer) return
+  event.dataTransfer.clearData();
+  event.dataTransfer?.setData('text/plain', 'tag');
+}
+
+
 
 
 defineProps({
@@ -62,5 +95,16 @@ defineProps({
     default: false
   },
 })
+// MOUNTED
+
+onMounted(() => {
+  // Preload the image
+  const img = new Image();
+  img.src = imgSrc;
+
+  img.onload = () => {
+    dragImage.value = img;
+  };
+});
 
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <v-card density="compact" flat>
-    <v-card-text>
-      <v-chip-group column multiple class="bg-background rounded-lg pa-2" @drop="dragDrop($event, taglist)"
-        @dragover="dragOver">
+  <v-card :class="['rounded-t-lg', state.dragging ? `bg-primary` : `bg-surface`]"
+    :variant="state.dragging ? 'elevated' : 'flat'">
+    <v-card-text class="pa-0 pt-1">
+      <v-chip-group column multiple class="bg-background pa-2" @drop="dragDrop($event, taglist)" @dragover="dragOver">
         <v-tag-item v-for="tag in (tagMerge as Tag[])" :key="tag.id" :value="tag.id" :icon="tag.icon" :label="tag.name"
           :color="tag.color" :space="tag.space" tooltip @click.ctrl.exact="manageCtrlClick(tag)" draggable
           @dragstart="dragStart($event, tag)" @dragend="dragEnd($event, tag)">
@@ -13,18 +13,17 @@
 </template>
 
 <script setup lang="ts">
+import { useStateStore } from '@/stores/state'
+const state = useStateStore()
 
 import { defineProps, defineEmits, computed, ref, onMounted } from 'vue';
 import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
 import { useClipboardStore } from '@/stores/clipboard'
-
-
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+
 const dragImage = ref<HTMLImageElement | null>(null);
-
 const taglist = ref(new TagMap())
-
 const clipboard = useClipboardStore()
 
 const tagMerge = computed(() => {
@@ -51,6 +50,7 @@ function manageCtrlClick(tag: Tag) {
 
 const dragStart = (event: DragEvent, tag: Tag) => {
   console.log('dragStart', tag.id)
+  state.dragStart()
   if (!event.dataTransfer) return
   event.dataTransfer.clearData();
   event.dataTransfer.effectAllowed = "move";
@@ -72,12 +72,14 @@ const dragOver = (event: DragEvent) => {
 
 const dragEnd = (event: DragEvent, tag: Tag) => {
   clipboard.clear()
+  state.dragEnd()
   taglist.value.deleteTag(tag)
   console.log('dragEnd', tag.id)
 }
 
 const dragDrop = (event: DragEvent, tags: TagMap) => {
   tags.addTag(clipboard.pasteTag())
+  state.dragDrop()
   clipboard.clear()
 }
 
@@ -89,7 +91,6 @@ onMounted(() => {
 
   img.onload = () => {
     dragImage.value = img;
-    console.log('Image preloaded and ready to use:', img);
   };
 });
 

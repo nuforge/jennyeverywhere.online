@@ -11,6 +11,7 @@
   <v-timeline :direction="timelineDirection" truncate-line="both">
 
     <v-timeline-item dot-color="background" fill-dot>
+
       <template v-slot:icon>
         <v-icon icon="mdi-help" color="disabled">
         </v-icon>
@@ -33,10 +34,7 @@
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <v-card>
-
-          <TagTray :tags="event.tagList()" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
-        </v-card>
+        <TagTray :tags="event.tagList()" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
       </template>
       <h2>{{ event.name }}</h2>
       <MarkdownRenderer :text="event.description" />

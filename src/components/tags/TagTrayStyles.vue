@@ -1,12 +1,10 @@
 <template>
-  <v-sheet>
-    <v-btn @click="$emit('update:labels', !tray.labels)" :icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`">
-    </v-btn>
-    <v-btn @click="$emit('update:icons', !tray.icons)" :icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`">
-    </v-btn>
-    <v-btn @click="$emit('update:color', !tray.color)" :icon="tray.color ? `mdi-palette-outline` : `mdi-palette`">
-    </v-btn>
-  </v-sheet>
+  <v-btn @click="$emit('update:labels', !tray.labels)" :icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`">
+  </v-btn>
+  <v-btn @click="$emit('update:icons', !tray.icons)" :icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`">
+  </v-btn>
+  <v-btn @click="$emit('update:color', !tray.color)" :icon="tray.color ? `mdi-palette-outline` : `mdi-palette`">
+  </v-btn>
 </template>
 
 <script setup lang="ts">

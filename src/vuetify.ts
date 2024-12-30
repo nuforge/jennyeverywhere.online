@@ -260,6 +260,9 @@ export const vuetify = createVuetify({
     },
   },
   defaults: {
+    VLayout: {
+      class: 'bg-transparent',
+    },
     VFooter: {
       class: 'bg-surface pb-16',
     },
@@ -269,14 +272,20 @@ export const vuetify = createVuetify({
     },
     VNavigationDrawer: {},
     VBottomSheet: {},
-    VBtn: {
-      ripple: false,
-      variant: 'plain',
-    },
+    VBtn: {},
     VBtnToggle: {
       density: 'compact',
       size: 'small',
       variant: 'plain',
+    },
+    VSystemBar: {
+      class: 'bg-transparent',
+      VBtn: {
+        density: 'compact',
+        size: 'small',
+        ripple: false,
+        variant: 'plain',
+      },
     },
     VCard: {},
     VCardActions: {

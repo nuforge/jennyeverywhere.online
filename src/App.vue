@@ -14,7 +14,7 @@
       <EventAddDialog />
       <TagAddDialog />
       <DiceSnackbar />
-      <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
+      <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>

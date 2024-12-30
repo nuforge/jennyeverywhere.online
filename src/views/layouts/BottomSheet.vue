@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-sheet persistent absolute no-click-animation v-model="state.drawer" :scrim="false" class="mb-16">
+  <v-bottom-sheet class="elevation-0" no-click-animation v-model="state.drawer" :scrim="false">
     <TagManagerLayout v-if="tags.tags" />
   </v-bottom-sheet>
 </template>

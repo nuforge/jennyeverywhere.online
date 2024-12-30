@@ -1,19 +1,17 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="4">
+      <v-col cols="auto">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
         <FeedbackBar />
       </v-col>
       <v-col cols="12" sm="8">
         <StoryRenderer />
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" sm="8">
+      <v-col cols="auto" sm="7">
         <StoryChoiceGroup />
       </v-col>
-      <v-col cols="12" sm="4">
+      <v-col cols="auto">
         <StoryTagGroup />
       </v-col>
     </v-row>

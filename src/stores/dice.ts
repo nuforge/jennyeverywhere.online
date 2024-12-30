@@ -4,7 +4,7 @@ import Dice from '@/objects/game/Dice'
 
 export const useDiceStore = defineStore('dice', () => {
   const die = ref<Dice>(new Dice(20))
-  const defaultTimeout = 2000
+  const defaultTimeout = 4000
   const timeout = ref(defaultTimeout)
   const snackbar = ref(false)
 

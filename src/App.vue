@@ -1,25 +1,23 @@
 <template>
   <v-responsive>
     <v-app :theme="state.theme">
-      <DrawerLayout />
-      <v-main>
-        <dice-fab location="top end" />
+      <DiceFab location="top end" />
+      <AvatarFab location="bottom start" />
+
+      <HeaderLayout />
+      <v-main max-width="1440" class="mx-auto">
         <TagFab location="bottom end" />
-        <AvatarFab location="bottom start" />
-
-        <HeaderLayout />
         <RouterView />
-
-
-        <EventAddDialog />
-        <TagAddDailog />
-        <BottomNavigationLayout app />
-        <DiceSnackbar />
+        <BottomSheet inset />
       </v-main>
+      <EventAddDialog />
+      <TagAddDailog />
+      <DiceSnackbar />
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
+      <BottomNavigationLayout app />
+      <DrawerLayout />
     </v-app>
-    <BottomSheet :attach="true" />
   </v-responsive>
 </template>
 

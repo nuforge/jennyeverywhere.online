@@ -1,5 +1,5 @@
 <template>
-  <v-container class="bg-background elevation-10 ma-2 ms-16 pa-1 rounded-t-lg">
+  <v-container class="bg-background elevation-0 rounded-t-lg">
     <v-row>
       <v-col>
         <TagTray :tags="globalTags.tags" :selected="globalTags.selection" />

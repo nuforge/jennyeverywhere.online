@@ -1,10 +1,8 @@
 <template>
-  <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" color="surface" location="bottom end"
-    close-on-content-click timer>
+  <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" timer>
     <v-icon :icon="`$d${dice.getFaces()}`" /> {{ message }}
-    <v-spacer>
-      <TagTray :tags="rollTags" dense />
-    </v-spacer>
+    <v-btn @click="dice.rollDice()" icon="$dice" size="small"></v-btn>
+    <TagTray :tags="rollTags" dense />
   </v-snackbar>
 </template>
 
@@ -19,10 +17,8 @@ const message = computed(() => `Rolled ${dice.getResults()} on ${dice.getRolls()
 
 const rollTags = computed(() => {
   const tags = [
-    new Tag(`dice:d${dice.getFaces()}`, `primary`, `mdi-dice-d${dice.getFaces()}`),
-    new Tag(`roll:${dice.getString(2)}`, undefined, `$dice`),
+    new Tag(`d20:${dice.getString(2)}`, 'primary', `mdi-dice-d${dice.getFaces()}`),
   ];
-
   return tags as Tag[]
 });
 

@@ -7,6 +7,8 @@ import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
 import VTagItem from './components/tags/VTagItem.vue'
 import TagFab from '@/components/fabs/TagFab.vue'
+import TagTray from '@/components/tags/TagTray.vue'
+
 import DiceFab from '@/components/fabs/DiceFab.vue'
 import AvatarFab from '@/components/fabs/AvatarFab.vue'
 
@@ -270,9 +272,7 @@ export const vuetify = createVuetify({
         dense: true,
       },
     },
-    VBottomSheet: {
-      class: 'bg-transparent',
-    },
+    VBottomSheet: {},
 
     VBtnToggle: {
       density: 'compact',
@@ -280,7 +280,7 @@ export const vuetify = createVuetify({
       variant: 'plain',
     },
     VCard: {
-      class: 'bg-transparent rounded rounded-b-lg pa-4 elevation-0',
+      class: 'bg-transparent rounded rounded-b-lg  elevation-0',
     },
     VCardActions: {
       class: 'bg-background ma-0 pa-0',
@@ -321,22 +321,12 @@ export const vuetify = createVuetify({
       },
     },
 
-    VExpansionPanels: {
-      variant: 'accordion',
-      hideActions: true,
-      static: true,
-      class: 'bg-surface rounded-lg ma-0 pa-0',
-      VExpansionPanel: {
-        VExpansionPanelTitle: {
-          density: 'compact',
-          class: 'ma-0 pa-0',
-          VBtn: {
-            variant: 'text',
-            size: 'small',
-            ripple: false,
-          },
-        },
-        VExpansionPanelText: {},
+    VSnackbar: {
+      timeout: 4000,
+      color: 'surface',
+      location: 'bottom end',
+      VCard: {
+        class: 'ma-0 pa-0 elevation-0',
       },
     },
     VLabel: {
@@ -344,6 +334,7 @@ export const vuetify = createVuetify({
     },
   },
   components: {
+    TagTray,
     VTagItem,
     TagFab,
     DiceFab,

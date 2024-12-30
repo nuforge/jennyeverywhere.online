@@ -24,9 +24,9 @@ export const useTimelineStore = defineStore('timeline', () => {
     console.log('add Event: ', newEvent)
     const event = new Event(newEvent.name, newEvent.description)
     tags.forEach((tag) => {
-      event.createTag(tag.name, tag.color, tag.icon)
+      event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
     })
-    events.value.unshift(event)
+    events.value.unshift(event as Event)
   }
 
   const addDiceRoll = () => {

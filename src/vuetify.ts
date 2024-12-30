@@ -289,7 +289,6 @@ export const vuetify = createVuetify({
     },
     VCard: {},
     VCardActions: {
-      class: 'align-start',
       VBtn: {
         density: 'compact',
         size: 'small',
@@ -301,7 +300,7 @@ export const vuetify = createVuetify({
       },
     },
     VCardText: {
-      class: 'ma-0 pa-0',
+      class: 'ma-0 pb-0 px-0',
       VBtnToggle: {
         color: 'text',
         density: 'compact',

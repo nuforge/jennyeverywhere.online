@@ -1,13 +1,12 @@
 <template>
-  <v-btn @click="$emit('update:closable', !tray.closable)" :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"
+  <v-icon @click="$emit('update:closable', !tray.closable)" :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"
     @drop="$emit('delete-drop')" :draggable="true" @dragover="preventDefault($event)">
-  </v-btn>
-  <v-btn @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
-  </v-btn>
-  <v-btn icon="mdi-select-search" :draggable="true">
-  </v-btn>
-  <v-btn icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true">
-  </v-btn>
+  </v-icon>
+  <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
+  </v-icon>
+  <v-icon icon="mdi-select-search" :draggable="true">
+  </v-icon>
+  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true"></v-icon>
 </template>
 
 <script setup lang="ts">

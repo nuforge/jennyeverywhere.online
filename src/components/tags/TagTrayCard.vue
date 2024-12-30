@@ -1,10 +1,11 @@
 <template>
-  <v-card class="tag-tray rounded-lg bg-transparent" @mouseenter="hoverStart()" @mouseleave="hoverEnd()"
-    :elevation="showManager ? 10 : 0">
+  <v-card class="tag-tray rounded-lg bg-transparent" @mouseenter=" hoverStart()" @mouseleave="hoverEnd()"
+    @focusin="focusStart()" @focusout="focusEnd()" :elevation="showManager ? 10 : 0" min-width="200px">
     <v-layout>
-      <v-system-bar v-show="showManager" @dragover="onDragOver">
+      <v-system-bar v-show="showManager" @dragover="onDragOver" :color="!focus ? 'transparent' : 'primary'">
         <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
           @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+        <v-spacer></v-spacer>
         <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
           @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" />
       </v-system-bar>
@@ -43,7 +44,8 @@ const clipboard = useClipboardStore()
 
 const tagMerge = computed(() => Array.from([...tray.value.tags, ...props.tags]) as Tag[])
 const manage = ref(false)
-const showManager = computed(() => manage.value || state.tagmanager)
+const focus = ref(false)
+const showManager = computed(() => focus.value || manage.value || state.tagmanager)
 
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])
@@ -68,6 +70,13 @@ function hoverStart() {
 
 function hoverEnd() {
   manage.value = false
+}
+function focusStart() {
+  focus.value = true
+}
+
+function focusEnd() {
+  focus.value = false
 }
 
 // TAGS & CLICKS

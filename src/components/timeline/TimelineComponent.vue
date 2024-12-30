@@ -34,7 +34,7 @@
         </v-tooltip>
       </template>
       <template v-slot:opposite>
-        <TagTray :tags="event.tagList()" v-model="tags.selection" @ctrl-click="handleCtrlClick" />
+        <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
       </template>
       <h2>{{ event.name }}</h2>
       <MarkdownRenderer :text="event.description" />

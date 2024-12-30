@@ -73,6 +73,7 @@ import {
   VSpeedDial,
   VSystemBar,
   VScaleTransition,
+  VFadeTransition,
   VExpandXTransition,
   VSnackbar,
   VExpansionPanel,
@@ -253,6 +254,7 @@ export const vuetify = createVuetify({
   defaults: {
     VTooltip: {
       location: 'top',
+      contentClass: 'bg-surface',
     },
     VCard: {
       class: 'bg-surface rounded rounded-b-lg',
@@ -287,8 +289,15 @@ export const vuetify = createVuetify({
       },
     },
     VExpansionPanels: {
+      variant: 'accordion',
+      hideActions: true,
+      static: true,
+      class: 'bg-surface rounded-lg ma-0 pa-0',
       VExpansionPanel: {
-        VExpansionPanelTitle: {},
+        VExpansionPanelTitle: {
+          density: 'compact',
+          class: 'ma-0 pa-0',
+        },
         VExpansionPanelText: {},
       },
     },
@@ -365,6 +374,7 @@ export const vuetify = createVuetify({
     VSpeedDial,
     VSystemBar,
     VScaleTransition,
+    VFadeTransition,
     VExpandXTransition,
     VSnackbar,
     VExpansionPanel,

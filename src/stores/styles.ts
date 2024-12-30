@@ -7,7 +7,7 @@ export const useStyleStore = defineStore('styles', () => {
   const icons = ref(false)
 
   const remove = ref(false)
-  const color = ref(true)
+  const color = ref(false)
 
   return { closable, labels, icons, color, remove }
 })

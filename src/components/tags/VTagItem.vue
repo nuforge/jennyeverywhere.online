@@ -1,17 +1,17 @@
 <template>
-  <v-chip variant="text" density="comfortable" tile class="rounded-lg"
-    :color="styles.icons ? styles.color ? color : 'text' : undefined" :value="value" :closable="styles.closable"
-    close-icon="mdi-close" @click:close="closeTag($event, value)" @click="clickTag($event, value)">
-    <template v-slot:prepend v-if="!styles.icons">
-      <v-icon :icon="icon ? icon : `$tag`" :color="styles.color ? color : 'text'" :start="!styles.labels"
+  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="!noColor ? color : 'text'" :value="value"
+    :closable="styles.closable" close-icon="mdi-close" @click:close="closeTag($event, value)"
+    @click="clickTag($event, value)">
+    <template v-slot:prepend v-if="!noIcon">
+      <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
         @click="clickIcon($event, value)"></v-icon>
-      <v-tooltip activator="parent" location="bottom" content-class="bg-surface">
-        <v-icon :icon="icon" :color="styles.color ? color : 'text'" v-if="icon"></v-icon> <span class="opacity-50"> {{
+      <v-tooltip activator="parent" location="bottom">
+        <v-icon :icon="icon" :color="!noColor ? color : 'text'" v-if="icon"></v-icon> <span class="opacity-50"> {{
           space ? `${space} : ` :
             '' }}</span> {{ label }}
       </v-tooltip>
     </template>
-    <template v-slot:default v-if="!styles.labels">
+    <template v-slot:default v-if="!noLabel">
       {{ label }}
     </template>
   </v-chip>
@@ -21,7 +21,6 @@
 import { useStyleStore } from '@/stores/styles';
 
 const styles = useStyleStore()
-
 
 defineProps({
   icon: {
@@ -44,6 +43,18 @@ defineProps({
     type: String,
     default: ''
   },
+  tooltip: {
+    type: Boolean,
+    default: false
+  },
+  bottom: {
+    type: Boolean,
+    default: false
+  },
+  isHovering: {
+    type: Boolean,
+    default: false
+  },
   noLabel: {
     type: Boolean,
     default: false
@@ -56,15 +67,7 @@ defineProps({
     type: Boolean,
     default: false
   },
-  tooltip: {
-    type: Boolean,
-    default: false
-  },
-  bottom: {
-    type: Boolean,
-    default: false
-  },
-  isHovering: {
+  noColor: {
     type: Boolean,
     default: false
   },

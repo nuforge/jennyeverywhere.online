@@ -1,51 +1,17 @@
 <template>
-  <v-card :variant="state.dragging ? 'elevated' : 'flat'" @dragover="onDragOver" @dragend="onDragEnd">
-    <v-card-actions :class="tray.dragging ? `bg-surface` : `bg-background`">
-      <VBtnToggle>
-        <v-btn @click="tray.closable = !tray.closable"
-          :prepend-icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`" @drop="dropDeleteTags">
-          <v-tooltip activator="parent">
-            Show Tag Closers: <v-icon :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"></v-icon> {{
-              !tray.closable
-            }}
-          </v-tooltip>
-        </v-btn>
-        <v-btn @click="tray.labels = !tray.labels" :prepend-icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`">
-          <v-tooltip activator="parent">
-            Show labels: <v-icon :icon="tray.labels ? `mdi-label-off-outline` : `mdi-label`"></v-icon> {{
-              !tray.labels
-            }}
-          </v-tooltip>
-        </v-btn>
-        <v-btn @click="tray.icons = !tray.icons" :prepend-icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`">
-          <v-tooltip activator="parent">
-            Show icons: <v-icon :icon="tray.icons ? `mdi-eye-off-outline` : `mdi-eye`"></v-icon> {{ !tray.icons }}
-          </v-tooltip>
-        </v-btn>
-        <v-btn @click="tray.color = !tray.color" :prepend-icon="tray.color ? `mdi-palette` : `mdi-palette-outline`">
-          <v-tooltip activator="parent">
-            Show color: <v-icon :icon="tray.color ? `mdi-palette-outline` : `mdi-palette`"></v-icon> {{ tray.color
-            }}
-          </v-tooltip>
-        </v-btn>
-        <v-btn @click="state.add = !state.add" :prepend-icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
-          <v-tooltip activator="parent">
-            <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
-          </v-tooltip>
-        </v-btn>
-        <v-btn prepend-icon="mdi-drag" @dragstart="onDragTrayStart($event, tagMerge)" :draggable="true">
-          <v-tooltip activator="parent">
-            <v-icon icon="mdi-drag"></v-icon> Drag All Tags
-          </v-tooltip>
-        </v-btn>
-      </VBtnToggle>
+  <v-card>
+    <v-card-actions>
+      <TagStyles :tray="tray" @dragstart="onDragTrayStart($event, tagMerge)" @drop="onDragDrop"
+        @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
+        @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
     </v-card-actions>
     <v-card-text>
       <TagGroup :tags="(tagMerge as Tag[])" @drop="onDragDrop" @dragover="onDragOver" @click="emit('click', $event)"
-        @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd" :closable="showClosable"
-        v-model="tray.selected" @close="onClose" />
+        @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd" :closable="tray.closable"
+        :noIcon="tray.icons" :noLabel="tray.labels" :noColor="tray.color" v-model="tray.selected" @close="onClose" />
     </v-card-text>
   </v-card>
+
 </template>
 
 <script setup lang="ts">
@@ -58,20 +24,18 @@ import Tag from '@/objects/Tag'
 
 import { useClipboardStore } from '@/stores/clipboard'
 import { useStateStore } from '@/stores/state'
-import { useStyleStore } from '@/stores/styles'
 
 import TagTray from '@/objects/TagTray';
-import TagGroup from './TagGroup.vue';
+import TagGroup from '@/components/tags/TagGroup.vue';
+import TagStyles from '@/components/tags/TagStyles.vue';
 
-const tray = ref(new TagTray())
+const tray = ref(new TagTray([]))
 
 const state = useStateStore()
-const styles = useStyleStore()
 const clipboard = useClipboardStore()
 
 const tagMerge = computed(() => Array.from([...tray.value.tags, ...props.tags]) as Tag[])
 
-const showClosable = computed(() => tray.value.closable || styles.closable)
 
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])

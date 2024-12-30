@@ -8,7 +8,7 @@ class TagTray {
   protected _labels = false
   protected _icons = false
   protected _remove = false
-  protected _color = true
+  protected _color = false
   protected _dragging = false
 
   constructor(tags: Tag[] | TagMap | undefined = undefined) {

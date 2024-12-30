@@ -1,7 +1,7 @@
 <template>
-  <VBtnToggle>
+  <VBtnToggle @dragover="($event) => $event.preventDefault()">
     <v-btn @click="$emit('update:closable', !tray.closable)"
-      :prepend-icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`" @drop="$emit('drop')">
+      :prepend-icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`" @drop="$emit('delete-drop')">
       <v-tooltip activator="parent">
         Show Tag Closers: <v-icon :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"></v-icon> {{
           !tray.closable
@@ -35,7 +35,7 @@
         <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
       </v-tooltip>
     </v-btn>
-    <v-btn prepend-icon="mdi-drag" @dragstart="$emit('dragstart')" :draggable="true">
+    <v-btn prepend-icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true">
       <v-tooltip activator="parent">
         <v-icon icon="mdi-drag"></v-icon> Drag All Tags
       </v-tooltip>

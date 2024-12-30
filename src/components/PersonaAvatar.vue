@@ -1,7 +1,6 @@
 <template>
-  <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar" size="x-large">
+  <v-avatar :image="persona.avatar" rounded="0" v-if="persona.avatar">
   </v-avatar>
-
 </template>
 
 <script setup lang="ts">

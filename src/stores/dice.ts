@@ -36,6 +36,7 @@ export const useDiceStore = defineStore('dice', () => {
   }
 
   function triggerSnackbar() {
+    timeout.value = defaultTimeout
     if (snackbar.value) {
       clearSnackbar()
       setTimeout(() => {

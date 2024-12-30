@@ -1,15 +1,19 @@
 import Tag from '@/objects/Tag'
 import TagMap from '@/objects/TagMap'
+import { v4 as uuidv4 } from 'uuid'
 
 class TagTray {
+  protected _id = uuidv4()
   protected _tags = new TagMap()
   protected _selected = [] as Tag[]
+
+  protected _dragging = false
+
+  // Styles
   protected _closable = false
   protected _labels = false
   protected _icons = false
-  protected _remove = false
   protected _color = false
-  protected _dragging = false
 
   constructor(tags: Tag[] | TagMap | undefined = undefined) {
     if (tags instanceof TagMap) {
@@ -22,6 +26,10 @@ class TagTray {
   }
 
   // GETTERS
+
+  get id() {
+    return this._id
+  }
 
   get map() {
     return this._tags
@@ -45,10 +53,6 @@ class TagTray {
 
   get icons() {
     return this._icons
-  }
-
-  get remove() {
-    return this._remove
   }
 
   get color() {
@@ -79,10 +83,6 @@ class TagTray {
 
   set icons(icons: boolean) {
     this._icons = icons
-  }
-
-  set remove(remove: boolean) {
-    this._remove = remove
   }
 
   set color(color: boolean) {

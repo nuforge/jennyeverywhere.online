@@ -1,25 +1,23 @@
 <template>
-  <v-scale-transition>
-    <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="tag-tray">
-      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
-        <TagActions :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
-          @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
-          @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
-      </v-card-actions>
-      <v-card-text>
-        <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
-          :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
-          @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
-          @close="onClose" />
-      </v-card-text>
-      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
-        @dragover="($event) => $event.preventDefault()" v-if="!dense">
-        <TagStyles :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
-          @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
-          @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
-      </v-card-actions>
-    </v-card>
-  </v-scale-transition>
+  <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="tag-tray">
+    <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
+      <TagActions :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
+        @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
+        @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+    </v-card-actions>
+    <v-card-text>
+      <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
+        :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
+        @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
+        @close="onClose" />
+    </v-card-text>
+    <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
+      @dragover="($event) => $event.preventDefault()" v-if="!dense">
+      <TagStyles :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
+        @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
+        @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+    </v-card-actions>
+  </v-card>
 
 </template>
 
@@ -46,7 +44,7 @@ const clipboard = useClipboardStore()
 
 const tagMerge = computed(() => Array.from([...tray.value.tags, ...props.tags]) as Tag[])
 const manage = ref(false)
-const showManager = computed(() => state.tagmanager || manage.value)
+const showManager = computed(() => manage.value)// && state.tagmanager)
 
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])

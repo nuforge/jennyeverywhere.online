@@ -1,17 +1,26 @@
 <template>
   <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" timer>
-    <v-icon :icon="`$d${dice.getFaces()}`" /> {{ message }}
-    <v-btn @click="dice.rollDice()" icon="$dice" size="small"></v-btn>
-    <TagTray :tags="rollTags" dense />
+    <v-icon :icon="`$d${dice.getFaces()}`" @click="showTray = !showTray" /> {{ message }}
+    <v-spacer></v-spacer>
+    <template v-slot:actions>
+      <v-btn @click="dice.snackbar = !dice.snackbar" icon="$close" size="small" variant="plain"> </v-btn>
+    </template>
+
+    <TagTray :tags="rollTags" dense v-show="showTray" />
+
+    <v-btn @click="dice.rollDice()" prepend-icon="$dice" size="small" block class="rounded" text="reroll"
+      variant="plain"></v-btn>
   </v-snackbar>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useDiceStore } from '@/stores/dice';
 import TagTray from '@/components/tags/TagTray.vue';
 import Tag from '@/objects/Tag';
 const dice = useDiceStore();
+
+const showTray = ref(false);
 
 const message = computed(() => `Rolled ${dice.getResults()} on ${dice.getRolls().length}d${dice.getFaces()} dice`)
 

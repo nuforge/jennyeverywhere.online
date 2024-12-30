@@ -265,44 +265,28 @@ export const vuetify = createVuetify({
       location: 'top',
       contentClass: 'bg-surface ma-2 pa-3',
     },
-    VNavigationDrawer: {
-      class: 'bg-transparent  rounded-lg elevation-0 border-e-0 py-4',
-      VList: {
-        class: 'ma-2 pa-2 elevation-6',
-        dense: true,
-      },
-    },
+    VNavigationDrawer: {},
     VBottomSheet: {},
-
+    VBtn: {
+      ripple: false,
+      variant: 'plain',
+    },
     VBtnToggle: {
       density: 'compact',
       size: 'small',
       variant: 'plain',
     },
-    VCard: {
-      class: 'bg-transparent rounded rounded-b-lg  elevation-0',
-    },
+    VCard: {},
     VCardActions: {
-      class: 'bg-background ma-0 pa-0',
+      class: 'ma-0 pa-0',
       VBtn: {
         size: 'small',
-        variant: 'plain',
         ripple: false,
-      },
-      VBtnToggle: {
-        size: 'small',
         variant: 'plain',
-        VBtn: {
-          size: 'small',
-          ripple: false,
-        },
       },
     },
     VCardText: {
-      class: 'bg-background rounded-b-lg ma-0 pa-0 elevation-2',
-      density: 'compact',
-      size: 'small',
-
+      class: 'ma-0 pa-0',
       VBtnToggle: {
         color: 'text',
         density: 'compact',
@@ -310,12 +294,13 @@ export const vuetify = createVuetify({
         variant: 'plain',
       },
     },
+
     VChipGroup: {
       variant: 'text',
-      class: 'rounded-lg bg-background ma-1 pa-1',
+      class: 'rounded bg-background ma-1 pa-1',
       VChip: {
         variant: 'text',
-        class: 'rounded-lg',
+        class: 'rounded',
         tile: true,
         closeIcon: 'mdi-close',
       },

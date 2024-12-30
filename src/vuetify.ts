@@ -290,11 +290,6 @@ export const vuetify = createVuetify({
       density: 'compact',
       size: 'small',
       variant: 'plain',
-      VBtn: {
-        density: 'compact',
-        size: 'small',
-        ripple: false,
-      },
     },
     VExpansionPanels: {
       variant: 'accordion',
@@ -305,6 +300,11 @@ export const vuetify = createVuetify({
         VExpansionPanelTitle: {
           density: 'compact',
           class: 'ma-0 pa-0',
+          VBtn: {
+            variant: 'text',
+            size: 'small',
+            ripple: false,
+          },
         },
         VExpansionPanelText: {},
       },

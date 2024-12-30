@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="rounded">
+  <v-responsive class="rounded mx-auto" max-width="1440">
     <v-app :theme="state.theme">
       <dice-fab location="top end" />
       <tag-fab location="bottom end" />
@@ -7,14 +7,14 @@
       <HeaderLayout />
       <v-main>
         <RouterView />
+        <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
+            to="/">JennyEverywhere.online</router-link></v-footer>
+        <EventAddDialog />
+        <TagAddDailog />
+        <DiceSnackbar v-model="state.snackbar" />
+        <BottomNavigationLayout app />
+        <DrawerLayout />
       </v-main>
-      <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
-          to="/">JennyEverywhere.online</router-link></v-footer>
-      <BottomNavigationLayout app elevation="2" />
-      <DrawerLayout />
-      <EventAddDialog />
-      <TagAddDailog />
-      <DiceSnackbar v-model="state.snackbar" />
     </v-app>
   </v-responsive>
 </template>

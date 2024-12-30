@@ -1,7 +1,6 @@
 <template>
-  <v-chip variant="text" density="comfortable" tile class="rounded-lg" :color="!noColor ? color : 'text'" :value="value"
-    :closable="styles.closable" close-icon="mdi-close" @click:close="closeTag($event, value)"
-    @click="clickTag($event, value)">
+  <v-chip :value="value" :color="!noColor ? color : 'text'" :closable="styles.closable"
+    @click:close="closeTag($event, value)" @click="clickTag($event, value)">
     <template v-slot:prepend v-if="!noIcon">
       <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
         @click="clickIcon($event, value)"></v-icon>

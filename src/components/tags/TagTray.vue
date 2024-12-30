@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-actions>
-      <TagStyles :tray="tray" @dragstart="onDragTrayStart($event, tagMerge)" @drop="onDragDrop"
+      <TagStyles :tray="(tray as unknown as TagTray)" @dragstart="onDragTrayStart($event, tagMerge)" @drop="onDragDrop"
         @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
         @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
     </v-card-actions>
@@ -128,14 +128,6 @@ const onDragDrop = () => {
   state.dragDrop()
 }
 
-const dropDeleteTags = () => {
-  //console.log('dropDeleteTags', clipboard.paste())
-  const tags = clipboard.paste(true) as Tag[]
-  tags.forEach((tag) => { onClose(tag) })
-  tray.value.map.removeTags(tags)
-  clipboard.clear()
-  state.dragDrop()
-}
 
 
 // MOUNTED

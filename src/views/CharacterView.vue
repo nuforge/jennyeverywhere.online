@@ -6,7 +6,7 @@
         <v-img :src="image" :alt="character.name" max-height="256" />
       </v-col>
       <v-col cols="12" md="8" sm="12">
-        <TagTray :tags="character.attributes" :selected="tags.selection" @ctrl-click="handleCtrlClick" />
+        <TagTray :tags="(character.attributes as Tag[])" :selected="tags.selection" @ctrl-click="handleCtrlClick" />
       </v-col>
     </v-row>
   </v-container>

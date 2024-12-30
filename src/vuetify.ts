@@ -276,8 +276,16 @@ export const vuetify = createVuetify({
       class: 'ma-0 pa-0',
     },
     VChipGroup: {
-      class: 'bg-background  rounded-b-lg px-1 ma-1 mt-0',
+      variant: 'text',
+      class: 'rounded-lg bg-background ma-1 pa-1',
+      VChip: {
+        variant: 'text',
+        class: 'rounded-lg',
+        tile: true,
+        closeIcon: 'mdi-close',
+      },
     },
+
     VBtnToggle: {
       density: 'compact',
       size: 'small',

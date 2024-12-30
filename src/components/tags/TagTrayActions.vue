@@ -6,7 +6,7 @@
   </v-icon>
   <v-icon icon="mdi-select-search" :draggable="true">
   </v-icon>
-  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true"></v-icon>
+  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true" class="grabbable"></v-icon>
 </template>
 
 <script setup lang="ts">

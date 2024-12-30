@@ -252,7 +252,11 @@ export const vuetify = createVuetify({
     },
   },
   defaults: {
+    VFooter: {
+      class: 'bg-surface ',
+    },
     VTooltip: {
+      location: 'top',
       contentClass: 'bg-surface ma-2 pa-3',
     },
     VNavigationDrawer: {
@@ -263,26 +267,44 @@ export const vuetify = createVuetify({
       },
     },
     VBottomSheet: {
-      class: 'bg-transparent elevation-0',
+      class: 'bg-transparent',
+    },
+
+    VBtnToggle: {
+      density: 'compact',
+      size: 'small',
+      variant: 'plain',
     },
     VCard: {
-      class: 'bg-surface rounded rounded-b-lg',
+      class: 'bg-transparent rounded rounded-b-lg pa-4 elevation-0',
     },
     VCardActions: {
-      density: 'compact',
+      class: 'bg-background ma-0 pa-0',
       VBtn: {
-        density: 'compact',
         size: 'small',
-        ripple: false,
-        rounded: true,
         variant: 'plain',
+        ripple: false,
       },
       VBtnToggle: {
-        VBtn: {},
+        size: 'small',
+        variant: 'plain',
+        VBtn: {
+          size: 'small',
+          ripple: false,
+        },
       },
     },
     VCardText: {
-      class: 'ma-0 pa-0',
+      class: 'bg-background rounded-b-lg ma-0 pa-0 elevation-2',
+      density: 'compact',
+      size: 'small',
+
+      VBtnToggle: {
+        color: 'text',
+        density: 'compact',
+        size: 'small',
+        variant: 'plain',
+      },
     },
     VChipGroup: {
       variant: 'text',
@@ -295,11 +317,6 @@ export const vuetify = createVuetify({
       },
     },
 
-    VBtnToggle: {
-      density: 'compact',
-      size: 'small',
-      variant: 'plain',
-    },
     VExpansionPanels: {
       variant: 'accordion',
       hideActions: true,

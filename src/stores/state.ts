@@ -9,7 +9,7 @@ export const useStateStore = defineStore('state', () => {
   const dice = ref(false)
   const event = ref(false)
   const snackbar = ref(false)
-  const drawer = ref(true)
+  const drawer = ref(false)
   const dragging = ref(false)
   const navigation = ref(false)
   const vuetify = useTheme()

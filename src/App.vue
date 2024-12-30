@@ -1,8 +1,8 @@
 <template>
   <v-responsive>
     <v-app :theme="state.theme">
-      <TagFab location="bottom start" />
       <DiceFab location="top end" />
+      <TagFab location="bottom start" />
       <AvatarFab location="bottom end" />
       <BottomNavigationLayout app />
       <DrawerLayout location="bottom" />

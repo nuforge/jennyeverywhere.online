@@ -76,7 +76,9 @@ import {
   VSystemBar,
   VScaleTransition,
   VFadeTransition,
+  VFabTransition,
   VExpandXTransition,
+  VSlideXTransition,
   VSnackbar,
   VExpansionPanel,
   VExpansionPanels,
@@ -259,7 +261,7 @@ export const vuetify = createVuetify({
   },
   defaults: {
     VFooter: {
-      class: 'bg-surface ',
+      class: 'bg-surface pb-16',
     },
     VTooltip: {
       location: 'top',
@@ -287,8 +289,6 @@ export const vuetify = createVuetify({
       },
       VSheet: {
         class: 'bg-transparent',
-        maxHeight: 100,
-        minHeight: 100,
       },
     },
     VCardText: {
@@ -395,7 +395,9 @@ export const vuetify = createVuetify({
     VSystemBar,
     VScaleTransition,
     VFadeTransition,
+    VFabTransition,
     VExpandXTransition,
+    VSlideXTransition,
     VSnackbar,
     VExpansionPanel,
     VExpansionPanels,

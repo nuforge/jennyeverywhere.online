@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" timer>
+  <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" timer absolute>
     <v-icon :icon="`$d${dice.getFaces()}`" @click="showTray = !showTray" /> {{ message }}
     <v-spacer></v-spacer>
     <template v-slot:actions>

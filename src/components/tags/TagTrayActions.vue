@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="justfy-start ga-2 align-center flex-column h-100">
+  <v-sheet>
     <v-btn @click="$emit('update:closable', !tray.closable)" :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"
       @drop="$emit('delete-drop')" :draggable="true" @dragover="preventDefault($event)">
     </v-btn>

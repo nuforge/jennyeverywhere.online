@@ -1,26 +1,28 @@
 <template>
-  <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="d-flex tag-tray bg-transparent">
+  <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="tag-tray bg-transparent">
     <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
       @dragover="($event) => $event.preventDefault()" v-if="!dense">
-      <TagTrayStyles v-show="showManager" :class="[showManager ? 'd-flex' : '']" :tray="(tray as unknown as TagTray)"
-        @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
-        @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
-        @update:color="(value) => { tray.color = value }" />
+      <v-fade-transition>
+        <TagTrayStyles v-show="showManager" :tray="(tray as unknown as TagTray)" @delete-drop="dropDeleteTags"
+          @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
+          @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+      </v-fade-transition>
+      <v-spacer> </v-spacer>
+
+      <v-fade-transition>
+        <TagTrayActions v-show="showManager" :tray="(tray as unknown as TagTray)" @delete-drop="dropDeleteTags"
+          @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
+          @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+      </v-fade-transition>
     </v-card-actions>
     <v-card-text>
-      <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
-        :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
-        @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
-        @close="onClose" />
+      <v-slide-x-transition>
+        <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
+          :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
+          @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
+          @close="onClose" />
+      </v-slide-x-transition>
     </v-card-text>
-    <v-fade-transition>
-      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
-        <TagTrayActions v-show="showManager" :class="[showManager ? 'd-flex' : '']" :tray="(tray as unknown as TagTray)"
-          @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
-          @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
-          @update:color="(value) => { tray.color = value }" />
-      </v-card-actions>
-    </v-fade-transition>
   </v-card>
 </template>
 

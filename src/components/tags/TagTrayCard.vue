@@ -1,9 +1,11 @@
 <template>
-  <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="tag-tray">
-    <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
-      <TagActions :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
-        @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
-        @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+  <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="d-flex tag-tray bg-transparent">
+    <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
+      @dragover="($event) => $event.preventDefault()" v-if="!dense">
+      <TagTrayStyles v-show="showManager" :class="[showManager ? 'd-flex' : '']" :tray="(tray as unknown as TagTray)"
+        @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
+        @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
+        @update:color="(value) => { tray.color = value }" />
     </v-card-actions>
     <v-card-text>
       <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
@@ -11,14 +13,15 @@
         @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
         @close="onClose" />
     </v-card-text>
-    <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
-      @dragover="($event) => $event.preventDefault()" v-if="!dense">
-      <TagStyles :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
-        @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
-        @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
-    </v-card-actions>
+    <v-fade-transition>
+      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
+        <TagTrayActions v-show="showManager" :class="[showManager ? 'd-flex' : '']" :tray="(tray as unknown as TagTray)"
+          @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
+          @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
+          @update:color="(value) => { tray.color = value }" />
+      </v-card-actions>
+    </v-fade-transition>
   </v-card>
-
 </template>
 
 <script setup lang="ts">
@@ -34,8 +37,8 @@ import { useStateStore } from '@/stores/state'
 
 import TagTray from '@/objects/TagTray';
 import TagGroup from '@/components/tags/TagGroup.vue';
-import TagStyles from '@/components/tags/TagStyles.vue';
-import TagActions from '@/components/tags/TagActions.vue';
+import TagTrayStyles from '@/components/tags/TagTrayStyles.vue';
+import TagTrayActions from '@/components/tags/TagTrayActions.vue';
 
 const tray = ref(new TagTray([]))
 
@@ -63,7 +66,6 @@ const props = defineProps({
   }
 })
 
-
 function hoverStart() {
   manage.value = true
 }
@@ -71,8 +73,6 @@ function hoverStart() {
 function hoverEnd() {
   manage.value = false
 }
-
-
 
 // TAGS & CLICKS
 

@@ -77,7 +77,7 @@ const timeline = useTimelineStore()
 import Tag from '@/objects/Tag';
 import Event from '@/objects/Event';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '@/components/tags/TagTray.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 import { default as tagTray } from '@/objects/TagTray';
 
 const panels = ref([0, 1])

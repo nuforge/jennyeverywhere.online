@@ -7,7 +7,7 @@ import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
 import VTagItem from './components/tags/VTagItem.vue'
 import TagFab from '@/components/fabs/TagFab.vue'
-import TagTray from '@/components/tags/TagTray.vue'
+import TagTray from '@/components/tags/TagTrayCard.vue'
 
 import DiceFab from '@/components/fabs/DiceFab.vue'
 import AvatarFab from '@/components/fabs/AvatarFab.vue'
@@ -278,11 +278,17 @@ export const vuetify = createVuetify({
     },
     VCard: {},
     VCardActions: {
-      class: 'ma-0 pa-0',
+      class: 'align-start',
       VBtn: {
+        density: 'compact',
         size: 'small',
         ripple: false,
         variant: 'plain',
+      },
+      VSheet: {
+        class: 'bg-transparent',
+        maxHeight: 100,
+        minHeight: 100,
       },
     },
     VCardText: {

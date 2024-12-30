@@ -49,7 +49,7 @@ import { useTagStore } from '@/stores/tags'
 import { useStateStore } from '@/stores/state'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '../tags/TagTray.vue';
+import TagTray from '../tags/TagTrayCard.vue';
 
 const state = useStateStore()
 const tags = useTagStore()

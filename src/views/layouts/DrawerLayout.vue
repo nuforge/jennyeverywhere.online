@@ -9,7 +9,7 @@ import { onMounted } from 'vue';
 import { useStateStore } from '@/stores/state';
 import { useTagStore } from '@/stores/tags'
 import Tag from '@/objects/Tag.ts';
-import TagTray from '@/components/tags/TagTray.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 
 const state = useStateStore()
 const tags = useTagStore()

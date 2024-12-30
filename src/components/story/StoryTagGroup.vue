@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import TagTray from '@/components/tags/TagTray.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 import { useStoryStore } from '@/stores/story';
 import { useTagStore } from '@/stores/tags'
 const tags = useTagStore()

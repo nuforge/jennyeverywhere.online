@@ -16,11 +16,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useDiceStore } from '@/stores/dice';
-import TagTray from '@/components/tags/TagTray.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 import Tag from '@/objects/Tag';
 const dice = useDiceStore();
 
-const showTray = ref(false);
+const showTray = ref(true);
 
 const message = computed(() => `Rolled ${dice.getResults()} on ${dice.getRolls().length}d${dice.getFaces()} dice`)
 

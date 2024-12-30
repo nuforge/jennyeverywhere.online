@@ -17,7 +17,7 @@
 import { useStateStore } from '@/stores/state';
 import { useTagStore } from '@/stores/tags'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
-import TagTray from '@/components/tags/TagTray.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 
 const state = useStateStore()
 const tags = useTagStore()

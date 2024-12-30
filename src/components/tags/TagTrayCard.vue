@@ -2,13 +2,15 @@
   <v-card class="tag-tray rounded-lg bg-transparent" @mouseenter=" hoverStart()" @mouseleave="hoverEnd()"
     @focusin="focusStart()" @focusout="focusEnd()" :elevation="showManager ? 10 : 0" min-width="200px">
     <v-layout>
-      <v-system-bar v-show="showManager" @dragover="onDragOver" :color="!focus ? 'transparent' : 'surface'"
-        class="justify-space-between align-end">
-        <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
-          @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
-        <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
-          @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" />
-      </v-system-bar>
+      <v-fade-transition>
+        <v-system-bar v-show="showManager" v-if="!dense" @dragover="onDragOver" class="justify-space-between align-end"
+          :class="focus ? 'border-opacity-100' : 'border-opacity-20'">
+          <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
+            @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+          <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
+            @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" />
+        </v-system-bar>
+      </v-fade-transition>
       <v-card-text>
         <v-slide-x-transition>
           <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"

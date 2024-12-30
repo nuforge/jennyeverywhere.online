@@ -5,9 +5,10 @@
         <PersonaAvatar :size="size" />
       </v-fab>
     </template>
-    <v-btn key="1" :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'"
+    <v-btn key="1" :icon="'mdi-help'" to="/about"></v-btn>
+    <v-btn key="2" :icon="state.theme === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'"
       @click="state.changeTheme"></v-btn>
-    <v-btn key="2" icon to="/jenny-everywhere"><v-icon icon="mdi-account-circle"></v-icon></v-btn>
+    <v-btn key="3" icon to="/jenny-everywhere"><v-icon icon="mdi-account-circle"></v-icon></v-btn>
   </v-speed-dial>
 </template>
 

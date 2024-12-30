@@ -270,7 +270,10 @@ export const vuetify = createVuetify({
       location: 'top',
       contentClass: 'bg-surface ma-2 pa-3',
     },
-    VNavigationDrawer: {},
+    VBottomNavigation: {},
+    VNavigationDrawer: {
+      class: 'bg-background',
+    },
     VBottomSheet: {},
     VBtn: {},
     VBtnToggle: {
@@ -279,7 +282,7 @@ export const vuetify = createVuetify({
       variant: 'plain',
     },
     VSystemBar: {
-      class: 'bg-transparent',
+      class: 'bg-transparent border-opacity-25 border-t-md border-primary',
       VBtn: {
         density: 'compact',
         size: 'small',

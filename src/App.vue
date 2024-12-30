@@ -24,7 +24,7 @@
 
 import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
-import BottomNavigationLayout from '@/views/layouts/BottomNavigationLayout.vue';
+import BottomNavigationLayout from '@/views/layouts/BottomNavigationBar.vue';
 import DrawerLayout from '@/views/layouts/DrawerLayout.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';

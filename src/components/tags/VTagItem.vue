@@ -1,7 +1,6 @@
 <template>
   <v-chip :value="value" :color="!noColor ? color : 'text'" :closable="styles.closable"
-    @click:close="closeTag($event, value)" @click="clickTag($event, value)"
-    :variant="(noIcon && noLabel) ? 'elevated' : 'inherit'">
+    @click:close="closeTag($event, value)" @click="clickTag($event, value)" :variant="'text'">
     <template v-slot:prepend v-if="!noIcon">
       <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
         @click="clickIcon($event, value)"></v-icon>

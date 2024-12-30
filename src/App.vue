@@ -1,20 +1,21 @@
 <template>
-  <v-responsive class="rounded mx-auto" max-width="1440">
+  <v-responsive>
     <v-app :theme="state.theme">
-      <dice-fab location="top end" />
-      <tag-fab location="bottom end" />
-      <AvatarFab location="bottom start" />
-      <HeaderLayout />
       <v-main>
+        <dice-fab location="top end" />
+        <HeaderLayout />
+        <TagFab location="bottom end" />
+        <AvatarFab location="bottom start" />
         <RouterView />
-        <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
-            to="/">JennyEverywhere.online</router-link></v-footer>
         <EventAddDialog />
         <TagAddDailog />
-        <DiceSnackbar v-model="state.snackbar" />
         <BottomNavigationLayout app />
-        <DrawerLayout />
+        <DiceSnackbar v-model="state.snackbar" />
       </v-main>
+      <DrawerLayout />
+      <BottomSheet />
+      <v-footer class="bg-background align-start opacity-20">&copy; 2025 - <router-link
+          to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>
 </template>
@@ -30,6 +31,8 @@ import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';
+import BottomSheet from './views/layouts/BottomSheet.vue';
+import TagFab from './components/fabs/TagFab.vue';
 const state = useStateStore()
 
 

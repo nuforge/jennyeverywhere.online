@@ -253,8 +253,17 @@ export const vuetify = createVuetify({
   },
   defaults: {
     VTooltip: {
-      location: 'top',
-      contentClass: 'bg-surface',
+      contentClass: 'bg-surface ma-2 pa-3',
+    },
+    VNavigationDrawer: {
+      class: 'bg-transparent  rounded-lg elevation-0 border-e-0 py-4',
+      VList: {
+        class: 'ma-2 pa-2 elevation-6',
+        dense: true,
+      },
+    },
+    VBottomSheet: {
+      class: 'bg-transparent elevation-0',
     },
     VCard: {
       class: 'bg-surface rounded rounded-b-lg',

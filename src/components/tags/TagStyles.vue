@@ -35,6 +35,11 @@
         <v-icon :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon> Add Tag
       </v-tooltip>
     </v-btn>
+    <v-btn prepend-icon="mdi-select-search" :draggable="true">
+      <v-tooltip activator="parent">
+        <v-icon icon="mdi-selection-search"></v-icon> Search
+      </v-tooltip>
+    </v-btn>
     <v-btn prepend-icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true">
       <v-tooltip activator="parent">
         <v-icon icon="mdi-drag"></v-icon> Drag All Tags

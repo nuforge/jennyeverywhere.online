@@ -1,16 +1,17 @@
 <template>
   <v-card>
-    <v-card-actions>
-      <TagStyles :tray="(tray as unknown as TagTray)" @dragstart="onDragTrayStart($event, tagMerge)"
-        @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
-        @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
-        @update:color="(value) => { tray.color = value }" />
-    </v-card-actions>
+
     <v-card-text>
       <TagGroup :tags="(tagMerge as Tag[])" @drop="onDragDrop" @dragover="onDragOver" @click="emit('click', $event)"
         @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd" :closable="tray.closable"
         :noIcon="tray.icons" :noLabel="tray.labels" :noColor="tray.color" v-model="tray.selected" @close="onClose" />
     </v-card-text>
+    <v-card-actions v-if="state.tagmanager">
+      <TagStyles :draggable="true" :tray="(tray as unknown as TagTray)" @dragstart="onDragTrayStart($event, tagMerge)"
+        @delete-drop="dropDeleteTags" @update:closable="(value) => { tray.closable = value }"
+        @update:labels="(value) => { tray.labels = value }" @update:icons="(value) => { tray.icons = value }"
+        @update:color="(value) => { tray.color = value }" />
+    </v-card-actions>
   </v-card>
 
 </template>

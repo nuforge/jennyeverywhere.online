@@ -81,7 +81,11 @@ import {
   VExpansionPanelText,
   VExpansionPanelTitle,
 } from 'vuetify/components'
-import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
+import {
+  VStepperVerticalActions,
+  VStepperVerticalItem,
+  VSnackbarQueue,
+} from 'vuetify/labs/components'
 
 export const vuetify = createVuetify({
   theme: {
@@ -415,5 +419,6 @@ export const vuetify = createVuetify({
     VExpansionPanels,
     VExpansionPanelText,
     VExpansionPanelTitle,
+    VSnackbarQueue,
   },
 })

@@ -23,7 +23,6 @@ const dice = useDiceStore()
 
 const rollDice = () => {
   dice.rollDice()
-  state.triggerSnackbar()
 }
 
 </script>

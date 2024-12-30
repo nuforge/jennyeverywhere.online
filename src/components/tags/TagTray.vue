@@ -1,7 +1,7 @@
 <template>
   <v-scale-transition>
     <v-card @mouseenter="hoverStart()" @mouseleave="hoverEnd()" class="tag-tray">
-      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)">
+      <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)" v-if="!dense">
         <TagActions :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
           @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
           @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
@@ -11,10 +11,9 @@
           :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
           @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
           @close="onClose" />
-        <div></div>
       </v-card-text>
       <v-card-actions :draggable="true" @dragstart="onDragTrayStart($event, tagMerge)"
-        @dragover="($event) => $event.preventDefault()">
+        @dragover="($event) => $event.preventDefault()" v-if="!dense">
         <TagStyles :tray="(tray as unknown as TagTray)" v-show="showManager" @delete-drop="dropDeleteTags"
           @update:closable="(value) => { tray.closable = value }" @update:labels="(value) => { tray.labels = value }"
           @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
@@ -59,6 +58,10 @@ const props = defineProps({
   },
   selected: {
     type: Array as () => string[],
+  },
+  dense: {
+    type: Boolean,
+    default: false
   }
 })
 

@@ -8,7 +8,6 @@ export const useStateStore = defineStore('state', () => {
   const add = ref(false)
   const dice = ref(false)
   const event = ref(false)
-  const snackbar = ref(false)
   const drawer = ref(false)
   const dragging = ref(false)
   const navigation = ref(false)
@@ -42,10 +41,6 @@ export const useStateStore = defineStore('state', () => {
     dice.value = !dice.value
   }
 
-  function triggerSnackbar() {
-    snackbar.value = true
-  }
-
   // Event
   function eventOpen() {
     event.value = true
@@ -75,7 +70,6 @@ export const useStateStore = defineStore('state', () => {
     add,
     dice,
     drawer,
-    snackbar,
     dragging,
     tagmanager,
     event,
@@ -86,7 +80,6 @@ export const useStateStore = defineStore('state', () => {
     drawerToggle,
     drawerOpen,
     drawerClose,
-    triggerSnackbar,
     eventOpen,
     eventClose,
     eventToggle,

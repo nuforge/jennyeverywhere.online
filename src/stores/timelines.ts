@@ -29,5 +29,9 @@ export const useTimelineStore = defineStore('timeline', () => {
     events.value.unshift(event)
   }
 
-  return { timeline, events, addEvent }
+  const addDiceRoll = () => {
+    new Event('Dice Roll', 'Discovered a wormhole while navigating through unexplored space')
+  }
+
+  return { timeline, events, addEvent, addDiceRoll }
 })

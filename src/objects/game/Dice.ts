@@ -33,7 +33,7 @@ class Dice {
     }
 
     this._value = this._rolls.reduce((acc, val) => acc + val, 0)
-    console.log(`roll: ${dCount}d${this._faces} : ${this._value}`)
+    console.log(`Dice.roll: ${dCount}d${this._faces} : ${this._value}`)
     return this._value
   }
 }

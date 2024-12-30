@@ -1,22 +1,16 @@
 <template>
-  <v-fab :prepend-icon="dice.getResults() ? `$dice` : `$no-dice`" variant="plain" app appear @click="rollDice()"
-    attach="parent" :text="dice.getResults().toString().padStart(2, '0')" class>
+  <v-fab variant="plain" app appear @click="dice.rollDice()" attach="parent" :text="dice.getString(2)" class>
     <template v-slot:default>
-      {{ dice.getResults().toString().padStart(2, '0') }}
+      <v-tag-item :value="dice.getString(2)" icon="mdi-dice-d20" :label="dice.getString(2)"></v-tag-item>
     </template>
   </v-fab>
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
+
 import { useDiceStore } from '@/stores/dice';
-const state = useStateStore()
+
 const dice = useDiceStore()
 
-
-const rollDice = () => {
-  dice.rollDice()
-  state.triggerSnackbar()
-}
 
 </script>

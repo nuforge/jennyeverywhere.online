@@ -1,7 +1,8 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :text="story.raw" class="story-body" @right-click="openAddTagDialog()" @dragstart="onDragStart" />
+    <MarkdownRenderer :text="story.raw" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
+      @dragstart="onDragStart" /> {{ tagMerge }}
   </v-sheet>
 </template>
 
@@ -10,10 +11,22 @@ import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import Tag from '@/objects/Tag' // Adjust the import path as necessary
+import { computed } from 'vue'
 
 const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
+
+const tagMerge = computed(() => {
+  const mergedTags = [...tags.tags, ...story.tags] as Tag[]
+
+  const uniqueTags = mergedTags.filter(
+    (tag, index, self) => self.findIndex(t => t.name === tag.name) === index
+  );
+
+  return uniqueTags;
+})
 
 
 const onDragStart = (event: DragEvent) => {

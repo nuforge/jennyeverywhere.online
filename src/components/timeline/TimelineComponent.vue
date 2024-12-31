@@ -34,7 +34,7 @@
           <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
         </template>
         <h2>{{ event.name }}</h2>
-        <MarkdownRenderer :text="event.body" />
+        <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
       </v-timeline-item>
     </v-timeline>
   </v-sheet>

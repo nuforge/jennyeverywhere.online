@@ -40,16 +40,21 @@ export const useStoryStore = defineStore('story', () => {
     return md.render(text)
   }
 
+  // Escape special regex characters if pattern is a literal string
+  function escapePattern(pattern: string) {
+    const escapedPattern =
+      typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern // If already a RegExp, use it as is
+    const regex = typeof pattern === 'string' ? new RegExp(`\\b${escapedPattern}\\b`, 'g') : pattern
+    return regex
+  }
+
   function linkTag(tag: Tag, body: string = markdown.value) {
-    // Create a RegExp if pattern is a string
     const pattern = tag.name
     const icon = tag.icon
     const color = tag.color
 
     // Escape special regex characters if pattern is a literal string
-    const escapedPattern =
-      typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern // If already a RegExp, use it as is
-    const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern
+    const regex = escapePattern(pattern)
 
     return body.replace(
       regex,
@@ -61,11 +66,7 @@ export const useStoryStore = defineStore('story', () => {
   function linkString(tag: string, body: string = markdown.value) {
     // Create a RegExp if pattern is a string
     const pattern = tag
-    // Escape special regex characters if pattern is a literal string
-    const escapedPattern =
-      typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern // If already a RegExp, use it as is
-    const regex = typeof pattern === 'string' ? new RegExp(escapedPattern, 'g') : pattern
-
+    const regex = escapePattern(pattern)
     return body.replace(regex, (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`)
   }
 
@@ -74,9 +75,7 @@ export const useStoryStore = defineStore('story', () => {
       const icon = tag.icon || 'default'
       const color = tag.color || 'default'
       const pattern = tag.name
-      const escapedPattern =
-        typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern
-      const regex = new RegExp(escapedPattern, 'g')
+      const regex = escapePattern(pattern)
       return updatedText.replace(
         regex,
         (match) =>

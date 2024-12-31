@@ -34,7 +34,7 @@
           <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
         </template>
         <h2>{{ event.name }}</h2>
-        <MarkdownRenderer :text="event.description" />
+        <MarkdownRenderer :text="event.body" />
       </v-timeline-item>
     </v-timeline>
   </v-sheet>
@@ -47,7 +47,7 @@ import { useTagStore } from '@/stores/tags'
 import { useStateStore } from '@/stores/state'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '../tags/TagTrayCard.vue';
+import TagTray from '@/components/tags/TagTrayCard.vue';
 
 const state = useStateStore()
 const tags = useTagStore()
@@ -55,6 +55,7 @@ const events = useTimelineStore().events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');
+console.log(events)
 
 function handleCtrlClick(tag: Tag) {
 

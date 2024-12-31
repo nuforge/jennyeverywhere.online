@@ -1,8 +1,7 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :text="story.markdown" class="story-body" @right-click="openAddTagDialog()"
-      @dragstart="onDragStart" />
+    <MarkdownRenderer :text="story.raw" class="story-body" @right-click="openAddTagDialog()" @dragstart="onDragStart" />
   </v-sheet>
 </template>
 

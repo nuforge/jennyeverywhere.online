@@ -1,26 +1,23 @@
 import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
 import TagMap from './TagMap'
+import { v4 as uuidv4 } from 'uuid'
 
 class Event {
-  protected _id: string
+  protected _id = uuidv4()
 
   protected _name: string
-  protected _stamp: Date
-  protected _description: string
-  protected _icon: string
-  protected _color: string
+  protected _title: string
+  protected _stamp: Date = new Date()
+  protected _body: string = ''
   protected _tags: TagMap = new TagMap()
 
-  constructor(name: string, description?: string) {
-    this._name = name
-    this._id = name.toLowerCase().replace(/\s/g, '-')
-    this._description = description || ''
+  constructor(name: string, body?: string) {
+    this._name = name.toLowerCase().replace(/\s/g, '-')
+    this._title = name
+    this._body = body || ''
 
-    this._icon = 'mdi-calendar'
-    this._color = 'text'
-    this._stamp = new Date()
-    this._tags.addTag(new Tag(`stamp:${this._stamp}`, this._color, this._icon))
+    this._tags.addTag(new Tag(`stamp:${this._stamp}`))
     return this
   }
 
@@ -39,12 +36,17 @@ class Event {
   get name() {
     return this._name
   }
+
+  get title() {
+    return this._title
+  }
+
   get tags() {
     return this._tags
   }
 
-  get description() {
-    return this._description
+  get body() {
+    return this._body
   }
 
   get stamp() {
@@ -59,19 +61,19 @@ class Event {
   }
 
   get icon() {
-    return this._icon
+    return this._tags.getTag('icon')?.icon || 'default'
   }
 
   get color() {
-    return this._color
+    return this._tags.getTag('color')?.icon || 'default'
   }
 
   set name(newTitle: string) {
     this._name = newTitle
   }
 
-  set description(newDescription: string) {
-    this._description = newDescription
+  set body(newDescription: string) {
+    this._body = newDescription
   }
 
   set stamp(newDate: Date) {
@@ -79,19 +81,17 @@ class Event {
   }
 
   set icon(newIcon: string) {
-    this._icon = newIcon
+    this._tags.stringTag(newIcon)
   }
 
   set color(newColor: string) {
-    this._color = newColor
+    this._tags.stringTag(newColor)
   }
 
   createTag(tagName: string, tagColor: string, tagIcon: string) {
     const tag = new Tag(tagName)
     tag.color = tagColor
     tag.icon = tagIcon
-    this._icon = tag.icon
-    this._color = tag.color
     this.addTag(tag)
     return this
   }

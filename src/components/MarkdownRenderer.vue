@@ -19,12 +19,12 @@ const taglist = computed(() => {
 
 const taggedHTML = computed(() => {
   // Combine the two sets of tags into one iterable
-  return story.linkTags([...tags.tags, ...story.tagMap.tags])
+  return story.linkTags([...tags.tags, ...story.tagMap.tags], props.text)
 })
 
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click'])
-defineProps({
+const props = defineProps({
   text: {
     type: String,
   },

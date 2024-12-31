@@ -2,16 +2,17 @@
 
   <v-toolbar class="bg-background">
     <v-btn-toggle v-model="timeline.timelineDirection" density="comfortable">
-      <v-btn icon="mdi-rotate-right" value="horizontal" variant="plain" size="small"></v-btn>
-
-
+      <v-btn icon="mdi-rotate-right" :value="horizontal ? 'vertical' : 'horizontal'" variant="plain"
+        size="small"></v-btn>
     </v-btn-toggle>
     <v-btn-toggle v-model="timeline.timelineSide" density="comfortable">
       <v-btn
-        :icon="timeline.timelineSide === 'start' ? 'mdi-arrow-top-left-bold-box' : 'mdi-arrow-top-left-bold-box-outline'"
+        :icon="start ? horizontal ? 'mdi-arrow-up-bold' : 'mdi-arrow-left-bold' : horizontal ? 'mdi-arrow-up-bold-outline' : 'mdi-arrow-left-bold-outline'"
         value="start" variant="plain" size="small"></v-btn>
+
+      <v-icon :icon="icon" color="disabled" />
       <v-btn
-        :icon="timeline.timelineSide === 'end' ? 'mdi-arrow-bottom-right-bold-box' : 'mdi-arrow-bottom-right-bold-box-outline'"
+        :icon="end ? horizontal ? 'mdi-arrow-down-bold' : 'mdi-arrow-right-bold' : horizontal ? 'mdi-arrow-down-bold-outline' : 'mdi-arrow-right-bold-outline'"
         value="end" variant="plain" size="small"></v-btn>
     </v-btn-toggle>
     <v-btn-toggle v-model="timeline.timelineOpposite" density="comfortable">
@@ -22,10 +23,45 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useTimelineStore } from '@/stores/timelines'
 
 const timeline = useTimelineStore()
 
+const timelimeRotated = computed(() => {
+  return timeline.timelineDirection === 'horizontal' ? 'vertical' : 'horizontal'
+})
+
+const horizontal = computed(() => {
+  return timeline.timelineDirection === 'horizontal'
+})
+
+const center = computed(() => {
+  return timeline.timelineSide !== 'start' && timeline.timelineSide !== 'end'
+})
+
+const start = computed(() => {
+  return timeline.timelineSide === 'start'
+})
+
+const end = computed(() => {
+  return timeline.timelineSide === 'end'
+})
+
+
+
+const timelimeAlignment = computed(() => {
+  if (!timeline.timelineSide) return 'center'
+  const start = timeline.timelineDirection === 'horizontal' ? 'top' : 'right'
+  const end = timeline.timelineDirection === 'horizontal' ? 'bottom' : 'left'
+  return timeline.timelineSide === 'start' ? start : end
+})
+
+
+const icon = computed(() => {
+  const text = `mdi-align-${timelimeRotated.value}-${timelimeAlignment.value}`
+  return text
+})
 
 
 </script>

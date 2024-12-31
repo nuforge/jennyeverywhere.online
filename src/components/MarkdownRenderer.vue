@@ -14,7 +14,7 @@ const story = useStoryStore()
 
 const taglist = computed(() => {
   // Combine the two sets of tags into one iterable
-  return [...tags.tags, ...story.tags];
+  return [...tags.tags, ...story.tagMap.tags];
 });
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click'])

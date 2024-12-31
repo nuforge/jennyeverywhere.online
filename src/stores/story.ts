@@ -22,7 +22,7 @@ export const useStoryStore = defineStore('story', () => {
   const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
   const choices = ref(story.choices)
   const tagMap = ref(new TagMap())
-  const tags = computed(() => tagMap.value.tagList as Tag[])
+  const tags = computed(() => tagMap.value.tags)
 
   const markdown = computed(() => markitdown(raw.value))
   const HTML = ref(raw.value)
@@ -98,8 +98,8 @@ export const useStoryStore = defineStore('story', () => {
     raw,
     markdown,
     HTML,
-    title,
     tags,
+    title,
     tagMap,
     choices,
     renderMd,

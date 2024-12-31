@@ -19,7 +19,7 @@ class TagMap {
   }
 
   get tags() {
-    return this._tags.values()
+    return [...this._tags.values()] as Tag[]
   }
 
   get tagKeys() {
@@ -46,6 +46,15 @@ class TagMap {
   addTags(newTags: Tag[]) {
     newTags.forEach((tag) => this.addTag(tag))
     return
+  }
+
+  addLabel = (newName: string, newColor: string, newIcon: string) => {
+    const tag = Tag.cleanTag(newName)
+    const existingTag = this.getTag(tag)
+    const newTag = existingTag ? existingTag : new Tag(newName)
+    newTag.icon = newIcon
+    newTag.color = newColor
+    return this.addTag(newTag)
   }
 
   setTag(id: string, tag: Tag) {

@@ -8,15 +8,16 @@
           <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
             @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
           <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
-            @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" @dragend="onDragEnd" />
+            @delete-drop="dropDeleteTags" @add-drop="onDragDrop" @dragstart="onDragTrayStart($event, tagMerge)"
+            @dragend="onDragEnd" />
         </v-system-bar>
       </v-fade-transition>
       <v-card-text>
         <v-slide-x-transition>
           <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
             :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
-            @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart" @dragend="onDragEnd"
-            @close="onClose" />
+            @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart($event)"
+            @dragend="onDragEnd" @close="onClose" />
         </v-slide-x-transition>
       </v-card-text>
     </v-layout>
@@ -97,22 +98,25 @@ function manageCtrlClick(tag: Tag) {
 
 // DRAG START
 
-const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  event.dataTransfer.setData(type, data);
+// const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
+//   if (!event.dataTransfer) return
+//   event.dataTransfer.clearData();
+//   event.dataTransfer.setData(type, data);
 
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  if (dragImage.value) {
-    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
-  } else {
-    console.warn('Drag image not ready!');
+//   if (!event.dataTransfer) return
+//   event.dataTransfer.clearData();
+//   if (dragImage.value) {
+//     event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+//   } else {
+//     console.warn('Drag image not ready!');
+//   }
+// }
+
+const onDragStart = (event: DragEvent) => {
+  const selectedText = window.getSelection()?.toString().trim();
+  if (selectedText) {
+    event.dataTransfer?.setData('text/plain', selectedText);
   }
-  event.dataTransfer?.setData('text/plain', 'tag');
-}
-
-const onDragStart = () => {
   tray.value.dragging = true
   state.dragStart()
 }
@@ -123,8 +127,7 @@ const onDragTrayStart = (event: DragEvent, tags: Tag[]) => {
   //console.log('Tray.Start', tags)
   state.dragStart()
   clipboard.copy(tags)
-  writeDataTransfer(event, 'list', 'test');
-  onDragStart()
+  onDragStart(event)
 }
 
 
@@ -150,11 +153,14 @@ const onDragEnd = () => {
 
 // DRAG DROP
 
-const onDragDrop = () => {
+const onDragDrop = (event: DragEvent) => {
+  if (event.dataTransfer) {
+    if (event.dataTransfer.getData('text/plain')) {
+      // console.log('onDragDrop', event.dataTransfer.getData('text/plain').trim())
+      tray.value.map.stringTag(event.dataTransfer.getData('text/plain').trim())
+    }
+  }
   tray.value.dragging = false
-  //console.log('drag.Drop')
-  //const tagMapDifference = tagMap.value.difference(tags)
-  //console.log('TagTray.onDragDrop', tags, tagMap.value.tagList, tagMapDifference)
   tray.value.map.addTags(clipboard.paste(true) as Tag[])
   state.dragDrop()
 }

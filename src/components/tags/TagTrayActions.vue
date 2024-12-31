@@ -2,7 +2,7 @@
   <v-icon @click="$emit('update:closable', !tray.closable)" :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"
     @drop="$emit('delete-drop')" :draggable="true" @dragover="preventDefault($event)">
   </v-icon>
-  <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`">
+  <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`" @drop="tagOrText">
   </v-icon>
   <v-icon icon="mdi-select-search" :draggable="true">
   </v-icon>
@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { useStateStore } from '@/stores/state';
+import Tag from '@/objects/Tag';
 import TagTray from '@/objects/TagTray';
 
 const state = useStateStore()
@@ -23,7 +24,14 @@ defineProps({
   },
 })
 
-defineEmits(['update:closable', 'delete-drop', 'dragstart', 'dragend'])
+const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'dragstart', 'dragend'])
+
+const tagOrText = (tag: Tag | string) => {
+  if (typeof tag === 'string') {
+    emit('add-drop', tag)
+  }
+  emit('add-drop', tag)
+}
 
 const preventDefault = (event: Event) => event.preventDefault()
 

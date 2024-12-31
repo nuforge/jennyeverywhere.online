@@ -1,7 +1,7 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :text="story.raw" class="story-body" @right-click="openAddTagDialog()" />
+    <MarkdownRenderer :text="story.raw" class="story-body" @right-click="openAddTagDialog()" @dragstart="onDragStart" />
   </v-sheet>
 </template>
 
@@ -15,6 +15,16 @@ const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
 
+
+const onDragStart = (event: DragEvent) => {
+  console.log('onDragStart', window)
+  const selectedText = window.getSelection()?.toString().trim();
+  if (selectedText) {
+    event.dataTransfer?.setData('text/plain', selectedText);
+  }
+  state.dragStart()
+}
+
 function openAddTagDialog() {
   let text = "";
   if (window.getSelection) {
@@ -23,7 +33,7 @@ function openAddTagDialog() {
       text = selection.toString();
     }
   }
-
+  console.log('openAddTagDialog', text)
   tags.tempTag(text);
   state.add = true
   return tags.tempTag.name

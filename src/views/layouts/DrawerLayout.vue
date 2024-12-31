@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200"
     @keydown="handleKeydown">
-    <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" flat min-height="80px" width="100%" />
+    <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" flat />
   </v-navigation-drawer>
 </template>
 

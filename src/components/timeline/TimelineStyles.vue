@@ -2,7 +2,7 @@
 
   <v-toolbar class="bg-background">
     <v-btn-toggle v-model="timeline.timelineDirection" density="comfortable">
-      <v-btn icon="mdi-rotate-right" :value="horizontal ? 'vertical' : 'horizontal'" variant="plain"
+      <v-btn :icon="icon" :value="horizontal ? 'vertical' : 'horizontal'" variant="plain"
         size="small"></v-btn>
     </v-btn-toggle>
     <v-btn-toggle v-model="timeline.timelineSide" density="comfortable">
@@ -10,7 +10,6 @@
         :icon="start ? horizontal ? 'mdi-arrow-up-bold' : 'mdi-arrow-left-bold' : horizontal ? 'mdi-arrow-up-bold-outline' : 'mdi-arrow-left-bold-outline'"
         value="start" variant="plain" size="small"></v-btn>
 
-      <v-icon :icon="icon" color="disabled" />
       <v-btn
         :icon="end ? horizontal ? 'mdi-arrow-down-bold' : 'mdi-arrow-right-bold' : horizontal ? 'mdi-arrow-down-bold-outline' : 'mdi-arrow-right-bold-outline'"
         value="end" variant="plain" size="small"></v-btn>

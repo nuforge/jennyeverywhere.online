@@ -36,7 +36,7 @@ class TagTray {
   }
 
   get tags() {
-    return this._tags.tagList
+    return this._tags.tags
   }
 
   get selected() {

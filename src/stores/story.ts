@@ -2,19 +2,13 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
 import TagMap from '@/objects/TagMap'
+import Tag from '@/objects/Tag'
 import story from '@/assets/stories/story.json'
 
 export interface Story {
   title: string
   body: string
   image: string
-}
-
-interface Tag {
-  id: string
-  name: string
-  icon: string | undefined
-  color: string | undefined
 }
 
 export const useStoryStore = defineStore('story', () => {
@@ -26,6 +20,12 @@ export const useStoryStore = defineStore('story', () => {
 
   const markdown = computed(() => markitdown(raw.value))
   const HTML = ref(raw.value)
+
+  tagMap.value.addTag(new Tag('Jenny Everywhere', 'primary', 'mdi-account-circle'))
+  tagMap.value.addTag(new Tag('green portal', 'green', 'mdi-orbit'))
+  tagMap.value.addTag(new Tag('flamethrower', 'red', 'mdi-fire'))
+  tagMap.value.addTag(new Tag('jetpack', 'warning', 'mdi-rocket-launch'))
+  tagMap.value.addTag(new Tag('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
 
   const md = markdownit({
     html: true,
@@ -70,7 +70,7 @@ export const useStoryStore = defineStore('story', () => {
     return body.replace(regex, (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`)
   }
 
-  function linkTags(tags: Tag[] = tagMap.value.tagList, text?: string) {
+  function linkTags(tags: Tag[] = tagMap.value.tags as Tag[], text?: string) {
     return tags.reduce((updatedText, tag) => {
       const icon = tag.icon || 'default'
       const color = tag.color || 'default'
@@ -84,7 +84,7 @@ export const useStoryStore = defineStore('story', () => {
     }, text || raw.value)
   }
 
-  function linkText(tags: Tag[] = tagMap.value.tagList, text?: string) {
+  function linkText(tags: Tag[] = tagMap.value.tags as Tag[], text?: string) {
     let temp = text
     tags.forEach((tag) => {
       if (!tag.id) return

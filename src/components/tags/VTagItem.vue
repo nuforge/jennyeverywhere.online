@@ -1,7 +1,7 @@
 <template>
-  <v-chip :value="value" :color="!noColor ? color : 'text'" :closable="styles.closable"
-    @click:close="closeTag($event, value)" @click="clickTag($event, value)"
-    :variant="noIcon && noLabel ? noColor ? 'outlined' : 'tonal' : 'text'">
+  <v-chip :value="value" :color="!noColor ? !noIcon ? noLabel ? color : color : color : 'text'"
+    :closable="styles.closable" @click:close="closeTag($event, value)" @click="clickTag($event, value)"
+    :variant="noIcon && noLabel ? noColor ? 'outlined' : 'tonal' : noIcon ? 'text' : 'text'">
     <template v-slot:prepend>
       <v-fab-transition>
         <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
@@ -15,7 +15,7 @@
     </template>
     <template v-slot:default>
       <v-slide-x-transition>
-        <div v-show="!noLabel">{{ label }}</div>
+        <span v-show="!noLabel">{{ label }}</span>
       </v-slide-x-transition>
     </template>
   </v-chip>

@@ -7,7 +7,7 @@
   <v-icon icon="mdi-select-search" :draggable="true">
   </v-icon>
   <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" @dragend="$emit('dragend', $event)" :draggable="true"
-    class="grabbable"></v-icon>
+    class="grabbable" @click="$emit('toggle-select')"></v-icon>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +24,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'dragstart', 'dragend'])
+const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'dragstart', 'dragend', 'toggle-select'])
 
 const tagOrText = (tag: Tag | string) => {
   if (typeof tag === 'string') {
@@ -32,6 +32,7 @@ const tagOrText = (tag: Tag | string) => {
   }
   emit('add-drop', tag)
 }
+
 
 const preventDefault = (event: Event) => event.preventDefault()
 

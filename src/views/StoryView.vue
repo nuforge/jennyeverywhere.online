@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import img from '@/assets/stories/gallery/001.png'
 
 import FeedbackBar from '@/components/FeedbackBar.vue'
@@ -35,11 +34,4 @@ import Tag from '@/objects/Tag.ts';
 const tags = useTagStore()
 const story = useStoryStore()
 
-onMounted(() => {
-  story.tagMap.addTag(new Tag('Jenny Everywhere', 'primary', 'mdi-account-circle'))
-  story.tagMap.addTag(new Tag('green portal', 'green', 'mdi-orbit'))
-  story.tagMap.addTag(new Tag('flamethrower', 'red', 'mdi-fire'))
-  story.tagMap.addTag(new Tag('jetpack', 'warning', 'mdi-rocket-launch'))
-  story.tagMap.addTag(new Tag('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
-})
 </script>

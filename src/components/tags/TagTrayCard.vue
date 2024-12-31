@@ -9,7 +9,7 @@
             @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
           <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
             @delete-drop="dropDeleteTags" @add-drop="onDragDrop" @dragstart="onDragTrayStart($event, tagMerge)"
-            @dragend="onDragEnd" />
+            @dragend="onDragEnd" @toggle-select="toggleSelect" />
         </v-system-bar>
       </v-fade-transition>
       <v-card-text>
@@ -50,6 +50,10 @@ const manage = ref(false)
 const focus = ref(false)
 const showManager = computed(() => focus.value || manage.value || state.tagmanager)
 
+//NOt working
+const toggleSelect = () => {
+  tray.value.selected = tagMerge.value as Tag[]
+}
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'dragstart', 'dragend', 'close'])
 const props = defineProps({
@@ -60,6 +64,7 @@ const props = defineProps({
   },
   selected: {
     type: Array as () => string[],
+    default: Array as () => Tag[]
   },
   dense: {
     type: Boolean,
@@ -93,23 +98,6 @@ function manageCtrlClick(tag: Tag) {
   emit('ctrl-click', tag)
 }
 
-// TAG DRAGGING
-
-// DRAG START
-
-// const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-//   if (!event.dataTransfer) return
-//   event.dataTransfer.clearData();
-//   event.dataTransfer.setData(type, data);
-
-//   if (!event.dataTransfer) return
-//   event.dataTransfer.clearData();
-//   if (dragImage.value) {
-//     event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
-//   } else {
-//     console.warn('Drag image not ready!');
-//   }
-// }
 
 const onDragStart = (event: DragEvent) => {
   const selectedText = window.getSelection()?.toString().trim();
@@ -172,6 +160,23 @@ const dropDeleteTags = () => {
   state.dragDrop()
 }
 
+// TAG DRAGGING
+
+// DRAG START
+
+// const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
+//   if (!event.dataTransfer) return
+//   event.dataTransfer.clearData();
+//   event.dataTransfer.setData(type, data);
+
+//   if (!event.dataTransfer) return
+//   event.dataTransfer.clearData();
+//   if (dragImage.value) {
+//     event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+//   } else {
+//     console.warn('Drag image not ready!');
+//   }
+// }
 
 // MOUNTED
 

@@ -38,20 +38,33 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, computed } from 'vue';
 import type Tag from '@/objects/Tag';
 import { useTagStore } from '@/stores/tags'
 import { useStateStore } from '@/stores/state'
+import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagTray from '@/components/tags/TagTrayCard.vue';
 import TimelineStyles from './TimelineStyles.vue';
+import Event from '@/objects/Event';
 
 const state = useStateStore()
+const story = useStoryStore()
 const tags = useTagStore()
 const timeline = useTimelineStore()
-const events = timeline.events
+const events = computed(() => { return [...timeline.events, StoryEvent.value] })
 
+const StoryEvent = computed(() => {
+  const event = new Event(story.title, story.raw.substring(0, 80).concat('...'))
+  story.tags.forEach((tag) => {
+    event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+  return event
+})
 console.log(events)
+
+
 
 function handleCtrlClick(tag: Tag) {
 
@@ -59,6 +72,15 @@ function handleCtrlClick(tag: Tag) {
   tags.addTag(tag)
 }
 
+
+onMounted(() => {
+
+  const event = new Event(story.title, story.raw.substring(0, 100))
+
+  story.tags.forEach((tag) => {
+    event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+})
 
 
 </script>

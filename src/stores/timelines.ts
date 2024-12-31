@@ -7,6 +7,10 @@ import Timeline from '@/objects/Timeline'
 export const useTimelineStore = defineStore('timeline', () => {
   const timeline = ref<Timeline>(new Timeline('tum'))
 
+  type TimelineDirection = 'horizontal' | 'vertical'
+  const timelineDirection = ref<TimelineDirection>('vertical')
+  const timelineSide = ref('left')
+
   const events = ref(<Event[]>[
     new Event(
       'Scientific Discovery',
@@ -33,5 +37,5 @@ export const useTimelineStore = defineStore('timeline', () => {
     new Event('Dice Roll', 'Discovered a wormhole while navigating through unexplored space')
   }
 
-  return { timeline, events, addEvent, addDiceRoll }
+  return { timeline, timelineSide, timelineDirection, events, addEvent, addDiceRoll }
 })

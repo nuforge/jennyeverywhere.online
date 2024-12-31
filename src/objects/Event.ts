@@ -1,28 +1,26 @@
 import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
 import TagMap from './TagMap'
-import { v4 as uuidv4 } from 'uuid'
 
-class Event {
-  protected _id = uuidv4()
+class Event extends Tag {
+  // Extends tag?
+  protected _title: string // Title of Event (different from Name?)
+  protected _tags: TagMap = new TagMap() // Tags for Event (actions as well)
 
-  protected _name: string
-  protected _title: string
-  protected _stamp: Date = new Date()
-  protected _body: string = ''
-  protected _tags: TagMap = new TagMap()
+  protected _body?: string // Description of Event
+  protected _date?: Date // Description of Event
 
-  constructor(name: string, body?: string) {
-    this._name = name.toLowerCase().replace(/\s/g, '-')
+  // constructor
+
+  constructor(name: string, body?: string, date?: Date) {
+    super(name)
     this._title = name
-    this._body = body || ''
-
-    this._tags.addTag(new Tag(`stamp:${this._stamp}`))
+    this._date = date
+    this._body = body
+    this.icon = 'mdi-calendar'
+    this.color = 'text'
+    this.addTag(new Tag(`stardate:${this.date}`, 'blue', 'mdi-web-clock'))
     return this
-  }
-
-  get formattedDate() {
-    return this._stamp
   }
 
   tagList() {
@@ -31,10 +29,6 @@ class Event {
       return acc
     }, [])
     return taglist
-  }
-
-  get name() {
-    return this._name
   }
 
   get title() {
@@ -46,46 +40,15 @@ class Event {
   }
 
   get body() {
-    return this._body
+    return this._body || ''
   }
 
-  get stamp() {
-    return this._stamp
-  }
   get date() {
     return format(this._stamp, 'yyww.h').toString()
   }
 
-  get id() {
-    return this._id
-  }
-
-  get icon() {
-    return this._tags.getTag('icon')?.icon || 'default'
-  }
-
-  get color() {
-    return this._tags.getTag('color')?.icon || 'default'
-  }
-
-  set name(newTitle: string) {
-    this._name = newTitle
-  }
-
   set body(newDescription: string) {
     this._body = newDescription
-  }
-
-  set stamp(newDate: Date) {
-    this._stamp = newDate
-  }
-
-  set icon(newIcon: string) {
-    this._tags.stringTag(newIcon)
-  }
-
-  set color(newColor: string) {
-    this._tags.stringTag(newColor)
   }
 
   createTag(tagName: string, tagColor: string, tagIcon: string) {

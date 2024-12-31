@@ -2,7 +2,7 @@
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
     <MarkdownRenderer :text="story.raw" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
-      @dragstart="onDragStart" /> {{ tagMerge }}
+      @dragstart="onDragStart" />
   </v-sheet>
 </template>
 

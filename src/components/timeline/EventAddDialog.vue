@@ -16,7 +16,7 @@
                 variant="solo-filled" clearable></v-text-field>
               <v-text-field v-model="event.date" label="Date/time" required density="compact"
                 prepend-inner-icon="mdi-web-clock" variant="solo-filled" clearable></v-text-field>
-              <v-textarea label="Description" v-model="event.description" name="Description" auto-grow required
+              <v-textarea label="Description" v-model="event.body" name="Description" auto-grow required
                 density="compact" prepend-inner-icon="mdi-calendar-text" variant="solo-filled" clearable></v-textarea>
               <ColorPicker v-model="event.color" label="Color" variant="solo-filled" />
               <tag-autocomplete v-model="event.icon" :prepend-inner-icon="event.icon" variant="solo-filled" />
@@ -36,7 +36,7 @@
                 <VTagItem dense label="Public Tags" icon="mdi-tag" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <TagTray :tags="evTags.tags" noLabel @close="removeTag"></TagTray>
+                <TagTray :tags="(evTags.tags as Tag[])" noLabel @close="removeTag"></TagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -44,7 +44,7 @@
                 <VTagItem dense label="Description" icon="mdi-text-box-outline" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <MarkdownRenderer :text="event.description" />
+                <MarkdownRenderer :text="event.body" :tags="(evTags.tags as Tag[])" />
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -87,12 +87,13 @@ const eventTags = ref<Tag[]>([])
 const evTags = ref(new tagTray([]))
 
 
-const event = ref(new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard'))
+const event = ref()
 
 const systemTags = computed(() => {
   const tags = []
-  const tag = new Tag(`${event.value.name}`)
+  const tag = new Tag(`${event.value.title}`)
   tags.push(new Tag(`name:${tag.name}`, 'system', `mdi-label-variant-outline`))   // Name
+  tags.push(new Tag(`title:${tag.name}`, 'system', `mdi-label-variant-outline`))   // Name
   tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-identifier`)) // ID
   tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `mdi-calendar-clock`)) // Timestamp
   tags.push(new Tag(`event`, 'system', 'mdi-calendar-outline')) // Event
@@ -111,7 +112,7 @@ function removeTag(tag: Tag) {
 function saveEvent() {
   // Save the event
   console.log('EAD: saveEvent', evTags.value.tags)
-  timeline.addEvent(event.value, evTags.value.tags)
+  timeline.addEvent(event.value, evTags.value.tags as Tag[])
   state.eventClose()
 }
 
@@ -121,9 +122,11 @@ function cancelEvent() {
 }
 
 onMounted(() => {
-  if (event.value.name !== '') {
 
-    const tag = new Tag(`${event.value.name}`)
+  event.value = new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
+
+  if (event.value.name !== '') {
+    const tag = new Tag(`${event.value.title}`)
     tag.icon = event.value.icon
     tag.color = event.value.color
     evTags.value.copy(new Tag(`${tag.name}`, tag.color, tag.icon))

@@ -6,7 +6,7 @@
         <v-btn icon="mdi-align-horizontal-center" value="vertical" variant="plain" size="small"></v-btn>
       </v-btn-toggle>{{ timelineDirection }}
     </v-toolbar>
-    <v-timeline :direction="timelineDirection" truncate-line="both">
+    <v-timeline :direction="timelineDirection" truncate-line="both" side="end">
       <v-timeline-item dot-color="background" fill-dot>
 
         <template v-slot:icon>
@@ -21,20 +21,16 @@
           text="Add Event"></v-btn>
       </v-timeline-item>
 
-      <v-timeline-item v-for="event in events" :key="event.name" :date="event.formattedDate" dot-color="background"
-        fill-dot>
+      <v-timeline-item v-for="event in events" :key="event.name" :date="event.date" dot-color="background" fill-dot>
         <template v-slot:icon>
-          <v-icon :icon="event.icon" :color="event.color">
-          </v-icon>
+          <v-icon :icon="event.icon" :color="event.color" />
           <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
             <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.name }}
           </v-tooltip>
         </template>
-        <template v-slot:opposite>
-          <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
-        </template>
-        <h2>{{ event.name }}</h2>
+        <h2>{{ event.title }}</h2>
         <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
+        <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
       </v-timeline-item>
     </v-timeline>
   </v-sheet>

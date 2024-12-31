@@ -14,6 +14,7 @@
       <EventAddDialog />
       <TagAddDialog />
       <DiceSnackbar />
+      <UndoSnackbar />
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
@@ -21,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue';
 
 import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
@@ -29,11 +31,32 @@ import DrawerLayout from '@/views/layouts/DrawerLayout.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
+import UndoSnackbar from '@/components/UndoSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';
 import TagFab from './components/fabs/TagFab.vue';
 const state = useStateStore()
 
+const lastKey = ref('');
+
+const handleKeydown = (event: KeyboardEvent) => {
+  lastKey.value = event.key; // Store the key that was pressed
+  if (event.ctrlKey && event.key === 'z') {
+    console.log(`Key pressed: ${event.key}`);
+
+    state.undo = !state.undo;
+    // Perform your desired action here
+  }
+};
+
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 
 </script>
 

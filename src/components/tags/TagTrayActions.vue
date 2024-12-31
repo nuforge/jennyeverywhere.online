@@ -6,7 +6,8 @@
   </v-icon>
   <v-icon icon="mdi-select-search" :draggable="true">
   </v-icon>
-  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" :draggable="true" class="grabbable"></v-icon>
+  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" @dragend="$emit('dragend', $event)" :draggable="true"
+    class="grabbable"></v-icon>
 </template>
 
 <script setup lang="ts">
@@ -22,7 +23,7 @@ defineProps({
   },
 })
 
-defineEmits(['update:closable', 'delete-drop', 'dragstart'])
+defineEmits(['update:closable', 'delete-drop', 'dragstart', 'dragend'])
 
 const preventDefault = (event: Event) => event.preventDefault()
 

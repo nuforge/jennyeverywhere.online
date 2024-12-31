@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200"
     @keydown="handleKeydown">
-    <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" flat dense />
+    <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" flat />
   </v-navigation-drawer>
 </template>
 
@@ -32,11 +32,6 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
-  tags.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle')
-  tags.addLabel('green portal', 'green', 'mdi-orbit')
-  tags.addLabel('flamethrower', 'red', 'mdi-fire')
-  tags.addLabel('jetpack', 'warning', 'mdi-rocket-launch')
-  tags.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
 });
 
 onUnmounted(() => {

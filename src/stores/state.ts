@@ -11,6 +11,7 @@ export const useStateStore = defineStore('state', () => {
   const drawer = ref(true)
   const dragging = ref(false)
   const navigation = ref(false)
+  const undo = ref(false)
   const vuetify = useTheme()
 
   const tagmanager = computed(() => drawer.value || dragging.value)
@@ -68,6 +69,7 @@ export const useStateStore = defineStore('state', () => {
     theme,
     tags,
     add,
+    undo,
     dice,
     drawer,
     dragging,

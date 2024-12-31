@@ -8,7 +8,7 @@
           <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
             @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
           <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
-            @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" />
+            @delete-drop="dropDeleteTags" @dragstart="onDragTrayStart($event, tagMerge)" @dragend="onDragEnd" />
         </v-system-bar>
       </v-fade-transition>
       <v-card-text>

@@ -132,14 +132,14 @@ onMounted(() => {
     evTags.value.copy(new Tag(`${tag.name}`, tag.color, tag.icon))
     eventTags.value.push(new Tag(`${tag.name}`, tag.color, tag.icon))
   }
-  eventTags.value.push(new Tag(`Federation`, `#59A7D3`, `mdi-account-group`))
-  eventTags.value.push(new Tag(`planet:Earth`, `#2079FF`, `mdi-earth`))
-  eventTags.value.push(new Tag(`species:Borg`, `#73C25F`, `mdi-account-group`))
-  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`, `#56A1F2`, `mdi-account`))
-  eventTags.value.push(new Tag(`Borg:Locutus`, `#73C25F`, `mdi-account`))
-  eventTags.value.push(new Tag(`borg:assimilate`, `#73C25F`, `mdi-memory`))
-  eventTags.value.push(new Tag(`stardate:44002.3`, 'system', `mdi-web-clock`)) // Timestamp
-  eventTags.value.push(new Tag(`battle`, `#AA0000`, `mdi-sword`))
+  eventTags.value.push(new Tag(`Federation`, `primary`, `mdi-account-group`))
+  eventTags.value.push(new Tag(`planet:Earth`, `primary`, `mdi-earth`))
+  eventTags.value.push(new Tag(`species:Borg`, `green`, `mdi-account-group`))
+  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`, `primary`, `mdi-account`))
+  eventTags.value.push(new Tag(`borg:Locutus`, `green`, `mdi-account`))
+  eventTags.value.push(new Tag(`borg:assimilate`, `green`, `mdi-memory`))
+  eventTags.value.push(new Tag(`stardate:44002.3`, 'info', `mdi-web-clock`)) // Timestamp
+  eventTags.value.push(new Tag(`battle`, `warning`, `mdi-sword`))
   eventTags.value.push(new Tag(`invasion`))
   eventTags.value.push(new Tag(`starship`))
 

@@ -69,7 +69,7 @@ export const useStoryStore = defineStore('story', () => {
     return body.replace(regex, (match) => `[${match}](${match.toLowerCase().replace(/\s/g, '-')})`)
   }
 
-  function linkTags(tags: Tag[], text?: string) {
+  function linkTags(tags: Tag[] = tagMap.value.tagList, text?: string) {
     return tags.reduce((updatedText, tag) => {
       const icon = tag.icon || 'default'
       const color = tag.color || 'default'
@@ -85,7 +85,7 @@ export const useStoryStore = defineStore('story', () => {
     }, text || raw.value)
   }
 
-  function linkText(tags: Tag[], text?: string) {
+  function linkText(tags: Tag[] = tagMap.value.tagList, text?: string) {
     let temp = text
     tags.forEach((tag) => {
       if (!tag.id) return

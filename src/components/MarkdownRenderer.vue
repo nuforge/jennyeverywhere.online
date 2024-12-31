@@ -1,7 +1,7 @@
 <template>
   <div id="markdown-renderer" class="markdown-body" @click.right.prevent="manageRightClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-if="text" v-html="textToHTML(text)"></div>
+    <div v-if="text" v-html="textToHTML(story.linkTags())"></div>
   </div>
 </template>
 

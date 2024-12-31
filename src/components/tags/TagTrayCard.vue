@@ -3,8 +3,8 @@
     @focusin="focusStart()" @focusout="focusEnd()" :elevation="showManager ? 10 : 0" min-width="300px">
     <v-layout>
       <v-fade-transition>
-        <v-system-bar v-show="showManager" v-if="!dense" @dragover="onDragOver" class="justify-space-between align-end"
-          :class="focus ? 'border-opacity-100' : 'border-opacity-20'">
+        <v-system-bar v-show="showManager" v-if="!dense" @dragover="onDragOver"
+          class="justify-space-evenly align-center" :class="focus ? 'border-opacity-100' : 'border-opacity-20'">
           <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
             @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
           <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"

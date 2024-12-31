@@ -43,9 +43,11 @@ const handleKeydown = (event: KeyboardEvent) => {
   lastKey.value = event.key; // Store the key that was pressed
   if (event.ctrlKey && event.key === 'z') {
     console.log(`Key pressed: ${event.key}`);
-
     state.undo = !state.undo;
-    // Perform your desired action here
+  }
+  if (event.key === '`') {
+    console.log(`Key pressed: ${event.key}`);
+    state.add = !state.add;
   }
 };
 

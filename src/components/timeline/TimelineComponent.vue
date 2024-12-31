@@ -1,45 +1,43 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12" class="d-flex justify-space-between align-center">
-      <v-spacer></v-spacer>{{ timelineDirection }}
+  <v-sheet class="bg-transparent overflow-auto">
+    <v-toolbar class="bg-background">
       <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
         <v-btn icon="mdi-align-vertical-center" value="horizontal" variant="plain" size="small"></v-btn>
         <v-btn icon="mdi-align-horizontal-center" value="vertical" variant="plain" size="small"></v-btn>
-      </v-btn-toggle>
-    </v-col>
-  </v-row>
-  <v-timeline :direction="timelineDirection" truncate-line="both">
+      </v-btn-toggle>{{ timelineDirection }}
+    </v-toolbar>
+    <v-timeline :direction="timelineDirection" truncate-line="both">
+      <v-timeline-item dot-color="background" fill-dot>
 
-    <v-timeline-item dot-color="background" fill-dot>
+        <template v-slot:icon>
+          <v-icon icon="mdi-help" color="disabled">
+          </v-icon>
+          <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
+            <v-icon icon="mdi-help"></v-icon> The Future
+          </v-tooltip>
+        </template>
 
-      <template v-slot:icon>
-        <v-icon icon="mdi-help" color="disabled">
-        </v-icon>
-        <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
-          <v-icon icon="mdi-help"></v-icon> The Future
-        </v-tooltip>
-      </template>
+        <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
+          text="Add Event"></v-btn>
+      </v-timeline-item>
 
-      <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
-        text="Add Event"></v-btn>
-    </v-timeline-item>
-
-    <v-timeline-item v-for="event in events" :key="event.name" :date="event.formattedDate" dot-color="background"
-      fill-dot>
-      <template v-slot:icon>
-        <v-icon :icon="event.icon" :color="event.color">
-        </v-icon>
-        <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
-          <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.name }}
-        </v-tooltip>
-      </template>
-      <template v-slot:opposite>
-        <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
-      </template>
-      <h2>{{ event.name }}</h2>
-      <MarkdownRenderer :text="event.description" />
-    </v-timeline-item>
-  </v-timeline>
+      <v-timeline-item v-for="event in events" :key="event.name" :date="event.formattedDate" dot-color="background"
+        fill-dot>
+        <template v-slot:icon>
+          <v-icon :icon="event.icon" :color="event.color">
+          </v-icon>
+          <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
+            <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.name }}
+          </v-tooltip>
+        </template>
+        <template v-slot:opposite>
+          <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
+        </template>
+        <h2>{{ event.name }}</h2>
+        <MarkdownRenderer :text="event.description" />
+      </v-timeline-item>
+    </v-timeline>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">

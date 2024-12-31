@@ -85,12 +85,10 @@ function clickTag(event: Event, value: string | number) {
 }
 
 function closeTag(event: Event, value: string | number) {
-  console.log('VTagItem.closeTag', value)
   emit('close', value)
 }
 
 function clickIcon(event: Event, value: string | number) {
-  console.log('VTagItem.clickIcon', value)
   emit('click-icon', value)
 }
 

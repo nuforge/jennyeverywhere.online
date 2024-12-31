@@ -8,8 +8,11 @@ export const useTimelineStore = defineStore('timeline', () => {
   const timeline = ref<Timeline>(new Timeline('tum'))
 
   type TimelineDirection = 'horizontal' | 'vertical'
+  type TimelineSide = 'end' | 'start'
+
   const timelineDirection = ref<TimelineDirection>('vertical')
-  const timelineSide = ref('left')
+  const timelineSide = ref<TimelineSide>('end')
+  const timelineOpposite = ref(true)
 
   const events = ref(<Event[]>[
     new Event(
@@ -37,5 +40,13 @@ export const useTimelineStore = defineStore('timeline', () => {
     new Event('Dice Roll', 'Discovered a wormhole while navigating through unexplored space')
   }
 
-  return { timeline, timelineSide, timelineDirection, events, addEvent, addDiceRoll }
+  return {
+    timeline,
+    timelineSide,
+    timelineDirection,
+    timelineOpposite,
+    events,
+    addEvent,
+    addDiceRoll,
+  }
 })

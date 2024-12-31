@@ -1,12 +1,8 @@
 <template>
   <v-sheet class="bg-transparent overflow-auto">
-    <v-toolbar class="bg-background">
-      <v-btn-toggle v-model="timelineDirection" density="comfortable" mandatory>
-        <v-btn icon="mdi-align-vertical-center" value="horizontal" variant="plain" size="small"></v-btn>
-        <v-btn icon="mdi-align-horizontal-center" value="vertical" variant="plain" size="small"></v-btn>
-      </v-btn-toggle>{{ timelineDirection }}
-    </v-toolbar>
-    <v-timeline :direction="timelineDirection" truncate-line="both" side="end">
+    <TimelineStyles />
+    <v-timeline :direction="timeline.timelineDirection" truncate-line="both" :side="timeline.timelineSide"
+      :hide-opposite="timeline.timelineOpposite">
       <v-timeline-item dot-color="background" fill-dot>
 
         <template v-slot:icon>
@@ -21,7 +17,8 @@
           text="Add Event"></v-btn>
       </v-timeline-item>
 
-      <v-timeline-item v-for="event in events" :key="event.name" :date="event.date" dot-color="background" fill-dot>
+      <v-timeline-item v-for="event in events" :key="event.name" :date="event.date" dot-color="background" fill-dot
+        :hide-opposite="!timeline.timelineOpposite">
         <template v-slot:icon>
           <v-icon :icon="event.icon" :color="event.color" />
           <v-tooltip activator="parent" location="top" content-class="bg-surface" elevated>
@@ -29,8 +26,12 @@
           </v-tooltip>
         </template>
         <h2>{{ event.title }}</h2>
+
+        <template v-slot:opposite>
+          <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
+        </template>
+
         <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
-        <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
       </v-timeline-item>
     </v-timeline>
   </v-sheet>
@@ -44,10 +45,12 @@ import { useStateStore } from '@/stores/state'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagTray from '@/components/tags/TagTrayCard.vue';
+import TimelineStyles from './TimelineStyles.vue';
 
 const state = useStateStore()
 const tags = useTagStore()
-const events = useTimelineStore().events
+const timeline = useTimelineStore()
+const events = timeline.events
 
 type TimelineDirection = 'horizontal' | 'vertical';
 const timelineDirection = ref<TimelineDirection>('vertical');

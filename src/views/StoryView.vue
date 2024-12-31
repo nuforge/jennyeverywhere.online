@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-row>
+      <v-col cols="12" sm="8">
+        <StoryRenderer />
+      </v-col>
       <v-col cols="auto" sm="4">
         <v-img :src="img" alt="A glowing green portal" max-width="512px" />
         <FeedbackBar />
-      </v-col>
-      <v-col cols="12" sm="8">
-        <StoryRenderer />
       </v-col>
       <v-col cols="auto" sm="8">
         <StoryChoiceGroup />
@@ -41,6 +41,5 @@ onMounted(() => {
   story.tagMap.addTag(new Tag('flamethrower', 'red', 'mdi-fire'))
   story.tagMap.addTag(new Tag('jetpack', 'warning', 'mdi-rocket-launch'))
   story.tagMap.addTag(new Tag('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
-  console.log(story.tagMap.tags)
 })
 </script>

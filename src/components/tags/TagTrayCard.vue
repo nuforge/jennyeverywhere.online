@@ -85,7 +85,6 @@ function focusEnd() {
 // TAGS & CLICKS
 
 function onClose(tag: Tag) {
-  console.log('TagTray.onClose', tag)
   emit('close', tag)
   tray.value.map.removeTag(tag.id)
 }
@@ -166,7 +165,6 @@ const onDragDrop = (event: DragEvent) => {
 }
 
 const dropDeleteTags = () => {
-  console.log('dropDeleteTags', clipboard.paste())
   const tags = clipboard.paste(true) as Tag[]
   tags.forEach((tag) => { onClose(tag) })
   tray.value.map.removeTags(tags)

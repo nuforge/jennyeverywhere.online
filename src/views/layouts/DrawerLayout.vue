@@ -26,7 +26,7 @@ const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Escape') {
     state.drawer = false;
   }
-  console.log(`Key pressed: ${event.key}`);
+  // console.log(`Key pressed: ${event.key}`);
 };
 
 

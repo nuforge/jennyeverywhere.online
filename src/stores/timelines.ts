@@ -11,7 +11,7 @@ export const useTimelineStore = defineStore('timeline', () => {
   type TimelineSide = 'end' | 'start'
 
   const timelineDirection = ref<TimelineDirection>('vertical')
-  const timelineSide = ref<TimelineSide>('end')
+  const timelineSide = ref<TimelineSide>()
   const timelineOpposite = ref(true)
 
   const events = ref(<Event[]>[

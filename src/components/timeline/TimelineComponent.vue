@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import type Tag from '@/objects/Tag';
 import { useTagStore } from '@/stores/tags'
 import { useStateStore } from '@/stores/state'
@@ -52,8 +51,6 @@ const tags = useTagStore()
 const timeline = useTimelineStore()
 const events = timeline.events
 
-type TimelineDirection = 'horizontal' | 'vertical';
-const timelineDirection = ref<TimelineDirection>('vertical');
 console.log(events)
 
 function handleCtrlClick(tag: Tag) {

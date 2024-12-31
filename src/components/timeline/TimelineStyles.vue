@@ -36,10 +36,6 @@ const horizontal = computed(() => {
   return timeline.timelineDirection === 'horizontal'
 })
 
-const center = computed(() => {
-  return timeline.timelineSide !== 'start' && timeline.timelineSide !== 'end'
-})
-
 const start = computed(() => {
   return timeline.timelineSide === 'start'
 })
@@ -52,8 +48,8 @@ const end = computed(() => {
 
 const timelimeAlignment = computed(() => {
   if (!timeline.timelineSide) return 'center'
-  const start = timeline.timelineDirection === 'horizontal' ? 'top' : 'right'
-  const end = timeline.timelineDirection === 'horizontal' ? 'bottom' : 'left'
+  const start = timeline.timelineDirection === 'horizontal' ? 'bottom' : 'right'
+  const end = timeline.timelineDirection === 'horizontal' ? 'top' : 'left'
   return timeline.timelineSide === 'start' ? start : end
 })
 

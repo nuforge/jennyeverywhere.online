@@ -21,6 +21,7 @@ export const useStateStore = defineStore('state', () => {
   function changeTheme() {
     theme.value = theme.value === 'myCustomTheme' ? 'light' : 'myCustomTheme'
     vuetify.global.name.value = theme.value
+    //console.log(vuetify.global.current.value.colors.background)
   }
 
   // Drawer
@@ -91,7 +92,9 @@ export const useStateStore = defineStore('state', () => {
       return
     }
     lastKey.value = event.key // Store the key that was pressed
-
+    if (event.ctrlKey && event.key === 'z') {
+      undo.value = true
+    }
     if (event.key === 'd') {
       toggleDetails()
     }

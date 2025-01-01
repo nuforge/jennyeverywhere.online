@@ -25,11 +25,11 @@
         </template>
         <template #default v-if="timeline.timelineBody">
           <h2>{{ event.title }}</h2>
-          <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
+          <MarkdownRenderer :text="event.body" :tags="(event.tags as Tag[])" />
 
         </template>
         <template v-slot:opposite>
-          <EvTagCard :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
+          <EvTagCard :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" />
         </template>
 
       </v-timeline-item>

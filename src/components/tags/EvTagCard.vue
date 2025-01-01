@@ -6,27 +6,35 @@
         <v-fade-transition>
           <v-system-bar v-show="showManager" @dragover="preventDefault" class="justify-space-evenly align-center"
             :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
+
             <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
               @update:labels="(value: boolean) => { tray.labels = value }"
               @update:icons="(value: boolean) => { tray.icons = value }"
               @update:colors="(value: boolean) => { tray.colors = value }" />
+
             <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
               @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
               @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
+
           </v-system-bar>
         </v-fade-transition>
+
         <v-card-text>
           <v-fade-transition>
+
             <EvTagGroup v-show="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
               :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
               @drag-end="onDragEnd" />
+
           </v-fade-transition>
           <v-divider v-show="mergedTags.length === 0 && showManager" class="align-center mt-6 mb-6 "
             @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"><v-label>No
               Tags</v-label></v-divider>
+
         </v-card-text>
       </v-layout>
     </v-card>
+
   </v-scale-transition>
 </template>
 
@@ -34,19 +42,19 @@
 
 import { computed, ref } from 'vue';
 import { useStateStore } from '@/stores/state'
+import { useClipboardStore } from '@/stores/clipboard';
 
 import Tag from '@/objects/Tag'
 import TagTray from '@/objects/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue'
 import TagCardActions from '@/components/tags/TagCardActions.vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';
-import Legend from '@/objects/Legend';
 
 const state = useStateStore()
+const clipboard = useClipboardStore()
 
 // TAG TRAY
 const tray = ref(new TagTray([]))
-const clipboard = ref(new Legend('clipboard'))
 
 const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
 
@@ -92,15 +100,17 @@ const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
   }
   //console.log('payload', payload)
   //console.log('dataTransfer', event.dataTransfer?.getData('text/plain'))
-  clipboard.value.add(payload as Tag[])
+  clipboard.copy(payload as Tag[])
   //console.log('clipboard', clipboard.value.tags) // Now what? Clipboard?
+  state.dragStart()
   tray.value.dragStart()
 }
 
 // DRAG END
 
 const onDragEnd = () => {
-  clipboard.value.clearTags()
+  clipboard.clear()
+  state.dragEnd()
   tray.value.dragEnd()
 }
 
@@ -113,17 +123,16 @@ const onDragDrop = (event: DragEvent) => {
       // props.tray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
-
-  console.log('onDragDrop', tray.value, clipboard.value.tags)
-
-  tray.value.copy(clipboard.value.tags as Tag[])
-  tray.value.dragEnd()
+  console.log('onDragDrop: ', clipboard.paste())
+  tray.value.copy(clipboard.paste(true) as Tag[])
+  onDragEnd()
 
 }
 
 const onDeleteDropTags = (event: DragEvent, tags: Tag[]) => {
-  tray.value.map.addTags(tags)
   console.log('onDeleteDropTags')
+  tray.value.map.addTags(tags)
+  onDragEnd()
 }
 
 

@@ -25,11 +25,11 @@
         </template>
         <template #default v-if="timeline.timelineBody">
           <h2>{{ event.title }}</h2>
-          <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
+          <MarkdownRenderer :text="event.body" :tags="(event.tags as Tag[])" />
 
         </template>
         <template v-slot:opposite>
-          <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
+          <EvTagCard :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain" />
         </template>
 
       </v-timeline-item>
@@ -44,9 +44,9 @@ import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '@/components/tags/TagTrayCard.vue';
 import TimelineStyles from './TimelineStyles.vue';
-import Event from '@/objects/Event';
+import Log from '@/objects/Log';
+import EvTagCard from '../tags/EvTagCard.vue';
 
 const story = useStoryStore()
 const tags = useTagStore()
@@ -54,13 +54,12 @@ const timeline = useTimelineStore()
 const events = computed(() => { return [...timeline.events, StoryEvent.value] })
 
 const StoryEvent = computed(() => {
-  const event = new Event(story.title, story.raw.substring(0, 80).concat('...'))
+  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
   story.tags.forEach((tag) => {
     event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
   })
   return event
 })
-console.log(events)
 
 
 
@@ -73,7 +72,7 @@ function handleCtrlClick(tag: Tag) {
 
 onMounted(() => {
 
-  const event = new Event(story.title, story.raw.substring(0, 100))
+  const event = new Log(story.title, story.raw.substring(0, 100))
 
   story.tags.forEach((tag) => {
     event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES

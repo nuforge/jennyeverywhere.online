@@ -1,22 +1,22 @@
 import Tag from '@/objects/Tag'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 import { v4 as uuidv4 } from 'uuid'
 
 class TagTray {
   protected _id = uuidv4()
-  protected _tags = new TagMap()
+  protected _tags = new Legend()
   protected _selected = [] as Tag[]
 
   protected _dragging = false
 
   // Styles
   protected _closable = false
-  protected _labels = false
-  protected _icons = false
-  protected _color = false
+  protected _labels = true
+  protected _icons = true
+  protected _colors = true
 
-  constructor(tags: Tag[] | TagMap | undefined = undefined) {
-    if (tags instanceof TagMap) {
+  constructor(tags: Tag[] | Legend | undefined = undefined) {
+    if (tags instanceof Legend) {
       this._tags = tags
     }
     if (Array.isArray(tags)) {
@@ -55,8 +55,8 @@ class TagTray {
     return this._icons
   }
 
-  get color() {
-    return this._color
+  get colors() {
+    return this._colors
   }
 
   get dragging() {
@@ -85,8 +85,8 @@ class TagTray {
     this._icons = icons
   }
 
-  set color(color: boolean) {
-    this._color = color
+  set colors(colors: boolean) {
+    this._colors = colors
   }
 
   set dragging(dragging: boolean) {

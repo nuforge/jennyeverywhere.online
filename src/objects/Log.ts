@@ -2,13 +2,13 @@ import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
 import Legend from './Legend'
 
-class Event extends Tag {
+class Log extends Tag {
   // Extends tag?
-  protected _title: string // Title of Event (different from Name?)
-  protected _tags: Legend = new Legend() // Tags for Event (actions as well)
+  protected _title: string // Title of Log (different from Name?)
+  protected _tags: Legend = new Legend() // Tags for Log (actions as well)
 
-  protected _body?: string // Description of Event
-  protected _date?: Date // Description of Event
+  protected _body?: string // Description of Log
+  protected _date?: Date // Description of Log
 
   // constructor
 
@@ -23,7 +23,7 @@ class Event extends Tag {
     return this
   }
 
-  tagList() {
+  taglist() {
     const taglist: Array<Tag> = this._tags.tags.reduce((acc: Array<Tag>, tag: Tag) => {
       acc.push(tag)
       return acc
@@ -69,4 +69,4 @@ class Event extends Tag {
   }
 }
 
-export default Event
+export default Log

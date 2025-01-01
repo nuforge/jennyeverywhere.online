@@ -1,6 +1,6 @@
 <template>
   <v-bottom-sheet class="elevation-0" absolute :scrim="false" no-click-animation v-model="state.drawer" inset>
-    <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" />
+    <EvTagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" />
   </v-bottom-sheet>
 </template>
 
@@ -9,7 +9,7 @@ import { onMounted } from 'vue'
 import { useStateStore } from '@/stores/state';
 import { useTagStore } from '@/stores/tags'
 import Tag from '@/objects/Tag.ts';
-import TagTray from '@/components/tags/TagTrayCard.vue';
+import EvTagTray from '@/components/tags/EvTagTray.vue';
 
 const state = useStateStore()
 const tags = useTagStore()

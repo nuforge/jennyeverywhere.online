@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 import Tag from '@/objects/Tag'
 import story from '@/assets/stories/story.json'
 
@@ -15,7 +15,7 @@ export const useStoryStore = defineStore('story', () => {
   const title = ref(story.title)
   const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
   const choices = ref(story.choices)
-  const tagMap = ref(new TagMap())
+  const tagMap = ref(new Legend())
   const tags = computed(() => tagMap.value.tags)
 
   const markdown = computed(() => markitdown(raw.value))

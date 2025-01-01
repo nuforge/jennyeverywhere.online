@@ -12,7 +12,8 @@
         <StoryChoiceGroup />
       </v-col>
       <v-col cols="auto" sm="4">
-        <TagTray :tags="(story.tags as Tag[])" :selected="tags.selection" />
+        <EvTagCard :tags="(story.tags as Tag[])" />
+        <EvTagCard :tags="(tags.tags as Tag[])" :labels="false" />
       </v-col>
     </v-row>
   </v-container>
@@ -22,16 +23,16 @@
 import img from '@/assets/stories/gallery/001.png'
 
 import FeedbackBar from '@/components/FeedbackBar.vue'
-import TagTray from '@/components/tags/TagTrayCard.vue';
 
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryRenderer from '@/components/story/StoryRenderer.vue';
 
 import { useStoryStore } from '@/stores/story';
-import { useTagStore } from '@/stores/tags'
+import { useTagStore } from '@/stores/tags';
 import Tag from '@/objects/Tag.ts';
+import EvTagCard from '@/components/tags/EvTagCard.vue';
 
-const tags = useTagStore()
 const story = useStoryStore()
+const tags = useTagStore()
 
 </script>

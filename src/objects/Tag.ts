@@ -5,13 +5,14 @@ const TAG_WHITESPACE_REPLACER = '-'
 class Tag {
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()
-  protected _name: string = this.constructor.name
+  protected _type: string = this.constructor.name
+  protected _name: string
 
   protected _space?: string
   protected _style?: Record<string, string | undefined> = {}
 
-  constructor(name: string, color?: string, icon?: string) {
-    const label = Tag.cleanLabel(name)
+  constructor(name?: string, color?: string, icon?: string) {
+    const label = Tag.cleanLabel(name ?? this._id)
     this._id = Tag.cleanTag(label)
     this.color = color
     this.icon = icon
@@ -58,6 +59,14 @@ class Tag {
 
   set id(value: string) {
     this._id = value
+  }
+
+  get type() {
+    return this._type
+  }
+
+  set type(value: string) {
+    this._type = value
   }
 
   get namespace(): string | undefined {

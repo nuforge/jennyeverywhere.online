@@ -5,6 +5,10 @@ const TAG_WHITESPACE_REPLACER = '-'
 class TagMap {
   protected _tags: Map<string, Tag> = new Map()
 
+  constructor() {
+    return this
+  }
+
   list = computed(() => {
     // Combine `_tags` (Map<string, Tag>) with `story.tags` (Array<Tag>)
     return [...this._tags.values()] as Tag[]
@@ -12,10 +16,6 @@ class TagMap {
 
   static cleanTag = (name: string | number) => {
     return Tag.cleanTag(name)
-  }
-
-  constructor() {
-    return this
   }
 
   get tags() {

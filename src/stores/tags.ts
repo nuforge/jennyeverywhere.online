@@ -1,14 +1,18 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 
 export const useTagStore = defineStore('tags', () => {
-  const tagMap = ref(new TagMap())
+  const tagMap = ref(new Legend())
   const selection = ref<string[]>([''])
   const selected = computed(() => selection.value.map((tag) => tagMap.value.getTag(tag)))
-  const tags = computed(() => tagMap.value.tagList)
+  const tags = computed(() => tagMap.value.tags)
   const clipboard = ref(new Tag(''))
+
+  const snackbar = ref(false)
+  const snackbarTag = ref(new Tag(''))
+  const timeout = ref(3200)
 
   const taglist = tagMap
 
@@ -57,7 +61,7 @@ export const useTagStore = defineStore('tags', () => {
   }
 
   const removeTag = (tag: string) => {
-    tagMap.value.removeTag(tag)
+    tagMap.value.deleteTag(tag)
     selection.value = selection.value.filter((item) => item !== tag)
   }
 
@@ -69,6 +73,23 @@ export const useTagStore = defineStore('tags', () => {
     return tagMap.value.linkText(text)
   }
 
+  function clearSnackbar() {
+    snackbar.value = false
+  }
+  function triggerSnackbar(tag: Tag) {
+    timeout.value = 3200
+    if (snackbar.value) {
+      clearSnackbar()
+      setTimeout(() => {
+        snackbar.value = true
+        snackbarTag.value = tag || undefined
+      }, 1)
+    } else {
+      snackbar.value = true
+      snackbarTag.value = tag || undefined
+    }
+  }
+
   return {
     selection,
     selected,
@@ -76,6 +97,8 @@ export const useTagStore = defineStore('tags', () => {
     taglist, //deprecated
     tags,
     clipboard,
+    snackbar,
+    snackbarTag,
     tempTag,
     addTag,
     createTag,
@@ -88,5 +111,6 @@ export const useTagStore = defineStore('tags', () => {
     cleanTag,
     clipboardEmpty,
     clipboardSave,
+    triggerSnackbar,
   }
 })

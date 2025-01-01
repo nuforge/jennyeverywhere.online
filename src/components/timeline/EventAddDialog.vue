@@ -36,7 +36,7 @@
                 <VTagItem dense label="Public Tags" icon="mdi-tag" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <TagTray :tags="(evTags.tags as Tag[])" noLabel @close="removeTag"></TagTray>
+                <EvTagTray :tags="(evTags.tags as Tag[])" noLabel @close="removeTag"></EvTagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -52,7 +52,7 @@
                 <VTagItem dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
-                <TagTray :tags="systemTags" noLabel></TagTray>
+                <EvTagTray :tags="systemTags" noLabel></EvTagTray>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -75,9 +75,9 @@ const state = useStateStore()
 const timeline = useTimelineStore()
 
 import Tag from '@/objects/Tag';
-import Event from '@/objects/Event';
+import Log from '@/objects/Log';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '@/components/tags/TagTrayCard.vue';
+import EvTagTray from '@/components/tags/EvTagTray.vue';
 import { default as tagTray } from '@/objects/TagTray';
 
 const panels = ref([0, 1])
@@ -104,15 +104,13 @@ const systemTags = computed(() => {
 })
 
 function removeTag(tag: Tag) {
-  console.log('EAD: removeTag', tag)
   evTags.value.map.deleteTag(tag)
 }
 
 
 function saveEvent() {
   // Save the event
-  console.log('EAD: saveEvent', evTags.value.tags)
-  timeline.addEvent(event.value, evTags.value.tags as Tag[])
+  timeline.addLog(event.value, evTags.value.tags as Tag[])
   state.eventClose()
 }
 
@@ -123,7 +121,7 @@ function cancelEvent() {
 
 onMounted(() => {
 
-  event.value = new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
+  event.value = new Log('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
 
   if (event.value.name !== '') {
     const tag = new Tag(`${event.value.title}`)

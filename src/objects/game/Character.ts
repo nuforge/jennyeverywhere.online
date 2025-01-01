@@ -1,9 +1,9 @@
 import Tag from '@/objects/Tag'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 
 class Character {
   private _name: string
-  private _taglist: TagMap = new TagMap()
+  private _taglist: Legend = new Legend()
   private _tags: { [key: string]: Tag } = {}
 
   constructor(name: string) {
@@ -16,7 +16,7 @@ class Character {
     return this._name
   }
 
-  get taglist(): TagMap {
+  get taglist(): Legend {
     return this._taglist
   }
 

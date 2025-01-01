@@ -2,26 +2,25 @@ import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
 import TagMap from './TagMap'
 
-class Event {
-  protected _id: string
-  protected _title: string
-  protected _description: string
-  protected _date: Date
-  protected _tags: TagMap = new TagMap()
-  protected _tag: Tag
+class Event extends Tag {
+  // Extends tag?
+  protected _title: string // Title of Event (different from Name?)
+  protected _tags: TagMap = new TagMap() // Tags for Event (actions as well)
 
-  constructor(title: string, description: string, date?: Date) {
-    this._title = title
-    this._id = title.toLowerCase().replace(/\s/g, '-')
-    this._description = description
+  protected _body?: string // Description of Event
+  protected _date?: Date // Description of Event
 
-    this._date = date || new Date()
-    this._tag = new Tag(`date:${this.formattedDate}`, 'datetime', 'mdi-web-clock')
+  // constructor
+
+  constructor(name: string, body?: string, date?: Date) {
+    super(name)
+    this._title = name
+    this._date = date
+    this._body = body
+    this.icon = 'mdi-calendar'
+    this.color = 'text'
+    this.addTag(new Tag(`stardate:${this.date}`, 'blue', 'mdi-web-clock'))
     return this
-  }
-
-  get formattedDate() {
-    return format(this._date, 'yywwe.H')
   }
 
   tagList() {
@@ -29,25 +28,27 @@ class Event {
       acc.push(tag)
       return acc
     }, [])
-    return taglist
+    return taglist as Tag[]
   }
 
   get title() {
     return this._title
   }
-  get tag() {
-    return this._tag
+
+  get tags() {
+    return this._tags.tagList as Tag[]
   }
-  get description() {
-    return this._description
+
+  get body() {
+    return this._body || ''
   }
 
   get date() {
-    return this._date
+    return format(this._stamp, 'yyww.h').toString()
   }
 
-  get tags() {
-    return this._tags
+  set body(newDescription: string) {
+    this._body = newDescription
   }
 
   createTag(tagName: string, tagColor: string, tagIcon: string) {

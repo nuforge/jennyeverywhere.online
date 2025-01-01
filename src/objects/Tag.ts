@@ -1,11 +1,14 @@
+import { v4 as uuidv4 } from 'uuid'
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
 
 class Tag {
-  protected _id: string
-  protected _name: string
+  protected _id = uuidv4() // Unique ID
+  protected _stamp: Date = new Date()
+  protected _name: string = this.constructor.name
+
   protected _space?: string
-  protected _style: Record<string, string | undefined> = {}
+  protected _style?: Record<string, string | undefined> = {}
 
   constructor(name: string, color?: string, icon?: string) {
     const label = Tag.cleanLabel(name)
@@ -73,23 +76,26 @@ class Tag {
   }
 
   get icon(): string | undefined {
-    return this._style.icon
+    return this._style?.icon
   }
 
   set symbol(value: { icon: string | undefined; color: string | undefined }) {
+    this._style = this._style ?? {}
     this._style.icon = value.icon
     this._style.color = value.color
   }
 
   set icon(value: string | undefined) {
+    this._style = this._style ?? {}
     this._style.icon = value
   }
 
   get color(): string | undefined {
-    return this._style.color
+    return this._style?.color
   }
 
   set color(value: string | undefined) {
+    this._style = this._style ?? {}
     this._style.color = value
   }
 }

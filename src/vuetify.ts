@@ -5,9 +5,10 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
-import VTag from './components/tags/VTag.vue'
 import VTagItem from './components/tags/VTagItem.vue'
 import TagFab from '@/components/fabs/TagFab.vue'
+import TagTray from '@/components/tags/TagTrayCard.vue'
+
 import DiceFab from '@/components/fabs/DiceFab.vue'
 import AvatarFab from '@/components/fabs/AvatarFab.vue'
 
@@ -74,10 +75,21 @@ import {
   VSpeedDial,
   VSystemBar,
   VScaleTransition,
+  VFadeTransition,
+  VFabTransition,
   VExpandXTransition,
+  VSlideXTransition,
   VSnackbar,
+  VExpansionPanel,
+  VExpansionPanels,
+  VExpansionPanelText,
+  VExpansionPanelTitle,
 } from 'vuetify/components'
-import { VStepperVerticalActions, VStepperVerticalItem } from 'vuetify/labs/components'
+import {
+  VStepperVerticalActions,
+  VStepperVerticalItem,
+  VSnackbarQueue,
+} from 'vuetify/labs/components'
 
 export const vuetify = createVuetify({
   theme: {
@@ -102,6 +114,7 @@ export const vuetify = createVuetify({
           d6: '#82B1FF',
           d4: '#FF5252',
           datetime: '#1B1B1B',
+          system: '#323232',
           'background-variant': '#f5f5f5',
           'sta-career': '#FFBB00',
         },
@@ -127,6 +140,7 @@ export const vuetify = createVuetify({
           d4: '#FF5252',
 
           datetime: '#696969',
+          system: '#323232',
 
           'sta-career': '#FFBB00',
         },
@@ -139,10 +153,11 @@ export const vuetify = createVuetify({
       ...fontAwesomeAliases,
       ...mdAliases,
       ...aliases,
-      tag: 'mdi-tag-outline',
-      'no-tag': 'mdi-circle-small',
+      tag: 'mdi-tag',
+      'no-tag': 'mdi-tag-outline',
       tags: 'mdi-tag-multiple',
       'no-tags': 'mdi-tag-multiple-outline',
+      'tag-add': 'mdi-tag-plus',
       event: 'mdi-timeline',
       'no-event': 'mdi-timeline-outline',
       events: 'mdi-calendar-clock',
@@ -151,6 +166,8 @@ export const vuetify = createVuetify({
       'no-swatches': 'mdi-palette-swatch-outline',
       dropper: 'mdi-eyedropper',
       'no-dropper': 'mdi-eyedropper-off',
+      timestamp: 'mdi-web-clock',
+      system: 'mdi-code-braces',
 
       dice: 'mdi-dice-multiple',
       'no-dice': 'mdi-dice-multiple-outline',
@@ -166,12 +183,15 @@ export const vuetify = createVuetify({
       id: 'mdi-account-box-outline',
       name: 'mdi-account-circle-outline',
       space: 'mdi-tag-multiple-outline',
-      color: 'mdi-palette',
+      palette: 'mdi-palette',
+      color: 'mdi-circle-opacity',
+      date: 'mdi-web-clock',
 
       home: 'mdi-home',
       icon: 'mdi-label-variant-outline',
       next: 'mdi-arrow-right',
-      delete: 'mdi-close',
+      delete: 'mdi-delete',
+      'delete-off': 'mdi-delete-outline',
       clear: 'mdi-close',
       close: 'mdi-close',
       upvote: 'mdi-arrow-up-bold',
@@ -184,6 +204,8 @@ export const vuetify = createVuetify({
       'favorite-off': 'mdi-heart-outline',
       share: 'mdi-share',
       addTag: 'mdi-tag-plus',
+      removetag: 'mdi-tag-remove',
+      'removetag-off': 'mdi-tag-remove-outline',
 
       primary: 'mdi-cards-spade',
       secondary: 'mdi-cards-club',
@@ -237,8 +259,84 @@ export const vuetify = createVuetify({
       fa,
     },
   },
+  defaults: {
+    VLayout: {
+      class: 'bg-transparent',
+    },
+    VFooter: {
+      class: 'bg-surface pb-16',
+    },
+    VTooltip: {
+      location: 'top',
+      contentClass: 'bg-surface ma-2 pa-3',
+    },
+    VBottomNavigation: {},
+    VNavigationDrawer: {
+      class: 'bg-background',
+    },
+    VBottomSheet: {},
+    VBtn: {},
+    VBtnToggle: {
+      density: 'compact',
+      size: 'small',
+      variant: 'plain',
+    },
+    VSystemBar: {
+      class: 'bg-transparent border-opacity-25 border-t-md border-primary',
+      VBtn: {
+        density: 'compact',
+        size: 'small',
+        ripple: false,
+        variant: 'plain',
+      },
+    },
+    VCard: {},
+    VCardActions: {
+      VBtn: {
+        density: 'compact',
+        size: 'small',
+        ripple: false,
+        variant: 'plain',
+      },
+      VSheet: {
+        class: 'bg-transparent',
+      },
+    },
+    VCardText: {
+      class: 'ma-0 pb-0 px-0',
+      VBtnToggle: {
+        color: 'text',
+        density: 'compact',
+        size: 'small',
+        variant: 'plain',
+      },
+    },
+
+    VChipGroup: {
+      variant: 'text',
+      class: 'rounded bg-background ma-1 pa-1',
+      VChip: {
+        variant: 'text',
+        class: 'rounded',
+        tile: true,
+        closeIcon: 'mdi-close',
+      },
+    },
+
+    VSnackbar: {
+      timeout: 4000,
+      color: 'surface',
+      location: 'bottom end',
+      VCard: {
+        class: 'ma-0 pa-0 elevation-0',
+      },
+    },
+    VLabel: {
+      class: 'text-uppercase text-disabled text-caption	',
+    },
+  },
   components: {
-    VTag,
+    TagTray,
     VTagItem,
     TagFab,
     DiceFab,
@@ -307,7 +405,15 @@ export const vuetify = createVuetify({
     VSpeedDial,
     VSystemBar,
     VScaleTransition,
+    VFadeTransition,
+    VFabTransition,
     VExpandXTransition,
+    VSlideXTransition,
     VSnackbar,
+    VExpansionPanel,
+    VExpansionPanels,
+    VExpansionPanelText,
+    VExpansionPanelTitle,
+    VSnackbarQueue,
   },
 })

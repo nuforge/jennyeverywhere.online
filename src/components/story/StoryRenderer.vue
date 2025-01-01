@@ -1,25 +1,42 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :markdown="linkItBaby()" class="story-body" @right-click="openAddTagDialog()" />
+    <MarkdownRenderer :text="story.raw" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
+      @dragstart="onDragStart" />
   </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import Tag from '@/objects/Tag' // Adjust the import path as necessary
+import { computed } from 'vue'
 
 const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
 
-const taglist = computed(() => {
-  // Combine the two sets of tags into one iterable
-  return [...tags.tags, ...story.tags];
-});
+const tagMerge = computed(() => {
+  const mergedTags = [...tags.tags, ...story.tags] as Tag[]
+
+  const uniqueTags = mergedTags.filter(
+    (tag, index, self) => self.findIndex(t => t.name === tag.name) === index
+  );
+
+  return uniqueTags;
+})
+
+
+const onDragStart = (event: DragEvent) => {
+  console.log('onDragStart', window)
+  const selectedText = window.getSelection()?.toString().trim();
+  if (selectedText) {
+    event.dataTransfer?.setData('text/plain', selectedText);
+  }
+  state.dragStart()
+}
 
 function openAddTagDialog() {
   let text = "";
@@ -29,17 +46,11 @@ function openAddTagDialog() {
       text = selection.toString();
     }
   }
-
+  console.log('openAddTagDialog', text)
   tags.tempTag(text);
   state.add = true
   return tags.tempTag.name
 }
 
-
-function linkItBaby() {
-  const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-  const md = story.linkTags(selected, story.HTML)
-  return story.markitdown(md)
-}
 
 </script>

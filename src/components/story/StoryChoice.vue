@@ -1,7 +1,7 @@
 <template>
   <v-item v-slot="{ isSelected, selectedClass, toggle }">
     <v-card hover
-      :class="['story-choice border-s-lg bg-background border-opacity-25', selectedClass, `border-${color}`]"
+      :class="['story-choice border-s-lg  bg-background border-opacity-25', selectedClass, `border-${color}`, isSelected ? 'border-e-lg' : 'border-e-none']"
       @click="toggle">
       <v-card-item density="compact">
         <template v-slot:prepend><v-icon :icon="icon" :color="isSelected ? color : 'text'"

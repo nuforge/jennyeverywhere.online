@@ -5,9 +5,9 @@ const TAG_WHITESPACE_REPLACER = '-'
 class TagMap {
   protected _tags: Map<string, Tag> = new Map()
 
-  taglistAGAIN = computed(() => {
+  list = computed(() => {
     // Combine `_tags` (Map<string, Tag>) with `story.tags` (Array<Tag>)
-    return [...this._tags.values()]
+    return [...this._tags.values()] as Tag[]
   })
 
   static cleanTag = (name: string | number) => {
@@ -19,7 +19,7 @@ class TagMap {
   }
 
   get tags() {
-    return this._tags.values()
+    return [...this._tags.values()] as Tag[]
   }
 
   get tagKeys() {
@@ -30,6 +30,11 @@ class TagMap {
     return [...this._tags.values()] as Tag[]
   }
 
+  difference(tags: Tag[]): Tag[] {
+    const tagIds = new Set(tags.map((tag) => tag.id))
+    return Array.from(this.tags).filter((tag) => !tagIds.has(tag.id))
+  }
+
   clearTags() {
     this._tags.clear()
     return this
@@ -37,6 +42,19 @@ class TagMap {
 
   addTag(newTag: Tag) {
     return this._tags.set(newTag.id, newTag)
+  }
+  addTags(newTags: Tag[]) {
+    newTags.forEach((tag) => this.addTag(tag))
+    return
+  }
+
+  addLabel = (newName: string, newColor: string, newIcon: string) => {
+    const tag = Tag.cleanTag(newName)
+    const existingTag = this.getTag(tag)
+    const newTag = existingTag ? existingTag : new Tag(newName)
+    newTag.icon = newIcon
+    newTag.color = newColor
+    return this.addTag(newTag)
   }
 
   setTag(id: string, tag: Tag) {
@@ -66,8 +84,16 @@ class TagMap {
     return tag
   }
 
+  deleteTag(tag: Tag) {
+    return this._tags.delete(tag.id)
+  }
+
   removeTag(tag: string) {
     return this._tags.delete(tag)
+  }
+
+  removeTags = (tags: Tag[]) => {
+    tags.forEach((tag) => this.removeTag(tag.id))
   }
 
   linkText(text: string): string {

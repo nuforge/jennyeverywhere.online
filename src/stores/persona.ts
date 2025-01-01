@@ -25,10 +25,8 @@ export const usePersonaStore = defineStore('persona', () => {
   }
 
   async function randomAvatar() {
-    const rndAvatar = Math.floor(Math.random() * 32)
-    await import(
-      `@/assets/images/avatars/jenny-everywhere-avatar-${rndAvatar.toString().padStart(2, '0')}.png`
-    )
+    //const rndAvatar = Math.floor(Math.random() * 33)
+    await import(`@/assets/images/avatars/jenny-everywhere-avatar.png`)
       .then((result) => (avatar.value = result.default))
       .catch((error) => console.error(error))
   }

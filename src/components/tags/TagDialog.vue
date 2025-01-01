@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>Add Tag</v-card-title>
       <v-card-text>
-        <TagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" />
+        <EvTagTray :tags="(tags.tags as Tag[])" :selected="tags.selection" />
       </v-card-text>
       <v-card-actions>
         <v-btn @click="state.toggleTags">Cancel</v-btn>
@@ -17,11 +17,9 @@
 import { useStateStore } from '@/stores/state';
 import { useTagStore } from '@/stores/tags'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
-import TagTray from '@/components/tags/TagTrayCard.vue';
+import EvTagTray from '@/components/tags/EvTagTray.vue';
 
 const state = useStateStore()
 const tags = useTagStore()
-
-
 
 </script>

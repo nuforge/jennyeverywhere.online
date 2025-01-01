@@ -7,7 +7,7 @@ import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
 import VTagItem from './components/tags/VTagItem.vue'
 import TagFab from '@/components/fabs/TagFab.vue'
-import TagTray from '@/components/tags/TagTrayCard.vue'
+import EvTagTray from '@/components/tags/EvTagTray.vue'
 
 import DiceFab from '@/components/fabs/DiceFab.vue'
 import AvatarFab from '@/components/fabs/AvatarFab.vue'
@@ -339,7 +339,7 @@ export const vuetify = createVuetify({
     },
   },
   components: {
-    TagTray,
+    EvTagTray,
     VTagItem,
     TagFab,
     DiceFab,

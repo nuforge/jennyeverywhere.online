@@ -30,15 +30,15 @@ defineProps({
   },
   colors: {
     type: [Boolean, String],
-    default: false
+    default: true
   },
   labels: {
     type: [Boolean, String],
-    default: false
+    default: true
   },
   icons: {
     type: [Boolean, String],
-    default: false
+    default: true
   },
   closable: {
     type: Boolean,

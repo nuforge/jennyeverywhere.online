@@ -11,12 +11,15 @@ const myCustomTheme = {
     'primary-darken-1': '#1F5592',
     secondary: '#00CC88',
     'secondary-darken-1': '#018786',
+
+    accent: '#3E3E3B',
+
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
 
-    accent: '#9E3E3B',
+    text: '#999999',
 
     tertiary: '#9E3E3B',
     quaternary: '#FFBB00',

@@ -1,11 +1,11 @@
-<template>
-  <v-expand-transition>
+<template><v-scale-transition>
     <v-card @mouseenter=" hoverStart()" @mouseleave="hoverEnd()" @focusin="focusStart()" @focusout="focusEnd()"
-      :elevation="showManager ? 10 : 0">
+      :elevation="showManager ? 10 : 0" class="bg-transparent">
+
       <v-layout>
         <v-fade-transition>
           <v-system-bar v-show="showManager" @dragover="preventDefault" class="justify-space-evenly align-center"
-            :class="focus ? 'border-opacity-100' : 'border-opacity-20'">
+            :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
             <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
               @update:labels="(value: boolean) => { tray.labels = value }"
               @update:icons="(value: boolean) => { tray.icons = value }"
@@ -16,18 +16,17 @@
           </v-system-bar>
         </v-fade-transition>
         <v-card-text>
-          <v-scale-transition>
-            <EvTagGroup :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :icons="tray.icons"
-              @drop="onDragDrop($event)" @drag-over="preventDefault" @drag-start="onDragStart($event)"
-              @drag-end="onDragEnd" v-show="mergedTags.length > 0" />
-
-            <v-divider v-show="mergedTags.length <= 0"><v-label>No
-                Tags</v-label></v-divider>
-          </v-scale-transition>
+          <v-fade-transition>
+            <EvTagGroup v-show="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
+              :icons="tray.icons" @drop="onDragDrop($event)" @drag-over="preventDefault"
+              @drag-start="onDragStart($event)" @drag-end="onDragEnd" />
+          </v-fade-transition>
+          <v-divider v-show="mergedTags.length === 0 && showManager" class="align-center mt-6 mb-6 "><v-label>No
+              Tags</v-label></v-divider>
         </v-card-text>
       </v-layout>
     </v-card>
-  </v-expand-transition>
+  </v-scale-transition>
 </template>
 
 <script setup lang="ts">

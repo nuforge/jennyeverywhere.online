@@ -1,6 +1,6 @@
 <template>
 
-  <v-icon @click="$emit('update:closable', !tray.closable)" :icon="tray.closable ? `mdi-delete-outline` : `mdi-delete`"
+  <v-icon @click="$emit('update:closable', !closable)" :icon="closable ? `mdi-delete-outline` : `mdi-delete`"
     @drop="$emit('delete-drop')" :draggable="true" @dragover="preventDefault($event)" />
 
   <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
@@ -19,6 +19,10 @@ import TagTray from '@/objects/TagTray';
 const state = useStateStore()
 
 defineProps({
+  closable: {
+    type: Boolean,
+    required: true
+  },
   tray: {
     type: TagTray,
     required: true

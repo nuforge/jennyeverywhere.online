@@ -3,16 +3,14 @@
     @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" :variant="tagVariant">
     <template v-slot:prepend>
       <v-fab-transition>
-        <v-icon :icon="icon" :color="iconColor" v-show="icon" @click="onClickIcon"></v-icon>
+        <v-icon v-if="icon" :icon="icon" :color="iconColor" @click="onClickIcon"></v-icon>
       </v-fab-transition>
     </template>
-    <v-expand-x-transition>
-      <template v-slot:default>
-        <v-slide-x-transition>
-          <span v-show="tagLabel">{{ tagLabel }}</span>
-        </v-slide-x-transition>
-      </template>
-    </v-expand-x-transition>
+    <template v-slot:default>
+      <v-slide-x-transition>
+        <span v-if="tagLabel" expand-x-transition>{{ tagLabel }}</span>
+      </v-slide-x-transition>
+    </template>
   </v-chip>
 </template>
 
@@ -24,7 +22,7 @@ const tagColor = computed(() => { return props.color ? props.text ? props.color 
 const tagValue = computed(() => { return !props.value ? props.text : props.value })
 
 const prependIcon = computed(() => { return props.icon && props.text ? props.icon : undefined })
-const iconColor = computed(() => { return !props.color ? 'text' : props.color })
+const iconColor = computed(() => { return !props.color ? 'accent' : props.color })
 const tagVariant = computed(() => { return props.selected ? 'plain' : 'text' })
 
 const emit = defineEmits(['close', 'click-icon', 'right-click'])

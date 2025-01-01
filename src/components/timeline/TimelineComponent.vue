@@ -46,7 +46,7 @@ import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagTray from '@/components/tags/TagTrayCard.vue';
 import TimelineStyles from './TimelineStyles.vue';
-import Event from '@/objects/Event';
+import Log from '@/objects/Log';
 
 const story = useStoryStore()
 const tags = useTagStore()
@@ -54,7 +54,7 @@ const timeline = useTimelineStore()
 const events = computed(() => { return [...timeline.events, StoryEvent.value] })
 
 const StoryEvent = computed(() => {
-  const event = new Event(story.title, story.raw.substring(0, 80).concat('...'))
+  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
   story.tags.forEach((tag) => {
     event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
   })
@@ -72,7 +72,7 @@ function handleCtrlClick(tag: Tag) {
 
 onMounted(() => {
 
-  const event = new Event(story.title, story.raw.substring(0, 100))
+  const event = new Log(story.title, story.raw.substring(0, 100))
 
   story.tags.forEach((tag) => {
     event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES

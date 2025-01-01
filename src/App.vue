@@ -25,6 +25,8 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
+import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+const dragImage = ref<HTMLImageElement | null>(null);
 
 import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
@@ -58,6 +60,13 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
+  // Preload the image
+  const img = new Image();
+  img.src = imgSrc;
+
+  img.onload = () => {
+    dragImage.value = img;
+  };
 });
 
 onUnmounted(() => {

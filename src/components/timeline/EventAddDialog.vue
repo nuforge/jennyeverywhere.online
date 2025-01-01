@@ -75,7 +75,7 @@ const state = useStateStore()
 const timeline = useTimelineStore()
 
 import Tag from '@/objects/Tag';
-import Event from '@/objects/Event';
+import Log from '@/objects/Log';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagTray from '@/components/tags/TagTrayCard.vue';
 import { default as tagTray } from '@/objects/TagTray';
@@ -110,7 +110,7 @@ function removeTag(tag: Tag) {
 
 function saveEvent() {
   // Save the event
-  timeline.addEvent(event.value, evTags.value.tags as Tag[])
+  timeline.addLog(event.value, evTags.value.tags as Tag[])
   state.eventClose()
 }
 
@@ -121,7 +121,7 @@ function cancelEvent() {
 
 onMounted(() => {
 
-  event.value = new Event('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
+  event.value = new Log('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
 
   if (event.value.name !== '') {
     const tag = new Tag(`${event.value.title}`)

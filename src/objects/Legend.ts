@@ -1,18 +1,14 @@
 import Tag from '@/objects/Tag'
-import { computed } from 'vue'
+
 const TAG_WHITESPACE_REPLACER = '-'
 
-class TagMap {
+class Legend extends Tag {
   protected _tags: Map<string, Tag> = new Map()
 
-  constructor() {
+  constructor(name: string) {
+    super(name)
     return this
   }
-
-  list = computed(() => {
-    // Combine `_tags` (Map<string, Tag>) with `story.tags` (Array<Tag>)
-    return [...this._tags.values()] as Tag[]
-  })
 
   static cleanTag = (name: string | number) => {
     return Tag.cleanTag(name)
@@ -22,12 +18,8 @@ class TagMap {
     return [...this._tags.values()] as Tag[]
   }
 
-  get tagKeys() {
+  get keys() {
     return this._tags.keys()
-  }
-
-  get tagList(): Tag[] {
-    return [...this._tags.values()] as Tag[]
   }
 
   difference(tags: Tag[]): Tag[] {
@@ -40,37 +32,43 @@ class TagMap {
     return this
   }
 
-  addTag(newTag: Tag) {
-    return this._tags.set(newTag.id, newTag)
-  }
-  addTags(newTags: Tag[]) {
-    newTags.forEach((tag) => this.addTag(tag))
-    return
-  }
+  // Tag LookUp
 
-  addLabel = (newName: string, newColor: string, newIcon: string) => {
-    const tag = Tag.cleanTag(newName)
-    const existingTag = this.getTag(tag)
-    const newTag = existingTag ? existingTag : new Tag(newName)
-    newTag.icon = newIcon
-    newTag.color = newColor
-    return this.addTag(newTag)
+  getTag(id: string): Tag | undefined {
+    return this._tags.get(id)
   }
 
   setTag(id: string, tag: Tag) {
     return this._tags.set(id, tag)
   }
 
-  getTag(id: string): Tag | undefined {
-    return this._tags.get(id)
+  // Tag Creation
+
+  addTag(newTag: Tag) {
+    return this._tags.set(newTag.id, newTag)
   }
 
-  createTag(newName: string, newColor: string, newIcon: string): Tag {
-    const newTag = new Tag(newName)
-    newTag.icon = newIcon
-    newTag.color = newColor
-    this.setTag(newTag.id, newTag)
-    return newTag
+  addTags(newTags: Tag[]) {
+    newTags.forEach((tag) => this.addTag(tag))
+    return
+  }
+
+  createTag(newName: string, newColor?: string, newIcon?: string): Tag {
+    const tag = new Tag(newName)
+    tag.icon = newIcon
+    tag.color = newColor
+    this.setTag(tag.id, tag)
+    return tag
+  }
+
+  createTags(newTags: string[], newColor?: string, newIcon?: string): Tag[] {
+    return newTags.map((tag) => {
+      const newTag = new Tag(tag)
+      newTag.icon = newIcon
+      newTag.color = newColor
+      this.setTag(newTag.id, newTag)
+      return newTag
+    })
   }
 
   stringTag(newText: string = 'tag'): Tag {
@@ -84,16 +82,13 @@ class TagMap {
     return tag
   }
 
-  deleteTag(tag: Tag) {
+  deleteTag(tag: Tag | string) {
+    if (typeof tag === 'string') return this._tags.delete(tag)
     return this._tags.delete(tag.id)
   }
 
-  removeTag(tag: string) {
-    return this._tags.delete(tag)
-  }
-
-  removeTags = (tags: Tag[]) => {
-    tags.forEach((tag) => this.removeTag(tag.id))
+  deleteTags(tags: Tag[] | string[]) {
+    tags.forEach((tag) => this.deleteTag(tag))
   }
 
   linkText(text: string): string {
@@ -111,4 +106,4 @@ class TagMap {
   }
 }
 
-export default TagMap
+export default Legend

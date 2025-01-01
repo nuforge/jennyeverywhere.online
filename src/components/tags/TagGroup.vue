@@ -3,7 +3,7 @@
     <VTagItem v-for="tag in (tags as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
       :label="tag.name" :color="tag.color" :space="tag.space" :closable="showClosable" @click="emit('click', tag)"
       :noColor="noColor" :noIcon="noIcon" :noLabel="noLabel" @close="onTagClosed(tag)"
-      @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="onDragStart($event, tag)" @dragend="onDragend">
+      @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="onDragStart($event, tag)" @dragend="onDragend($event, tag)">
     </VTagItem>
   </v-chip-group>
 </template>

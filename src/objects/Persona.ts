@@ -1,10 +1,10 @@
 import Tag from '@/objects/Tag'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 
 class Persona {
   protected _id: string
   protected _name: string
-  protected _attributes: TagMap = new TagMap()
+  protected _attributes: Legend = new Legend()
 
   constructor(name: string) {
     this._id = name.toString().toLowerCase().replace(/\s/g, '-')
@@ -24,7 +24,7 @@ class Persona {
   }
 
   get attributes() {
-    return this._attributes.tagList
+    return this._attributes.tags
   }
 
   addTag(newTag: string | number) {
@@ -44,7 +44,7 @@ class Persona {
   }
 
   removeAttribute(namespace: string) {
-    return this._attributes.removeTag(namespace)
+    return this._attributes.deleteTag(namespace)
   }
 
   getAttribute(namespace: string) {

@@ -6,7 +6,7 @@
   <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
     @drop="tagOrText" />
 
-  <v-icon icon="mdi-drag" @dragstart="$emit('dragstart', $event)" @dragend="$emit('dragend', $event)" :draggable="true"
+  <v-icon icon="mdi-drag" @dragstart="onDragStart($event, tags)" @dragend="$emit('drag-end', $event)" :draggable="true"
     class="grabbable" @click="$emit('toggle-select')" />
 
 </template>
@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { useStateStore } from '@/stores/state';
 import Tag from '@/objects/Tag';
-import TagTray from '@/objects/TagTray';
 
 const state = useStateStore()
 
@@ -23,13 +22,21 @@ defineProps({
     type: Boolean,
     required: true
   },
-  tray: {
-    type: TagTray,
+  tags: {
+    type: Array as () => Tag[],
     required: true
   },
 })
 
-const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'dragstart', 'dragend', 'toggle-select'])
+
+const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'drag-start', 'drag-end', 'toggle-select'])
+
+
+const onDragStart = (event: DragEvent, tags: Tag[]) => {
+  //console.log('TagCardActions.onDragStart', tags, event)
+  emit('drag-start', event, tags)
+}
+
 
 // Dropping a Tag or a String?
 

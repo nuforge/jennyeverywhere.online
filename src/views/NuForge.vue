@@ -1,5 +1,6 @@
 <template>
   <EvTagCard :tags="story"> </EvTagCard>
+  <EvTagCard :tags="story"> </EvTagCard>
 </template>
 
 <script setup lang="ts">

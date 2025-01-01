@@ -80,6 +80,8 @@ export const useStateStore = defineStore('state', () => {
 
   const handleKeydown = (event: KeyboardEvent) => {
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+
+    console.log(`Key pressed: ${event.key}`)
     if (
       !event.target ||
       ignoredTags.includes((event.target as HTMLElement).tagName) ||
@@ -91,16 +93,15 @@ export const useStateStore = defineStore('state', () => {
     lastKey.value = event.key // Store the key that was pressed
 
     if (event.key === 'd') {
-      details.value = !details.value
+      toggleDetails()
     }
     if (event.key === 't') {
-      drawer.value = !drawer.value
+      drawerToggle()
     }
     if (event.key === 'Escape') {
-      drawer.value = false
+      drawerClose()
       details.value = false
     }
-    // console.log(`Key pressed: ${event.key}`);
   }
 
   return {

@@ -2,12 +2,17 @@
   <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault">
     <EvTag v-for="tag in tags" :key="tag.name" :text="labels ? tag.name : undefined"
       :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable @close="onClose(tag)"
-      @dragstart="onDragStart" @ctrl-click="onCtrlClick(tag)" @right-click="onRightClick" />
+      @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)" @right-click="onRightClick" />
   </v-chip-group>
 </template>
 
 <script setup lang="ts">
+/* Manages content for a group of tags in a chip group
+Finalizes the styles (icon, color, label, closable) for display and sends to the Tag
+*/
+
 import { defineProps, defineEmits } from 'vue';
+
 import Tag from '@/objects/Tag'
 import EvTag from '@/components/tags/EvTag.vue'
 
@@ -59,12 +64,11 @@ function onRightClick() {
 // DRAG
 
 // DRAG START
-const onDragStart = (event: DragEvent) => {
-  const selectedText = window.getSelection()?.toString().trim();
-  if (selectedText) {
-    event.dataTransfer?.setData('text/plain', selectedText);
-  }
-  emit('drag-start')
+const onDragStart = (event: DragEvent, tag: Tag) => {
+
+  event.dataTransfer?.setData('text/plain', tag.id);
+  console.log('onDragStart', tag)
+  emit('drag-start', event, tag)
 }
 
 

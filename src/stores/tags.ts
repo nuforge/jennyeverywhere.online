@@ -1,13 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
-import TagMap from '@/objects/TagMap'
+import Legend from '@/objects/Legend'
 
 export const useTagStore = defineStore('tags', () => {
-  const tagMap = ref(new TagMap())
+  const tagMap = ref(new Legend())
   const selection = ref<string[]>([''])
   const selected = computed(() => selection.value.map((tag) => tagMap.value.getTag(tag)))
-  const tags = computed(() => tagMap.value.tagList)
+  const tags = computed(() => tagMap.value.tags)
   const clipboard = ref(new Tag(''))
 
   const snackbar = ref(false)
@@ -61,7 +61,7 @@ export const useTagStore = defineStore('tags', () => {
   }
 
   const removeTag = (tag: string) => {
-    tagMap.value.removeTag(tag)
+    tagMap.value.deleteTag(tag)
     selection.value = selection.value.filter((item) => item !== tag)
   }
 

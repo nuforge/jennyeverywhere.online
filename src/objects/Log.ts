@@ -1,11 +1,11 @@
 import Tag from '@/objects/Tag'
 import { format } from 'date-fns'
-import TagMap from './TagMap'
+import Legend from './Legend'
 
 class Log extends Tag {
   // Extends tag?
   protected _title: string // Title of Log (different from Name?)
-  protected _tags: TagMap = new TagMap() // Tags for Log (actions as well)
+  protected _tags: Legend = new Legend() // Tags for Log (actions as well)
 
   protected _body?: string // Description of Log
   protected _date?: Date // Description of Log
@@ -23,8 +23,8 @@ class Log extends Tag {
     return this
   }
 
-  tagList() {
-    const taglist: Array<Tag> = this._tags.tagList.reduce((acc: Array<Tag>, tag: Tag) => {
+  taglist() {
+    const taglist: Array<Tag> = this._tags.tags.reduce((acc: Array<Tag>, tag: Tag) => {
       acc.push(tag)
       return acc
     }, [])
@@ -36,7 +36,7 @@ class Log extends Tag {
   }
 
   get tags() {
-    return this._tags.tagList as Tag[]
+    return this._tags.tags as Tag[]
   }
 
   get body() {

@@ -5,7 +5,7 @@ const TAG_WHITESPACE_REPLACER = '-'
 class Legend extends Tag {
   protected _tags: Map<string, Tag> = new Map()
 
-  constructor(name: string) {
+  constructor(name?: string) {
     super(name)
     return this
   }
@@ -43,6 +43,13 @@ class Legend extends Tag {
   }
 
   // Tag Creation
+
+  add(newTag: Tag | Tag[]) {
+    if (Array.isArray(newTag)) {
+      return this.addTags(newTag)
+    }
+    return this.addTag(newTag)
+  }
 
   addTag(newTag: Tag) {
     return this._tags.set(newTag.id, newTag)

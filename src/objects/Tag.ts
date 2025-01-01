@@ -11,8 +11,8 @@ class Tag {
   protected _space?: string
   protected _style?: Record<string, string | undefined> = {}
 
-  constructor(name: string, color?: string, icon?: string) {
-    const label = Tag.cleanLabel(name)
+  constructor(name?: string, color?: string, icon?: string) {
+    const label = Tag.cleanLabel(name ?? this._id)
     this._id = Tag.cleanTag(label)
     this.color = color
     this.icon = icon

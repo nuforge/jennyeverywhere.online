@@ -29,7 +29,7 @@
 
         </template>
         <template v-slot:opposite>
-          <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
+          <EvTagCard :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
         </template>
 
       </v-timeline-item>
@@ -44,9 +44,9 @@ import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TagTray from '@/components/tags/TagTrayCard.vue';
 import TimelineStyles from './TimelineStyles.vue';
 import Log from '@/objects/Log';
+import EvTagCard from '../tags/EvTagCard.vue';
 
 const story = useStoryStore()
 const tags = useTagStore()

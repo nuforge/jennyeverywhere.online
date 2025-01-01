@@ -11,9 +11,9 @@ class TagTray {
 
   // Styles
   protected _closable = false
-  protected _labels = false
-  protected _icons = false
-  protected _color = false
+  protected _labels = true
+  protected _icons = true
+  protected _colors = true
 
   constructor(tags: Tag[] | TagMap | undefined = undefined) {
     if (tags instanceof TagMap) {
@@ -55,8 +55,8 @@ class TagTray {
     return this._icons
   }
 
-  get color() {
-    return this._color
+  get colors() {
+    return this._colors
   }
 
   get dragging() {
@@ -85,8 +85,8 @@ class TagTray {
     this._icons = icons
   }
 
-  set color(color: boolean) {
-    this._color = color
+  set colors(colors: boolean) {
+    this._colors = colors
   }
 
   set dragging(dragging: boolean) {

@@ -1,7 +1,7 @@
 <template>
   <v-snackbar v-model="tags.snackbar" :timeout="2000" timer location="bottom" close-on-content-click
     class="mb-80 bg-transparent pa-0 ma-0">
-    <EvTagTray :tags="([tags.snackbarTag] as Tag[])" :selected="tags.selection" dense class="bg-transparent" />
+    <EvTagTray :tags="([tags.snackbarTag] as Tag[])" dense class="bg-transparent" />
 
     <template #actions>
       <div class="d-flex flex-column">

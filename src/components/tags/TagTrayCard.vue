@@ -6,19 +6,20 @@
         <v-system-bar v-show="showManager" v-if="!dense" @dragover="onDragOver"
           class="justify-space-evenly align-center" :class="focus ? 'border-opacity-100' : 'border-opacity-20'">
           <TagTrayStyles :tray="(tray as unknown as TagTray)" @update:labels="(value) => { tray.labels = value }"
-            @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.color = value }" />
+            @update:icons="(value) => { tray.icons = value }" @update:color="(value) => { tray.colors = value }" />
           <TagTrayActions :tray="(tray as unknown as TagTray)" @update:closable="(value) => { tray.closable = value }"
             @delete-drop="dropDeleteTags" @add-drop="onDragDrop" @dragstart="onDragTrayStart($event, tagMerge)"
             @dragend="onDragEnd" @toggle-select="toggleSelect" />
         </v-system-bar>
       </v-fade-transition>
-      <v-card-text>
+      <v-card-text v-show="tagMerge.length > 0">
         <v-slide-x-transition>
           <TagGroup v-model="tray.selected" :tags="(tagMerge as Tag[])" :closable="tray.closable" :noIcon="tray.icons"
-            :noLabel="tray.labels" :noColor="tray.color" @drop="onDragDrop" @dragover="onDragOver"
+            :noLabel="tray.labels" :noColor="tray.colors" @drop="onDragDrop" @dragover="onDragOver"
             @click="emit('click', $event)" @ctrl-click="manageCtrlClick" @dragstart="onDragStart($event)"
             @dragend="onDragEnd" @close="onClose" />
         </v-slide-x-transition>
+        <v-card-text>No Tags</v-card-text>
       </v-card-text>
     </v-layout>
   </v-card>
@@ -37,8 +38,8 @@ import { useStateStore } from '@/stores/state'
 
 import TagTray from '@/objects/TagTray';
 import TagGroup from '@/components/tags/TagGroup.vue';
-import TagTrayStyles from '@/components/tags/TagTrayStyles.vue';
-import TagTrayActions from '@/components/tags/TagTrayActions.vue';
+import TagTrayStyles from '@/components/tags/TagCardStyles.vue';
+import TagTrayActions from '@/components/tags/TagCardActions.vue';
 
 const tray = ref(new TagTray([]))
 

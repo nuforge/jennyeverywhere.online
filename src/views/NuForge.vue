@@ -2,7 +2,6 @@
   <EvTagCard :tags="story"> </EvTagCard>
 </template>
 
-
 <script setup lang="ts">
 
 import EvTagCard from '@/components/tags/EvTagCard.vue';

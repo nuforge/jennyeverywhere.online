@@ -15,14 +15,14 @@ defineProps({
     type: Boolean,
     required: true
   },
+  colors: {
+    type: Boolean,
+    required: true
+  },
   icons: {
     type: Boolean,
     required: true
   },
-  colors: {
-    type: Boolean,
-    required: true
-  }
 
 })
 

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useTheme } from 'vuetify'
 
 export const useStateStore = defineStore('state', () => {
-  const theme = ref('dark')
+  const theme = ref('myCustomTheme')
   const tags = ref(true)
   const add = ref(false)
   const dice = ref(false)
@@ -17,7 +17,7 @@ export const useStateStore = defineStore('state', () => {
   const tagmanager = computed(() => drawer.value || dragging.value)
 
   function changeTheme() {
-    theme.value = theme.value === 'dark' ? 'light' : 'dark'
+    theme.value = theme.value === 'dark' ? 'light' : 'myCustomTheme'
     vuetify.global.name.value = theme.value
   }
 

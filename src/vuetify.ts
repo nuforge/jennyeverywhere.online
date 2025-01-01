@@ -12,6 +12,8 @@ import TagTray from '@/components/tags/TagTrayCard.vue'
 import DiceFab from '@/components/fabs/DiceFab.vue'
 import AvatarFab from '@/components/fabs/AvatarFab.vue'
 
+import myCustomTheme from '@/themes/myCustomTheme'
+
 import {
   VApp,
   VAppBar,
@@ -93,8 +95,9 @@ import {
 
 export const vuetify = createVuetify({
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: 'myCustomTheme',
     themes: {
+      myCustomTheme,
       light: {
         dark: false,
         colors: {

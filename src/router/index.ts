@@ -34,6 +34,11 @@ const router = createRouter({
       component: () => import('../views/TimelineView.vue'),
     },
     {
+      path: '/tag/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/NotFoundView.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/NotFoundView.vue'),

@@ -10,6 +10,10 @@ export const useTagStore = defineStore('tags', () => {
   const tags = computed(() => tagMap.value.tagList)
   const clipboard = ref(new Tag(''))
 
+  const snackbar = ref(false)
+  const snackbarTag = ref(new Tag(''))
+  const timeout = ref(3200)
+
   const taglist = tagMap
 
   const cleanTag = (name: string | number) => {
@@ -69,6 +73,23 @@ export const useTagStore = defineStore('tags', () => {
     return tagMap.value.linkText(text)
   }
 
+  function clearSnackbar() {
+    snackbar.value = false
+  }
+  function triggerSnackbar(tag: Tag) {
+    timeout.value = 3200
+    if (snackbar.value) {
+      clearSnackbar()
+      setTimeout(() => {
+        snackbar.value = true
+        snackbarTag.value = tag || undefined
+      }, 1)
+    } else {
+      snackbar.value = true
+      snackbarTag.value = tag || undefined
+    }
+  }
+
   return {
     selection,
     selected,
@@ -76,6 +97,8 @@ export const useTagStore = defineStore('tags', () => {
     taglist, //deprecated
     tags,
     clipboard,
+    snackbar,
+    snackbarTag,
     tempTag,
     addTag,
     createTag,
@@ -88,5 +111,6 @@ export const useTagStore = defineStore('tags', () => {
     cleanTag,
     clipboardEmpty,
     clipboardSave,
+    triggerSnackbar,
   }
 })

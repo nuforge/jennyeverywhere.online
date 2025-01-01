@@ -60,7 +60,6 @@ const StoryEvent = computed(() => {
   })
   return event
 })
-console.log(events)
 
 
 

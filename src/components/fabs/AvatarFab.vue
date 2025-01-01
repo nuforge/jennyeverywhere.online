@@ -1,7 +1,8 @@
 <template>
   <v-speed-dial transition="fade-transition" :close-on-content-click="false">
     <template v-slot:activator="{ props: activatorProps }">
-      <v-fab variant="text" app rounded icon size="xl-large" v-bind="activatorProps" :ripple="false" :z-index="10000">
+      <v-fab variant="text" app rounded icon size="xl-large" v-bind="activatorProps" :ripple="false" :z-index="10000"
+        location="bottom start">
         <PersonaAvatar :size="size" />
       </v-fab>
     </template>
@@ -17,6 +18,7 @@ import PersonaAvatar from '@/components/PersonaAvatar.vue';
 import { useStateStore } from '@/stores/state'
 import { computed } from 'vue';
 const state = useStateStore()
+
 
 const size = computed(() => {
   return state.tagmanager ? 'x-large' : 'x-large'

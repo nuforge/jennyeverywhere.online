@@ -104,14 +104,12 @@ const systemTags = computed(() => {
 })
 
 function removeTag(tag: Tag) {
-  console.log('EAD: removeTag', tag)
   evTags.value.map.deleteTag(tag)
 }
 
 
 function saveEvent() {
   // Save the event
-  console.log('EAD: saveEvent', evTags.value.tags)
   timeline.addEvent(event.value, evTags.value.tags as Tag[])
   state.eventClose()
 }

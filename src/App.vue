@@ -2,8 +2,8 @@
   <v-responsive>
     <v-app :theme="state.theme">
       <DiceFab location="top end" />
-      <TagFab location="bottom start" />
-      <AvatarFab location="bottom end" />
+      <TagFab location="bottom end" />
+      <AvatarFab />
       <BottomNavigationLayout app />
       <DrawerLayout location="bottom" />
 
@@ -14,6 +14,7 @@
       <EventAddDialog />
       <TagAddDialog />
       <DiceSnackbar />
+      <TagSnackbar location="bottom" />
       <UndoSnackbar />
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
@@ -31,6 +32,7 @@ import DrawerLayout from '@/views/layouts/DrawerLayout.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
+import TagSnackbar from '@/components/tags/TagSnackbar.vue';
 import UndoSnackbar from '@/components/UndoSnackbar.vue';
 import { useStateStore } from '@/stores/state';
 import AvatarFab from './components/fabs/AvatarFab.vue';

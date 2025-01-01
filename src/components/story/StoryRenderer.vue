@@ -2,7 +2,7 @@
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
     <MarkdownRenderer :text="story.raw" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
-      @dragstart="onDragStart" />
+      @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
   </v-sheet>
 </template>
 
@@ -27,6 +27,21 @@ const tagMerge = computed(() => {
 
   return uniqueTags;
 })
+
+const clickTag = (tag: string) => {
+  // const newTag = new Tag(tag)
+  // tags.addTag(newTag)
+  // tags.triggerSnackbar(newTag)
+  console.log('clickTag:', tag)
+}
+
+
+const clickIcon = (tag: string, color: string, icon: string) => {
+  const newTag = new Tag(tag, color, icon)
+  tags.addTag(newTag)
+  tags.triggerSnackbar(newTag)
+  console.log('clickIcon:', tag, color, icon)
+}
 
 
 const onDragStart = (event: DragEvent) => {

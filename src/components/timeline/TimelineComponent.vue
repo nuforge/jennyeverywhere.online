@@ -13,8 +13,6 @@
           </v-tooltip>
         </template>
 
-        <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
-          text="Add Event"></v-btn>
       </v-timeline-item>
 
       <v-timeline-item v-for="event in events" :key="event.name" :date="event.date" dot-color="background" fill-dot
@@ -25,13 +23,15 @@
             <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.name }}
           </v-tooltip>
         </template>
-        <h2>{{ event.title }}</h2>
+        <template #default v-if="timeline.timelineBody">
+          <h2>{{ event.title }}</h2>
+          <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
 
+        </template>
         <template v-slot:opposite>
           <TagTray :tags="event.tagList()" @ctrl-click="handleCtrlClick" />
         </template>
 
-        <MarkdownRenderer :text="event.body" :tags="event.tagList()" />
       </v-timeline-item>
     </v-timeline>
   </v-sheet>
@@ -41,7 +41,6 @@
 import { onMounted, computed } from 'vue';
 import type Tag from '@/objects/Tag';
 import { useTagStore } from '@/stores/tags'
-import { useStateStore } from '@/stores/state'
 import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
@@ -49,7 +48,6 @@ import TagTray from '@/components/tags/TagTrayCard.vue';
 import TimelineStyles from './TimelineStyles.vue';
 import Event from '@/objects/Event';
 
-const state = useStateStore()
 const story = useStoryStore()
 const tags = useTagStore()
 const timeline = useTimelineStore()

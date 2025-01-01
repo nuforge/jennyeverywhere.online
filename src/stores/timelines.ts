@@ -13,6 +13,7 @@ export const useTimelineStore = defineStore('timeline', () => {
   const timelineDirection = ref<TimelineDirection>('vertical')
   const timelineSide = ref<TimelineSide>()
   const timelineOpposite = ref(true)
+  const timelineBody = ref(true)
 
   const events = ref(<Event[]>[
     new Event(
@@ -45,6 +46,7 @@ export const useTimelineStore = defineStore('timeline', () => {
     timelineSide,
     timelineDirection,
     timelineOpposite,
+    timelineBody,
     events,
     addEvent,
     addDiceRoll,

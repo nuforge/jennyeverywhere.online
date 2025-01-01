@@ -1,9 +1,8 @@
 <template>
 
-  <v-toolbar class="bg-background">
+  <v-toolbar class="bg-background ">
     <v-btn-toggle v-model="timeline.timelineDirection" density="comfortable">
-      <v-btn :icon="icon" :value="horizontal ? 'vertical' : 'horizontal'" variant="plain"
-        size="small"></v-btn>
+      <v-btn :icon="icon" :value="horizontal ? 'vertical' : 'horizontal'" variant="plain" size="small"></v-btn>
     </v-btn-toggle>
     <v-btn-toggle v-model="timeline.timelineSide" density="comfortable">
       <v-btn
@@ -14,8 +13,15 @@
         :icon="end ? horizontal ? 'mdi-arrow-down-bold' : 'mdi-arrow-right-bold' : horizontal ? 'mdi-arrow-down-bold-outline' : 'mdi-arrow-right-bold-outline'"
         value="end" variant="plain" size="small"></v-btn>
     </v-btn-toggle>
+    <v-spacer>
+      <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
+        text="Add Event"></v-btn></v-spacer>
     <v-btn-toggle v-model="timeline.timelineOpposite" density="comfortable">
       <v-btn :icon="timeline.timelineOpposite ? `mdi-tag` : `mdi-tag-hidden`" :value="!timeline.timelineOpposite"
+        variant="plain" size="small"></v-btn>
+    </v-btn-toggle>
+    <v-btn-toggle v-model="timeline.timelineBody" density="comfortable">
+      <v-btn :icon="timeline.timelineBody ? `mdi-file` : `mdi-file-hidden`" :value="!timeline.timelineBody"
         variant="plain" size="small"></v-btn>
     </v-btn-toggle>
   </v-toolbar>
@@ -24,6 +30,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useTimelineStore } from '@/stores/timelines'
+import { useStateStore } from '@/stores/state'
+const state = useStateStore()
 
 const timeline = useTimelineStore()
 

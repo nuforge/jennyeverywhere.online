@@ -4,20 +4,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
+import TagTray from '@/objects/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue';
 import Tag from '@/objects/Tag'
-import Legend from '@/objects/Legend';
 
 const emit = defineEmits(['click', 'ctrl-click', 'drag-start', 'drag-end', 'drop', 'close'])
 
-const mergedTags = computed(() => [...props.legend.tags, ...props.tags] as Tag[])
-const dragging = ref(false)
+const mergedTags = computed(() => [...props.tray.tags, ...props.tags] as Tag[])
 
 const props = defineProps({
-  legend: {
-    type: Legend,
-    default: new Legend('legend')
+  tray: {
+    type: TagTray,
+    default: new TagTray()
   },
   tags: {
     type: Array as () => Tag[],
@@ -38,7 +37,7 @@ const onDragStart = (event: DragEvent) => {
   if (selectedText) {
     event.dataTransfer?.setData('text/plain', selectedText);
   }
-  dragging.value = true
+  props.tray.dragStart()
   emit('drag-start', event)
 }
 
@@ -49,7 +48,9 @@ const onDragDrop = (event: DragEvent) => {
       // props.tagtray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
-  dragging.value = false
+
+  props.tray.dragEnd()
+
   //props.tagtray.map.addTags(clipboard.paste(true) as Tag[])
   console.log('onDragDrop', 'Todo: ADD Tags from Drop')
   emit('drop', event)
@@ -57,7 +58,7 @@ const onDragDrop = (event: DragEvent) => {
 
 
 const onDragEnd = () => {
-  dragging.value = false
+  props.tray.dragEnd()
   emit('drag-end')
 }
 

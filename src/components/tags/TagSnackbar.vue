@@ -1,7 +1,7 @@
 <template>
-  <v-snackbar v-model="tags.snackbar" :timeout="2000" timer location="bottom" close-on-content-click class="mb-80">
-    <v-icon icon="mdi-tag-plus"></v-icon> Tag Copied
-    <TagTray :tags="([tags.snackbarTag] as Tag[])" :selected="tags.selection" dense />
+  <v-snackbar v-model="tags.snackbar" :timeout="2000" timer location="bottom" close-on-content-click
+    class="mb-80 bg-transparent pa-0 ma-0">
+    <EvTagTray :tags="([tags.snackbarTag] as Tag[])" :selected="tags.selection" dense class="bg-transparent" />
 
     <template #actions>
       <div class="d-flex flex-column">
@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import TagTray from '@/components/tags/TagTrayCard.vue';
 import { useTagStore } from '@/stores/tags';
 import { useStateStore } from '@/stores/state';
 import Tag from '@/objects/Tag'; // Adjust the import path as necessary
+import EvTagTray from './EvTagTray.vue';
 const tags = useTagStore();
 const state = useStateStore();
 

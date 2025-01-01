@@ -5,16 +5,14 @@
       <v-fab-transition>
         <v-icon :icon="icon" :color="iconColor" v-show="icon" @click="onClickIcon"></v-icon>
       </v-fab-transition>
-      <v-tooltip activator="parent" location="bottom">
-        <v-icon :icon="icon" :color="iconColor" v-show="icon"></v-icon> {{
-          tagLabel }}
-      </v-tooltip>
     </template>
-    <template v-slot:default>
-      <v-slide-x-transition>
-        <span v-show="tagLabel">{{ tagLabel }}</span>
-      </v-slide-x-transition>
-    </template>
+    <v-expand-x-transition>
+      <template v-slot:default>
+        <v-slide-x-transition>
+          <span v-show="tagLabel">{{ tagLabel }}</span>
+        </v-slide-x-transition>
+      </template>
+    </v-expand-x-transition>
   </v-chip>
 </template>
 

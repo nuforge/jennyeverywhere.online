@@ -1,18 +1,17 @@
 <template>
-  <EvTagCard :tags="mergeTags" />
+  <EvTagCard :tags="story"> </EvTagCard>
 </template>
 
 
 <script setup lang="ts">
 
-import Tag from '@/objects/Tag';
-import { useTagStore } from '@/stores/tags';
-import { useStoryStore } from '@/stores/story';
 import EvTagCard from '@/components/tags/EvTagCard.vue';
 
-const tags = useTagStore().tags
-const story = useStoryStore().tags
 
-const mergeTags = [...tags, ...story] as Tag[]
+// Temp add Story Tags
+import { useStoryStore } from '@/stores/story';
+import type Tag from '@/objects/Tag';
+const story = useStoryStore().tags as Tag[]
+// END TEMP
 
 </script>

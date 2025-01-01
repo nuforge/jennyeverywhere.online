@@ -1,8 +1,8 @@
 <template>
-  <v-chip-group column multiple @dragend="onDragEnd" @dragover="onDragOver">
-    <EvTag draggable v-for="tag in tags" :key="tag.name" :text="tag.name" :icon="tag.icon" :color="tag.color"
-      @close="onClose(tag)" @dragstart="onDragStart($event)" @ctrl-click="onCtrlClick(tag)"
-      @right-click="onRightClick" />
+  <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault">
+    <EvTag v-for="tag in tags" :key="tag.name" :text="labels ? tag.name : undefined"
+      :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable @close="onClose(tag)"
+      @dragstart="onDragStart" @ctrl-click="onCtrlClick(tag)" @right-click="onRightClick" />
   </v-chip-group>
 </template>
 
@@ -14,12 +14,29 @@ import EvTag from '@/components/tags/EvTag.vue'
 // EMIT AND PROPS
 const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
+
 defineProps({
   tags: {
     type: Array as () => Tag[],
   },
   selected: {
     type: Array as () => string[],
+  },
+  colors: {
+    type: [Boolean, String],
+    default: false
+  },
+  labels: {
+    type: [Boolean, String],
+    default: false
+  },
+  icons: {
+    type: [Boolean, String],
+    default: false
+  },
+  closable: {
+    type: Boolean,
+    default: false
   },
 })
 
@@ -51,20 +68,14 @@ const onDragStart = (event: DragEvent) => {
 }
 
 
-// DRAG OVER
-const onDragOver = (event: DragEvent) => {
-  event.preventDefault();
-  if (event.dataTransfer) {
-    //console.log(event.dataTransfer.getData('text/plain'));
-  }
-}
-
-
 // DRAG END
 const onDragEnd = () => {
   // console.log('drag.End')
   emit('drag-end')
 }
 
+// DRAG OVER
+
+const preventDefault = (event: Event) => event.preventDefault()
 
 </script>

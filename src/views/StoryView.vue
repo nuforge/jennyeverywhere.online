@@ -13,6 +13,7 @@
       </v-col>
       <v-col cols="auto" sm="4">
         <EvTagCard :tags="(story.tags as Tag[])" />
+        <EvTagCard :tags="(tags.tags as Tag[])" :labels="false" />
       </v-col>
     </v-row>
   </v-container>
@@ -27,9 +28,11 @@ import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryRenderer from '@/components/story/StoryRenderer.vue';
 
 import { useStoryStore } from '@/stores/story';
+import { useTagStore } from '@/stores/tags';
 import Tag from '@/objects/Tag.ts';
 import EvTagCard from '@/components/tags/EvTagCard.vue';
 
 const story = useStoryStore()
+const tags = useTagStore()
 
 </script>

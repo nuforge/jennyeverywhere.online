@@ -1,6 +1,6 @@
 <template>
   <v-chip :text="text" :color="tagColor" :icon="icon" :value="tagValue" :prepend-icon="prependIcon" :id="value"
-    @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" :variant="tagVariant">
+    :closable="closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" :variant="tagVariant">
     <template v-slot:prepend>
       <v-fab-transition>
         <v-icon v-if="icon" :icon="icon" :color="iconColor" @click="onClickIcon"></v-icon>
@@ -54,6 +54,10 @@ const props = defineProps
       type: [String, Number],
     },
     selected: {
+      type: Boolean,
+      default: false,
+    },
+    closable: {
       type: Boolean,
       default: false,
     },

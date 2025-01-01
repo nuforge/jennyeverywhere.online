@@ -1,8 +1,9 @@
 <template>
   <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault">
     <EvTag v-for="tag in tags" :key="tag.name" :text="labels ? tag.name : undefined"
-      :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable @close="onClose(tag)"
-      @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)" @right-click="onRightClick" />
+      :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable :closable="closable"
+      @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)"
+      @right-click="onRightClick" />
   </v-chip-group>
 </template>
 

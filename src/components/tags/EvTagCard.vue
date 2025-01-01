@@ -18,13 +18,12 @@
 
           </v-system-bar>
         </v-fade-transition>
-
         <v-card-text>
           <v-fade-transition>
 
             <EvTagGroup v-show="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
-              :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
-              @drag-end="onDragEnd" />
+              :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault"
+              @drag-start="onDragStart" @drag-end="onDragEnd" />
 
           </v-fade-transition>
           <v-divider v-show="mergedTags.length === 0 && showManager" class="align-center mt-6 mb-6 "
@@ -118,18 +117,18 @@ const onDragEnd = () => {
 const onDragDrop = (event: DragEvent) => {
   if (event.dataTransfer) {
     if (event.dataTransfer.getData('text/plain')) {
-      console.log('onDragDrop', event.dataTransfer.getData('text/plain').trim())
+      //console.log('onDragDrop', event.dataTransfer.getData('text/plain').trim())
       // props.tray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
-  console.log('onDragDrop: ', clipboard.paste())
+  //console.log('onDragDrop: ', clipboard.paste())
   tray.value.copy(clipboard.paste(true) as Tag[])
   onDragEnd()
 
 }
 
-const onDeleteDropTags = (event: DragEvent) => {
-  console.log('onDeleteDropTags', clipboard.paste(), event)
+const onDeleteDropTags = () => {
+  //console.log('onDeleteDropTags', clipboard.paste(), event)
   tray.value.map.delete(clipboard.paste(true) as Tag[])
   onDragEnd()
 }

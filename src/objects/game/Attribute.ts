@@ -9,6 +9,7 @@ class Attribute extends Tag {
   constructor(name: string, value: number | string = 0, description?: string) {
     super(name)
     this._value = value
+    this._style = this._style || {}
     this._style.icon = 'mdi-numeric-0'
     this._style.color = 'primary'
     this._description = description ? description : name

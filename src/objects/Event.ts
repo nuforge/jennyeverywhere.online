@@ -28,7 +28,7 @@ class Event extends Tag {
       acc.push(tag)
       return acc
     }, [])
-    return taglist
+    return taglist as Tag[]
   }
 
   get title() {
@@ -36,7 +36,7 @@ class Event extends Tag {
   }
 
   get tags() {
-    return this._tags
+    return this._tags.tagList as Tag[]
   }
 
   get body() {

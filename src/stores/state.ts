@@ -9,15 +9,17 @@ export const useStateStore = defineStore('state', () => {
   const dice = ref(false)
   const event = ref(false)
   const drawer = ref(false)
+  const details = ref(false)
   const dragging = ref(false)
   const navigation = ref(false)
   const undo = ref(false)
   const vuetify = useTheme()
+  const lastKey = ref('')
 
   const tagmanager = computed(() => drawer.value || dragging.value)
 
   function changeTheme() {
-    theme.value = theme.value === 'dark' ? 'light' : 'myCustomTheme'
+    theme.value = theme.value === 'myCustomTheme' ? 'light' : 'myCustomTheme'
     vuetify.global.name.value = theme.value
   }
 
@@ -37,6 +39,17 @@ export const useStateStore = defineStore('state', () => {
     tags.value = !tags.value
   }
 
+  // Tags Details
+  function toggleDetails() {
+    details.value = !details.value
+  }
+
+  function openDetails() {
+    details.value = true
+  }
+  function closeDetails() {
+    details.value = false
+  }
   // Dice
   function toggleDice() {
     dice.value = !dice.value
@@ -65,6 +78,31 @@ export const useStateStore = defineStore('state', () => {
     dragging.value = false
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+    if (
+      !event.target ||
+      ignoredTags.includes((event.target as HTMLElement).tagName) ||
+      (event.target as HTMLElement).isContentEditable
+    ) {
+      console.log('Ignoring keydown event')
+      return
+    }
+    lastKey.value = event.key // Store the key that was pressed
+
+    if (event.key === 'd') {
+      details.value = !details.value
+    }
+    if (event.key === 't') {
+      drawer.value = !drawer.value
+    }
+    if (event.key === 'Escape') {
+      drawer.value = false
+      details.value = false
+    }
+    // console.log(`Key pressed: ${event.key}`);
+  }
+
   return {
     theme,
     tags,
@@ -72,10 +110,15 @@ export const useStateStore = defineStore('state', () => {
     undo,
     dice,
     drawer,
+    details,
     dragging,
     tagmanager,
-    event,
     navigation,
+    handleKeydown,
+    event,
+    toggleDetails,
+    openDetails,
+    closeDetails,
     changeTheme,
     toggleTags,
     toggleDice,

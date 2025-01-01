@@ -5,16 +5,16 @@
         <h2>Hot Keys</h2>
         <v-list>
           <v-list-item>
-            <v-list-item-title>Toggle tag drawer: </v-list-item-title>
-            <v-list-item-subtitle><code>t</code></v-list-item-subtitle>
+            <v-list-item-title>Toggle tag drawer:</v-list-item-title><br /><code>t</code>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title>Closer tag drawer: </v-list-item-title>
-            <v-list-item-subtitle><code>Escape</code></v-list-item-subtitle>
+            <v-list-item-title>Closer tag drawer:</v-list-item-title><br /><code>Escape</code>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title>Add Tag </v-list-item-title>
-            <v-list-item-subtitle><code>`</code> (tilde)</v-list-item-subtitle>
+            <v-list-item-title>Add Tag: (<em>tilde</em>)</v-list-item-title><br /><code>`</code>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Open Details Drawer:</v-list-item-title><br /><code>d</code>
           </v-list-item>
         </v-list>
       </v-col>

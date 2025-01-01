@@ -32,6 +32,7 @@ const clickTag = (tag: string) => {
   // const newTag = new Tag(tag)
   // tags.addTag(newTag)
   // tags.triggerSnackbar(newTag)
+  state.openDetails()
   console.log('clickTag:', tag)
 }
 

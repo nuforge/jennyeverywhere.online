@@ -3,9 +3,10 @@
     <v-app :theme="state.theme">
       <DiceFab location="top end" />
       <TagFab location="bottom end" />
-      <AvatarFab />
+      <AvatarFab location="bottom start" />
       <BottomNavigationLayout app />
       <DrawerLayout location="bottom" />
+      <DetailsDrawer location="left" />
 
       <HeaderLayout />
       <v-main max-width="1440" class="mx-auto">
@@ -28,7 +29,8 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/views/layouts/BottomNavigationBar.vue';
-import DrawerLayout from '@/views/layouts/DrawerLayout.vue';
+import DrawerLayout from '@/views/layouts/TagDrawer.vue';
+import DetailsDrawer from './views/layouts/DetailsDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';

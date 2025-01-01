@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation app elevation="4" class="bg-background">
+  <v-bottom-navigation app elevation="4">
     <v-btn value="home" icon="$home" to="/">
     </v-btn>
     <v-btn value="timeline" :icon="`mdi-timeline`" to="timeline">

@@ -89,13 +89,19 @@ class Legend extends Tag {
     return tag
   }
 
+  delete(payload: Tag | string | Tag[] | string[]) {
+    if (Array.isArray(payload)) {
+      return this.deleteTags(payload)
+    }
+    return this.deleteTag(payload)
+  }
   deleteTag(tag: Tag | string) {
     if (typeof tag === 'string') return this._tags.delete(tag)
     return this._tags.delete(tag.id)
   }
 
   deleteTags(tags: Tag[] | string[]) {
-    tags.forEach((tag) => this.deleteTag(tag))
+    return tags.forEach((tag) => this.deleteTag(tag))
   }
 
   linkText(text: string): string {

@@ -1,7 +1,7 @@
 <template>
 
   <v-icon @click="$emit('update:closable', !closable)" :icon="closable ? `mdi-delete-outline` : `mdi-delete`"
-    @drop="$emit('delete-drop')" :draggable="true" @dragover="preventDefault($event)" />
+    @drop="onDragDop($event, tags)" :draggable="true" @dragover="preventDefault($event)" />
 
   <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
     @drop="tagOrText" />
@@ -37,6 +37,10 @@ const onDragStart = (event: DragEvent, tags: Tag[]) => {
   emit('drag-start', event, tags)
 }
 
+const onDragDop = (event: DragEvent, tags: Tag[]) => {
+  //console.log('TagCardActions.onDragStart', tags, event)
+  emit('delete-drop', event, tags)
+}
 
 // Dropping a Tag or a String?
 

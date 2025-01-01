@@ -39,8 +39,10 @@
 </template>
 
 <script setup lang="ts">
+import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+const dragImage = ref<HTMLImageElement | null>(null);
 
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStateStore } from '@/stores/state'
 import { useClipboardStore } from '@/stores/clipboard';
 
@@ -93,11 +95,8 @@ function focusEnd() {
 // DRAG START
 
 const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
-  const selectedText = window.getSelection()?.toString().trim();
-  if (selectedText) {
-    event.dataTransfer?.setData('text/plain', selectedText);
-    //console.log('dataTransfer', event.dataTransfer)
-  }
+
+  writeDataTransfer(event, 'tag', Array.isArray(payload) ? 'tags' : 'tag')
   //console.log('payload', payload)
   //console.log('dataTransfer', event.dataTransfer?.getData('text/plain'))
   clipboard.copy(payload as Tag[])
@@ -129,9 +128,9 @@ const onDragDrop = (event: DragEvent) => {
 
 }
 
-const onDeleteDropTags = (event: DragEvent, tags: Tag[]) => {
-  console.log('onDeleteDropTags')
-  tray.value.map.addTags(tags)
+const onDeleteDropTags = (event: DragEvent) => {
+  console.log('onDeleteDropTags', clipboard.paste(), event)
+  tray.value.map.delete(clipboard.paste(true) as Tag[])
   onDragEnd()
 }
 
@@ -140,5 +139,31 @@ const onDeleteDropTags = (event: DragEvent, tags: Tag[]) => {
 
 const preventDefault = (event: Event) => event.preventDefault()
 
+const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
+  if (!event.dataTransfer) return
+  event.dataTransfer.clearData();
+  event.dataTransfer.setData(type, data);
+
+  const selectedText = window.getSelection()?.toString().trim();
+  if (selectedText) {
+    event.dataTransfer?.setData('text/plain', selectedText);
+  }
+  if (dragImage.value) {
+    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+  } else {
+    console.warn('Drag image not ready!');
+  }
+  if (!event.dataTransfer) return
+}
+
+onMounted(() => {
+  // Preload the drag image
+  const img = new Image();
+  img.src = imgSrc;
+
+  img.onload = () => {
+    dragImage.value = img;
+  };
+});
 
 </script>

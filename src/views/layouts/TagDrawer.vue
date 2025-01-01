@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200">
+  <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200" max-width="300px">
     <EvTagCard :tags="(tags.tags as Tag[])" flat />
   </v-navigation-drawer>
 </template>

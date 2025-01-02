@@ -21,10 +21,9 @@
         <v-card-text>
           <v-fade-transition>
 
-            <EvTagGroup v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
-              :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault"
-              @drag-start="onDragStart" @drag-end="onDragEnd" />
-
+            <EvTagGroup v-model="selection" v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels"
+              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
+              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" />
           </v-fade-transition>
           <div
             class="d-flex align-center justify-center ma-2 mt-4 pa-1 rounded border-dashed border-md border-opacity-100 border-accent bg-surface opacity-30"
@@ -41,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch, defineProps, defineEmits, computed, onMounted } from 'vue';
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
-import { computed, onMounted, ref } from 'vue';
 import { useStateStore } from '@/stores/state'
 import { useClipboardStore } from '@/stores/clipboard';
 
@@ -60,6 +59,7 @@ const clipboard = useClipboardStore()
 
 // TAG TRAY
 const tray = ref(new TagTray())
+const selection = ref<string[]>([])
 
 const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
 
@@ -68,6 +68,10 @@ const props = defineProps({
   tags: {
     type: Array as () => Tag[],
     default: Array as () => Tag[]
+  },
+  modelValue: {
+    type: Array as () => string[],
+    default: () => []
   },
   labels: {
     type: Boolean,
@@ -104,6 +108,14 @@ const showManager = computed(() => focus.value || manage.value || state.tagmanag
 
 
 // EMIT AND PROPS
+
+const emit = defineEmits(['update:modelValue'])
+
+watch(() => selection.value, (newVal) => {
+  console.log('watch', newVal)
+  emit('update:modelValue', newVal)
+});
+
 
 function hoverStart() {
   manage.value = true

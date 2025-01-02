@@ -1,6 +1,11 @@
 <template>
-  <h2>Story Tags</h2>
-  <ThemePalette />
+
+
+  <v-divider>Theme Colors</v-divider>
+  <ThemePalette :filter="userColors" />
+  <ThemePalette :filter="utilityColors" />
+  <ThemePalette :filter="layoutColors" />
+  <v-divider>Playground</v-divider>
   <EvTagCard :tags="story" name="Story Tags" />
   <v-container>
     <v-row>
@@ -30,6 +35,9 @@ import ThemePalette from '@/components/ThemePalette.vue';
 const story = useStoryStore().tags as Tag[]
 // END TEMP
 
+const userColors = ref(['primary', 'secondary', 'accent',])
+const utilityColors = ref(['error', 'info', 'success', 'warning'])
+const layoutColors = ref(['background', 'surface', 'accent'])
 const body = ref('')
 
 </script>

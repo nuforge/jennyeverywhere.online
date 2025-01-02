@@ -1,11 +1,10 @@
 <template>
-  <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault">
-    <div class="d-flex flex-wrap mx-auto justify-center">
-      <EvTag v-for="tag in tags" :key="tag.name" :text="labels ? tag.name : undefined"
-        :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable :closable="closable"
-        @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)"
-        @right-click="onRightClick" />
-    </div>
+  <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault" v-model="selection"
+    class="d-flex flex-column px-2 mx-auto justify-center">
+    <EvTag v-for="tag in tags" :tag="tag" :key="tag.name" :text="labels ? tag.name : undefined"
+      :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable :closable="closable"
+      @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)"
+      @right-click="onRightClick" @click-tag="onClickTag" />
   </v-chip-group>
 </template>
 
@@ -14,21 +13,21 @@
 Finalizes the styles (icon, color, label, closable) for display and sends to the Tag
 */
 
-import { defineProps, defineEmits } from 'vue';
+import { ref, watch, defineProps, defineEmits } from 'vue';
 
 import Tag from '@/objects/Tag'
 import EvTag from '@/components/tags/EvTag.vue'
 
 // EMIT AND PROPS
-const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
-
+const selection = ref<string[]>([])
 
 defineProps({
   tags: {
-    type: Array as () => Tag[],
-  },
-  selected: {
+    type: Array as () => Tag[]
+  }, // Initial selected tags
+  modelValue: {
     type: Array as () => string[],
+    default: () => []
   },
   colors: {
     type: [Boolean, String],
@@ -48,8 +47,15 @@ defineProps({
   },
 })
 
+watch(() => selection.value, (newVal) => {
+  emit('update:modelValue', newVal)
+});
+
+const emit = defineEmits(['update:modelValue', 'click', 'ctrl-click', 'right-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
 // TAGS & CLICKS
+function onClickTag() {
+}
 
 function onClose(tag: Tag) {
   console.log('onClose', tag)

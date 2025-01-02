@@ -22,6 +22,17 @@ export const usePersonaStore = defineStore('persona', () => {
   const theme = useTheme()
 
   const myTheme = ref(theme.global.current.value)
+  const themeBase = [
+    'primary',
+    'secondary',
+    'accent',
+    'error',
+    'info',
+    'success',
+    'warning',
+    'background',
+    'surface',
+  ]
 
   function show() {
     display.value = true
@@ -48,9 +59,13 @@ export const usePersonaStore = defineStore('persona', () => {
 
   const themeTags = computed(() => {
     const tagList = [] as Tag[]
-    Object.entries(myTheme.value.colors).forEach(([name, color]) => {
-      tagList.push(new Tag(name, color, 'mdi-circle-opacity'))
-    })
+    Object.entries(myTheme.value.colors)
+      .filter(([name]) => {
+        return themeBase.includes(name)
+      })
+      .forEach(([name, color]) => {
+        return tagList.push(new Tag(name, color, 'mdi-circle-opacity'))
+      })
     return tagList as Tag[]
   })
 
@@ -67,5 +82,6 @@ export const usePersonaStore = defineStore('persona', () => {
     toggle,
     focusOn,
     randomAvatar,
+    themeBase,
   }
 })

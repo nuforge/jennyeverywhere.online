@@ -1,23 +1,27 @@
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.persona" disable-route-watcher close-delay="200">
-    <v-card max-width="300" class="mt-16">
+    <v-card max-width="300" class="mt-12   ">
       <v-card-title>
-        {{ persona.theme.name }}
+        {{ persona.theme.name }} :
         <v-btn icon="mdi-close" @click="state.persona = false" size="small" variant="plain">
         </v-btn>
       </v-card-title>
 
-      <EvTagCard :tags="(themeTags as Tag[])" />
-
+      <ThemePalette :filter="persona.themeBase" v-model="filter" />
+      <v-card-actions>
+        <v-btn text="reset" prepend-icon="mdi-arrow-down" :disabled="filter.length === 0" />
+        <v-spacer />
+        <v-btn text="apply" prepend-icon="mdi-arrow-up" :disabled="filter.length === 0" />
+      </v-card-actions>
       <v-list density="compact">
-        <v-list-item v-for="(color, name) in theme.themes.value.myCustomTheme.colors" :key="name">
-          <v-text-field v-model="theme.themes.value.myCustomTheme.colors[name]" :label="String(name)" dense
+        <v-list-item v-for="color in filtered" :key="color.name">
+          <v-text-field v-model="theme.themes.value.myCustomTheme.colors[color.name]" :label="String(color.name)" dense
             density="compact">
             <template v-slot:prepend-inner>
-              <v-icon icon="mdi-circle-opacity" :color="theme.themes.value.myCustomTheme.colors[name]"></v-icon>
+              <v-icon icon="mdi-circle-opacity" :color="theme.themes.value.myCustomTheme.colors[color.name]"></v-icon>
             </template>
             <template v-slot:append-inner>
-              <v-icon icon="mdi-eyedropper" color="text" @click="pickColor(String(name))"></v-icon>
+              <v-icon icon="mdi-eyedropper" color="text" @click="pickColor(String(color.name))"></v-icon>
             </template>
           </v-text-field>
 
@@ -30,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 declare global {
   interface Window {
@@ -43,24 +47,20 @@ declare global {
 }
 
 const color = ref<string | null>(null);
-
+import { computed } from 'vue';
 import { useTheme } from 'vuetify';
 import { useStateStore } from '@/stores/state';
 import { usePersonaStore } from '@/stores/persona';
-import Tag from '@/objects/Tag.ts';
-import EvTagCard from '@/components/tags/EvTagCard.vue';
+import ThemePalette from '@/components/ThemePalette.vue';
 
 const theme = useTheme();
 const persona = usePersonaStore()
 const state = useStateStore()
 
-const themeTags = computed(() => {
-  const tagList = [] as Tag[];
-  Object.entries(theme.themes.value.myCustomTheme.colors).forEach(([name, color]) => {
-    tagList.push(new Tag(name, color, 'mdi-circle-opacity'));
-  });
-  return tagList as Tag[];
-});
+const filter = ref<string[]>([])
+const filtered = computed(() => {
+  return persona.themeTags.filter(({ name }) => filter.value.includes(name));
+})
 
 async function pickColor(name: string) {
   if (window.EyeDropper) {

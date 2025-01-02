@@ -27,9 +27,16 @@ class TagTray {
       this._tag = new Tag('list', 'accent', 'mdi-list-box-outline')
       this._legend.addTags(tags)
     } else {
-      this._tag = new Tag('default', 'default', 'mdi-tag-outline')
+      this._tag = new Tag('default', 'default', 'mdi-tray')
     }
     return this
+  }
+
+  get selection() {
+    //persona.themeTags.filter(tag => props.filter?.includes(tag.name)) || []
+
+    this._legend.tags.filter((tag) => this._selected.includes(tag))
+    return this._selected
   }
 
   // GETTERS

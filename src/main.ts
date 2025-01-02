@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './CustomTag' // Path to your custom element definition
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

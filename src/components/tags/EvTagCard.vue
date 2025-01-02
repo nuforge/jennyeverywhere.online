@@ -1,42 +1,36 @@
-<template><v-scale-transition>
-    <v-card @mouseenter=" hoverStart()" @mouseleave="hoverEnd()" @focusin="focusStart()" @focusout="focusEnd()"
-      :elevation="showManager ? 10 : 0" class="bg-transparent">
-
-      <v-layout>
+<template>
+  <v-card @mouseenter=" hoverStart()" @mouseleave="hoverEnd()" @focusin="focusStart()" @focusout="focusEnd()"
+    :elevation="showManager ? 10 : 0" class="bg-transparent">
+    <v-layout>
+      <v-fade-transition>
+        <v-system-bar v-if="showManager" @dragover="preventDefault" class="justify-space-evenly align-center"
+          :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
+          <EvTag :text="name" :color="tray.tag.color" :icon="tray.tag.icon" class="opacity-20" :ripple="false"
+            variant="plain" />
+          <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
+            @update:labels="(value: boolean) => { tray.labels = value }"
+            @update:icons="(value: boolean) => { tray.icons = value }"
+            @update:colors="(value: boolean) => { tray.colors = value }" />
+          <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
+            @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
+            @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
+        </v-system-bar>
+      </v-fade-transition>
+      <v-card-text>
         <v-fade-transition>
-          <v-system-bar v-show="showManager" @dragover="preventDefault" class="justify-space-evenly align-center"
-            :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
-            <EvTag :text="name" :color="tray.tag.color" :icon="tray.tag.icon" class="opacity-20" />
-            <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
-              @update:labels="(value: boolean) => { tray.labels = value }"
-              @update:icons="(value: boolean) => { tray.icons = value }"
-              @update:colors="(value: boolean) => { tray.colors = value }" />
-
-            <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
-              @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
-              @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
-
-          </v-system-bar>
+          <EvTagGroup v-model="selection" v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels"
+            :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
+            @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" />
         </v-fade-transition>
-        <v-card-text>
-          <v-fade-transition>
-
-            <EvTagGroup v-model="selection" v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels"
-              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
-              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" />
-          </v-fade-transition>
-          <div
-            class="d-flex align-center justify-center ma-2 mt-4 pa-1 rounded border-dashed border-md border-opacity-100 border-accent bg-surface opacity-30"
-            v-if="mergedTags.length === 0 && showManager" @dragover="preventDefault" @drop="onDragDrop"
-            @drag-end="onDragEnd"><v-label><v-icon icon='mdi-tag-arrow-down-outline' size="small"
-                density="compact"></v-icon></v-label>
-          </div>
-
-        </v-card-text>
-      </v-layout>
-    </v-card>
-
-  </v-scale-transition>
+        <div
+          class="d-flex align-center justify-center ma-2 mt-4 pa-1 rounded border-dashed border-md border-opacity-100 border-accent bg-surface opacity-30"
+          v-if="mergedTags.length === 0 && showManager" @dragover="preventDefault" @drop="onDragDrop"
+          @drag-end="onDragEnd"><v-label><v-icon icon='mdi-tag-arrow-down-outline' size="small"
+              density="compact"></v-icon></v-label>
+        </div>
+      </v-card-text>
+    </v-layout>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -61,8 +55,11 @@ const clipboard = useClipboardStore()
 const tray = ref(new TagTray())
 const selection = ref<string[]>([])
 
-const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
+const manage = ref(false)
+const focus = ref(false)
 
+const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
+const showManager = computed(() => focus.value || manage.value || state.tagmanager)
 
 const props = defineProps({
   tags: {
@@ -101,18 +98,12 @@ const props = defineProps({
 })
 // Local State
 
-const manage = ref(false)
-const focus = ref(false)
-
-const showManager = computed(() => focus.value || manage.value || state.tagmanager)
-
 
 // EMIT AND PROPS
 
 const emit = defineEmits(['update:modelValue'])
 
 watch(() => selection.value, (newVal) => {
-  console.log('watch', newVal)
   emit('update:modelValue', newVal)
 });
 

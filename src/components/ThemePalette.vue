@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex">
-    <EvTagCard :tags="filtered" :labels="false" v-model="selection" />
+    <EvTagCard :name="name" :tags="filtered" :labels="false" v-model="selection" />
   </v-container>
 </template>
 
@@ -24,6 +24,10 @@ const props = defineProps({
   modelValue: {
     type: Array as () => string[],
     default: () => []
+  },
+  name: {
+    type: String,
+    default: "Theme"
   },
 })
 

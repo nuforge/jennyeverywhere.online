@@ -22,6 +22,10 @@ class Legend extends Tag {
     return this._tags.keys()
   }
 
+  selection = (tags: Tag[]) => {
+    return this.tags.filter((tag) => tags.includes(tag))
+  }
+
   difference(tags: Tag[]): Tag[] {
     const tagIds = new Set(tags.map((tag) => tag.id))
     return Array.from(this.tags).filter((tag) => !tagIds.has(tag.id))

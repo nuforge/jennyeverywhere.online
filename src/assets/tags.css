@@ -1,0 +1,24 @@
+custom-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem; /* Adjust font size */
+  cursor: pointer;
+  color: var(--v-error); /* Default fallback */
+}
+
+/* Prepend the icon using ::before */
+custom-tag::before {
+  content: attr(icon);
+  font-family: 'Material Design Icons'; /* Ensure you load the MDI font */
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+/* Apply color based on the color attribute */
+custom-tag[color='error'] {
+  color: var(--v-error); /* Uses your theme's error color */
+}
+
+custom-tag[color='primary'] {
+  color: var(--v-primary);
+}

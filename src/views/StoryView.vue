@@ -11,9 +11,6 @@
       <v-col cols="auto" sm="8">
         <StoryChoiceGroup />
       </v-col>
-      <v-col cols="auto" sm="4">
-        <EvTagCard :tags="(story.tags as Tag[])" />
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -26,10 +23,5 @@ import FeedbackBar from '@/components/FeedbackBar.vue'
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
 import StoryRenderer from '@/components/story/StoryRenderer.vue';
 
-import { useStoryStore } from '@/stores/story';
-import Tag from '@/objects/Tag.ts';
-import EvTagCard from '@/components/tags/EvTagCard.vue';
-
-const story = useStoryStore()
 
 </script>

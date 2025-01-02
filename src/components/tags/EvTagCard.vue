@@ -7,19 +7,27 @@
           :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
           <EvTag :text="name" :color="tray.tag.color" :icon="tray.tag.icon" class="opacity-20" :ripple="false"
             variant="plain" />
-          <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
+          <TagCardStyles :tray="tray.tray" :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
+            :bodys="tray.bodys" @update:tray="(value: boolean) => { tray.tray = value }"
             @update:labels="(value: boolean) => { tray.labels = value }"
             @update:icons="(value: boolean) => { tray.icons = value }"
-            @update:colors="(value: boolean) => { tray.colors = value }" />
+            @update:colors="(value: boolean) => { tray.colors = value }"
+            @update:bodys="(value: boolean) => { tray.bodys = value }" />
           <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
             @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
             @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
         </v-system-bar>
       </v-fade-transition>
       <v-card-text>
+
+        <v-scale-transition>
+          <v-container v-if="tray.bodys">
+            <MarkdownRenderer :text="body" :tags="selectedTags" />
+          </v-container>
+        </v-scale-transition>
         <v-fade-transition>
-          <EvTagGroup v-model="selection" v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels"
-            :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
+          <EvTagGroup v-model="selection" v-if="mergedTags.length > 0 && tray.tray" :tags="mergedTags"
+            :labels="tray.labels" :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
             @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" />
         </v-fade-transition>
         <div
@@ -47,6 +55,7 @@ import EvTagGroup from '@/components/tags/EvTagGroup.vue'
 import TagCardActions from '@/components/tags/TagCardActions.vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import EvTag from './EvTag.vue';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 const state = useStateStore()
 const clipboard = useClipboardStore()
@@ -60,8 +69,13 @@ const focus = ref(false)
 
 const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
 const showManager = computed(() => focus.value || manage.value || state.tagmanager)
+const selectedTags = computed(() => { return mergedTags.value.filter(tag => selection.value.includes(tag.id)) })
 
 const props = defineProps({
+  tag: {
+    type: Object as () => Tag,
+    default: null
+  },
   tags: {
     type: Array as () => Tag[],
     default: Array as () => Tag[]
@@ -86,13 +100,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  tag: {
-    type: Object as () => Tag,
-    default: null
-  },
   name: {
     type: String,
     default: 'Tray'
+  },
+  body: {
+    type: String,
   }
 
 })

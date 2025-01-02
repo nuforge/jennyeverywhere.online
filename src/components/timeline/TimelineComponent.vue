@@ -29,7 +29,8 @@
 
         </template>
         <template v-slot:opposite>
-          <EvTagCard :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain" />
+          <EvTagCard :body="event.body" :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain"
+            :name="event.name" />
         </template>
 
       </v-timeline-item>

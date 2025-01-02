@@ -1,7 +1,7 @@
 <template>
   <v-sheet flat class="bg-transparent">
     <h2>{{ story.title }}</h2>
-    <MarkdownRenderer :text="story.raw" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
+    <EvTagCard :body="story.raw" name="Story" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
       @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
   </v-sheet>
 </template>
@@ -11,9 +11,9 @@ import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
 import { usePersonaStore } from '@/stores/persona'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
+import EvTagCard from '../tags/EvTagCard.vue'
 
 const tags = useTagStore()
 const story = useStoryStore()

@@ -10,10 +10,13 @@ class TagTray {
   protected _dragging = false
 
   // Styles
+
   protected _closable = false
   protected _labels = true
   protected _icons = true
   protected _colors = true
+  protected _bodys = true
+  protected _tray = true
 
   protected _tag: Tag
 
@@ -65,6 +68,14 @@ class TagTray {
     return this._closable
   }
 
+  get bodys() {
+    return this._bodys
+  }
+
+  get tray() {
+    return this._tray
+  }
+
   get labels() {
     return this._labels
   }
@@ -107,6 +118,10 @@ class TagTray {
     this._closable = closable
   }
 
+  set tray(tray: boolean) {
+    this._tray = tray
+  }
+
   set labels(labels: boolean) {
     this._labels = labels
   }
@@ -117,6 +132,10 @@ class TagTray {
 
   set colors(colors: boolean) {
     this._colors = colors
+  }
+
+  set bodys(bodys: boolean) {
+    this._bodys = bodys
   }
 
   set dragging(dragging: boolean) {

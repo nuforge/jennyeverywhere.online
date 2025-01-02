@@ -25,14 +25,18 @@ const props = defineProps({
 
 function handleClick(event: MouseEvent) {
   const target = event.target as HTMLElement;
-  console.log('el:', target.getAttribute('tag'), target.getAttribute('color'), target.getAttribute('icon'));
+  console.log('el:', target);
   if (target.tagName === 'A') {
-    // console.log('Matched link:', target.innerHTML.toLowerCase().replace(/\s/g, '-'));
+    console.log('Matched link:', target.innerHTML.toLowerCase().replace(/\s/g, '-'));
     emit('click-tag', target.textContent?.toLowerCase().replace(/\s/g, '-'))
   }
 
   if (target.tagName === 'I') {
-    // console.log('Matched icon:', target.classList[1], target.classList[2].toString().replace('text-', ''));
+    console.log('Matched icon:', target.classList[1], target.classList[2].toString().replace('text-', ''));
+    emit('click-icon', target.getAttribute('tag'), target.getAttribute('color'), target.getAttribute('icon'))
+  }
+  if (target.tagName === 'CUSTOMTAG') {
+    console.log('Matched tag:', target.classList[1], target.classList[2].toString().replace('text-', ''));
     emit('click-icon', target.getAttribute('tag'), target.getAttribute('color'), target.getAttribute('icon'))
   }
   //router.push('/tags/ ')
@@ -57,7 +61,7 @@ function linkTags(tags: Array<Tag>, text?: string) {
     return updatedText.replace(
       regex,
       (match) =>
-        `<custom-tag tag="${match}" icon="${icon}" color="${color}">${match}</custom-tag>`,
+        `<custom-tag tag="${match}" color="${color}" icon="${icon}" >${match}</custom-tag>`,
     )
   }, text || '')
 }

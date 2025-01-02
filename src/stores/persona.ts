@@ -64,7 +64,6 @@ export const usePersonaStore = defineStore('persona', () => {
         return themeBase.includes(name)
       })
       .forEach(([name]) => {
-        console.log(new Tag(name, name, 'mdi-circle-opacity'))
         return tagList.push(new Tag(name, name, 'mdi-circle-opacity'))
       })
     return tagList as Tag[]

@@ -98,56 +98,6 @@ export const vuetify = createVuetify({
     defaultTheme: 'myCustomTheme',
     themes: {
       myCustomTheme,
-      light: {
-        dark: false,
-        colors: {
-          primary: '#2B75B1',
-          secondary: '#00CC88',
-          tertiary: '#9E3E3B',
-          quaternary: '#FFBB00',
-          accent: '#82B1FF',
-          error: '#FF5252',
-          info: '#2196F3',
-          success: '#4CAF50',
-          warning: '#FFC107',
-          d20: '#2B75B1',
-          d12: '#00CC88',
-          d10: '#9E3E3B',
-          d8: '#FFBB00',
-          d6: '#82B1FF',
-          d4: '#FF5252',
-          datetime: '#1B1B1B',
-          system: '#323232',
-          'background-variant': '#f5f5f5',
-          'sta-career': '#FFBB00',
-        },
-      },
-      dark: {
-        dark: true,
-        colors: {
-          primary: '#2B75B1',
-          secondary: '#00CC88',
-          tertiary: '#9E3E3B',
-          quaternary: '#FFBB00',
-          accent: '#82B1FF',
-          error: '#FF5252',
-          info: '#2196F3',
-          success: '#4CAF50',
-          warning: '#FFC107',
-
-          d20: '#2B75B1',
-          d12: '#00CC88',
-          d10: '#9E3E3B',
-          d8: '#FFBB00',
-          d6: '#82B1FF',
-          d4: '#FF5252',
-
-          datetime: '#696969',
-          system: '#323232',
-
-          'sta-career': '#FFBB00',
-        },
-      },
     },
   },
   icons: {
@@ -211,8 +161,8 @@ export const vuetify = createVuetify({
       'removetag-off': 'mdi-tag-remove-outline',
 
       primary: 'mdi-cards-spade',
-      secondary: 'mdi-cards-club',
-      tertiary: 'mdi-cards-heart',
+      secondary: 'mdi-cards-heart',
+      tertiary: 'mdi-cards-club',
       quaternary: 'mdi-cards-diamond',
 
       wormhole: 'mdi-atom-variant',
@@ -317,7 +267,6 @@ export const vuetify = createVuetify({
 
     VChipGroup: {
       variant: 'text',
-      class: 'rounded bg-background ma-1 pa-1',
       VChip: {
         variant: 'text',
         class: 'rounded',

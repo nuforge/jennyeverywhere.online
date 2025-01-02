@@ -6,6 +6,9 @@
         <v-btn icon="mdi-close" @click="state.persona = false" size="small" variant="plain">
         </v-btn>
       </v-card-title>
+
+      <EvTagCard :tags="(themeTags as Tag[])" />
+
       <v-list density="compact">
         <v-list-item v-for="(color, name) in theme.themes.value.myCustomTheme.colors" :key="name">
           <v-text-field v-model="theme.themes.value.myCustomTheme.colors[name]" :label="String(name)" dense
@@ -27,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 declare global {
   interface Window {
@@ -44,12 +47,20 @@ const color = ref<string | null>(null);
 import { useTheme } from 'vuetify';
 import { useStateStore } from '@/stores/state';
 import { usePersonaStore } from '@/stores/persona';
+import Tag from '@/objects/Tag.ts';
+import EvTagCard from '@/components/tags/EvTagCard.vue';
 
 const theme = useTheme();
 const persona = usePersonaStore()
 const state = useStateStore()
 
-
+const themeTags = computed(() => {
+  const tagList = [] as Tag[];
+  Object.entries(theme.themes.value.myCustomTheme.colors).forEach(([name, color]) => {
+    tagList.push(new Tag(name, color, 'mdi-circle-opacity'));
+  });
+  return tagList as Tag[];
+});
 
 async function pickColor(name: string) {
   if (window.EyeDropper) {
@@ -68,5 +79,6 @@ async function pickColor(name: string) {
     console.error('EyeDropper API is not supported in this browser.');
   }
 }
+
 
 </script>

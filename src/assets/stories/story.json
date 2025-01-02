@@ -24,13 +24,13 @@
     {
       "text": "Ask Jenny why there's a portal in the middle of the road?",
       "icon": "$tertiary",
-      "color": "tertiary",
+      "color": "success",
       "tags": ["portal", "road", "action:ask question"]
     },
     {
       "text": "Shift to another reality?",
       "icon": "$quaternary",
-      "color": "quaternary",
+      "color": "warning",
       "tags": ["action:shift"]
     }
   ]

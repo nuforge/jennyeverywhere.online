@@ -2,7 +2,7 @@ const myCustomTheme = {
   dark: true,
   colors: {
     primary: '#2B75B1',
-    secondary: '#00CC88',
+    secondary: '#9E3E3B',
 
     accent: '#3E3E3B',
 
@@ -18,8 +18,6 @@ const myCustomTheme = {
     quaternary: '#FFBB00',
   },
   variables: {
-    primary: 'var(--v-primary)',
-
     'border-color': '#000000',
     'border-opacity': 0.12,
     'high-emphasis-opacity': 0.87,

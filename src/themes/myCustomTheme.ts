@@ -1,16 +1,8 @@
 const myCustomTheme = {
   dark: true,
   colors: {
-    background: '#161616',
-    surface: '#222222',
-    'surface-bright': '#999999',
-    'surface-light': '#323232',
-    'surface-variant': '#454545',
-    'on-surface-variant': '#ffffff',
     primary: '#2B75B1',
-    'primary-darken-1': '#1F5592',
     secondary: '#00CC88',
-    'secondary-darken-1': '#018786',
 
     accent: '#3E3E3B',
 
@@ -20,6 +12,16 @@ const myCustomTheme = {
     warning: '#FB8C00',
 
     text: '#999999',
+
+    background: '#161616',
+    surface: '#222222',
+
+    'primary-darken-1': '#1F5592',
+    'secondary-darken-1': '#018786',
+    'surface-bright': '#999999',
+    'surface-light': '#323232',
+    'surface-variant': '#454545',
+    'on-surface-variant': '#ffffff',
 
     tertiary: '#9E3E3B',
     quaternary: '#FFBB00',

@@ -7,6 +7,7 @@
       <AvatarFab location="bottom start" />
 
       <BottomNavigationLayout app />
+      <ThemeDrawer location="right" />
       <TagDrawer location="bottom" />
       <DetailsDrawer location="left" />
 
@@ -38,6 +39,7 @@ import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/views/layouts/BottomNavigationBar.vue';
 import TagDrawer from '@/views/layouts/TagDrawer.vue';
+import ThemeDrawer from '@/views/layouts/ThemeDrawer.vue';
 import DetailsDrawer from './views/layouts/DetailsDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';

@@ -10,6 +10,7 @@ export const useStateStore = defineStore('state', () => {
   const event = ref(false)
   const drawer = ref(false)
   const details = ref(false)
+  const persona = ref(false)
   const dragging = ref(false)
   const navigation = ref(false)
   const undo = ref(false)
@@ -79,10 +80,15 @@ export const useStateStore = defineStore('state', () => {
     dragging.value = false
   }
 
-  const handleKeydown = (event: KeyboardEvent) => {
-    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+  function SPECIAL() {
+    persona.value = !persona.value
+  }
 
+  const handleKeydown = (event: KeyboardEvent) => {
     console.log(`Key pressed: ${event.key}`)
+    /*
+
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (
       !event.target ||
       ignoredTags.includes((event.target as HTMLElement).tagName) ||
@@ -90,7 +96,7 @@ export const useStateStore = defineStore('state', () => {
     ) {
       console.log('Ignoring keydown event')
       return
-    }
+    }*/
     lastKey.value = event.key // Store the key that was pressed
     if (event.ctrlKey && event.key === 'z') {
       undo.value = true
@@ -98,7 +104,11 @@ export const useStateStore = defineStore('state', () => {
     if (event.key === 'd') {
       toggleDetails()
     }
-    if (event.key === 't' || event.code === 'Space') {
+    if (event.ctrlKey && event.code === 'Space') {
+      SPECIAL()
+      event.preventDefault()
+    }
+    if (event.key === 't' || (event.code === 'Space' && !event.ctrlKey)) {
       drawerToggle()
       event.preventDefault()
     }
@@ -110,6 +120,7 @@ export const useStateStore = defineStore('state', () => {
 
   return {
     theme,
+    persona,
     tags,
     add,
     undo,

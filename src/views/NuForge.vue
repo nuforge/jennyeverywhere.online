@@ -44,7 +44,7 @@ const story = useStoryStore()
 const logObj = ref(new Log('test', `what's on the surface, one begins to wonder, in error, for this is no jetpack, Jenny Everywhere, let's go with the flamethrower instead?`))
 
 const personaSelected = ref<string[]>([])
-const storySelected = ref<string[]>([])
+const storySelected = ref<string[]>(['jenny-everywhere', 'flamethrower'])
 
 const personaTags = computed(() => {
   return persona.themeTags.filter(tag => personaSelected.value.includes(tag.id))

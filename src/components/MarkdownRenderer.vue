@@ -46,13 +46,14 @@ function manageRightClick() {
 
 // MARK DOWN
 
-function linkCustomTags(tags: Array<Tag>, text?: string) {
+function linkTags(tags: Array<Tag>, text?: string) {
   //match.toLowerCase().replace(/\s/g, '-')
   return tags.reduce((updatedText, tag) => {
     const icon = tag.icon || 'default'
     const color = tag.color || 'default'
     const pattern = tag.name
     const regex = escapePattern(pattern)
+    // OLD:  `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`
     return updatedText.replace(
       regex,
       (match) =>
@@ -61,20 +62,6 @@ function linkCustomTags(tags: Array<Tag>, text?: string) {
   }, text || '')
 }
 
-function linkTags(tags: Array<Tag>, text?: string) {
-  //match.toLowerCase().replace(/\s/g, '-')
-  return tags.reduce((updatedText, tag) => {
-    const icon = tag.icon || 'default'
-    const color = tag.color || 'default'
-    const pattern = tag.name
-    const regex = escapePattern(pattern)
-    return updatedText.replace(
-      regex,
-      (match) =>
-        `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`,
-    )
-  }, text || '')
-}
 
 // Escape special regex characters if pattern is a literal string
 function escapePattern(pattern: string) {
@@ -105,7 +92,7 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 
 function textToMarkdown(text: string) {
   //const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-  const md = linkCustomTags(props.tags, text)
+  const md = linkTags(props.tags, text)
   return markitdown(md)
 }
 

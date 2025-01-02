@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useTheme } from 'vuetify'
+import { useRouter } from 'vue-router'
 
 export const useStateStore = defineStore('state', () => {
   const theme = ref('myCustomTheme')
@@ -16,7 +17,7 @@ export const useStateStore = defineStore('state', () => {
   const undo = ref(false)
   const vuetify = useTheme()
   const lastKey = ref('')
-
+  const router = useRouter()
   const tagmanager = computed(() => drawer.value || dragging.value)
 
   function changeTheme() {
@@ -86,7 +87,6 @@ export const useStateStore = defineStore('state', () => {
 
   const handleKeydown = (event: KeyboardEvent) => {
     console.log(`Key pressed: ${event.key}`)
-    /*
 
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (
@@ -96,10 +96,11 @@ export const useStateStore = defineStore('state', () => {
     ) {
       console.log('Ignoring keydown event')
       return
-    }*/
+    }
     lastKey.value = event.key // Store the key that was pressed
     if (event.ctrlKey && event.key === 'z') {
       undo.value = true
+      router.push('/nuforge')
     }
     if (event.key === 'd') {
       toggleDetails()

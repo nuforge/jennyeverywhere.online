@@ -6,7 +6,7 @@
         <v-fade-transition>
           <v-system-bar v-show="showManager" @dragover="preventDefault" class="justify-space-evenly align-center"
             :class="focus ? 'border-opacity-100' : 'border-opacity-20'" transition="fab-transition">
-
+            <EvTag :text="name" :color="tray.tag.color" :icon="tray.tag.icon" class="opacity-20" />
             <TagCardStyles :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
               @update:labels="(value: boolean) => { tray.labels = value }"
               @update:icons="(value: boolean) => { tray.icons = value }"
@@ -53,22 +53,48 @@ import TagTray from '@/objects/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue'
 import TagCardActions from '@/components/tags/TagCardActions.vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';
+import EvTag from './EvTag.vue';
 
 const state = useStateStore()
 const clipboard = useClipboardStore()
 
 // TAG TRAY
-const tray = ref(new TagTray([]))
+const tray = ref(new TagTray())
 
 const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
+
 
 const props = defineProps({
   tags: {
     type: Array as () => Tag[],
     default: Array as () => Tag[]
+  },
+  labels: {
+    type: Boolean,
+    default: true
+  },
+  icons: {
+    type: Boolean,
+    default: true
+  },
+  colors: {
+    type: Boolean,
+    default: true
+  },
+  closable: {
+    type: Boolean,
+    default: false
+  },
+  tag: {
+    type: Object as () => Tag,
+    default: null
+  },
+  name: {
+    type: String,
+    default: 'Tray'
   }
-})
 
+})
 // Local State
 
 const manage = ref(false)

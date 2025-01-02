@@ -3,7 +3,9 @@
     :closable="closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" :variant="tagVariant">
     <template v-slot:prepend>
       <v-fab-transition>
-        <v-icon v-if="icon" :icon="icon" :color="iconColor" @click="onClickIcon"></v-icon>
+        <v-icon v-if="icon" :icon="icon" :color="iconColor" @click="onClickIcon">
+          <v-tooltip activator="parent" location="bottom">{{ text }}
+          </v-tooltip></v-icon>
       </v-fab-transition>
     </template>
     <template v-slot:default>

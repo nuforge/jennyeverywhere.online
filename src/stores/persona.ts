@@ -1,9 +1,10 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 // 'myCustomTheme'
 
 import { useTheme } from 'vuetify'
+import Tag from '@/objects/Tag'
 import Legend from '@/objects/Legend'
 
 // Create a new store for different categories of sheets: attributes, image, description, actions
@@ -45,5 +46,26 @@ export const usePersonaStore = defineStore('persona', () => {
       .catch((error) => console.error(error))
   }
 
-  return { display, name, avatar, focus, theme, myTheme, show, hide, toggle, focusOn, randomAvatar }
+  const themeTags = computed(() => {
+    const tagList = [] as Tag[]
+    Object.entries(myTheme.value.colors).forEach(([name, color]) => {
+      tagList.push(new Tag(name, color, 'mdi-circle-opacity'))
+    })
+    return tagList as Tag[]
+  })
+
+  return {
+    display,
+    name,
+    avatar,
+    focus,
+    theme,
+    myTheme,
+    themeTags,
+    show,
+    hide,
+    toggle,
+    focusOn,
+    randomAvatar,
+  }
 })

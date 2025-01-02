@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 class TagTray {
   protected _id = uuidv4()
-  protected _tags = new Legend()
+  protected _legend = new Legend()
   protected _selected = [] as Tag[]
 
   protected _dragging = false
@@ -15,12 +15,19 @@ class TagTray {
   protected _icons = true
   protected _colors = true
 
+  protected _tag: Tag
+
   constructor(tags: Tag[] | Legend | undefined = undefined) {
-    if (tags instanceof Legend) {
-      this._tags = tags
-    }
-    if (Array.isArray(tags)) {
-      this._tags.addTags(tags)
+    if (typeof tags === 'string') {
+      this._tag = new Tag(tags)
+    } else if (tags instanceof Legend) {
+      this._tag = new Tag('Legend', 'info', 'mdi-map-legend')
+      this._legend = tags
+    } else if (Array.isArray(tags)) {
+      this._tag = new Tag('list', 'accent', 'mdi-list-box-outline')
+      this._legend.addTags(tags)
+    } else {
+      this._tag = new Tag('default', 'default', 'mdi-tag-outline')
     }
     return this
   }
@@ -32,11 +39,15 @@ class TagTray {
   }
 
   get map() {
-    return this._tags
+    return this._legend
+  }
+
+  get tag() {
+    return this._tag
   }
 
   get tags() {
-    return this._tags.tags
+    return this._legend.tags
   }
 
   get selected() {
@@ -65,8 +76,20 @@ class TagTray {
 
   // SETTERS
 
+  set id(id: string) {
+    this._id = id
+  }
+
+  set map(tags: Legend) {
+    this._legend = tags
+  }
+
+  set tag(tag: Tag) {
+    this._tag = tag
+  }
+
   set tags(tags: Tag[]) {
-    this._tags.addTags(tags)
+    this._legend.addTags(tags)
   }
 
   set selected(tags: Tag[]) {
@@ -97,9 +120,9 @@ class TagTray {
 
   copy(copyValue: Tag | Tag[]) {
     if (Array.isArray(copyValue)) {
-      return this._tags.addTags(copyValue)
+      return this._legend.addTags(copyValue)
     } else {
-      return this._tags.addTag(copyValue)
+      return this._legend.addTag(copyValue)
     }
   }
 
@@ -134,7 +157,7 @@ class TagTray {
 
   // DRAG DROP
   dragDrop = (payload: Tag[]) => {
-    this._tags.addTags(payload)
+    this._legend.addTags(payload)
     this._dragging = false
   }
 }

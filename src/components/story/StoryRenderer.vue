@@ -10,6 +10,7 @@
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
+import { usePersonaStore } from '@/stores/persona'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
@@ -17,6 +18,7 @@ import { computed } from 'vue'
 const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
+const persona = usePersonaStore()
 
 const tagMerge = computed(() => {
   const mergedTags = [...tags.tags, ...story.tags] as Tag[]
@@ -33,6 +35,7 @@ const clickTag = (tag: string) => {
   // tags.addTag(newTag)
   // tags.triggerSnackbar(newTag)
   state.openDetails()
+  persona.focusOn(tag)
   console.log('clickTag:', tag)
 }
 

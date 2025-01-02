@@ -1,6 +1,11 @@
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.persona" disable-route-watcher close-delay="200">
     <v-card max-width="300" class="mt-16">
+      <v-card-title>
+        {{ persona.theme.name }}
+        <v-btn icon="mdi-close" @click="state.persona = false" size="small" variant="plain">
+        </v-btn>
+      </v-card-title>
       <v-list density="compact">
         <v-list-item v-for="(color, name) in theme.themes.value.myCustomTheme.colors" :key="name">
           <v-text-field v-model="theme.themes.value.myCustomTheme.colors[name]" :label="String(name)" dense
@@ -15,6 +20,7 @@
 
         </v-list-item>
       </v-list>
+
 
     </v-card>
   </v-navigation-drawer>
@@ -35,11 +41,12 @@ declare global {
 
 const color = ref<string | null>(null);
 
-
 import { useTheme } from 'vuetify';
 import { useStateStore } from '@/stores/state';
+import { usePersonaStore } from '@/stores/persona';
 
 const theme = useTheme();
+const persona = usePersonaStore()
 const state = useStateStore()
 
 

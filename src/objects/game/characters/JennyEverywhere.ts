@@ -5,7 +5,7 @@ const JennyEverywhere = new Persona('Jenny Everywhere')
 console.log('JennyEverywhere:', '"hello world"')
 // STA - STAR TREK ADVENTURES
 
-import json from '@/objects/game/characters/JennyEverywhere.json'
+import json from '@/objects/game/characters/JennyEverywhereThemed.json'
 
 json.tags.forEach((tag) => {
   const strtag = tag.value !== null ? `${tag.name}:${tag.value}` : tag.name

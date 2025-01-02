@@ -6,7 +6,7 @@
         <v-img :src="image" :alt="character.name" max-height="256" />
       </v-col>
       <v-col cols="12" md="8" sm="12">
-        <EvTagTray :tags="(character.attributes as Tag[])" :selected="tags.selection" @ctrl-click="handleCtrlClick" />
+        <EvTagCard :tags="(character.attributes as Tag[])" @ctrl-click="handleCtrlClick" />
       </v-col>
     </v-row>
   </v-container>
@@ -17,8 +17,8 @@ import { ref } from 'vue'
 import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
 import image from '@/assets/images/characters/jenny-everywhere.png'
 import { useTagStore } from '@/stores/tags'
-import EvTagTray from '@/components/tags/EvTagTray.vue';
 import type Tag from '@/objects/Tag';
+import EvTagCard from '@/components/tags/EvTagCard.vue';
 const tags = useTagStore()
 
 

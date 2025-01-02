@@ -103,12 +103,10 @@ function markitdown(text: string) {
 </script>
 
 <style scoped>
-:deep a {
-  cursor: pointer;
-}
-
-
+:deep a,
 :deep i {
+
+  color: #FFFFFF;
   cursor: pointer;
 }
 </style>

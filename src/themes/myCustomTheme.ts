@@ -11,32 +11,15 @@ const myCustomTheme = {
     success: '#4CAF50',
     warning: '#FB8C00',
 
-    text: '#999999',
-
     background: '#161616',
     surface: '#222222',
 
-    'primary-darken-1': '#1F5592',
-    'secondary-darken-1': '#018786',
-    'surface-bright': '#999999',
-    'surface-light': '#323232',
-    'surface-variant': '#454545',
-    'on-surface-variant': '#ffffff',
-
     tertiary: '#9E3E3B',
     quaternary: '#FFBB00',
-
-    d20: '#2B75B1',
-    d12: '#00CC88',
-    d10: '#9E3E3B',
-    d8: '#FFBB00',
-    d6: '#82B1FF',
-    d4: '#FF5252',
-
-    datetime: '#696969',
-    system: '#323232',
   },
   variables: {
+    primary: 'var(--v-primary)',
+
     'border-color': '#000000',
     'border-opacity': 0.12,
     'high-emphasis-opacity': 0.87,

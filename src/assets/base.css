@@ -51,7 +51,7 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
     --color-link: var(--vt-c-text-dark-1);
-    --color-link-hover: var(--vt-c-white);
+    --color-link-hover: var(--vt-c-primary);
   }
 }
 

@@ -1,1 +1,0 @@
-import{d as n,u as o,o as r,c,b as a,h as s,_ as t,F as u}from"./index-tsJXwpD5.js";const p=n({__name:"NuForge",setup(_){const e=o().tags;return(l,m)=>(r(),c(u,null,[a(t,{tags:s(e)},null,8,["tags"]),a(t,{tags:s(e)},null,8,["tags"])],64))}});export{p as default};

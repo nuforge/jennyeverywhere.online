@@ -1,6 +1,6 @@
 class CustomTag extends HTMLElement {
   connectedCallback() {
-    const tag = this.getAttribute('tag') || ''
+    //const tag = this.getAttribute('tag') || ''
     const color = this.getAttribute('color') || 'inherit'
     const icon = this.getAttribute('icon') || ''
 

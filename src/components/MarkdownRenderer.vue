@@ -46,7 +46,20 @@ function manageRightClick() {
 
 // MARK DOWN
 
-
+function linkCustomTags(tags: Array<Tag>, text?: string) {
+  //match.toLowerCase().replace(/\s/g, '-')
+  return tags.reduce((updatedText, tag) => {
+    const icon = tag.icon || 'default'
+    const color = tag.color || 'default'
+    const pattern = tag.name
+    const regex = escapePattern(pattern)
+    return updatedText.replace(
+      regex,
+      (match) =>
+        `<custom-tag tag="${match}" icon="${icon}" color="${color}">${match}</custom-tag>`,
+    )
+  }, text || '')
+}
 
 function linkTags(tags: Array<Tag>, text?: string) {
   //match.toLowerCase().replace(/\s/g, '-')
@@ -92,7 +105,7 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 
 function textToMarkdown(text: string) {
   //const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-  const md = linkTags(props.tags, text)
+  const md = linkCustomTags(props.tags, text)
   return markitdown(md)
 }
 

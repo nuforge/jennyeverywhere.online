@@ -98,8 +98,9 @@ export const useStateStore = defineStore('state', () => {
     if (event.key === 'd') {
       toggleDetails()
     }
-    if (event.key === 't') {
+    if (event.key === 't' || event.code === 'Space') {
       drawerToggle()
+      event.preventDefault()
     }
     if (event.key === 'Escape') {
       drawerClose()

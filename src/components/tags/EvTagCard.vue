@@ -21,14 +21,17 @@
         <v-card-text>
           <v-fade-transition>
 
-            <EvTagGroup v-show="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
+            <EvTagGroup v-if="mergedTags.length > 0" :tags="mergedTags" :labels="tray.labels" :colors="tray.colors"
               :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault"
               @drag-start="onDragStart" @drag-end="onDragEnd" />
 
           </v-fade-transition>
-          <v-divider v-show="mergedTags.length === 0 && showManager" class="align-center mt-6 mb-6 "
-            @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"><v-label>No
-              Tags</v-label></v-divider>
+          <div
+            class="d-flex align-center justify-center ma-2 mt-4 pa-1 rounded border-dashed border-md border-opacity-100 border-accent bg-surface opacity-30"
+            v-if="mergedTags.length === 0 && showManager" @dragover="preventDefault" @drop="onDragDrop"
+            @drag-end="onDragEnd"><v-label><v-icon icon='mdi-tag-arrow-down-outline' size="small"
+                density="compact"></v-icon></v-label>
+          </div>
 
         </v-card-text>
       </v-layout>

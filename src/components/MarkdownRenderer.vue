@@ -10,7 +10,7 @@ import Tag from '@/objects/Tag'
 import markdownit from 'markdown-it'
 
 
-const emit = defineEmits(['click', 'ctrl-click', 'click-right', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph'])
+const emit = defineEmits(['click', 'ctrl-click', 'click-right', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 
 const props = defineProps({
   text: {
@@ -28,14 +28,15 @@ function getTagFromEvent(event: MouseEvent) {
 
   if (target.tagName === 'A' || target.tagName === 'I') {
     //console.log('link:', new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined));
-    emit('click-tag', new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined))
+    emit('click-tag', event, new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined))
   }
 
   if (target.tagName === 'P') {
     const selectedText = window.getSelection()?.toString().trim();
-    console.log('P:', selectedText);
-    emit('click-body', new Tag(selectedText))
-    emit('click-tag', new Tag(selectedText))
+    if (selectedText) {
+      console.log('P:', selectedText);
+      emit('create-tag', event, new Tag(selectedText))
+    }
   }
 }
 

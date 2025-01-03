@@ -21,6 +21,7 @@ export const usePersonaStore = defineStore('persona', () => {
   const focus = ref(new Legend())
   const drawer = ref(false)
   const theme = useTheme()
+  const lastKey = ref('')
 
   const memory = ref(new Legend())
 
@@ -96,6 +97,24 @@ export const usePersonaStore = defineStore('persona', () => {
     return tagList as Tag[]
   })
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    console.log(`keydown: ${event.key}`)
+
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+    if (
+      !event.target ||
+      ignoredTags.includes((event.target as HTMLElement).tagName) ||
+      (event.target as HTMLElement).isContentEditable
+    ) {
+      console.log('Ignoring keydown event')
+      return
+    }
+    lastKey.value = event.key // Store the key that was pressed
+    if (event.key === 'f') {
+      drawer.value = true
+    }
+  }
+
   return {
     display,
     name,
@@ -117,5 +136,6 @@ export const usePersonaStore = defineStore('persona', () => {
     closeDrawer,
     drawer,
     themeBase,
+    handleKeydown,
   }
 })

@@ -39,6 +39,7 @@ watch(randomNumber.value, () => {
   selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))
 })
 
+dice.rollDice(1)
 
 
 </script>

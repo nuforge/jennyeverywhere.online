@@ -47,13 +47,16 @@ import DiceSnackbar from '@/components/game/DiceSnackbar.vue';
 import TagSnackbar from '@/components/tags/TagSnackbar.vue';
 import UndoSnackbar from '@/components/UndoSnackbar.vue';
 import { useStateStore } from '@/stores/state';
+import { usePersonaStore } from '@/stores/persona';
 import AvatarFab from './components/fabs/AvatarFab.vue';
 import TagFab from './components/fabs/TagFab.vue';
 const state = useStateStore()
+const persona = usePersonaStore()
 
 
 const handleKeydown = (event: KeyboardEvent) => {
   state.handleKeydown(event);
+  persona.handleKeydown(event);
 };
 
 

@@ -58,31 +58,32 @@ watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });
 
-const emit = defineEmits(['update:modelValue', 'click', 'ctrl-click', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
+const emit = defineEmits(['update:modelValue', 'click-tag', 'ctrl-click', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
 // TAGS & CLICKS
 function onClose(tag: Tag) {
-  console.log('onClose:Tag', tag)
+  //console.log('onClose:Tag', tag)
+  emit('close', tag)
 }
 
 function onClickTag(event: MouseEvent, tag: Tag) {
-  console.log('onClickTag:Tag', event, tag)
-  emit('click', event, tag)
+  //console.log('onClickTag:Tag', event, tag)
+  emit('click-tag', event, tag)
 }
 
 function onCtrlClick(event: MouseEvent, tag: Tag) {
-  console.log('onCtrlClickTag:Tag', event, tag)
+  //console.log('onCtrlClickTag:Tag', event, tag)
   emit('ctrl-click', event, tag)
 }
 
 function onRightClick(event: MouseEvent, tag: Tag) {
-  console.log('onRightClick:Tag', event, tag)
+  //console.log('onRightClick:Tag', event, tag)
 
   emit('right-click', event, tag)
 }
 
 function onDoubleClick(event: MouseEvent, tag: Tag) {
-  console.log('onDoubleClick:Tag', event, tag)
+  //console.log('onDoubleClick:Tag', event, tag)
   emit('double-click', event, tag)
 }
 
@@ -93,7 +94,7 @@ function onDoubleClick(event: MouseEvent, tag: Tag) {
 const onDragStart = (event: DragEvent, tag: Tag) => {
 
   event.dataTransfer?.setData('text/plain', tag.id);
-  console.log('onDragStart')
+  //console.log('onDragStart')
   emit('drag-start', event, tag)
 }
 

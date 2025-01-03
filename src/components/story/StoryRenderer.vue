@@ -34,7 +34,7 @@ const clickTag = (tag: string) => {
   // tags.addTag(newTag)
   // tags.triggerSnackbar(newTag)
   state.openDetails()
-  persona.focusOn(tag)
+  persona.focusOn(new Tag(tag))
   console.log('clickTag:', tag)
 }
 

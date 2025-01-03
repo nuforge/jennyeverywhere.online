@@ -40,13 +40,14 @@
             <h2>{{ name }}</h2>
             <MarkdownRenderer :text="body" :tags="selectedTags"
               :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
-              @click-body="onRightClick" @click-tag="onClickTag" />
+              @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
           </v-container>
         </v-fade-transition>
         <v-fade-transition>
-          <EvTagGroup v-model="selection" v-if="mergedTags.length > 0 && tray.tray" :tags="mergedTags"
-            :labels="tray.labels" :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
-            @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick" />
+          <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
+            :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable" :icons="tray.icons"
+            @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd"
+            @right-click="onRightClick" @click-tag="onClickTag" />
         </v-fade-transition>
         <v-fade-transition>
           <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
@@ -133,6 +134,10 @@ const props = defineProps({
   dense: {
     type: Boolean,
     default: false
+  },
+  multiple: {
+    type: Boolean,
+    default: true
   }
 
 })
@@ -141,7 +146,7 @@ const props = defineProps({
 
 // EMIT AND PROPS
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'click-tag'])
 
 watch(() => props.modelValue, (newVal) => {
   selection.value = newVal
@@ -150,15 +155,29 @@ watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });
 
+const onCreateTag = (event: MouseEvent, tag: Tag) => {
+  //console.log('onClickTag:Tag', event, tag)
+  persona.focusOn(tag, true)
+  persona.openDrawer()
 
-const onClickTag = (tag: Tag) => {
-  console.log('onClickTag:Tag', tag)
+}
+
+const onClickTag = (event: MouseEvent, tag: Tag) => {
+  //console.log('onClickTag:Tag', tag)
+  persona.focusOn(tag, true)
+  emit('click-tag', event, tag)
+
+}
+
+const onClickBody = (event: MouseEvent, tag: Tag) => {
+  //console.log('onClickTag:Tag', tag)
   persona.focusOn(tag, true)
 
 }
 
-const onRightClick = (tag: Tag) => {
-  console.log('onRightClick:Tag', tag)
+const onRightClick = (event: MouseEvent, tag: Tag) => {
+  //console.log('onRightClick:Tag', tag)
+  persona.focusOn(tag, true)
   persona.openDrawer()
 
 }
@@ -183,10 +202,10 @@ function focusEnd() {
 const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
 
   writeDataTransfer(event, 'tag', Array.isArray(payload) ? 'tags' : 'tag')
-  console.log('payload', payload)
+  //console.log('payload', payload)
   console.log('dataTransfer', event.dataTransfer?.getData('text/plain'))
   clipboard.copy(payload as Tag[])
-  console.log('clipboard', clipboard.clipboard) // Now what? Clipboard?
+  //console.log('clipboard', clipboard.clipboard) // Now what? Clipboard?
   state.dragStart()
   tray.value.dragStart()
 }

@@ -103,7 +103,7 @@ class Chaosinator {
   } // Generate 5 random icons
 
   color = () => {
-    return this.randomArrayValue(this.colors())
+    return this.randomArrayValue([...this.colors(), ...this.themecolors()])
   } // Generate 1 random color
 
   colors = () => {
@@ -128,6 +128,10 @@ class Chaosinator {
       'blue-grey',
       'grey',
     ]
+  }
+
+  themecolors = () => {
+    return ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error']
   }
 
   chaosinate(scale: number = this._scale) {

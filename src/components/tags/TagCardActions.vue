@@ -1,4 +1,5 @@
 <template>
+  <v-icon :icon="selectIcon" @click="$emit('toggle-select')" />
   <v-icon icon="mdi-drag" @dragstart="onDragStart($event, tags)" @dragend="$emit('drag-end', $event)" :draggable="true"
     class="grabbable" @click="$emit('toggle-select')" />
 
@@ -8,17 +9,16 @@
   <v-btn @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
     @drop="tagOrText" />
 
-
-
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useStateStore } from '@/stores/state';
 import Tag from '@/objects/Tag';
 
 const state = useStateStore()
 
-defineProps({
+const props = defineProps({
   closable: {
     type: Boolean,
     required: true
@@ -27,8 +27,17 @@ defineProps({
     type: Array as () => Tag[],
     required: true
   },
+  selection: {
+    type: Array as () => string[],
+    default: () => []
+  }
 })
 
+const selectedAll = computed(() => props.selection.length === props.tags.length)
+const selectedNone = computed(() => props.selection.length === 0)
+// const selectedSome = computed(() => props.selection.length > 0 && props.selection.length < props.tags.length)
+
+const selectIcon = computed(() => selectedAll.value ? 'mdi-checkbox-marked' : selectedNone.value ? 'mdi-checkbox-blank-outline' : 'mdi-checkbox-intermediate')
 
 const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'drag-start', 'drag-end', 'toggle-select'])
 

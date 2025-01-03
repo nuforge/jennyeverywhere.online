@@ -5,17 +5,16 @@
   </v-btn>
   <v-btn @click="emit('update:colors', !colors)" :icon="!colors ? `mdi-palette-outline` : `mdi-palette`">
   </v-btn>
-  <v-spacer></v-spacer>
   <v-btn @click="emit('update:tray', !tray)" :icon="!tray ? `mdi-tag-multiple-outline` : `mdi-tag-multiple`">
   </v-btn>
-  <v-btn @click="emit('update:bodys', !bodys)" :icon="!bodys ? `mdi-text-box-outline` : `mdi-text-box`">
+  <v-btn @click="emit('update:logs', !logs)" :icon="!logs ? `mdi-text-box-outline` : `mdi-text-box`">
   </v-btn>
 </template>
 
 <script setup lang="ts">
 
 
-const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:bodys'])
+const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:logs'])
 defineProps({
   tray: {
     type: Boolean,
@@ -33,7 +32,7 @@ defineProps({
     type: Boolean,
     required: true
   },
-  bodys: {
+  logs: {
     type: Boolean,
     required: true
   },

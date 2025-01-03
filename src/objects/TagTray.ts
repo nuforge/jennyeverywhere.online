@@ -11,12 +11,15 @@ class TagTray {
 
   // Styles
 
-  protected _closable = false
+  protected _tray = true
+
   protected _labels = true
   protected _icons = true
   protected _colors = true
+  protected _closable = false
+  protected _logs = true
   protected _bodys = true
-  protected _tray = true
+  protected _titles = true
 
   protected _tag: Tag
 
@@ -44,6 +47,18 @@ class TagTray {
 
   // GETTERS
 
+  get tray() {
+    return this._tray
+  }
+
+  get dragging() {
+    return this._dragging
+  }
+
+  get selected() {
+    return this._selected
+  }
+
   get id() {
     return this._id
   }
@@ -60,21 +75,7 @@ class TagTray {
     return this._legend.tags
   }
 
-  get selected() {
-    return this._selected
-  }
-
-  get closable() {
-    return this._closable
-  }
-
-  get bodys() {
-    return this._bodys
-  }
-
-  get tray() {
-    return this._tray
-  }
+  // STYLES
 
   get labels() {
     return this._labels
@@ -88,11 +89,34 @@ class TagTray {
     return this._colors
   }
 
-  get dragging() {
-    return this._dragging
+  get closable() {
+    return this._closable
+  }
+
+  get logs() {
+    return this._logs
+  }
+
+  get bodys() {
+    return this._bodys
+  }
+
+  get titles() {
+    return this._titles
   }
 
   // SETTERS
+  set tray(tray: boolean) {
+    this._tray = tray
+  }
+
+  set dragging(dragging: boolean) {
+    this._dragging = dragging
+  }
+
+  set selected(tags: Tag[]) {
+    this._selected = tags
+  }
 
   set id(id: string) {
     this._id = id
@@ -110,17 +134,7 @@ class TagTray {
     this._legend.addTags(tags)
   }
 
-  set selected(tags: Tag[]) {
-    this._selected = tags
-  }
-
-  set closable(closable: boolean) {
-    this._closable = closable
-  }
-
-  set tray(tray: boolean) {
-    this._tray = tray
-  }
+  // STYLES
 
   set labels(labels: boolean) {
     this._labels = labels
@@ -134,12 +148,20 @@ class TagTray {
     this._colors = colors
   }
 
+  set closable(closable: boolean) {
+    this._closable = closable
+  }
+
+  set logs(logs: boolean) {
+    this._logs = logs
+  }
+
   set bodys(bodys: boolean) {
     this._bodys = bodys
   }
 
-  set dragging(dragging: boolean) {
-    this._dragging = dragging
+  set titles(titles: boolean) {
+    this._titles = titles
   }
 
   // ACTIONS

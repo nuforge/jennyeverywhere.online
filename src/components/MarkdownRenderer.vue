@@ -56,8 +56,38 @@ function onRightClick(event: MouseEvent) {
 
 // MARK DOWN
 
+function escapePattern(pattern: string): string {
+  return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Escape special regex characters if pattern is a literal string
+function generateRegex(pattern: string): RegExp {
+  // Escape special regex characters
+  return new RegExp(`\\b${escapePattern(pattern)}\\b`, 'gi'); // Whole word match, case insensitive
+}
+
 function linkTags(tags: Array<Tag>, text?: string) {
-  //match.toLowerCase().replace(/\s/g, '-')
+  //match.toLowerCase().replace(/\s/g, '-') // Convert to lowercase and replace spaces with hyphens
+  const placeholders: Record<string, Tag> = {};
+  let modifiedText = text || '';
+  const sortedTags = [...tags].sort((a, b) => b.name.length - a.name.length);
+
+  // Replace matches with unique placeholders
+  for (const tag of sortedTags) {
+    const placeholder = `__PLACEHOLDER:${tag.name}__`;
+    placeholders[placeholder] = tag;
+
+    // Match tag name as a whole word (case insensitive)
+    const regex = generateRegex(tag.name)
+    modifiedText = modifiedText.replace(regex, placeholder);
+  }
+
+
+  // Replace placeholders with their final values
+  for (const [placeholder, replacement] of Object.entries(placeholders)) {
+    text = text?.replace(new RegExp(placeholder, 'g'), replacement.name);
+  }
+
   return tags.reduce((updatedText, tag) => {
     const icon = tag.icon || 'default'
     const color = tag.color || 'default'
@@ -72,14 +102,6 @@ function linkTags(tags: Array<Tag>, text?: string) {
   }, text || '')
 }
 
-
-// Escape special regex characters if pattern is a literal string
-function escapePattern(pattern: string) {
-  const escapedPattern =
-    typeof pattern === 'string' ? pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : pattern // If already a RegExp, use it as is
-  const regex = typeof pattern === 'string' ? new RegExp(`\\b${escapedPattern}\\b`, 'g') : pattern
-  return regex
-}
 
 const md = markdownit({
   html: true,

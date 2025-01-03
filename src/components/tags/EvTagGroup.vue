@@ -94,7 +94,6 @@ function onDoubleClick(event: MouseEvent, tag: Tag) {
 const onDragStart = (event: DragEvent, tag: Tag) => {
 
   event.dataTransfer?.setData('text/plain', tag.id);
-  //console.log('onDragStart')
   emit('drag-start', event, tag)
 }
 

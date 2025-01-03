@@ -5,25 +5,39 @@
       <v-col>
         <EvTrayCard :tags="(tags as Tag[])" name="Tag.inator (Random)" v-model="selected" :body="body" />
 
+      </v-col>
+
+      <v-col>
         <div v-for="themeColor in persona.themeBase" :key="themeColor">
           <v-chip class="ma-1" v-if="colorStats[themeColor]" prepend-icon="mdi-circle-opacity"
-            :text="`${themeColor}: ${colorStats[themeColor].count.toString()}`">
+            :text="`${colorStats[themeColor].count.toString()}`"
+            :variant="selected.includes(colorStats[themeColor].color) ? 'plain' : 'text'">
             <template #prepend>
               <v-icon :color="themeColor"></v-icon>
             </template></v-chip>
+        </div>
+        {{ colorStats }}
+      </v-col>
+      <v-col>
+
+        <div v-for="themeColor in persona.themeBase" :key="themeColor">
+          <v-chip class="ma-1" v-if="filteredColorStats[themeColor]" prepend-icon="mdi-circle-opacity"
+            :text="`${themeColor}: ${filteredColorStats[themeColor].count.toString()}`" variant="outlined">
+            <template #prepend>
+              <v-icon :color="themeColor"></v-icon>
+            </template>
+          </v-chip>
 
         </div>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col>
         <MarkdownRenderer :text="body" :tags="filtered" id="md_container" />
         <v-container>
           <EvTrayCard :tags="(deets.custom as Tag[])" v-model="userTags.selection" name="Parsed From HTML"
             :body="body" />
         </v-container>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
       </v-col>
       <v-col>
         <EvTrayCard :tags="persona.themeTags" name="theme" v-model="selected" />
@@ -68,6 +82,18 @@ const deets = computed(() => {
 })
 
 const colorStats = computed(() => {
+  return tags.value.reduce((acc, tag) => {
+    const color = tag.color || 'default'; // Fallback to 'default' if no color
+    if (!acc[color]) {
+      acc[color] = { color, count: 0, selected: selected.value.includes(tag.name) };
+    }
+    acc[color].count += 1;
+    return acc;
+  }, {} as Record<string, { color: string; count: number, selected: boolean }>);
+});
+
+
+const filteredColorStats = computed(() => {
   return filtered.value.reduce((acc, tag) => {
     const color = tag.color || 'default'; // Fallback to 'default' if no color
     if (!acc[color]) {
@@ -77,8 +103,6 @@ const colorStats = computed(() => {
     return acc;
   }, {} as Record<string, { color: string; count: number }>);
 });
-
-
 
 watch(randomNumber.value, () => {
   selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))

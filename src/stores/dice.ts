@@ -54,7 +54,7 @@ export const useDiceStore = defineStore('dice', () => {
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    console.log(`keydown: ${event.key}`)
+    //console.log(`keydown: ${event.key}`)
 
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (

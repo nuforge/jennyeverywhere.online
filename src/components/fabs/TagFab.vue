@@ -23,7 +23,6 @@ const onDragEnd = () => {
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
   if (event.dataTransfer) {
-
     //console.log(event.dataTransfer.getData('text/plain'));
   }
   if (state.dragging) {

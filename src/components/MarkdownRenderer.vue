@@ -10,7 +10,7 @@ import Tag from '@/objects/Tag'
 import markdownit from 'markdown-it'
 
 
-const emit = defineEmits(['click', 'ctrl-click', 'click-right', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
+const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 
 const props = defineProps({
   text: {
@@ -27,17 +27,22 @@ function getTagFromEvent(event: MouseEvent) {
   const target = event.target as HTMLElement;
 
   if (target.tagName === 'A' || target.tagName === 'I') {
-    //console.log('link:', new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined));
-    emit('click-tag', event, new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined))
+    const newTag = new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined)
+    emit('click-tag', event, newTag)
+    return newTag
   }
 
   if (target.tagName === 'P') {
+    console.log(target.tagName, window.getSelection());
     const selectedText = window.getSelection()?.toString().trim();
-    if (selectedText) {
+    if (selectedText && typeof selectedText === 'string') {
       console.log('P:', selectedText);
-      emit('create-tag', event, new Tag(selectedText))
+      const newTag = new Tag(selectedText)
+      emit('create-tag', event, newTag)
+      return newTag
     }
   }
+  return false
 }
 
 function onClick(event: MouseEvent) {
@@ -49,8 +54,8 @@ function onClick(event: MouseEvent) {
 
 function onRightClick(event: MouseEvent) {
   //console.log('onRightClick', event)
-  getTagFromEvent(event)
-  emit('click-right', event)
+  const tag = getTagFromEvent(event)
+  emit('right-click', event, tag)
 }
 
 
@@ -74,27 +79,28 @@ function linkTags(tags: Array<Tag>, text?: string) {
 
   // Replace matches with unique placeholders
   for (const tag of sortedTags) {
-    const placeholder = `__PLACEHOLDER:${tag.name}__`;
+    const placeholder = `__PLACEHOLDER_${tag.name}__`;
     placeholders[placeholder] = tag;
 
     // Match tag name as a whole word (case insensitive)
     const regex = generateRegex(tag.name)
+    //console.log('regex:', regex)
     modifiedText = modifiedText.replace(regex, placeholder);
   }
 
 
   // Replace placeholders with their final values
   for (const [placeholder, replacement] of Object.entries(placeholders)) {
-    text = text?.replace(new RegExp(placeholder, 'g'), replacement.name);
+    modifiedText = modifiedText?.replace(new RegExp(placeholder, 'g'), replacement.name);
   }
 
-  return tags.reduce((updatedText, tag) => {
+  return tags.reduce((modifiedText, tag) => {
     const icon = tag.icon || 'default'
     const color = tag.color || 'default'
     const pattern = tag.name
     const regex = escapePattern(pattern)
     // OLD:  `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`
-    return updatedText.replace(
+    return modifiedText.replace(
       regex,
       (match) =>
         `<custom-tag tag="${match}" color="${color}" icon="${icon}" >${match}</custom-tag>`,

@@ -17,12 +17,13 @@ export const usePersonaStore = defineStore('persona', () => {
   const display = ref(false)
   const name = ref<string | null>(null)
   const avatar = ref<string | null>(null)
-
-  const focus = ref(new Legend())
   const drawer = ref(false)
+
   const theme = useTheme()
   const lastKey = ref('')
 
+  const focus = ref(new Legend())
+  const currentTag = ref(new Tag())
   const memory = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
@@ -75,6 +76,7 @@ export const usePersonaStore = defineStore('persona', () => {
       focus.value.clearTags()
     }
     //openDrawer()
+    currentTag.value = tag
     return focus.value.add(tag)
   }
 
@@ -98,7 +100,7 @@ export const usePersonaStore = defineStore('persona', () => {
   })
 
   const handleKeydown = (event: KeyboardEvent) => {
-    console.log(`keydown: ${event.key}`)
+    //console.log(`keydown: ${event.key}`)
 
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (
@@ -124,6 +126,7 @@ export const usePersonaStore = defineStore('persona', () => {
     memory,
     myTheme,
     themeTags,
+    currentTag,
     show,
     hide,
     toggle,

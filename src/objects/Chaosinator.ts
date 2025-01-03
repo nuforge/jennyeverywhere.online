@@ -51,7 +51,7 @@ class Chaosinator {
   } // Generate  random sentences
 
   tag = (count: number = 1) => {
-    return new Tag(this.words(count) as string, this.color(), this.icon() as string)
+    return new Tag(this.words(count) as string, this.themecolor(), this.icon() as string)
   } // Generate
 
   tags = (count: number = 1): Tag[] => {
@@ -130,8 +130,22 @@ class Chaosinator {
     ]
   }
 
+  themecolor = () => {
+    return this.randomArrayValue(this.themecolors())
+  } // G
+
   themecolors = () => {
-    return ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error']
+    return [
+      'primary',
+      'secondary',
+      'accent',
+      'error',
+      'info',
+      'success',
+      'warning',
+      'background',
+      'surface',
+    ]
   }
 
   chaosinate(scale: number = this._scale) {

@@ -6,13 +6,14 @@
         <v-system-bar v-show="showManager" @dragover="preventDefault" class="align-center ga-2"
           :class="focus ? 'border-opacity-100' : 'border-opacity-52'">
 
-          <v-btn :icon="showActions ? 'mdi-menu-close' : 'mdi-menu'" @click="showActions = !showActions"
-            variant="plain" />
+          <v-btn :icon="showActions ? 'mdi-menu-close' : 'mdi-menu'" @click="showActions = !showActions" variant="plain"
+            @dragover="showActions = true" />
           <v-expand-x-transition>
             <v-card-actions v-if="showActions">
               <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable" :selection="selection"
                 @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
-                @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
+                @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd"
+                @toggle-select="doToggleSelect" />
             </v-card-actions>
           </v-expand-x-transition>
           <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'"
@@ -180,7 +181,7 @@ const onClickBody = (event: MouseEvent, tag: Tag) => {
 
 const onRightClick = (event: MouseEvent, tag: Tag) => {
   //console.log('onRightClick:Tag', tag)
-  persona.focusOn(tag, true)
+  if (tag) persona.focusOn(tag, true)
   persona.openDrawer()
 
 }
@@ -198,6 +199,14 @@ function focusStart() {
 
 function focusEnd() {
   focus.value = false
+}
+
+function doToggleSelect() {
+  if (selection.value.length === mergedTags.value.length) {
+    selection.value = []
+  } else {
+    selection.value = mergedTags.value.map(tag => tag.id)
+  }
 }
 
 // DRAG START

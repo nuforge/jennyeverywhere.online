@@ -1,13 +1,13 @@
 <template>
-  <v-icon :icon="selectIcon" @click="$emit('toggle-select')" />
-  <v-icon icon="mdi-drag" @dragstart="onDragStart($event, tags)" @dragend="$emit('drag-end', $event)" :draggable="true"
-    class="grabbable" @click="$emit('toggle-select')" />
+  <v-btn @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+    @drop="tagOrText" />
 
   <v-btn @click="$emit('update:closable', !closable)" :icon="closable ? `mdi-delete` : `mdi-delete-outline`"
     @drop="onDragDop($event, tags)" :draggable="true" @dragover="preventDefault($event)" />
 
-  <v-btn @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
-    @drop="tagOrText" />
+  <v-icon :icon="selectIcon" @click="$emit('toggle-select')" />
+  <v-icon icon="mdi-drag" @dragstart="onDragStart($event, tags)" @dragend="$emit('drag-end', $event)" :draggable="true"
+    class="grabbable" @click="$emit('toggle-select')" />
 
 </template>
 
@@ -37,7 +37,7 @@ const selectedAll = computed(() => props.selection.length === props.tags.length)
 const selectedNone = computed(() => props.selection.length === 0)
 // const selectedSome = computed(() => props.selection.length > 0 && props.selection.length < props.tags.length)
 
-const selectIcon = computed(() => selectedAll.value ? 'mdi-checkbox-marked' : selectedNone.value ? 'mdi-checkbox-blank-outline' : 'mdi-checkbox-intermediate')
+const selectIcon = computed(() => selectedAll.value ? 'mdi-checkbox-intermediate' : selectedNone.value ? 'mdi-checkbox-blank-outline' : 'mdi-checkbox-intermediate-variant')
 
 const emit = defineEmits(['update:closable', 'delete-drop', 'add-drop', 'add-text', 'drag-start', 'drag-end', 'toggle-select'])
 

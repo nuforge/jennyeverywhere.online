@@ -40,6 +40,34 @@ class Tag {
     return { value, namespace }
   }
 
+  attributesToTags = () => {
+    const attributes = {
+      id: this._id,
+      name: this._name,
+      type: this._type,
+      space: this._space,
+      icon: this._style?.icon,
+      color: this._style?.color,
+    }
+    const icons: { [key: string]: string } = {
+      id: 'mdi-identifier',
+      name: 'mdi-label-variant-outline',
+      type: 'mdi-label-outline',
+      space: 'mdi-tray',
+      icon: 'mdi-robot-outline',
+      color: 'mdi-circle-opacity',
+    }
+
+    return Object.entries(attributes)
+      .map(([key, value]) => {
+        if (value) {
+          return new Tag(`${key}:${value}`, 'accent', icons[key as keyof typeof icons])
+        }
+        return undefined
+      })
+      .filter((tag): tag is Tag => tag !== undefined)
+  }
+
   set(name: string, namespace: string) {
     this._name = name
     this._space = namespace

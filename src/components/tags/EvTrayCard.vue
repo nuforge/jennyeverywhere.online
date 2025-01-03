@@ -6,7 +6,6 @@
         <v-system-bar v-show="showManager" @dragover="preventDefault" class="align-center ga-2"
           :class="focus ? 'border-opacity-100' : 'border-opacity-52'">
 
-          <v-btn :icon="act ? 'mdi-dots-vertical' : 'mdi-dots-horizontal'" @click="act = !act" variant="plain"></v-btn>
           <v-expand-x-transition>
             <v-card-actions v-if="act">
               <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
@@ -14,8 +13,9 @@
                 @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
             </v-card-actions>
           </v-expand-x-transition>
-          <EvTag :text="name" :color="tray.tag.color" icon="mdi-tray-full" class="opacity-20 " :ripple="false"
-            variant="plain" @dragstart="onDragStart" :draggable="true" />
+          <EvTag :text="name" :color="tray.tag.color" :icon="act ? 'mdi-backburger' : 'mdi-tray-full'"
+            class="opacity-20 " :ripple="false" @click="act = !act" variant="plain" @dragstart="onDragStart"
+            :draggable="true" />
 
           <v-spacer></v-spacer>
 
@@ -77,14 +77,15 @@ const clipboard = useClipboardStore()
 
 // TAG TRAY
 const tray = ref(new TagTray())
+const legend = ref(new TagTray().map)
 const selection = ref<string[]>([])
 
 const manage = ref(false)
 const focus = ref(false)
 const min = ref(false)
-const act = ref(false)
+const act = ref(true)
 
-const mergedTags = computed(() => [...tray.value.tags, ...props.tags] as Tag[])
+const mergedTags = computed(() => [...legend.value.tags, ...props.tags] as Tag[])
 const showManager = computed(() => !props.dense && (focus.value || manage.value || state.tagmanager))
 const selectedTags = computed(() => { return mergedTags.value.filter(tag => selection.value.includes(tag.id)) })
 
@@ -182,19 +183,19 @@ const onDragEnd = () => {
 const onDragDrop = (event: DragEvent) => {
   if (event.dataTransfer) {
     if (event.dataTransfer.getData('text/plain')) {
-      //console.log('onDragDrop', event.dataTransfer.getData('text/plain').trim())
+      console.log('onDragDrop.dataTransfer', event.dataTransfer.getData('text/plain').trim())
+      legend.value.createTag(event.dataTransfer.getData('text/plain').trim())
       // props.tray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
-  //console.log('onDragDrop: ', clipboard.paste())
-  tray.value.copy(clipboard.paste(true) as Tag[])
+  legend.value.add(clipboard.paste(true) as Tag[])
   onDragEnd()
 
 }
 
 const onDeleteDropTags = () => {
   //console.log('onDeleteDropTags', clipboard.paste(), event)
-  tray.value.map.delete(clipboard.paste(true) as Tag[])
+  legend.value.delete(clipboard.paste(true) as Tag[])
   onDragEnd()
 }
 

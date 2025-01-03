@@ -1,6 +1,6 @@
 <template>
   <v-sheet flat class="bg-transparent">
-    <EvTagCard :body="story.raw" :name="story.title" :tags="tagMerge" class="story-body"
+    <EvTrayCard :body="story.raw" :name="story.title" :tags="tagMerge" class="story-body"
       @right-click="openAddTagDialog()" @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
   </v-sheet>
 </template>
@@ -12,7 +12,7 @@ import { useStateStore } from '@/stores/state'
 import { usePersonaStore } from '@/stores/persona'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
-import EvTagCard from '../tags/EvTrayCard.vue'
+import EvTrayCard from '@/components/tags/EvTrayCard.vue'
 
 const tags = useTagStore()
 const story = useStoryStore()
@@ -51,6 +51,7 @@ const onDragStart = (event: DragEvent) => {
   console.log('onDragStart', window)
   const selectedText = window.getSelection()?.toString().trim();
   if (selectedText) {
+    console.log('selectedText', selectedText)
     event.dataTransfer?.setData('text/plain', selectedText);
   }
   state.dragStart()

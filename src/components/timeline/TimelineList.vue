@@ -28,7 +28,7 @@
           <MarkdownRenderer :text="event.body" :tags="(event.tags as Tag[])" />
         </template>
         <template #default v-if="timeline.timelineBody">
-          <EvTagCard :body="event.body" :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain"
+          <EvTrayCard :body="event.body" :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain"
             :name="event.name" />
         </template>
 
@@ -46,7 +46,7 @@ import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TimelineStyles from './TimelineStyles.vue';
 import Log from '@/objects/Log';
-import EvTagCard from '../tags/EvTrayCard.vue';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 
 const story = useStoryStore()
 const tags = useTagStore()

@@ -143,7 +143,9 @@ class TagTray {
   }
 
   // ACTIONS
-
+  create(payload: string) {
+    this._legend.add(new Tag(payload))
+  }
   copy(copyValue: Tag | Tag[]) {
     if (Array.isArray(copyValue)) {
       return this._legend.addTags(copyValue)
@@ -184,6 +186,12 @@ class TagTray {
   // DRAG DROP
   dragDrop = (payload: Tag[]) => {
     this._legend.addTags(payload)
+    this._dragging = false
+  }
+
+  dropString = (payload: string) => {
+    console.log('dropString: ', payload, new Tag(payload))
+    this._legend.add(new Tag(payload))
     this._dragging = false
   }
 }

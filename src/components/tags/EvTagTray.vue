@@ -42,9 +42,10 @@ const onDragStart = (event: DragEvent) => {
 }
 
 const onDragDrop = (event: DragEvent) => {
+  console.log('onDragDrop', DragEvent)
   if (event.dataTransfer) {
     if (event.dataTransfer.getData('text/plain')) {
-      // console.log('onDragDrop', event.dataTransfer.getData('text/plain').trim())
+      console.log('onDragDrop -> dataTransfer:', event.dataTransfer.getData('text/plain').trim())
       // props.tagtray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
@@ -52,7 +53,6 @@ const onDragDrop = (event: DragEvent) => {
   props.tray.dragEnd()
 
   //props.tagtray.map.addTags(clipboard.paste(true) as Tag[])
-  console.log('onDragDrop', 'Todo: ADD Tags from Drop')
   emit('drop', event)
 }
 

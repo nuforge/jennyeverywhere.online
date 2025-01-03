@@ -25,7 +25,6 @@ const props = defineProps({
 
 function handleClick(event: MouseEvent) {
   const target = event.target as HTMLElement;
-  console.log('el:', target);
   if (target.tagName === 'A') {
     console.log('Matched link:', target.innerHTML.toLowerCase().replace(/\s/g, '-'));
     emit('click-tag', target.textContent?.toLowerCase().replace(/\s/g, '-'))

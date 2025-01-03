@@ -113,8 +113,8 @@ class MarkdownManager {
     }))
 
     const icons = Array.from(doc.querySelectorAll('i')).map((i) => ({
-      tag: 'i',
-      class: i.className,
+      name: 'i',
+      icon: i.className,
       text: i.textContent?.trim(),
     }))
 
@@ -122,8 +122,8 @@ class MarkdownManager {
       (custom) =>
         new Tag(
           custom.getAttribute('tag') || undefined,
-          custom.getAttribute('icon') || undefined,
           custom.getAttribute('color') || undefined,
+          custom.getAttribute('icon') || undefined,
         ),
     )
 

@@ -27,8 +27,8 @@ import { useDiceStore } from '@/stores/dice';
 
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
-import Chaosinator from '@/objects/Chaosinator';
-const inator = new Chaosinator()
+import Inator from '@/objects/Inator';
+const inator = new Inator()
 
 
 //const response = await fetch('@/public/icons.html');

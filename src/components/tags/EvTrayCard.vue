@@ -4,7 +4,7 @@
       :elevation="showManager ? 10 : 0" class="bg-transparent">
       <v-fade-transition>
         <v-system-bar v-show="showManager" @dragover="preventDefault" class="align-center ga-2"
-          :class="focus ? 'border-opacity-100' : 'border-opacity-52'">
+          :class="focus ? 'border-opacity-100' : 'border-opacity-52'" @dblclick="minimizeBar($event)">
 
           <v-btn :icon="showActions ? 'mdi-menu-close' : 'mdi-menu'" @click="showActions = !showActions" variant="plain"
             @dragover="showActions = true" />
@@ -37,26 +37,28 @@
         </v-system-bar>
       </v-fade-transition>
 
-      <v-card-text>
-        <v-fade-transition>
-          <v-container v-if="tray.logs && body">
-            <h2 v-if="tray.titles">{{ name }}</h2>
-            <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
-              :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
-              @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
-          </v-container>
-        </v-fade-transition>
-        <v-fade-transition>
-          <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
-            :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable" :icons="tray.icons"
-            @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd"
-            @right-click="onRightClick" @click-tag="onClickTag" />
-        </v-fade-transition>
-        <v-fade-transition>
-          <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
-            v-if="mergedTags.length === 0 && showManager" />
-        </v-fade-transition>
-      </v-card-text>
+      <v-fade-transition>
+        <v-card-text v-if="!minimized">
+          <v-fade-transition>
+            <v-container v-if="tray.logs && body">
+              <h2 v-if="tray.titles">{{ name }}</h2>
+              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
+                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
+                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
+            </v-container>
+          </v-fade-transition>
+          <v-fade-transition>
+            <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
+              :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable"
+              :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
+              @drag-end="onDragEnd" @right-click="onRightClick" @click-tag="onClickTag" />
+          </v-fade-transition>
+          <v-fade-transition>
+            <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
+              v-if="mergedTags.length === 0 && showManager" />
+          </v-fade-transition>
+        </v-card-text>
+      </v-fade-transition>
     </v-card>
   </v-layout>
 </template>
@@ -93,12 +95,19 @@ const manage = ref(false)
 const focus = ref(false)
 
 // Default Tray Settings
+const minimized = ref(false)
 const showStyles = ref(false)
 const showActions = ref(false)
 
 const mergedTags = computed(() => [...legend.value.tags, ...props.tags] as Tag[])
 const showManager = computed(() => !props.dense && (focus.value || manage.value || state.tagmanager))
 const selectedTags = computed(() => { return mergedTags.value.filter(tag => selection.value.includes(tag.id)) })
+
+const minimizeBar = (event: MouseEvent) => {
+  console.log(event)
+  showStyles.value = false
+  showActions.value = false
+}
 
 const props = defineProps({
   tag: {

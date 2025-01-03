@@ -9,7 +9,6 @@
 import { useTagStore } from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useStateStore } from '@/stores/state'
-import { usePersonaStore } from '@/stores/persona'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
 import EvTrayCard from '@/components/tags/EvTrayCard.vue'
@@ -17,7 +16,6 @@ import EvTrayCard from '@/components/tags/EvTrayCard.vue'
 const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
-const persona = usePersonaStore()
 
 const tagMerge = computed(() => {
   const mergedTags = [...tags.tags, ...story.tags] as Tag[]
@@ -33,16 +31,12 @@ const clickTag = (tag: string) => {
   // const newTag = new Tag(tag)
   // tags.addTag(newTag)
   // tags.triggerSnackbar(newTag)
-  state.openDetails()
-  persona.focusOn(new Tag(tag))
   console.log('clickTag:', tag)
 }
 
 
 const clickIcon = (tag: string, color: string, icon: string) => {
-  const newTag = new Tag(tag, color, icon)
-  tags.addTag(newTag)
-  tags.triggerSnackbar(newTag)
+
   console.log('clickIcon:', tag, color, icon)
 }
 

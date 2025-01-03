@@ -20,8 +20,8 @@
             <ColorAutocomplete v-model="color" label="color" />
             <v-card-actions>
               <v-btn icon="mdi-close" variant="plain" @click="addTagVisible = false" />
+              <EvTag :icon="icon" :color="color" :text="text"></EvTag>
               <v-spacer>
-                <EvTag :icon="icon" :color="color" :value="text"></EvTag>
               </v-spacer>
               <v-btn type="submit" icon="mdi-tag-plus" :disabled="!text" variant="text" />
             </v-card-actions>

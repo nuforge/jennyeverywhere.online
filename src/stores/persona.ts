@@ -74,7 +74,7 @@ export const usePersonaStore = defineStore('persona', () => {
     if (clear) {
       focus.value.clearTags()
     }
-    openDrawer()
+    //openDrawer()
     return focus.value.add(tag)
   }
 

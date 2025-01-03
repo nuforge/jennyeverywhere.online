@@ -23,12 +23,11 @@
             <v-icon :icon="event.icon" :color="event.color"></v-icon> {{ event.name }}
           </v-tooltip>
         </template>
-        <template #default v-if="timeline.timelineBody">
+        <template #opposite>
           <h2>{{ event.title }}</h2>
           <MarkdownRenderer :text="event.body" :tags="(event.tags as Tag[])" />
-
         </template>
-        <template v-slot:opposite>
+        <template #default v-if="timeline.timelineBody">
           <EvTagCard :body="event.body" :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain"
             :name="event.name" />
         </template>

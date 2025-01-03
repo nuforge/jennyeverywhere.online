@@ -5,8 +5,7 @@
     <template v-slot:actions>
       <v-btn @click="dice.snackbar = !dice.snackbar" icon="$close" size="small" variant="plain"> </v-btn>
     </template>
-
-    <EvTagGroup :tags="rollTags" />
+    <EvTrayCard :tags="rollTags" />
 
     <v-btn @click="dice.rollDice()" prepend-icon="$dice" size="small" block class="rounded" text="reroll"
       variant="plain"></v-btn>
@@ -16,7 +15,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useDiceStore } from '@/stores/dice';
-import EvTagGroup from '@/components/tags/EvTagGroup.vue';
 import Tag from '@/objects/Tag';
 const dice = useDiceStore();
 

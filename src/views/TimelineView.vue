@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <TimelineComponent />
+    <TimelineList />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import TimelineComponent from '@/components/timeline/TimelineComponent.vue';
+import TimelineList from '@/components/timeline/TimelineList.vue';
 </script>

@@ -30,7 +30,7 @@
 import { ref, computed } from 'vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
-import EvTagCard from '@/components/tags/EvTagCard.vue';
+import EvTagCard from '@/components/tags/EvTrayCard.vue';
 import ThemePalette from '@/components/ThemePalette.vue';
 
 import { usePersonaStore } from '@/stores/persona';

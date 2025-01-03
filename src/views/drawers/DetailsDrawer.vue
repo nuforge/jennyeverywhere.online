@@ -16,7 +16,7 @@
 
 import { usePersonaStore } from '@/stores/persona';
 import { useStateStore } from '@/stores/state';
-import EvTagCard from '@/components/tags/EvTagCard.vue';
+import EvTagCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag.ts';
 const state = useStateStore()
 const persona = usePersonaStore()

@@ -18,7 +18,7 @@ import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
 import image from '@/assets/images/characters/jenny-everywhere.png'
 import { useTagStore } from '@/stores/tags'
 import type Tag from '@/objects/Tag';
-import EvTagCard from '@/components/tags/EvTagCard.vue';
+import EvTagCard from '@/components/tags/EvTrayCard.vue';
 const tags = useTagStore()
 
 

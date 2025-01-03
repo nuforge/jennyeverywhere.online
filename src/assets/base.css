@@ -93,12 +93,12 @@ body {
 
 .grabbable {
   cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
+  cursor: grab !important;
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
 .grabbable:active {
-  cursor: grabbing;
+  cursor: grabbing !important;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }

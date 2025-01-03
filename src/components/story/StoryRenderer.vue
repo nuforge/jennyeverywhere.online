@@ -1,8 +1,7 @@
 <template>
   <v-sheet flat class="bg-transparent">
-    <h2>{{ story.title }}</h2>
-    <EvTagCard :body="story.raw" name="Story" :tags="tagMerge" class="story-body" @right-click="openAddTagDialog()"
-      @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
+    <EvTagCard :body="story.raw" :name="story.title" :tags="tagMerge" class="story-body"
+      @right-click="openAddTagDialog()" @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
   </v-sheet>
 </template>
 
@@ -13,7 +12,7 @@ import { useStateStore } from '@/stores/state'
 import { usePersonaStore } from '@/stores/persona'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
-import EvTagCard from '../tags/EvTagCard.vue'
+import EvTagCard from '../tags/EvTrayCard.vue'
 
 const tags = useTagStore()
 const story = useStoryStore()

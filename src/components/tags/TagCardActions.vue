@@ -1,13 +1,14 @@
 <template>
-
-  <v-icon @click="$emit('update:closable', !closable)" :icon="closable ? `mdi-delete-outline` : `mdi-delete`"
-    @drop="onDragDop($event, tags)" :draggable="true" @dragover="preventDefault($event)" />
-
-  <v-icon @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
-    @drop="tagOrText" />
-
   <v-icon icon="mdi-drag" @dragstart="onDragStart($event, tags)" @dragend="$emit('drag-end', $event)" :draggable="true"
     class="grabbable" @click="$emit('toggle-select')" />
+
+  <v-btn @click="$emit('update:closable', !closable)" :icon="closable ? `mdi-delete` : `mdi-delete-outline`"
+    @drop="onDragDop($event, tags)" :draggable="true" @dragover="preventDefault($event)" />
+
+  <v-btn @click="state.add = !state.add" :icon="state.add ? `mdi-tag-plus` : `mdi-tag-plus-outline`"
+    @drop="tagOrText" />
+
+
 
 </template>
 

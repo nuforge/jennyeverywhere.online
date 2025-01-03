@@ -17,7 +17,7 @@
             <v-text-field label="label" v-model="text" density="compact" variant="outlined"
               prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
             <tag-autocomplete v-model="icon" :prepend-inner-icon="icon" />
-            <ColorAutocomplete v-model="color" label="color" @update:model-value="color" />
+            <ColorAutocomplete v-model="color" label="color" />
             <v-card-actions>
               <v-btn icon="mdi-close" variant="plain" @click="addTagVisible = false" />
               <v-spacer>

@@ -6,7 +6,7 @@
         <v-icon @click="state.details = !state.details">mdi-close</v-icon>
       </v-card-title>
       <v-card-text>
-        <EvTagCard :tags="(persona.focus.tags as Tag[])" />
+        <EvTrayCard :tags="(persona.focus.tags as Tag[])" />
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
@@ -16,7 +16,7 @@
 
 import { usePersonaStore } from '@/stores/persona';
 import { useStateStore } from '@/stores/state';
-import EvTagCard from '@/components/tags/EvTrayCard.vue';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag.ts';
 const state = useStateStore()
 const persona = usePersonaStore()

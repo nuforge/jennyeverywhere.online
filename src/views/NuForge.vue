@@ -1,70 +1,57 @@
 <template>
   <v-container>
-    <v-divider>Theme Colors</v-divider>
-    <div class="d-flex justify-space-between">
-      <ThemePalette :filter="userColors" name="Primary" />
-      <ThemePalette :filter="utilityColors" name="Utility" />
-      <ThemePalette :filter="layoutColors" name="Layout" />
-    </div>
+    <custom-tag tag="name" icon="mdi-circle-opacity" color="error">custom tag test</custom-tag>:
+
+    <v-btn @click="roll" text="roll" />
     <v-divider>Active Trays</v-divider>
-    <EvTagCard :tags="persona.themeTags" name="Theme Tags" v-model="personaSelected" />
-    <EvTagCard :tags="story.tags" name="Tags" v-model="storySelected" />
+    <EvTrayCard :tags="(tags as Tag[])" name="Tags" v-model="selected" />
     <v-container>
       <v-row>
         <v-col>
-          <v-textarea v-model="logObj.body" label="log body" prepend-inner-icon="mdi-pencil" density="compact"
+          <v-textarea v-model="body" label="log body" prepend-inner-icon="mdi-pencil" density="compact"
             variant="solo-filled" clearable auto-grow />
         </v-col>
         <v-col>
-          <MarkdownRenderer :text="logObj.body" :tags="filteredTags" />
+          <MarkdownRenderer :text="body" :tags="filtered" />
         </v-col>
       </v-row>
-    </v-container>
-    <v-divider>custom tag</v-divider>
-    <custom-tag tag="name" icon="mdi-circle-opacity" color="error">srat</custom-tag>
+      <v-divider>selected</v-divider>
+      {{ selected }}
 
+      <v-divider>filtered</v-divider>
+      {{ filtered }}
+    </v-container>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import Tag from '@/objects/Tag'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+import { useDiceStore } from '@/stores/dice';
 
-import EvTagCard from '@/components/tags/EvTrayCard.vue';
-import ThemePalette from '@/components/ThemePalette.vue';
+import Chaosinator from '@/objects/Chaosinator';
 
-import { usePersonaStore } from '@/stores/persona';
-import { useStoryStore } from '@/stores/story';
-
-import Log from '@/objects/Log';
-
-const persona = usePersonaStore()
-const story = useStoryStore()
-
-const logObj = ref(new Log('test', `what's on the surface, one begins to wonder, in error, for this is no jetpack, Jenny Everywhere, let's go with the flamethrower instead?`))
-
-const personaSelected = ref<string[]>([])
-const storySelected = ref<string[]>(['jenny-everywhere', 'flamethrower'])
-
-const personaTags = computed(() => {
-  return persona.themeTags.filter(tag => personaSelected.value.includes(tag.id))
-})
-
-const allSelected = computed(() => {
-  return [...personaSelected.value, ...storySelected.value]
-})
-const allTags = computed(() => {
-  return [...personaTags.value, ...story.tags]
-})
-
-const filteredTags = computed(() => {
-  return allTags.value.filter(tag => allSelected.value.includes(tag.id))
-})
+const dice = useDiceStore()
+const inator = new Chaosinator()
+const selected = ref<string[]>([])
+const randomNumber = ref(dice)
 
 
-const userColors = ref(['primary', 'secondary', 'accent',])
-const utilityColors = ref(['error', 'info', 'success', 'warning'])
-const layoutColors = ref(['background', 'surface', 'accent'])
+const tags = computed(() => inator.tags(randomNumber.value.getResults()))
+const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
+
+const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name)))
+
+dice.rollDice(1, false)
+
+const roll = () => {
+  randomNumber.value.clearDice()
+  randomNumber.value.rollDice(1, false)
+  selected.value = tags.value.map((tag) => tag.name).slice(0, Math.floor(randomNumber.value.getResults() / 2))
+  console.log('selected', selected.value)
+}
 
 
 </script>

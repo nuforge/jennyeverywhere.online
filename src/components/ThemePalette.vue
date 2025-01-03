@@ -1,13 +1,13 @@
 <template>
   <v-container class="d-flex">
-    <EvTagCard :name="name" :tags="filtered" :labels="false" v-model="selection" />
+    <EvTrayCard :name="name" :tags="filtered" :labels="false" v-model="selection" />
   </v-container>
 </template>
 
 
 <script setup lang="ts">
 import { ref, defineProps, computed, watch } from 'vue';
-import EvTagCard from './tags/EvTrayCard.vue';
+import EvTrayCard from './tags/EvTrayCard.vue';
 
 import { usePersonaStore } from '@/stores/persona';
 const persona = usePersonaStore()

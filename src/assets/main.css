@@ -3,6 +3,7 @@
 @import './story.css';
 
 a {
+  color: var(--st-c-link);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -11,8 +12,4 @@ a {
 
 p {
   margin-bottom: 0.5rem;
-}
-
-.story-body {
-  color: var(--st-c-body);
 }

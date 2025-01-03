@@ -8,8 +8,12 @@ export const useDiceStore = defineStore('dice', () => {
   const timeout = ref(defaultTimeout)
   const snackbar = ref(false)
 
-  function rollDice(dCount: number = 1) {
-    triggerSnackbar()
+  function clearDice() {
+    die.value = new Dice(20)
+  }
+
+  function rollDice(dCount: number = 1, showSnackbar: boolean = false) {
+    if (showSnackbar) triggerSnackbar()
     return die.value.roll(dCount)
   }
 
@@ -56,6 +60,7 @@ export const useDiceStore = defineStore('dice', () => {
     getString,
     getFaces,
     getRolls,
+    clearDice,
     triggerSnackbar,
     clearSnackbar,
   }

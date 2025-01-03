@@ -1,7 +1,7 @@
 <template>
   <v-chip :text="text" :color="tagColor" :icon="icon" :value="tagValue" :prepend-icon="prependIcon" :id="value"
     :closable="closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onTagClick"
-    :variant="tagVariant">
+    :variant="tagVariant" @dblclick="onDoubleClick">
 
     <template #prepend>
       <v-fab-transition>
@@ -37,7 +37,7 @@ const prependIcon = computed(() => { return props.icon && props.text ? props.ico
 const iconColor = computed(() => { return !props.color ? 'accent' : props.color })
 const tagVariant = computed(() => { return (!tagLabel.value ? !props.icon ? props.selected ? 'tonal' : 'tonal' : 'text' : undefined) })
 
-const emit = defineEmits(['close', 'click-tag', 'click-icon', 'right-click'])
+const emit = defineEmits(['close', 'click-tag', 'click-icon', 'right-click', 'double-click'])
 
 function onTagClick() {
   emit('click-tag', props.value)
@@ -49,6 +49,11 @@ function onCloseTag() {
 
 function onClickIcon() {
   emit('click-icon', props.value)
+}
+
+function onDoubleClick() {
+  console.log('Double-click detected!');
+  emit('double-click', props.value)
 }
 
 function onRightClick(event: MouseEvent | KeyboardEvent) {

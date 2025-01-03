@@ -46,7 +46,7 @@ import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TimelineStyles from './TimelineStyles.vue';
 import Log from '@/objects/Log';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+import EvTrayCard from '../tags/EvTrayCard.vue';
 
 const story = useStoryStore()
 const tags = useTagStore()

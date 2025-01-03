@@ -23,7 +23,7 @@ class Legend extends Tag {
   }
 
   selection = (tags: Tag[]) => {
-    return this.tags.filter((tag) => tags.includes(tag))
+    return this.tags.filter((tag) => tags.includes(tag)) as Tag[]
   }
 
   difference(tags: Tag[]): Tag[] {
@@ -64,6 +64,12 @@ class Legend extends Tag {
     return
   }
 
+  create(note: string | string[]) {
+    if (Array.isArray(note)) {
+      return this.createTags(note)
+    }
+    return this.createTag(note)
+  }
   createTag(newName: string, newColor?: string, newIcon?: string): Tag {
     const tag = new Tag(newName)
     tag.icon = newIcon

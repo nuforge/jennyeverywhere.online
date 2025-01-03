@@ -16,6 +16,8 @@ const myCustomTheme = {
 
     tertiary: '#9E3E3B',
     quaternary: '#FFBB00',
+    'on-background': '#BBBBBB',
+    'on-surface': '#AAAAAA',
   },
   variables: {
     'border-color': '#000000',

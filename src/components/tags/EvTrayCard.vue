@@ -6,21 +6,21 @@
         <v-system-bar v-show="showManager" @dragover="preventDefault" class="align-center ga-2"
           :class="focus ? 'border-opacity-100' : 'border-opacity-52'">
 
+          <v-btn :icon="showActions ? 'mdi-menu-close' : 'mdi-menu'" @click="showActions = !showActions"
+            variant="plain" />
           <v-expand-x-transition>
-            <v-card-actions v-if="act">
+            <v-card-actions v-if="showActions">
               <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable"
                 @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
                 @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd" />
             </v-card-actions>
           </v-expand-x-transition>
-          <EvTag :text="name" :color="tray.tag.color" :icon="act ? 'mdi-backburger' : 'mdi-tray-full'"
-            class="opacity-20 " :ripple="false" @click="act = !act" variant="plain" @dragstart="onDragStart"
-            :draggable="true" />
-
+          <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'"
+            :ripple="false" variant="plain" @dragstart="onDragStart" :draggable="true" />
           <v-spacer></v-spacer>
 
           <v-expand-x-transition>
-            <v-card-actions v-if="min">
+            <v-card-actions v-if="showStyles">
               <TagCardStyles :tray="tray.tray" :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
                 :bodys="tray.bodys" @update:tray="(value: boolean) => { tray.tray = value }"
                 @update:labels="(value: boolean) => { tray.labels = value }"
@@ -29,8 +29,8 @@
                 @update:bodys="(value: boolean) => { tray.bodys = value }" />
             </v-card-actions>
           </v-expand-x-transition>
-          <v-btn :icon="min ? 'mdi-menu-open' : 'mdi-menu'" @click="min = !min" variant="plain"></v-btn>
-
+          <v-btn :icon="showStyles ? 'mdi-dots-vertical' : 'mdi-dots-horizontal'" @click="showStyles = !showStyles"
+            variant="plain"></v-btn>
         </v-system-bar>
       </v-fade-transition>
 
@@ -38,7 +38,8 @@
         <v-fade-transition>
           <v-container v-if="tray.bodys && body">
             <h2>{{ name }}</h2>
-            <MarkdownRenderer :text="body" :tags="selectedTags" />
+            <MarkdownRenderer :text="body" :tags="selectedTags"
+              :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" />
           </v-container>
         </v-fade-transition>
         <v-fade-transition>
@@ -82,8 +83,10 @@ const selection = ref<string[]>([])
 
 const manage = ref(false)
 const focus = ref(false)
-const min = ref(false)
-const act = ref(true)
+
+// Default Tray Settings
+const showStyles = ref(false)
+const showActions = ref(false)
 
 const mergedTags = computed(() => [...legend.value.tags, ...props.tags] as Tag[])
 const showManager = computed(() => !props.dense && (focus.value || manage.value || state.tagmanager))

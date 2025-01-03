@@ -21,6 +21,8 @@ export const usePersonaStore = defineStore('persona', () => {
   const focus = ref(new Legend())
   const theme = useTheme()
 
+  const memory = ref(new Legend())
+
   const myTheme = ref(theme.global.current.value)
   const themeBase = [
     'primary',
@@ -33,6 +35,14 @@ export const usePersonaStore = defineStore('persona', () => {
     'background',
     'surface',
   ]
+
+  function note(note: string | string[]) {
+    memory.value.create(note)
+  }
+
+  function tag(tag: Tag | Tag[]) {
+    memory.value.add(tag)
+  }
 
   function show() {
     display.value = true
@@ -75,6 +85,7 @@ export const usePersonaStore = defineStore('persona', () => {
     avatar,
     focus,
     theme,
+    memory,
     myTheme,
     themeTags,
     show,
@@ -82,6 +93,8 @@ export const usePersonaStore = defineStore('persona', () => {
     toggle,
     focusOn,
     randomAvatar,
+    note,
+    tag,
     themeBase,
   }
 })

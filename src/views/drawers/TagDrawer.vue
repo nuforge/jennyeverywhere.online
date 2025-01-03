@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200">
-    <EvTrayCard :tags="(tags.tags as Tag[])" :title="false" />
+    <EvTrayCard :tags="(tags.tags as Tag[])" :title="false" v-model="tags.selection" />
   </v-navigation-drawer>
 </template>
 

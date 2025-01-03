@@ -6,7 +6,11 @@ import Legend from '@/objects/Legend'
 export const useTagStore = defineStore('tags', () => {
   const tagMap = ref(new Legend())
   const selection = ref<string[]>([''])
-  const selected = computed(() => selection.value.map((tag) => tagMap.value.getTag(tag)))
+  const selected = computed(() =>
+    selection.value
+      .map((tag) => tagMap.value.getTag(tag))
+      .filter((tag): tag is Tag => tag !== undefined),
+  )
   const tags = computed(() => tagMap.value.tags)
   const clipboard = ref(new Tag(''))
 

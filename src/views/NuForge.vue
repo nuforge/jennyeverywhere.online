@@ -1,20 +1,34 @@
 <template>
-  <v-container>
 
-    <v-container>
-      <v-row>
-        <v-col>
-          <EvTrayCard :tags="(tags as Tag[])" name="Tags" v-model="selected" :body="body" />
-        </v-col>
-        <v-col>
-          <MarkdownRenderer :text="body" :tags="filtered" id="md_container" />
-          <v-container>
-            <h3>Tags from HTML</h3>
-            <EvTrayCard :tags="(deets.custom as Tag[])" name="Generated" />
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
+  <v-container>
+    <v-row>
+      <v-col>
+        <EvTrayCard :tags="(tags as Tag[])" name="Tag.inator (Random)" v-model="selected" :body="body" />
+
+        <div v-for="themeColor in persona.themeBase" :key="themeColor">
+          <v-chip class="ma-1" v-if="colorStats[themeColor]" prepend-icon="mdi-circle-opacity"
+            :text="`${themeColor}: ${colorStats[themeColor].count.toString()}`">
+            <template #prepend>
+              <v-icon :color="themeColor"></v-icon>
+            </template></v-chip>
+
+        </div>
+      </v-col>
+      <v-col>
+        <MarkdownRenderer :text="body" :tags="filtered" id="md_container" />
+        <v-container>
+          <EvTrayCard :tags="(deets.custom as Tag[])" v-model="userTags.selection" name="Parsed From HTML"
+            :body="body" />
+        </v-container>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+      </v-col>
+      <v-col>
+        <EvTrayCard :tags="persona.themeTags" name="theme" v-model="selected" />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -24,11 +38,17 @@ import Tag from '@/objects/Tag'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import { useDiceStore } from '@/stores/dice';
+import { useTagStore } from '@/stores/tags';
+import { usePersonaStore } from '@/stores/persona';
+
 
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 import Inator from '@/objects/Inator';
 const inator = new Inator()
+
+const userTags = useTagStore()
+const persona = usePersonaStore()
 
 
 //const response = await fetch('@/public/icons.html');
@@ -38,18 +58,27 @@ const dice = useDiceStore()
 const selected = ref<string[]>([])
 const randomNumber = ref(dice)
 
-
-const tags = computed(() => inator.tags(randomNumber.value.getResults()))
+const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
 const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name)))
 
 const deets = computed(() => {
-  console.log('md_container', document.getElementById('md_container'))
-  console.log('body.value', markdowninator.htmlToTags(body.value))
   const textToMarkdown = markdowninator.textToMarkdown(body.value, filtered.value)
-  console.log('textToMarkdown', textToMarkdown)
   return markdowninator.htmlToTags(textToMarkdown)
 })
+
+const colorStats = computed(() => {
+  return filtered.value.reduce((acc, tag) => {
+    const color = tag.color || 'default'; // Fallback to 'default' if no color
+    if (!acc[color]) {
+      acc[color] = { color, count: 0 };
+    }
+    acc[color].count += 1;
+    return acc;
+  }, {} as Record<string, { color: string; count: number }>);
+});
+
+
 
 watch(randomNumber.value, () => {
   selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))
@@ -57,8 +86,8 @@ watch(randomNumber.value, () => {
 
 dice.rollDice(1)
 
+inator.iconTags()
 // HTML PARSER ----
-
 
 
 </script>

@@ -1,7 +1,7 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
 import Tag from '@/objects/Tag'
-import IconsJSON from '@/assets/icons.json'
+import IconsJSON from '@/assets/mdi-icons.json'
 
 class Chaosinator {
   private _scale: number
@@ -101,6 +101,27 @@ class Chaosinator {
 
     return randomIcons
   } // Generate 5 random icons
+
+  iconTag = (): Tag => {
+    const icon = this.randomArrayValue(IconsJSON)
+    return new Tag(`${icon.name}`, `mdi-${icon.name}`)
+  }
+
+  iconTags = (count: number = 1): Tag[] => {
+    const formatName = (name: string) => {
+      return name
+        .replace(/-/g, ' ') // Replace hyphens with spaces
+        .replace(/\bmdi\b/gi, '') // Remove "mdi" prefix (if needed, optional)
+        .trim() // Clean up leading/trailing spaces
+    }
+
+    const getColor = () => this.themecolor()
+
+    const icons = IconsJSON.map(
+      (icon) => new Tag(formatName(icon.name), getColor(), `mdi-${icon.name}`),
+    )
+    return this.shuffleArray(icons).slice(0, count)
+  }
 
   color = () => {
     return this.randomArrayValue([...this.colors(), ...this.themecolors()])

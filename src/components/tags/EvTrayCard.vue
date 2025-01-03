@@ -39,13 +39,14 @@
           <v-container v-if="tray.bodys && body">
             <h2>{{ name }}</h2>
             <MarkdownRenderer :text="body" :tags="selectedTags"
-              :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" />
+              :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
+              @click-body="onRightClick" @click-tag="onClickTag" />
           </v-container>
         </v-fade-transition>
         <v-fade-transition>
           <EvTagGroup v-model="selection" v-if="mergedTags.length > 0 && tray.tray" :tags="mergedTags"
             :labels="tray.labels" :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
-            @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" />
+            @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick" />
         </v-fade-transition>
         <v-fade-transition>
           <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
@@ -72,7 +73,9 @@ import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import EvTag from './EvTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';
+import { usePersonaStore } from '@/stores/persona';
 
+const persona = usePersonaStore()
 const state = useStateStore()
 const clipboard = useClipboardStore()
 
@@ -147,6 +150,18 @@ watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });
 
+
+const onClickTag = (tag: Tag) => {
+  console.log('onClickTag:Tag', tag)
+  persona.focusOn(tag, true)
+
+}
+
+const onRightClick = (tag: Tag) => {
+  console.log('onRightClick:Tag', tag)
+  persona.openDrawer()
+
+}
 
 function hoverStart() {
   manage.value = true

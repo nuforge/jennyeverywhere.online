@@ -1,5 +1,5 @@
 <template>
-  <div id="markdown-renderer" class="markdown-body" @click.right.prevent="manageRightClick" @click="handleClick">
+  <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
     <div v-show="text" v-html="textToMarkdown(text)"></div>
   </div>
@@ -10,7 +10,7 @@ import Tag from '@/objects/Tag'
 import markdownit from 'markdown-it'
 
 
-const emit = defineEmits(['click', 'ctrl-click', 'click-right', 'click-tag', 'click-icon'])
+const emit = defineEmits(['click', 'ctrl-click', 'click-right', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph'])
 
 const props = defineProps({
   text: {
@@ -23,27 +23,33 @@ const props = defineProps({
   }
 })
 
-function handleClick(event: MouseEvent) {
+function getTagFromEvent(event: MouseEvent) {
   const target = event.target as HTMLElement;
-  if (target.tagName === 'A') {
-    console.log('Matched link:', target.innerHTML.toLowerCase().replace(/\s/g, '-'));
-    emit('click-tag', target.textContent?.toLowerCase().replace(/\s/g, '-'))
+
+  if (target.tagName === 'A' || target.tagName === 'I') {
+    //console.log('link:', new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined));
+    emit('click-tag', new Tag(target.getAttribute('tag') || undefined, target.getAttribute('color') || undefined, target.getAttribute('icon') || undefined))
   }
 
-  if (target.tagName === 'I') {
-    console.log('Matched icon:', target.classList[1], target.classList[2].toString().replace('text-', ''));
-    emit('click-icon', target.getAttribute('tag'), target.getAttribute('color'), target.getAttribute('icon'))
+  if (target.tagName === 'P') {
+    const selectedText = window.getSelection()?.toString().trim();
+    console.log('P:', selectedText);
+    emit('click-body', new Tag(selectedText))
+    emit('click-tag', new Tag(selectedText))
   }
-  if (target.tagName === 'CUSTOMTAG') {
-    console.log('Matched tag:', target.classList[1], target.classList[2].toString().replace('text-', ''));
-    emit('click-icon', target.getAttribute('tag'), target.getAttribute('color'), target.getAttribute('icon'))
-  }
-  //router.push('/tags/ ')
-
 }
 
-function manageRightClick() {
-  emit('click-right')
+function onClick(event: MouseEvent) {
+  //console.log('onClick')
+  //router.push('/tags/ ')
+  //getTagFromEvent(event)
+  emit('click', event)
+}
+
+function onRightClick(event: MouseEvent) {
+  //console.log('onRightClick', event)
+  getTagFromEvent(event)
+  emit('click-right', event)
 }
 
 

@@ -4,7 +4,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <EvTrayCard :tags="(tags as Tag[])" name="Tags" v-model="selected" />
+          <EvTrayCard :tags="(tags as Tag[])" name="Tags" v-model="selected" :body="body" />
         </v-col>
         <v-col>
           <MarkdownRenderer :text="body" :tags="filtered" />
@@ -35,9 +35,8 @@ const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.
 const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name)))
 
 
-watch(randomNumber.value, (newVal) => {
+watch(randomNumber.value, () => {
   selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))
-  console.log('watch', newVal)
 })
 
 

@@ -86,7 +86,7 @@ export const useStateStore = defineStore('state', () => {
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    console.log(`Key pressed: ${event.key}`)
+    console.log(`keydown: ${event.key}`)
 
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (

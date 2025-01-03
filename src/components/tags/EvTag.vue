@@ -52,7 +52,6 @@ function onClickIcon(event: MouseEvent | KeyboardEvent) {
 }
 
 function onDoubleClick(event: MouseEvent | KeyboardEvent) {
-  console.log('Double-click detected!');
   emit('double-click', event, props.value)
 }
 

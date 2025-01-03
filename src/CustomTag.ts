@@ -1,10 +1,10 @@
 class CustomTag extends HTMLElement {
   connectedCallback() {
-    //const tag = this.getAttribute('tag') || ''
+    const tag = this.getAttribute('tag') || ''
     const color = this.getAttribute('color') || 'inherit'
     const icon = this.getAttribute('icon') || ''
 
-    this.innerHTML = `<i class="mdi ${icon} text-${color}"></i> <a>${this.innerHTML}</a>`
+    this.innerHTML = `<i class="mdi ${icon} text-${color}" tag="${tag}" color="${color}" icon="${icon}"></i> <a tag="${tag}" color="${color}" icon="${icon}">${this.innerHTML}</a>`
     this.style.color = color
   }
 }

@@ -16,9 +16,7 @@
 Finalizes the styles (icon, color, label, closable) for display and sends to the Tag
 */
 import { ref, watch, defineProps, defineEmits } from 'vue';
-import { usePersonaStore } from '@/stores/persona';
 
-const persona = usePersonaStore()
 
 
 import Tag from '@/objects/Tag'
@@ -63,30 +61,29 @@ watch(() => selection.value, (newVal) => {
 const emit = defineEmits(['update:modelValue', 'click', 'ctrl-click', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
 // TAGS & CLICKS
-function onClickTag(event: MouseEvent, tag: Tag) {
-  console.log('onClickTag:Tag', tag)
-  emit('click', tag)
-}
-
 function onClose(tag: Tag) {
   console.log('onClose:Tag', tag)
 }
 
+function onClickTag(event: MouseEvent, tag: Tag) {
+  console.log('onClickTag:Tag', event, tag)
+  emit('click', event, tag)
+}
+
 function onCtrlClick(event: MouseEvent, tag: Tag) {
-  console.log('onCtrlClickTag:Tag', tag)
-  emit('ctrl-click', tag)
+  console.log('onCtrlClickTag:Tag', event, tag)
+  emit('ctrl-click', event, tag)
 }
 
 function onRightClick(event: MouseEvent, tag: Tag) {
-  console.log('onRightClick:Tag', tag)
+  console.log('onRightClick:Tag', event, tag)
 
-  persona.focusOn(tag, true)
-  emit('right-click')
+  emit('right-click', event, tag)
 }
 
 function onDoubleClick(event: MouseEvent, tag: Tag) {
-  console.log('onDoubleClick:Tag', tag)
-  emit('double-click')
+  console.log('onDoubleClick:Tag', event, tag)
+  emit('double-click', event, tag)
 }
 
 

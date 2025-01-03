@@ -7,12 +7,14 @@ export const useDiceStore = defineStore('dice', () => {
   const defaultTimeout = 4000
   const timeout = ref(defaultTimeout)
   const snackbar = ref(false)
+  const lastKey = ref('')
 
   function clearDice() {
     die.value = new Dice(20)
   }
 
   function rollDice(dCount: number = 1, showSnackbar: boolean = false) {
+    clearDice()
     if (showSnackbar) triggerSnackbar()
     return die.value.roll(dCount)
   }
@@ -50,6 +52,24 @@ export const useDiceStore = defineStore('dice', () => {
       snackbar.value = true
     }
   }
+
+  const handleKeydown = (event: KeyboardEvent) => {
+    console.log(`Key pressed: ${event.key}`)
+
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+    if (
+      !event.target ||
+      ignoredTags.includes((event.target as HTMLElement).tagName) ||
+      (event.target as HTMLElement).isContentEditable
+    ) {
+      console.log('Ignoring keydown event')
+      return
+    }
+    lastKey.value = event.key // Store the key that was pressed
+    if (event.key === 'd') {
+      rollDice()
+    }
+  }
   return {
     die,
     timeout,
@@ -62,6 +82,7 @@ export const useDiceStore = defineStore('dice', () => {
     getRolls,
     clearDice,
     triggerSnackbar,
+    handleKeydown,
     clearSnackbar,
   }
 })

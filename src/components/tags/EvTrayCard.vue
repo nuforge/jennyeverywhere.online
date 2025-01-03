@@ -140,6 +140,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+watch(() => props.modelValue, (newVal) => {
+  selection.value = newVal
+});
 watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });

@@ -62,6 +62,22 @@ class Chaosinator {
     return tags
   } // Generate 5 random tags
 
+  ntag = (space?: string, count: number = 1): Tag => {
+    return new Tag(
+      `${space ?? this.words(count)}:${this.words(count)}`,
+      this.color(),
+      this.icon() as string,
+    )
+  } // Generate 5 random tags
+
+  ntags = (count: number = 1, space?: string): Tag[] => {
+    const tags = [] as Tag[]
+    for (let i = 0; i < count; i++) {
+      tags.push(this.ntag(space))
+    }
+    return tags
+  } // Generate 5 random tags
+
   icon = () => {
     return this.icons(1).toString()
   } // Generate 1 random icon

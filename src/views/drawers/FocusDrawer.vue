@@ -1,9 +1,9 @@
 <template>
-  <v-navigation-drawer v-model="state.details" app right width="300">
+  <v-navigation-drawer v-model="persona.drawer" app right width="300">
 
     <v-card>
       <v-card-title>
-        <v-icon @click="state.details = !state.details">mdi-close</v-icon>
+        <v-icon @click="persona.drawer = !persona.drawer">mdi-close</v-icon>
       </v-card-title>
       <v-card-text>
         <EvTrayCard :tags="(persona.focus.tags as Tag[])" />
@@ -15,10 +15,8 @@
 <script setup lang="ts">
 
 import { usePersonaStore } from '@/stores/persona';
-import { useStateStore } from '@/stores/state';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag.ts';
-const state = useStateStore()
 const persona = usePersonaStore()
 
 </script>

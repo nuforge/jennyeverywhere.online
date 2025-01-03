@@ -102,9 +102,6 @@ export const useStateStore = defineStore('state', () => {
       undo.value = true
       router.push('/nuforge')
     }
-    if (event.key === 'd') {
-      toggleDetails()
-    }
     if (event.ctrlKey && event.code === 'Space') {
       SPECIAL()
       event.preventDefault()

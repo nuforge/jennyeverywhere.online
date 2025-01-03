@@ -4,8 +4,9 @@
       class="d-flex flex-column px-2 mx-auto justify-center">
       <EvTag v-for="tag in tags" :tag="tag" :key="tag.name" :text="labels ? tag.name : undefined"
         :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable :closable="closable"
-        @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick(tag)"
-        @right-click="onRightClick" @click-tag="onClickTag" />
+        @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick($event, tag)"
+        @right-click="onRightClick($event, tag)" @click-tag="onClickTag($event, tag)"
+        @double-click="onDoubleClick($event, tag)" />
     </v-chip-group>
   </v-fade-transition>
 </template>
@@ -14,8 +15,11 @@
 /* Manages content for a group of tags in a chip group
 Finalizes the styles (icon, color, label, closable) for display and sends to the Tag
 */
-
 import { ref, watch, defineProps, defineEmits } from 'vue';
+import { usePersonaStore } from '@/stores/persona';
+
+const persona = usePersonaStore()
+
 
 import Tag from '@/objects/Tag'
 import EvTag from '@/components/tags/EvTag.vue'
@@ -23,7 +27,7 @@ import EvTag from '@/components/tags/EvTag.vue'
 // EMIT AND PROPS
 const selection = ref<string[]>([])
 
-defineProps({
+const props = defineProps({
   tags: {
     type: Array as () => Tag[]
   }, // Initial selected tags
@@ -49,26 +53,40 @@ defineProps({
   },
 })
 
+watch(() => props.modelValue, (newVal) => {
+  selection.value = newVal
+});
 watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });
 
-const emit = defineEmits(['update:modelValue', 'click', 'ctrl-click', 'right-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
+const emit = defineEmits(['update:modelValue', 'click', 'ctrl-click', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
 // TAGS & CLICKS
-function onClickTag() {
+function onClickTag(event: MouseEvent, tag: Tag) {
+  console.log('onClickTag:Tag', tag)
+  emit('click', tag)
 }
 
 function onClose(tag: Tag) {
-  console.log('onClose', tag)
+  console.log('onClose:Tag', tag)
 }
 
-function onCtrlClick(tag: Tag) {
+function onCtrlClick(event: MouseEvent, tag: Tag) {
+  console.log('onCtrlClickTag:Tag', tag)
   emit('ctrl-click', tag)
 }
 
-function onRightClick() {
+function onRightClick(event: MouseEvent, tag: Tag) {
+  console.log('onRightClick:Tag', tag)
+
+  persona.focusOn(tag, true)
   emit('right-click')
+}
+
+function onDoubleClick(event: MouseEvent, tag: Tag) {
+  console.log('onDoubleClick:Tag', tag)
+  emit('double-click')
 }
 
 

@@ -39,25 +39,25 @@ const tagVariant = computed(() => { return (!tagLabel.value ? !props.icon ? prop
 
 const emit = defineEmits(['close', 'click-tag', 'click-icon', 'right-click', 'double-click'])
 
-function onTagClick() {
-  emit('click-tag', props.value)
+function onTagClick(event: MouseEvent | KeyboardEvent) {
+  emit('click-tag', event, props.value)
 }
 
-function onCloseTag() {
-  emit('close', props.value)
+function onCloseTag(event: MouseEvent) {
+  emit('close', event, props.value)
 }
 
-function onClickIcon() {
-  emit('click-icon', props.value)
+function onClickIcon(event: MouseEvent | KeyboardEvent) {
+  emit('click-icon', event, props.value)
 }
 
-function onDoubleClick() {
+function onDoubleClick(event: MouseEvent | KeyboardEvent) {
   console.log('Double-click detected!');
-  emit('double-click', props.value)
+  emit('double-click', event, props.value)
 }
 
 function onRightClick(event: MouseEvent | KeyboardEvent) {
-  emit('right-click', event)
+  emit('right-click', event, props.value)
 }
 // Props
 const props = defineProps

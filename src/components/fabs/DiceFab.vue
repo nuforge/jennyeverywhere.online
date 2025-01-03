@@ -7,10 +7,23 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
 
 import { useDiceStore } from '@/stores/dice';
 
 const dice = useDiceStore()
 
+const handleKeydown = (event: KeyboardEvent) => {
+  dice.handleKeydown(event);
+};
+
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 
 </script>

@@ -5,7 +5,7 @@
   </v-btn>
   <v-btn @click="emit('update:colors', !colors)" :icon="!colors ? `mdi-palette-outline` : `mdi-palette`">
   </v-btn>
-  <v-divider vertical></v-divider>
+  <v-spacer></v-spacer>
   <v-btn @click="emit('update:tray', !tray)" :icon="!tray ? `mdi-tag-multiple-outline` : `mdi-tag-multiple`">
   </v-btn>
   <v-btn @click="emit('update:bodys', !bodys)" :icon="!bodys ? `mdi-text-box-outline` : `mdi-text-box`">

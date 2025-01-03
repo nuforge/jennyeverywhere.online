@@ -40,7 +40,7 @@ import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/views/layouts/BottomNavigationBar.vue';
 import TagDrawer from '@/views/drawers/TagDrawer.vue';
 import ThemeDrawer from '@/views/drawers/ThemeDrawer.vue';
-import DetailsDrawer from './views/drawers/DetailsDrawer.vue';
+import DetailsDrawer from './views/drawers/FocusDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';

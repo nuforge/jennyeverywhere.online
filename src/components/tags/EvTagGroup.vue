@@ -2,7 +2,7 @@
   <v-fade-transition>
     <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault" v-model="selection"
       class="d-flex flex-column px-2 mx-auto justify-center">
-      <EvTag v-for="tag in tags" :tag="tag" :key="tag.name" :text="labels ? tag.name : undefined"
+      <EvTag v-for="tag in tags" :tag="tag" :key="tag.id" :text="labels ? tag.name : undefined"
         :icon="icons ? tag.icon : undefined" :color="colors ? tag.color : undefined" draggable :closable="closable"
         @close="onClose(tag)" @dragstart="onDragStart($event, tag)" @ctrl-click="onCtrlClick($event, tag)"
         @right-click="onRightClick($event, tag)" @click-tag="onClickTag($event, tag)"

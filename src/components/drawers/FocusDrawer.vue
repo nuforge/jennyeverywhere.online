@@ -12,18 +12,15 @@
 
 
       <!-- Focus Tag Tray -->
-      <v-card-text v-if="persona.currentTag">
-        <EvTag :text="persona.currentTag.name" :color="persona.currentTag.color" :icon="persona.currentTag.icon"
-          @click="onClickTag" />
+      <v-card-text v-if="persona.focus">
+        <NuTag :tag="persona.focus" v-if="persona.focus" />
       </v-card-text>
 
 
       <!-- Tag Details -->
       <v-scale-transition>
         <v-card-text v-if="selection.length === 1">
-          <EvTrayCard :name="persona.
-            currentTag.name" :tags="(persona.
-              currentTag.attributesToTags() as Tag[])" />
+          <EvTrayCard :name="persona.focus.name" :tags="(persona.focus.attributesToTags() as Tag[])" />
 
         </v-card-text>
       </v-scale-transition>
@@ -57,6 +54,7 @@
 import { ref, watch } from 'vue';
 import EvTag from '@/components/tags/EvTag.vue';
 import Tag from '@/objects/Tag.ts';
+import NuTag from '@/components/tags/NuTag.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';
@@ -75,10 +73,9 @@ const addTagVisible = ref(false)
 const selection = ref<string[]>([])
 
 watch(
-  () => persona.currentTag, // Use optional chaining to avoid errors
+  () => persona.focus, // Use optional chaining to avoid errors
   (newFocus) => {
     if (newFocus) {
-      console.log('persona.currentTag', persona.currentTag)
       selection.value = [newFocus.id]; // Update the selection array
     } else {
       selection.value = []; // Clear the selection array
@@ -87,14 +84,6 @@ watch(
   { immediate: true }
 );
 
-
-function onClickTag(event: MouseEvent, tag: Tag) {
-  if (!tag) return
-  persona.myFocusOn(tag)
-  text.value = tag.name
-  color.value = tag.color ?? ''
-  icon.value = tag.icon ?? ''
-}
 
 function submitForm() {
   console.log('submitForm', text.value, color.value, icon.value)

@@ -188,7 +188,6 @@ const onClickBody = (event: MouseEvent, tag: Tag) => {
 }
 
 const onRightClick = (event: MouseEvent, tag: Tag) => {
-  console.log('onRightClick:Tag', tag)
   if (tag) persona.focusOn(tag, true)
   persona.openDrawer()
 

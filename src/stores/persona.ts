@@ -133,7 +133,7 @@ export const usePersonaStore = defineStore('persona', () => {
     memory,
     myTheme,
     themeTags,
-    currentTag: focus,
+    focus,
     getFocus,
     show,
     hide,

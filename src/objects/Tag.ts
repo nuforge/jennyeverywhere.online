@@ -2,6 +2,15 @@ import { v4 as uuidv4 } from 'uuid'
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
 
+interface nuTag {
+  id: string
+  name: string
+  type: string
+  space?: string
+  icon?: string
+  color?: string
+}
+
 class Tag {
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()
@@ -138,3 +147,4 @@ class Tag {
 }
 
 export default Tag
+export type { nuTag }

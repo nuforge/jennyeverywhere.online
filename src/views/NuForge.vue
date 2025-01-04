@@ -1,8 +1,9 @@
 <template>
   <v-container>
+    <NuTag :tag="new Tag('action:Attack', 'warning', 'mdi-sword')" />
+    <NuTag :tag="sampTag" :count="2" />
     <v-row>
       <v-col>
-        Focus: {{ persona.focus }}
         <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
       </v-col>
     </v-row>
@@ -13,23 +14,38 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag';
+import NuTag from '@/components/tags/NuTag.vue';
 import { useDiceStore } from '@/stores/dice';
+const dice = useDiceStore()
+
 import { usePersonaStore } from '@/stores/persona';
-
 const persona = usePersonaStore()
-
 
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 import Inator from '@/objects/Inator';
 const inator = new Inator()
 
+const sampTag = ref(new Tag('color:Purple', 'purple', 'mdi-circle-opacity'))
+sampTag.value.count = 2
+
 const content = ref('')
 
-const dice = useDiceStore()
 const selected = ref<string[]>([])
 const randomNumber = ref(dice)
 const filters = ref([...inator.commonStopWords(), ...inator.htmlTags(), ...['wiki', 'wikipedia']])
+
+watch(
+  () => persona.focus, // Use optional chaining to avoid errors
+  (newFocus) => {
+    if (newFocus) {
+      selected.value = [newFocus.id]; // Update the selection array
+    } else {
+      selected.value = []; // Clear the selection array
+    }
+  },
+  { immediate: true }
+);
 
 //const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 //const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))

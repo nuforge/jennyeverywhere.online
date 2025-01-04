@@ -229,6 +229,8 @@ class Inator {
       'div',
       'em',
       'footer',
+      'http',
+      'https',
       'h1',
       'h2',
       'h3',

@@ -60,19 +60,17 @@ const inator = new Inator()
 const persona = usePersonaStore()
 const content = ref('')
 
-
-
-
 const dice = useDiceStore()
 const selected = ref<string[]>([])
 const randomNumber = ref(dice)
+const filters = ref([...inator.commonStopWords(), ...inator.htmlTags()])
 
 const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 //const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
 const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
 
 const wordData = computed(() => {
-  const words = markdowninator.cleanAndCountWords(content.value, randomNumber.value.getResults() * 2, [...inator.commonStopWords(), ...inator.htmlTags()])
+  const words = markdowninator.cleanAndCountWords(content.value, randomNumber.value.getResults() * 2, filters.value)
   return words
 }
 )

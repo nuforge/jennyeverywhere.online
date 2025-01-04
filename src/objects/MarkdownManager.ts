@@ -35,13 +35,12 @@ class MarkdownManager {
   }
 
   escapePattern(pattern: string): string {
-    return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
   }
 
   // Escape special regex characters if pattern is a literal string
   generateRegex(pattern: string): RegExp {
-    // Escape special regex characters
-    return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case insensitive
+    return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case-insensitive
   }
 
   async loadMarkdown(filePath: string, render: boolean = true) {
@@ -85,7 +84,8 @@ class MarkdownManager {
 
     // Replace placeholders with their final values
     for (const [placeholder, replacement] of Object.entries(placeholders)) {
-      modifiedText = modifiedText?.replace(new RegExp(placeholder, '\g'), replacement.name)
+      const escapedPlaceholder = this.escapePattern(placeholder)
+      modifiedText = modifiedText.replace(new RegExp(escapedPlaceholder, 'g'), replacement.name)
     }
 
     return tags.reduce((modifiedText, tag) => {
@@ -95,7 +95,7 @@ class MarkdownManager {
       const regex = this.escapePattern(pattern)
       // OLD:  `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`
       return modifiedText.replace(
-        regex,
+        new RegExp(regex, 'g'),
         (match) =>
           `<custom-tag tag="${match}" color="${color}" icon="${icon}" >${match}</custom-tag>`,
       )
@@ -173,6 +173,8 @@ class MarkdownManager {
     words.forEach((word) => {
       if (!stopWords.includes(word) && word.length > 2) {
         wordCountMap[word] = (wordCountMap[word] || 0) + 1
+      } else {
+        console.log('word:', word, stopWords)
       }
     })
 

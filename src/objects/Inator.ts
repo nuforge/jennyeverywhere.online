@@ -12,6 +12,39 @@ class Inator {
     this._seed = scale * (Math.random() + Math.random())
     return this
   }
+
+  chaosinate(scale: number = this._scale) {
+    return generate(Math.random() * scale)
+  }
+
+  twoPennies = <T, R>(input: (params: T) => R, params: T): [R, R] => {
+    return [input(params), input(params)]
+  }
+
+  randomArrayValue = <T>(array: T[]): T => {
+    // Generate a random index
+    const randomIndex = Math.floor(Math.random() * array.length)
+
+    // Return the value at the random index
+    return array[randomIndex]
+  }
+
+  shuffleArray = <T>(array: T[]): T[] => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)) // Get random index from 0 to i
+      ;[array[i], array[j]] = [array[j], array[i]] // Swap elements
+    }
+    return array
+  }
+
+  bodyToTags = (body: string): Tag[] => {
+    const words = body.split(' ')
+    const tags = words.map((word) => {
+      return new Tag(word, this.themecolor(), this.icon())
+    })
+    return tags
+  }
+
   letter = () => {
     return String.fromCharCode(65 + Math.floor(Math.random() * 26))
   }
@@ -142,6 +175,23 @@ class Inator {
     return this.randomArrayValue([...this.colors(), ...this.themecolors()])
   } // Generate 1 random color
 
+  themecolor = () => {
+    return this.randomArrayValue(this.themecolors())
+  } // G
+
+  themecolors = () => {
+    return [
+      'primary',
+      'secondary',
+      'accent',
+      'error',
+      'info',
+      'success',
+      'warning',
+      'background',
+      'surface',
+    ]
+  }
   colors = () => {
     return [
       'red',
@@ -166,46 +216,214 @@ class Inator {
     ]
   }
 
-  themecolor = () => {
-    return this.randomArrayValue(this.themecolors())
-  } // G
-
-  themecolors = () => {
+  htmlTags = () => {
     return [
-      'primary',
-      'secondary',
-      'accent',
-      'error',
-      'info',
-      'success',
-      'warning',
-      'background',
-      'surface',
+      'a',
+      'b',
+      'blockquote',
+      'br',
+      'button',
+      'canvas',
+      'cite',
+      'code',
+      'div',
+      'em',
+      'footer',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'header',
+      'i',
+      'img',
+      'input',
+      'label',
+      'li',
+      'link',
+      'main',
+      'nav',
+      'ol',
+      'p',
+      'pre',
+      'section',
+      'span',
+      'strong',
+      'style',
+      'table',
+      'tbody',
+      'td',
+      'textarea',
+      'th',
+      'thead',
+      'tr',
+      'ul',
+      'video',
+      'wbr',
     ]
   }
 
-  chaosinate(scale: number = this._scale) {
-    return generate(Math.random() * scale)
+  stopwords = () => {
+    return ['the', 'is', 'a', 'and', 'for', 'of', 'from', 'its']
   }
 
-  twoPennies = <T, R>(input: (params: T) => R, params: T): [R, R] => {
-    return [input(params), input(params)]
-  }
-
-  randomArrayValue = <T>(array: T[]): T => {
-    // Generate a random index
-    const randomIndex = Math.floor(Math.random() * array.length)
-
-    // Return the value at the random index
-    return array[randomIndex]
-  }
-
-  shuffleArray = <T>(array: T[]): T[] => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)) // Get random index from 0 to i
-      ;[array[i], array[j]] = [array[j], array[i]] // Swap elements
-    }
-    return array
+  commonStopWords = () => {
+    return [
+      'i',
+      'me',
+      'my',
+      'myself',
+      'we',
+      'our',
+      'ours',
+      'ourselves',
+      'you',
+      'your',
+      'yours',
+      'yourself',
+      'yourselves',
+      'he',
+      'him',
+      'his',
+      'himself',
+      'she',
+      'her',
+      'hers',
+      'herself',
+      'it',
+      'its',
+      'itself',
+      'they',
+      'them',
+      'their',
+      'theirs',
+      'themselves',
+      'what',
+      'which',
+      'who',
+      'whom',
+      'this',
+      'that',
+      'these',
+      'those',
+      'am',
+      'is',
+      'are',
+      'was',
+      'were',
+      'be',
+      'been',
+      'being',
+      'have',
+      'has',
+      'had',
+      'having',
+      'do',
+      'does',
+      'did',
+      'doing',
+      'a',
+      'an',
+      'the',
+      'and',
+      'but',
+      'if',
+      'or',
+      'because',
+      'as',
+      'until',
+      'while',
+      'of',
+      'at',
+      'by',
+      'for',
+      'with',
+      'about',
+      'against',
+      'between',
+      'into',
+      'through',
+      'during',
+      'before',
+      'after',
+      'above',
+      'below',
+      'to',
+      'from',
+      'up',
+      'down',
+      'in',
+      'out',
+      'on',
+      'off',
+      'over',
+      'under',
+      'again',
+      'further',
+      'then',
+      'once',
+      'here',
+      'there',
+      'when',
+      'where',
+      'why',
+      'how',
+      'all',
+      'any',
+      'both',
+      'each',
+      'few',
+      'more',
+      'most',
+      'other',
+      'some',
+      'such',
+      'no',
+      'nor',
+      'not',
+      'only',
+      'own',
+      'same',
+      'so',
+      'than',
+      'too',
+      'very',
+      's',
+      't',
+      'can',
+      'will',
+      'just',
+      'don',
+      'should',
+      'now',
+      'd',
+      'll',
+      'm',
+      'o',
+      're',
+      've',
+      'y',
+      'ain',
+      'aren',
+      'couldn',
+      'didn',
+      'doesn',
+      'hadn',
+      'hasn',
+      'haven',
+      'isn',
+      'ma',
+      'mightn',
+      'mustn',
+      'needn',
+      'shan',
+      'shouldn',
+      'wasn',
+      'weren',
+      'won',
+      'wouldn',
+    ]
   }
 }
 

@@ -1,6 +1,9 @@
 <template>
-  <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200">
-    <EvTrayCard :tags="(tags.tags as Tag[])" :title="false" v-model="tags.selection" />
+  <v-navigation-drawer :scrim="false" v-model="state.drawer" disable-route-watcher close-delay="200"
+    class="bg-background">
+    <v-container>
+      <EvTrayCard :tags="(tags.tags as Tag[])" :title="false" v-model="tags.selection" />
+    </v-container>
   </v-navigation-drawer>
 </template>
 

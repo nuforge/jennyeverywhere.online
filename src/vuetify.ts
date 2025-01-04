@@ -226,9 +226,7 @@ export const vuetify = createVuetify({
       contentClass: 'bg-surface ma-2 pa-3',
     },
     VBottomNavigation: {},
-    VNavigationDrawer: {
-      class: 'bg-background',
-    },
+    VNavigationDrawer: {},
     VBottomSheet: {},
     VBtn: {},
     VBtnToggle: {

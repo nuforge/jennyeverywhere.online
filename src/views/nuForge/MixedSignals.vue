@@ -1,19 +1,20 @@
 <template>
-
   <v-container>
     <v-row>
       <v-col cols="6">
-        <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
-
+        <EvTrayCard name="Tag.inator (Random)" :tags="(tags as Tag[])" v-model="selected" :body="body" />
       </v-col>
+      <v-divider vertical />
       <v-col cols="6">
+        <MarkdownRenderer :text="body" :tags="filtered" id="md_container" />
+        <v-divider />
         <v-container>
-          <MarkdownRenderer V-if="0" :text="content" :tags="bodytags" id="md_container" />
+          <EvTrayCard name="Parsed From HTML" :tags="(deets.custom as Tag[])" v-model="userTags.selection"
+            :body="body" />
         </v-container>
       </v-col>
     </v-row>
     <v-divider />
-
     <v-row v-if="0">
       <v-col>
         <EvTrayCard :tags="persona.themeTags" name="theme" v-model="selected" />
@@ -44,11 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue'
+import Tag from '@/objects/Tag'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-import Tag from '@/objects/Tag';
 import { useDiceStore } from '@/stores/dice';
+import { useTagStore } from '@/stores/tags';
 import { usePersonaStore } from '@/stores/persona';
 
 
@@ -57,40 +59,25 @@ const markdowninator = new MarkdownManager()
 import Inator from '@/objects/Inator';
 const inator = new Inator()
 
+const userTags = useTagStore()
 const persona = usePersonaStore()
-const content = ref('')
 
-
-
+//const response = await fetch('@/public/icons.html');
 
 const dice = useDiceStore()
 const selected = ref<string[]>([])
 const randomNumber = ref(dice)
 
 const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
-//const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
+const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
 const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
-
-const wordData = computed(() => {
-  const words = markdowninator.cleanAndCountWords(content.value, randomNumber.value.getResults() * 2, [...inator.commonStopWords(), ...inator.htmlTags()])
-  return words
-}
-)
-
-const bodytags = computed(() => wordData.value.map((word) => {
-  const tag = new Tag(word.word, inator.color(), inator.icon())
-  return tag
-}
-))
-
-// const bodytags = computed(() => inator.bodyToTags(content.value, false))
 
 // Markdown Tools
 
-// const deets = computed(() => {
-//   const textToMarkdown = markdowninator.textToMarkdown(content.value, filtered.value)
-//   return markdowninator.htmlToTags(textToMarkdown)
-// })
+const deets = computed(() => {
+  const textToMarkdown = markdowninator.textToMarkdown(body.value, filtered.value)
+  return markdowninator.htmlToTags(textToMarkdown)
+})
 
 // Color Stats
 
@@ -124,10 +111,4 @@ dice.rollDice(1)
 
 inator.iconTags()
 
-onMounted(async () => {
-  await markdowninator.loadMarkdown('/jennyeverywhere.online/markdown/phoenix.md', false).then((data) => {
-    content.value = data;
-  }) // Store the parsed HTML into the content ref
-  //console.log(' Markdown:', content.value); // You can log the result if needed
-});
 </script>

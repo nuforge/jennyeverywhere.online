@@ -1,5 +1,5 @@
 <template>
-  <v-label @click.right.exact.prevent="onRightClickIcon" @click="onClick" @dblclick="onDoubleClick">
+  <v-label class="text-black" @click.right.exact.prevent="onRightClickIcon" @click="onClick" @dblclick="onDoubleClick">
     <template #default>
       {{ space }}
     </template>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="0">
     <v-container>
       <v-divider>counts</v-divider>
       <NuTag v-for="item in wordData" :key="item.word" :tag="new Tag(item.word, inator.color(), inator.icon())"

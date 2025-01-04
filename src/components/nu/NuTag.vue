@@ -8,7 +8,10 @@
     <template #prepend>
       <v-fab-transition>
         <div v-if="icons">
+
           <NuIcon :icon="tag.icon" :color="tag.color" @click="onClickIcon" @right-click="onRightClickIcon" />
+
+
         </div>
       </v-fab-transition>
     </template>
@@ -18,11 +21,14 @@
       <v-expand-x-transition>
         <div v-if="labels">
           <v-slide-x-transition>
-            <NuSpace :space="Huh" v-if="showNamespace && tag.space" class="align-center" />
-          </v-slide-x-transition> {{
-            tag.name }}
-          <NuTooltip :tag="tag"></NuTooltip>
+
+            <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
+
+          </v-slide-x-transition>
+          {{ tag.name }}
+          <NuTooltip :tag="tag" />
           <NuBadge :count="count" />
+
         </div>
       </v-expand-x-transition>
     </template>
@@ -31,7 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps } from 'vue';
+
+
+import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
+const dragImage = ref<HTMLImageElement | null>(null);
+
+import { ref, computed, defineProps, onMounted } from 'vue';
 import Tag from '@/objects/Tag';
 import NuTooltip from '@/components/nu/NuTooltip.vue';
 import NuBadge from '@/components/nu/NuBadge.vue';
@@ -41,13 +52,17 @@ import NuSpace from '@/components/nu/NuSpace.vue';
 import { useStyleStore } from '@/stores/styles';
 const styles = useStyleStore()
 
-const showNamespace = ref(false);
+const showLabels = ref(true);
+const showColors = ref(true);
+const showIcons = ref(true);
+
+const showSpace = ref(false);
 
 const defaultNoColor = 'text'
 
-const icons = computed(() => styles.icons && props.tag.icon)
-const colors = computed(() => styles.colors && props.tag.color)
-const labels = computed(() => styles.labels && props.tag.name)
+const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
+const colors = computed(() => showColors.value && styles.colors && props.tag.color)
+const labels = computed(() => showLabels.value && styles.labels && props.tag.name)
 
 const props = defineProps
   ({
@@ -77,18 +92,26 @@ const clickAction = (tag: Tag = props.tag) => {
   }
 }
 
-const emit = defineEmits(['close', 'click-tag', 'click-icon', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-over'])
+const emit = defineEmits(['close', 'click-tag', 'click-icon', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-over', 'expand', 'compact'])
 
+
+function expandTag(tag: Tag) {
+  showSpace.value = showLabels.value
+  showLabels.value = true
+  console.log('expandTag', tag)
+  emit('expand', tag)
+}
+
+function compactTag(tag: Tag) {
+  showLabels.value = showSpace.value
+  showSpace.value = false
+  console.log('compactTag', tag)
+  emit('compact', tag)
+}
 
 
 function onActivity(event: MouseEvent | KeyboardEvent, tag: Tag) {
   event.dataTransfer?.setData('text/plain', tag.id);
-}
-
-function onTagClick(event: MouseEvent | KeyboardEvent) {
-  onActivity(event, props.tag)
-  emit('click-tag', event, props.tag)
-  return clickAction(props.tag)
 }
 
 function onCloseTag(event: MouseEvent) {
@@ -96,10 +119,13 @@ function onCloseTag(event: MouseEvent) {
   emit('close', event, props.tag)
 }
 
-function onClickIcon(event: MouseEvent | KeyboardEvent) {
+
+function onTagClick(event: MouseEvent | KeyboardEvent) {
   onActivity(event, props.tag)
-  emit('click-icon', event, props.tag)
+  emit('click-tag', event, props.tag)
+  return clickAction(props.tag)
 }
+
 
 function onDoubleClick(event: MouseEvent | KeyboardEvent) {
   onActivity(event, props.tag)
@@ -113,14 +139,21 @@ function onRightClick(event: MouseEvent | KeyboardEvent) {
 
 // ICON CLICKS
 
-
-function onRightClickIcon(event: MouseEvent | KeyboardEvent) {
-  showNamespace.value = !showNamespace.value
+function onClickIcon(event: MouseEvent | KeyboardEvent) {
+  compactTag(props.tag)
   onActivity(event, props.tag)
-  emit('right-click', event, props.tag)
+  emit('click-icon', event, props.tag)
 }
 
+function onRightClickIcon(event: MouseEvent | KeyboardEvent, tag: Tag) {
 
+  expandTag(props.tag)
+
+  onActivity(event, tag)
+  emit('right-click', event, tag)
+}
+
+// DRAG EVENTS
 function onDragStart(event: MouseEvent | KeyboardEvent) {
   onActivity(event, props.tag)
   emit('drag-start', event, props.tag)
@@ -136,4 +169,13 @@ function onDragOver(event: MouseEvent | KeyboardEvent) {
   emit('drag-over', event, props.tag)
 }
 
+onMounted(() => {
+  // Preload the drag image
+  const img = new Image();
+  img.src = imgSrc;
+
+  img.onload = () => {
+    dragImage.value = img;
+  };
+});
 </script>

@@ -18,7 +18,7 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 
 
 import Tag from '@/objects/Tag'
-import NuTag from '@/components/tags/NuTag.vue'
+import NuTag from '@/components/nu/NuTag.vue'
 
 // EMIT AND PROPS
 const selection = ref<string[]>([])

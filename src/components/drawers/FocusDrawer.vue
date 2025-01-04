@@ -58,7 +58,7 @@
 import { ref, watch } from 'vue';
 import EvTag from '@/components/tags/EvTag.vue';
 import Tag from '@/objects/Tag.ts';
-import NuTag from '@/components/tags/NuTag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';

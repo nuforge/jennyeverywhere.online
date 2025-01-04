@@ -8,9 +8,7 @@
     <template #prepend>
       <v-fab-transition>
         <div v-if="icons">
-          <v-icon :icon="tag.icon" :color="!colors ? defaultNoColor : tag.color"
-            @click.right.exact.prevent="onRightClickIcon" @click="onClickIcon">
-          </v-icon>
+          <NuIcon :icon="tag.icon" :color="tag.color" @click="onClickIcon" @right-click="onRightClickIcon" />
         </div>
       </v-fab-transition>
     </template>
@@ -20,9 +18,7 @@
       <v-expand-x-transition>
         <div v-if="labels">
           <v-slide-x-transition>
-            <v-label v-if="showNamespace && tag.space" class="align-center">{{ tag.space
-              }}
-            </v-label>
+            <NuSpace :space="Huh" v-if="showNamespace && tag.space" class="align-center" />
           </v-slide-x-transition> {{
             tag.name }}
           <NuTooltip :tag="tag"></NuTooltip>
@@ -37,8 +33,10 @@
 <script setup lang="ts">
 import { ref, computed, defineProps } from 'vue';
 import Tag from '@/objects/Tag';
-import NuTooltip from '@/components/tags/NuTooltip.vue';
-import NuBadge from '@/components/tags/NuBadge.vue';
+import NuTooltip from '@/components/nu/NuTooltip.vue';
+import NuBadge from '@/components/nu/NuBadge.vue';
+import NuIcon from '@/components/nu/NuIcon.vue';
+import NuSpace from '@/components/nu/NuSpace.vue';
 
 import { useStyleStore } from '@/stores/styles';
 const styles = useStyleStore()

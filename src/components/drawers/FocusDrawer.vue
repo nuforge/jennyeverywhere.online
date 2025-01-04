@@ -15,7 +15,7 @@
       <v-card-text v-if="persona.focus">
         <v-divider></v-divider>
         <v-container class="bg-background pa-2 text-center">
-          <NuTag :tag="persona.focus" v-if="persona.focus" elevation="2" />
+          <NuTag :tag="persona.focus" v-if="persona.focus.id" elevation="2" />
         </v-container>
         <v-divider></v-divider>
       </v-card-text>

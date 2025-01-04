@@ -1,15 +1,19 @@
 <template>
   <v-container>
     <v-container>
-      <h3>NuTags</h3>
-      <NuTag :tag="new Tag('action:Attack', 'warning', 'mdi-sword')" />
-      <NuTag :tag="sampTag" :count="2" @double-click="onDoubleClick" variant="text" />
+      <v-divider>counts</v-divider>
+      <NuTag v-for="item in wordData" :key="item.word" :tag="new Tag(item.word, inator.color(), inator.icon())"
+        :count="item.count" @double-click="onDoubleClick" variant="text" />
+
+      <v-divider />
     </v-container>
     <v-row>
       <v-col>
         <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
       </v-col>
     </v-row>
+
+    {{ wordData }}
   </v-container>
 </template>
 

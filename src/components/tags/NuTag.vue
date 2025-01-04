@@ -41,7 +41,6 @@ import NuTooltip from '@/components/tags/NuTooltip.vue';
 import NuBadge from '@/components/tags/NuBadge.vue';
 
 import { useStyleStore } from '@/stores/styles';
-
 const styles = useStyleStore()
 
 const showNamespace = ref(false);

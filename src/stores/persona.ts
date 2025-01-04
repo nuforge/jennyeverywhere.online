@@ -120,7 +120,7 @@ export const usePersonaStore = defineStore('persona', () => {
     }
     lastKey.value = event.key // Store the key that was pressed
     if (event.key === 'f') {
-      drawer.value = true
+      drawer.value = !drawer.value
     }
   }
 

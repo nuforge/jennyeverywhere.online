@@ -41,17 +41,18 @@
         <v-card-text v-if="!minimized">
 
           <v-fade-transition>
-            <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
-              :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable"
-              :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
-              @drag-end="onDragEnd" @right-click="onRightClick" @click-tag="onClickTag" @double-click="onDoubleClick" />
+            <EvTagGroup v-model="selection" :multiple="multiple"
+              v-if="mergedTags.length > 0 && tray.tray && styles.trays" :tags="mergedTags" :labels="tray.labels"
+              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
+              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick"
+              @click-tag="onClickTag" @double-click="onDoubleClick" />
           </v-fade-transition>
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
               v-if="mergedTags.length === 0 && showManager" />
           </v-fade-transition>
           <v-fade-transition>
-            <v-container v-if="tray.logs && body">
+            <v-container v-if="tray.logs && body && styles.logs">
               <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
                 :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
                 @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
@@ -81,6 +82,10 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';
 import { usePersonaStore } from '@/stores/persona';
 import TagBodyStyles from './TagBodyStyles.vue';
+
+
+import { useStyleStore } from '@/stores/styles';
+const styles = useStyleStore()
 
 const persona = usePersonaStore()
 const state = useStateStore()

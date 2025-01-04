@@ -6,32 +6,7 @@
 
       </v-col>
     </v-row>
-    <v-row v-if="0">
-      <v-col>
-        <EvTrayCard :tags="persona.themeTags" name="theme" v-model="selected" />
-        <v-divider />
-        <div v-for="themeColor in persona.themeBase" :key="themeColor">
-          <v-chip class="ma-1" v-if="colorStats[themeColor]" prepend-icon="mdi-circle-opacity"
-            :text="`${colorStats[themeColor].count.toString()}`"
-            :variant="selected.includes(colorStats[themeColor].color) ? 'plain' : 'text'">
-            <template #prepend>
-              <v-icon :color="themeColor"></v-icon>
-            </template></v-chip>
-        </div>
-        <v-divider />
-        {{ colorStats }}
-        <v-divider />
-        <div v-for="themeColor in persona.themeBase" :key="themeColor">
-          <v-chip class="ma-1" v-if="filteredColorStats[themeColor]" prepend-icon="mdi-circle-opacity"
-            :text="`${themeColor}: ${filteredColorStats[themeColor].count.toString()}`" variant="outlined">
-            <template #prepend>
-              <v-icon :color="themeColor"></v-icon>
-            </template>
-          </v-chip>
 
-        </div>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -40,7 +15,6 @@ import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag';
 import { useDiceStore } from '@/stores/dice';
-import { usePersonaStore } from '@/stores/persona';
 
 
 import MarkdownManager from '@/objects/MarkdownManager';
@@ -48,7 +22,6 @@ const markdowninator = new MarkdownManager()
 import Inator from '@/objects/Inator';
 const inator = new Inator()
 
-const persona = usePersonaStore()
 const content = ref('')
 
 const dice = useDiceStore()
@@ -56,9 +29,9 @@ const selected = ref<string[]>([])
 const randomNumber = ref(dice)
 const filters = ref([...inator.commonStopWords(), ...inator.htmlTags(), ...['wiki', 'wikipedia']])
 
-const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
+//const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 //const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
-const filtered = computed(() => bodytags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
+//const filtered = computed(() => bodytags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
 
 const wordData = computed(() => {
   const words = markdowninator.cleanAndCountWords(content.value, randomNumber.value.getResults() * 2, filters.value)
@@ -85,7 +58,7 @@ dice.rollDice(1)
 
 // Color Stats
 
-const colorStats = computed(() => {
+/*const colorStats = computed(() => {
   return tags.value.reduce((acc, tag) => {
     const color = tag.color || 'default'; // Fallback to 'default' if no color
     if (!acc[color]) {
@@ -94,12 +67,12 @@ const colorStats = computed(() => {
     acc[color].count += 1;
     return acc;
   }, {} as Record<string, { color: string; count: number, selected: boolean }>);
-});
+});*/
 
 
 onMounted(async () => {
   await markdowninator.loadMarkdown('/jennyeverywhere.online/markdown/phoenix.md', false).then((data) => {
-    content.value = data;
+    content.value = data ?? '';
   }) // Store the parsed HTML into the content ref
   //console.log(' Markdown:', content.value); // You can log the result if needed
 });

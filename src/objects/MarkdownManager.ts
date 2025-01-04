@@ -188,6 +188,25 @@ class MarkdownManager {
 
     return sortedWordCount
   }
+  stripHtml(html: string): string {
+    return html.replace(/<[^>]*>/g, '') // Remove all HTML tags
+  }
+  stripMarkdown(markdown: string): string {
+    return markdown
+      .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+      .replace(/\[.*?\]\(.*?\)/g, '') // Remove links
+      .replace(/[`*_~]/g, '') // Remove inline formatting
+      .replace(/#+\s/g, '') // Remove headers
+      .replace(/>\s?/g, '') // Remove blockquotes
+      .replace(/[-*+]\s+/g, '') // Remove list markers
+      .replace(/\d+\.\s+/g, '') // Remove numbered list markers
+      .replace(/(?:\r\n|\r|\n)/g, ' ') // Convert line breaks to spaces
+      .trim() // Trim any extra whitespace
+  }
+  stripFormatting(content: string): string {
+    const noHtml = this.stripHtml(content) // Strip HTML tags
+    return this.stripMarkdown(noHtml) // Strip Markdown formatting
+  }
 }
 
 export default MarkdownManager

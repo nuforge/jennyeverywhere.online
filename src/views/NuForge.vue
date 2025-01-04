@@ -4,6 +4,8 @@
     <v-row>
       <v-col cols="6">
         <EvTrayCard name="Tag.inator (Random)" :tags="(tags as Tag[])" v-model="selected" :body="body" />
+        {{ selected }}
+        {{ filtered }}
       </v-col>
       <v-divider vertical />
       <v-col cols="6">
@@ -12,12 +14,11 @@
         <v-container>
           <EvTrayCard name="Parsed From HTML" :tags="(deets.custom as Tag[])" v-model="userTags.selection"
             :body="body" />
+          {{ userTags.selection }}
         </v-container>
       </v-col>
     </v-row>
-    {{ userTags.selection }}
     <v-divider />
-    {{ selected }}
     <v-row v-if="0">
       <v-col>
         <EvTrayCard :tags="persona.themeTags" name="theme" v-model="selected" />
@@ -65,7 +66,6 @@ const inator = new Inator()
 const userTags = useTagStore()
 const persona = usePersonaStore()
 
-
 //const response = await fetch('@/public/icons.html');
 
 const dice = useDiceStore()
@@ -74,8 +74,7 @@ const randomNumber = ref(dice)
 
 const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
-const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name)))
-
+const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
 
 // Markdown Tools
 
@@ -83,7 +82,6 @@ const deets = computed(() => {
   const textToMarkdown = markdowninator.textToMarkdown(body.value, filtered.value)
   return markdowninator.htmlToTags(textToMarkdown)
 })
-
 
 // Color Stats
 
@@ -97,7 +95,6 @@ const colorStats = computed(() => {
     return acc;
   }, {} as Record<string, { color: string; count: number, selected: boolean }>);
 });
-
 
 const filteredColorStats = computed(() => {
   return filtered.value.reduce((acc, tag) => {
@@ -117,7 +114,5 @@ watch(randomNumber.value, () => {
 dice.rollDice(1)
 
 inator.iconTags()
-// HTML PARSER ----
-
 
 </script>

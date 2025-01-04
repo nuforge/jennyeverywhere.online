@@ -3,7 +3,7 @@ import { LoremIpsum } from 'lorem-ipsum'
 import Tag from '@/objects/Tag'
 import IconsJSON from '@/assets/mdi-icons.json'
 
-class Chaosinator {
+class Inator {
   private _scale: number
   private _seed: number
 
@@ -12,14 +12,29 @@ class Chaosinator {
     this._seed = scale * (Math.random() + Math.random())
     return this
   }
+  letter = () => {
+    return String.fromCharCode(65 + Math.floor(Math.random() * 26))
+  }
+
+  letters = (count: number = 1) => {
+    return Array.from({ length: count }, () => this.letter()).join('')
+  }
 
   number = (max: number = 100) => {
     return Math.floor(Math.random() * max)
   } // Generate a random number between 0 and 100
 
+  numbers = (count: number = 1) => {
+    return Array.from({ length: count }, () => this.number()).join('')
+  } // Generate 5 random numbers
+
   lorem = (count: number) => {
     const lorem = new LoremIpsum()
     return lorem.generateWords(count)
+  } // Generate 5 random words
+
+  word = (count: number = 1): string => {
+    return this.words(count).toString()
   } // Generate 5 random words
 
   words = (count: number): string | string[] => {
@@ -194,4 +209,4 @@ class Chaosinator {
   }
 }
 
-export default Chaosinator
+export default Inator

@@ -44,7 +44,7 @@
             <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
               :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable"
               :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
-              @drag-end="onDragEnd" @right-click="onRightClick" @click-tag="onClickTag" />
+              @drag-end="onDragEnd" @right-click="onRightClick" @click-tag="onClickTag" @double-click="onDoubleClick" />
           </v-fade-transition>
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
@@ -176,8 +176,15 @@ const onCreateTag = (event: MouseEvent, tag: Tag) => {
 
 const onClickTag = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
-  persona.focusOn(tag, true)
+  //persona.focusOn(tag, true)
   emit('click-tag', event, tag)
+
+}
+const onDoubleClick = (event: MouseEvent, tag: Tag) => {
+  //console.log('onClickTag:Tag', tag)
+  if (tag) persona.focusOn(tag, true)
+  persona.openDrawer()
+  emit('double-click-tag', event, tag)
 
 }
 

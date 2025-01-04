@@ -2,12 +2,13 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useStyleStore = defineStore('styles', () => {
+  const labels = ref(true)
+  const colors = ref(true)
+  const icons = ref(true)
+  const logs = ref(false)
+
   const closable = ref(false)
-  const labels = ref(false)
-  const icons = ref(false)
-
   const remove = ref(false)
-  const color = ref(false)
 
-  return { closable, labels, icons, color, remove }
+  return { closable, labels, icons, colors, remove, logs }
 })

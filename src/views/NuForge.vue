@@ -1,7 +1,10 @@
 <template>
   <v-container>
-    <NuTag :tag="new Tag('action:Attack', 'warning', 'mdi-sword')" />
-    <NuTag :tag="sampTag" :count="2" />
+    <v-container>
+      <h3>NuTags</h3>
+      <NuTag :tag="new Tag('action:Attack', 'warning', 'mdi-sword')" />
+      <NuTag :tag="sampTag" :count="2" @double-click="onDoubleClick" variant="text" />
+    </v-container>
     <v-row>
       <v-col>
         <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
@@ -46,6 +49,11 @@ watch(
   },
   { immediate: true }
 );
+
+const onDoubleClick = (event: Event, tag: Tag) => {
+  console.log('onDoubleClick', tag)
+  persona.focusOn(tag)
+}
 
 //const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
 //const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))

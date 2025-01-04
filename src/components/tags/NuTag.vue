@@ -1,15 +1,15 @@
 <template>
-  <v-chip class="rounded overflow-visible" variant="tonal" :text="tag.name" :color="tag.color" :icon="tag.icon"
-    :value="tag.name" :prepend-icon="tag.icon" :id="`nu_${tag.id}`" :closable="tag.closable" @click:close="onCloseTag"
-    @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
-    @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+  <v-chip class="rounded overflow-visible" :text="tag.name" :color="!colors ? defaultNoColor : tag.color"
+    :icon="tag.icon" :value="tag.name" :prepend-icon="labels ? tag.icon : undefined" :id="`nu_${tag.id}`"
+    :closable="tag.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onTagClick"
+    @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
 
     <!-- Tag Icon / Space -->
     <template #prepend>
       <v-fab-transition>
-        <div v-if="tag.icon" expand-x-transition>
-          <v-icon :icon="tag.icon" :color="tag.color" @click.right.exact.prevent="onRightClickIcon"
-            @click="onClickIcon">
+        <div v-if="icons">
+          <v-icon :icon="tag.icon" :color="!colors ? defaultNoColor : tag.color"
+            @click.right.exact.prevent="onRightClickIcon" @click="onClickIcon">
           </v-icon>
         </div>
       </v-fab-transition>
@@ -17,32 +17,41 @@
 
     <!-- Tag Label / Value -->
     <template #default>
-      <div v-if="tag.name" expand-x-transition>
-        <v-slide-x-transition>
-          <v-label v-if="showNamespace" class="align-center">{{ tag.space
-            }}
-          </v-label>
-        </v-slide-x-transition> {{
-          tag.name }}
-        <NuTooltip :tag="tag"></NuTooltip>
-        <NuBadge :count="count" />
-      </div>
+      <v-expand-x-transition>
+        <div v-if="labels">
+          <v-slide-x-transition>
+            <v-label v-if="showNamespace && tag.space" class="align-center">{{ tag.space
+              }}
+            </v-label>
+          </v-slide-x-transition> {{
+            tag.name }}
+          <NuTooltip :tag="tag"></NuTooltip>
+          <NuBadge :count="count" />
+        </div>
+      </v-expand-x-transition>
     </template>
 
-    <!-- Tag Count/Actions -->
-    <template #append>
-    </template>
   </v-chip>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, computed, defineProps } from 'vue';
 import Tag from '@/objects/Tag';
 import NuTooltip from '@/components/tags/NuTooltip.vue';
 import NuBadge from '@/components/tags/NuBadge.vue';
 
+import { useStyleStore } from '@/stores/styles';
+
+const styles = useStyleStore()
+
 const showNamespace = ref(false);
-// Props
+
+const defaultNoColor = 'text'
+
+const icons = computed(() => styles.icons && props.tag.icon)
+const colors = computed(() => styles.colors && props.tag.color)
+const labels = computed(() => styles.labels && props.tag.name)
+
 const props = defineProps
   ({
     tag: {

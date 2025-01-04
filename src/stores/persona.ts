@@ -22,7 +22,7 @@ export const usePersonaStore = defineStore('persona', () => {
   const theme = useTheme()
   const lastKey = ref('')
 
-  const focus = ref(new Tag())
+  const focus = ref(new Tag(''))
   const attention = ref(new Legend())
   const memory = ref(new Legend())
 
@@ -38,6 +38,29 @@ export const usePersonaStore = defineStore('persona', () => {
     'background',
     'surface',
   ]
+
+  function focusOn(tag: Tag, clear: boolean = false) {
+    if (clear) {
+      attention.value.clearTags()
+    }
+    if (!focus.value) {
+      console.error('focus is undefined')
+      focus.value = new Tag() // Fallback to a new Tag if undefined
+    }
+    focus.value = tag // This updates the `focus` ref correctly
+    return attention.value.add(tag)
+  }
+
+  function getFocus() {
+    return focus.value
+  }
+
+  async function randomAvatar() {
+    //const rndAvatar = Math.floor(Math.random() * 33)
+    await import(`@/assets/images/avatars/jenny-everywhere-avatar.png`)
+      .then((result) => (avatar.value = result.default))
+      .catch((error) => console.error(error))
+  }
 
   function note(note: string | string[]) {
     memory.value.create(note)
@@ -69,22 +92,6 @@ export const usePersonaStore = defineStore('persona', () => {
 
   function closeDrawer() {
     drawer.value = false
-  }
-
-  function focusOn(tag: Tag, clear: boolean = false) {
-    if (clear) {
-      attention.value.clearTags()
-    }
-    //openDrawer()
-    focus.value = tag
-    return attention.value.add(tag)
-  }
-
-  async function randomAvatar() {
-    //const rndAvatar = Math.floor(Math.random() * 33)
-    await import(`@/assets/images/avatars/jenny-everywhere-avatar.png`)
-      .then((result) => (avatar.value = result.default))
-      .catch((error) => console.error(error))
   }
 
   const themeTags = computed(() => {
@@ -127,6 +134,7 @@ export const usePersonaStore = defineStore('persona', () => {
     myTheme,
     themeTags,
     currentTag: focus,
+    getFocus,
     show,
     hide,
     toggle,

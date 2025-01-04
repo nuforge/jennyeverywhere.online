@@ -235,7 +235,7 @@ export const vuetify = createVuetify({
       variant: 'plain',
     },
     VSystemBar: {
-      class: 'bg-transparent border-opacity-25 border-t-md border-primary',
+      class: 'bg-transparent border-opacity-50 border-t-md border-accent',
       VBtn: {
         density: 'compact',
         size: 'small',

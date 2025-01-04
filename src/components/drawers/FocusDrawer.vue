@@ -12,16 +12,18 @@
 
 
       <!-- Focus Tag Tray -->
-      <v-card-text>
-        <EvTrayCard :tags="(persona.attention.tags as Tag[])" @click-tag="onClickTag" v-model="selection" />
+      <v-card-text v-if="persona.currentTag">
+        <EvTag :text="persona.currentTag.name" :color="persona.currentTag.color" :icon="persona.currentTag.icon"
+          @click="onClickTag" />
       </v-card-text>
 
-      <!-- Tag Details -->
 
+      <!-- Tag Details -->
       <v-scale-transition>
         <v-card-text v-if="selection.length === 1">
-          <EvTrayCard :tags="(persona.
-            currentTag.attributesToTags() as Tag[])" />
+          <EvTrayCard :name="persona.
+            currentTag.name" :tags="(persona.
+              currentTag.attributesToTags() as Tag[])" />
 
         </v-card-text>
       </v-scale-transition>
@@ -52,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import EvTag from '@/components/tags/EvTag.vue';
 import Tag from '@/objects/Tag.ts';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
@@ -72,10 +74,23 @@ const addTagVisible = ref(false)
 
 const selection = ref<string[]>([])
 
+watch(
+  () => persona.currentTag, // Use optional chaining to avoid errors
+  (newFocus) => {
+    if (newFocus) {
+      console.log('persona.currentTag', persona.currentTag)
+      selection.value = [newFocus.id]; // Update the selection array
+    } else {
+      selection.value = []; // Clear the selection array
+    }
+  },
+  { immediate: true }
+);
+
 
 function onClickTag(event: MouseEvent, tag: Tag) {
-
-  persona.focusOn(tag)
+  if (!tag) return
+  persona.myFocusOn(tag)
   text.value = tag.name
   color.value = tag.color ?? ''
   icon.value = tag.icon ?? ''
@@ -83,7 +98,7 @@ function onClickTag(event: MouseEvent, tag: Tag) {
 
 function submitForm() {
   console.log('submitForm', text.value, color.value, icon.value)
-  persona.focusOn(new Tag(text.value, color.value, icon.value))
+  persona.myFocusOn(new Tag(text.value, color.value, icon.value))
 }
 
 

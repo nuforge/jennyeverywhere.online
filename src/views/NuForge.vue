@@ -2,11 +2,10 @@
   <v-container>
     <v-row>
       <v-col>
+        Focus: {{ persona.focus }}
         <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
-
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
@@ -15,6 +14,9 @@ import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/Tag';
 import { useDiceStore } from '@/stores/dice';
+import { usePersonaStore } from '@/stores/persona';
+
+const persona = usePersonaStore()
 
 
 import MarkdownManager from '@/objects/MarkdownManager';

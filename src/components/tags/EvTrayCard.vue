@@ -39,14 +39,6 @@
 
       <v-fade-transition>
         <v-card-text v-if="!minimized">
-          <v-fade-transition>
-            <v-container v-if="tray.logs && body">
-              <h2 v-if="tray.titles">{{ name }}</h2>
-              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
-                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
-                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
-            </v-container>
-          </v-fade-transition>
 
           <v-fade-transition>
             <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
@@ -57,6 +49,13 @@
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
               v-if="mergedTags.length === 0 && showManager" />
+          </v-fade-transition>
+          <v-fade-transition>
+            <v-container v-if="tray.logs && body">
+              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
+                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
+                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
+            </v-container>
           </v-fade-transition>
         </v-card-text>
       </v-fade-transition>
@@ -121,7 +120,6 @@ const props = defineProps({
   },
   modelValue: {
     type: Array as () => string[],
-    default: () => []
   },
   labels: {
     type: Boolean,
@@ -190,7 +188,7 @@ const onClickBody = (event: MouseEvent, tag: Tag) => {
 }
 
 const onRightClick = (event: MouseEvent, tag: Tag) => {
-  //console.log('onRightClick:Tag', tag)
+  console.log('onRightClick:Tag', tag)
   if (tag) persona.focusOn(tag, true)
   persona.openDrawer()
 

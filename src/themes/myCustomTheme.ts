@@ -8,7 +8,7 @@ const myCustomTheme = {
 
     error: '#FF5252',
     info: '#2196F3',
-    success: '#4CAF50',
+    success: '#2AC98C',
     warning: '#FB8C00',
 
     background: '#161616',

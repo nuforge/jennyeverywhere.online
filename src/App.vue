@@ -35,12 +35,12 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
-import HeaderLayout from '@/views/layouts/HeaderLayout.vue';
+import HeaderLayout from '@/components/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
-import BottomNavigationLayout from '@/views/layouts/BottomNavigationBar.vue';
-import TagDrawer from '@/views/drawers/TagDrawer.vue';
-import ThemeDrawer from '@/views/drawers/ThemeDrawer.vue';
-import DetailsDrawer from './views/drawers/FocusDrawer.vue';
+import BottomNavigationLayout from '@/components/layouts/BottomNavigationBar.vue';
+import TagDrawer from '@/components/drawers/TagDrawer.vue';
+import ThemeDrawer from '@/components/drawers/ThemeDrawer.vue';
+import DetailsDrawer from '@/components/drawers/FocusDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import DiceSnackbar from '@/components/game/DiceSnackbar.vue';

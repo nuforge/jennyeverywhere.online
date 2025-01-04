@@ -13,7 +13,7 @@
 
       <!-- Focus Tag Tray -->
       <v-card-text>
-        <EvTrayCard :tags="(persona.focus.tags as Tag[])" @click-tag="onClickTag" v-model="selection" />
+        <EvTrayCard :tags="(persona.attention.tags as Tag[])" @click-tag="onClickTag" v-model="selection" />
       </v-card-text>
 
       <!-- Tag Details -->

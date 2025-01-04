@@ -22,8 +22,8 @@ export const usePersonaStore = defineStore('persona', () => {
   const theme = useTheme()
   const lastKey = ref('')
 
-  const focus = ref(new Legend())
-  const currentTag = ref(new Tag())
+  const focus = ref(new Tag())
+  const attention = ref(new Legend())
   const memory = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
@@ -73,11 +73,11 @@ export const usePersonaStore = defineStore('persona', () => {
 
   function focusOn(tag: Tag, clear: boolean = false) {
     if (clear) {
-      focus.value.clearTags()
+      attention.value.clearTags()
     }
     //openDrawer()
-    currentTag.value = tag
-    return focus.value.add(tag)
+    focus.value = tag
+    return attention.value.add(tag)
   }
 
   async function randomAvatar() {
@@ -121,12 +121,12 @@ export const usePersonaStore = defineStore('persona', () => {
     display,
     name,
     avatar,
-    focus,
+    attention,
     theme,
     memory,
     myTheme,
     themeTags,
-    currentTag,
+    currentTag: focus,
     show,
     hide,
     toggle,

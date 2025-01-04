@@ -18,7 +18,8 @@
           <v-text-field v-model="theme.themes.value.myCustomTheme.colors[color.name]" :label="String(color.name)" dense
             density="compact">
             <template v-slot:prepend-inner>
-              <v-icon icon="mdi-circle-opacity" :color="theme.themes.value.myCustomTheme.colors[color.name]"></v-icon>
+              <v-icon icon="mdi-circle-opacity" :color="theme.themes.value.myCustomTheme.colors[color.name]"
+                @click="copyToClipboard(color.name)"></v-icon>
             </template>
             <template v-slot:append-inner>
               <v-icon icon="mdi-eyedropper" color="text" @click="pickColor(String(color.name))"></v-icon>
@@ -61,6 +62,15 @@ const filter = ref<string[]>([])
 const filtered = computed(() => {
   return persona.themeTags.filter(({ name }) => filter.value.includes(name));
 })
+
+const copyToClipboard = async (name: string) => {
+  try {
+    const textToCopy = theme.themes.value.myCustomTheme.colors[name].toString().replace('#', '');
+    await navigator.clipboard.writeText(textToCopy);
+  } catch (err) {
+    console.error('Failed to copy text:', err);
+  }
+}
 
 async function pickColor(name: string) {
   if (window.EyeDropper) {

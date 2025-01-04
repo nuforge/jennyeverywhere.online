@@ -40,6 +40,15 @@
       <v-fade-transition>
         <v-card-text v-if="!minimized">
           <v-fade-transition>
+            <v-container v-if="tray.logs && body">
+              <h2 v-if="tray.titles">{{ name }}</h2>
+              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
+                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
+                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
+            </v-container>
+          </v-fade-transition>
+
+          <v-fade-transition>
             <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
               :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable"
               :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
@@ -48,14 +57,6 @@
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
               v-if="mergedTags.length === 0 && showManager" />
-          </v-fade-transition>
-          <v-fade-transition>
-            <v-container v-if="tray.logs && body">
-              <h2 v-if="tray.titles">{{ name }}</h2>
-              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
-                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
-                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
-            </v-container>
           </v-fade-transition>
         </v-card-text>
       </v-fade-transition>

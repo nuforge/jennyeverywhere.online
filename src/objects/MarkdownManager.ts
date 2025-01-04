@@ -173,8 +173,6 @@ class MarkdownManager {
     words.forEach((word) => {
       if (!stopWords.includes(word) && word.length > 2) {
         wordCountMap[word] = (wordCountMap[word] || 0) + 1
-      } else {
-        console.log('word:', word, stopWords)
       }
     })
 

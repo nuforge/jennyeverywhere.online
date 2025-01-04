@@ -218,6 +218,9 @@ class Inator {
 
   htmlTags = () => {
     return [
+      'org',
+      'com',
+      'net',
       'a',
       'b',
       'blockquote',

@@ -10,8 +10,8 @@
         <v-fab-transition>
           <div v-if="icons">
 
-            <NuIcon :icon="(tag.icon as string)" :color="colorStyle" @click.stop="onClickIcon"
-              @right-click="onRightClickIcon" @double-click="onDblClickIcon" :start="labels ? true : false" />
+            <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
+              @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
 
           </div>
         </v-fab-transition>
@@ -74,6 +74,7 @@ const labels = computed(() => showLabels.value && styles.labels && props.tag.nam
 const variant = computed(() => styles.variant)
 
 const colorStyle = computed(() => !colors.value ? defaultNoColor : props.tag.color)
+const variantColorStyle = computed(() => variant.value === 'flat' || variant.value === 'elevated' ? 'text' : colorStyle.value)
 
 const props = defineProps
   ({
@@ -100,7 +101,7 @@ const props = defineProps
   })
 
 
-const emit = defineEmits(['close', 'click-tag', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
+const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 
 function expandTag(tag: Tag) {
@@ -158,6 +159,7 @@ function onRightClick(event: Event) {
 // ICON CLICKS
 
 function onClickIcon(event: Event) {
+  emit('click', event, props.tag)
   emit('click-icon', event, props.tag)
 }
 

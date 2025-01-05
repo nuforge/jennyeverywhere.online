@@ -8,8 +8,8 @@
           @click="clickIcon($event, value)" v-show="!noIcon"></v-icon>
       </v-fab-transition>
       <v-tooltip activator="parent" location="bottom">
-        <v-icon :icon="icon" :color="!noColor ? color : 'text'" v-show="icon"></v-icon> <span class="opacity-50"> {{
-          space ? `${space} : ` :
+        <v-icon :icon="icon" :color="!noColor ? color : 'text'" v-show="icon"></v-icon> <span class="opacity-50">
+          {{ space ? `${space} : ` :
             '' }}</span> {{ label }}
       </v-tooltip>
     </template>

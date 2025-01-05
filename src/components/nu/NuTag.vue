@@ -1,23 +1,21 @@
 <template>
   <v-expand-x-transition>
-    <v-chip class="rounded overflow-visible" :text="tag.name" :color="colorStyle" :icon="tag.icon" :variant="variant"
-      :value="tag.name" :prepend-icon="labels ? tag.icon : undefined" :id="`nu_${tag.id}`"
-      :closable="props.closable ?? showClosable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick"
-      @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver"
-      :draggable="true">
+    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :value="tag.name"
+      :icon="tag.icon" :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
+      @click.right.exact.prevent="onRightClick" @click="onTagClick" @double-click="onDoubleClick"
+      @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
 
       <!-- Tag Icon / Space -->
       <template #prepend>
         <v-fab-transition>
           <div v-if="icons">
 
-            <NuIcon :icon="(tag.icon as string)" :color="colorStyle" @click="onClickIcon"
-              @right-click="onRightClickIcon" @double-click="onDblClickIcon" />
+            <NuIcon :icon="(tag.icon as string)" :color="colorStyle" @click.stop="onClickIcon"
+              @right-click="onRightClickIcon" @double-click="onDblClickIcon" :start="labels ? true : false" />
 
           </div>
         </v-fab-transition>
       </template>
-
       <!-- Tag Label / Value -->
       <template #default>
         <v-expand-x-transition>
@@ -31,10 +29,11 @@
 
             <NuTooltip :tag="tag" />
 
-            <NuBadge :count="count" v-if="showBadges && count" />
 
           </div>
         </v-expand-x-transition>
+        <NuBadge :count="count" v-if="showBadges && count" :offsetY="-6" :offsetX="-4" color="background"
+          text-color="accent" bordered />
       </template>
 
     </v-chip>
@@ -99,14 +98,8 @@ const props = defineProps
   })
 
 
-const emit = defineEmits(['close', 'click-tag', 'click-action', 'click-icon', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-over', 'expand', 'compact', 'toggle'])
+const emit = defineEmits(['close', 'click-tag', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand', 'compact', 'toggle'])
 
-
-const clickAction = (tag: Tag = props.tag) => {
-  //console.log('click-action', tag.name)
-  emit('click-action', tag)
-
-}
 
 function expandTag(tag: Tag) {
   showSpace.value = showLabels.value
@@ -139,7 +132,6 @@ function onCloseTag(event: Event) {
 
 
 function onTagClick(event: Event) {
-  clickAction(props.tag)
   emit('click-tag', event, props.tag)
 }
 
@@ -155,20 +147,20 @@ function onRightClick(event: Event) {
 // ICON CLICKS
 
 function onClickIcon(event: Event) {
-  toggleLabel(props.tag)
   emit('click-icon', event, props.tag)
 }
 
 function onRightClickIcon(event: Event, tag: Tag) {
 
   if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
-  emit('right-click', event, tag)
+  emit('right-click-icon', event, tag)
 }
 
 function onDblClickIcon(event: Event, tag: Tag) {
 
+  toggleLabel(props.tag)
   if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
-  emit('right-click', event, tag)
+  emit('double-click-icon', event, tag)
 }
 
 // DRAG EVENTS

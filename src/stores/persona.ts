@@ -17,7 +17,7 @@ const usePersonaStore = defineStore('persona', () => {
   const display = ref(false)
   const name = ref<string | null>(null)
   const avatar = ref<string | null>(null)
-  const drawer = ref(true)
+  const drawer = ref(false)
 
   const theme = useTheme()
   const lastKey = ref('')

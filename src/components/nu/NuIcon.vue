@@ -8,6 +8,8 @@ import { defineEmits } from 'vue';
 
 const defaultNoColor = 'text'
 
+
+
 defineProps({
   icon: {
     type: String,
@@ -21,20 +23,22 @@ defineProps({
   },
 })
 
+
 const emit = defineEmits(['click', 'right-click', 'double-click'])
 
 const onClick = (event: Event) => {
-  console.log('onClick')
+  //console.log('onClick')
   emit('click', event)
 }
 
 const onRightClickIcon = (event: Event) => {
-  console.log('onRightClickIcon')
+
+  //console.log('onRightClickIcon')
   emit('right-click', event)
 }
 
 const onDoubleClick = (event: Event) => {
-  console.log('onDoubleClick')
+  //console.log('onDoubleClick')
   emit('double-click', event)
 }
 

@@ -69,7 +69,7 @@ const wordData = computed(() => {
 )
 
 const bodytags = computed(() => inator.shuffleArray(wordData.value.map((word) => {
-  const tag = new Tag(word.word, inator.color(), inator.icon());
+  const tag = new Tag(`count:${word.word}`, inator.color(), inator.icon());
   return tag;
 })));
 

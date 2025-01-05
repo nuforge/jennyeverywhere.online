@@ -18,7 +18,7 @@ const useStyleStore = defineStore('styles', () => {
   const logs = ref(true)
   const trays = ref(true)
 
-  const variant = ref(chipVariants[3])
+  const variant = ref(chipVariants[0])
 
   const closable = ref(false)
   const remove = ref(false)

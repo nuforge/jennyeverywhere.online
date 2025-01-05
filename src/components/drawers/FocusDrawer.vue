@@ -1,6 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging" eager :rail="rail"
-    permanent @click="rail = false">
+  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging">
     <v-card>
 
       <!-- Focus Drawer Card Actions -->
@@ -29,7 +28,7 @@
         </v-btn-toggle>
         <v-container class="bg-background pa-2 text-center">
           <v-btn-toggle>
-            <NuTag :tag="(persona.focus as Tag)" @click="clickFocus" :variant="styles.variant" :key="12" />
+            <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" :key="12" />
           </v-btn-toggle>
         </v-container>
         <v-divider />
@@ -90,7 +89,6 @@ const styles = useStyleStore()
 
 const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
 
-const rail = ref(false)
 
 const tagVariant = ref('tonal')
 
@@ -105,9 +103,6 @@ watch(
   { immediate: true }
 );
 
-function clickFocus() {
-  console.log('clickFocus', persona.focus)
-}
 
 function selectVariant(variant: string) {
   //console.log('selectVariant', variant)

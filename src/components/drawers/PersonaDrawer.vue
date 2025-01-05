@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging" permanent>
-    <v-card>
+    <v-card flat>
 
       <!-- Focus Drawer Card Actions -->
       <v-card-actions>
@@ -17,30 +17,31 @@
       <!-- Focus Tag Tray -->
       <v-card-text>
         <v-divider />
-        <v-btn-toggle density="compact" v-model="styles.variant" class="d-flex justify-space-evenly">
+        <v-btn-toggle v-model="styles.variant" class="d-flex justify-space-evenly">
           <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
             <template v-slot:activator="{ props }">
-              <v-btn icon="mdi-tag-multiple-outline" :value="variant" v-bind="props" @click="selectVariant(variant)"
-                variant="plain" size="md" class="rounded" />
+              <v-btn icon="mdi-button-pointer" :value="variant" v-bind="props" @click="selectVariant(variant)"
+                variant="plain" class="rounded" />
             </template>
             {{ variant }}
           </v-tooltip>
         </v-btn-toggle>
-        <v-container class="bg-background pa-2 text-center">
-          <v-btn-toggle>
-            <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" :key="12" />
-          </v-btn-toggle>
-        </v-container>
         <v-divider />
       </v-card-text>
 
       <v-card-text>
-        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-close">
-          <v-expansion-panel title="Edit Tag" expand-icon="mdi-tag-edit">
-            <v-expansion-panel-text>
-              <v-btn @click="resetTemp" block>Reset</v-btn>
-              <v-form @submit.prevent="submitForm()">
+        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-chevron-up">
+          <v-expansion-panel title="Focus" expand-icon="mdi-eye">
+            <v-expansion-panel-text class="bg-background  text-center ma-0 ">
+              <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" :key="12" />
+            </v-expansion-panel-text>
+          </v-expansion-panel>
 
+
+          <v-expansion-panel title="Create Tag" expand-icon="mdi-tag-plus">
+            <v-expansion-panel-text>
+              <v-btn @click="resetTemp" block prepend-icon="mdi-eye-plus" flat>Load Focus</v-btn>
+              <v-form @submit.prevent="submitForm()">
 
                 <v-text-field label="label" v-model="tempTag.name" density="compact" variant="outlined"
                   prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>

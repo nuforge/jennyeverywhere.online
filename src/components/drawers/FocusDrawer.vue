@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging">
+  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging" permanent>
     <v-card>
 
       <!-- Focus Drawer Card Actions -->
@@ -65,7 +65,22 @@
 
             </v-expansion-panel-text>
           </v-expansion-panel>
+
+          <v-expansion-panel title="History" expand-icon="mdi-timeline">
+            <v-expansion-panel-text>
+
+              <v-list lines="one" density="compact">
+                <v-list-item v-for="tag in (descending as Tag[])" :key="tag.id">
+                  <NuTag :tag="tag" elevation="2" />
+                </v-list-item>
+              </v-list>
+
+            </v-expansion-panel-text>
+          </v-expansion-panel>
         </v-expansion-panels>
+
+
+
       </v-card-text>
       <!-- Tag Details -->
     </v-card>
@@ -73,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import Tag from '@/objects/Tag.ts';
 import NuTag from '@/components/nu/NuTag.vue';
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
@@ -89,19 +104,20 @@ const styles = useStyleStore()
 
 const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
 
+const descending = computed(() => [...persona.attention.tags].reverse())
 
 const tagVariant = ref('tonal')
 
-watch(
-  () => persona.focus, // Use optional chaining to avoid errors
-  (newFocus) => {
-    if (newFocus) {
-      tempTag.value = persona.focus; // Update the temp tag
-    } else {
-    }
-  },
-  { immediate: true }
-);
+// watch(
+//   () => persona.focus, // Use optional chaining to avoid errors
+//   (newFocus) => {
+//     if (newFocus) {
+//       tempTag.value = persona.focus; // Update the temp tag
+//     } else {
+//     }
+//   },
+//   { immediate: true }
+// );
 
 
 function selectVariant(variant: string) {

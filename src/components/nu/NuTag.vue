@@ -2,8 +2,8 @@
   <v-expand-x-transition>
     <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :value="tag.name"
       :icon="tag.icon" :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
-      @click.right.exact.prevent="onRightClick" @click="onTagClick" @double-click="onDoubleClick"
-      @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+      @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
+      @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
 
       <!-- Tag Icon / Space -->
       <template #prepend>
@@ -18,22 +18,23 @@
       </template>
       <!-- Tag Label / Value -->
       <template #default>
+
         <v-expand-x-transition>
+
           <div v-if="labels">
+
             <v-expand-x-transition>
 
               <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
 
             </v-expand-x-transition>
-            {{ tag.name }}
 
+            <NuLabel :tag="tag" />
             <NuTooltip :tag="tag" />
-
 
           </div>
         </v-expand-x-transition>
-        <NuBadge :count="count" v-if="showBadges && count" :offsetY="-6" :offsetX="-4" color="background"
-          text-color="accent" bordered />
+        <NuBadge :count="count" v-if="showBadges && count" color="transparent" text-color="accent" />
       </template>
 
     </v-chip>
@@ -54,6 +55,7 @@ import NuIcon from '@/components/nu/NuIcon.vue';
 import NuSpace from '@/components/nu/NuSpace.vue';
 
 import useStyleStore from '@/stores/styles';
+import NuLabel from './NuLabel.vue';
 const styles = useStyleStore()
 
 const showLabels = ref(true);
@@ -137,6 +139,7 @@ function onTagClick(event: Event) {
 
 
 function onDoubleClick(event: Event) {
+  console.log('onDoubleClick')
   emit('double-click', event, props.tag)
 }
 

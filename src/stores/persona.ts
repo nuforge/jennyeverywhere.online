@@ -23,6 +23,7 @@ const usePersonaStore = defineStore('persona', () => {
   const lastKey = ref('')
 
   const focus = ref(new Tag('mythological bird:Phoenix', 'warning', 'mdi-fire'))
+
   const attention = ref(new Legend())
   const memory = ref(new Legend())
 

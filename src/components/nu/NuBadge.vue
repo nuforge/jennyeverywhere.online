@@ -1,7 +1,8 @@
 <template>
-  <v-badge v-if="props.count > 1" :content="props.count" :dot="showCount" floating @click="onClickBadge"
+  <v-badge v-if="props.value > 1" :content="props.value" :dot="showCount" floating @click="onClickBadge"
     :class="showCount ? `opacity-20` : `opacity-100`">
-    <template v-slot:badge> {{ count }}
+    <template v-slot:badge>
+      <v-icon @click="onClickBadge">mdi-lock</v-icon>
     </template>
   </v-badge>
 </template>
@@ -14,13 +15,13 @@ const show = ref(false)
 // Props
 
 const props = defineProps({
-  count: {
+  value: {
     type: Number,
     default: 1,
   },
 })
 
-const showCount = computed(() => show.value && props.count > 1)
+const showCount = computed(() => show.value && props.value > 1)
 
 
 const emit = defineEmits(['click-badge'])

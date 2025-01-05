@@ -175,26 +175,26 @@ watch(() => selection.value, (newVal) => {
 
 const onCreateTag = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', event, tag)
-  persona.focusOn(tag, true)
+  persona.focusOn(tag)
   persona.openDrawer()
 
 }
 
 const onClickIcon = (event: MouseEvent, tag: Tag) => {
   console.log('onClickIcon:Tag', tag)
-  //persona.focusOn(tag, true)
+  //persona.focusOn(tag)
   emit('click-icon', event, tag)
 
 }
 const onClickTag = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
-  //persona.focusOn(tag, true)
+  //persona.focusOn(tag)
   emit('click-tag', event, tag)
 
 }
 const onDoubleClick = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
-  if (tag) persona.focusOn(tag, true)
+  if (tag) persona.focusOn(tag)
   persona.openDrawer()
   emit('double-click-tag', event, tag)
 
@@ -202,12 +202,12 @@ const onDoubleClick = (event: MouseEvent, tag: Tag) => {
 
 const onClickBody = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
-  persona.focusOn(tag, true)
+  persona.focusOn(tag)
 
 }
 
 const onRightClick = (event: MouseEvent, tag: Tag) => {
-  if (tag) persona.focusOn(tag, true)
+  if (tag) persona.focusOn(tag)
   //persona.openDrawer()
 
 }

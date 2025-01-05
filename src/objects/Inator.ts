@@ -179,7 +179,7 @@ class Inator {
     return this.randomArrayValue(this.themecolors())
   } // G
 
-  themecolors = () => {
+  themecolors = (includeBackgroundColors: boolean = true) => {
     return [
       'primary',
       'secondary',
@@ -188,10 +188,14 @@ class Inator {
       'info',
       'success',
       'warning',
-      'background',
-      'surface',
+      ...(includeBackgroundColors ? this.bgcolors() : []),
     ]
   }
+
+  bgcolors = () => {
+    return ['background', 'surface']
+  }
+
   colors = () => {
     return [
       'red',

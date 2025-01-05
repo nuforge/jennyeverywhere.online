@@ -13,6 +13,7 @@ import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 const selection = ref<string[]>([])
 
+
 const filtered = computed(() => {
   return persona.themeTags.filter(tag => props.filter?.includes(tag.name)) || []
 })
@@ -34,6 +35,7 @@ const props = defineProps({
 // Emits
 
 const emit = defineEmits(['update:modelValue'])
+
 watch(() => selection.value, (newVal) => {
   emit('update:modelValue', newVal)
 });

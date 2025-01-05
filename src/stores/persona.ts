@@ -26,6 +26,7 @@ const usePersonaStore = defineStore('persona', () => {
 
   const attention = ref(new Legend())
   const memory = ref(new Legend())
+  const themeMap = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
   const themeBase = [
@@ -40,13 +41,17 @@ const usePersonaStore = defineStore('persona', () => {
     'surface',
   ]
 
-  function focusOn(tag: Tag, clear: boolean = false) {
+  // Default to maintaining focus or no?
+  function focusOn(tag?: Tag, clear: boolean = false) {
     if (clear) {
       attention.value.clearTags()
     }
     if (!focus.value) {
       console.error('focus is undefined')
       focus.value = new Tag() // Fallback to a new Tag if undefined
+    }
+    if (!tag) {
+      return attention.value.add(focus.value as Tag)
     }
     focus.value = tag // This updates the `focus` ref correctly
     return attention.value.add(tag)
@@ -95,16 +100,20 @@ const usePersonaStore = defineStore('persona', () => {
     drawer.value = false
   }
 
-  const themeTags = computed(() => {
-    const tagList = [] as Tag[]
+  const themeLegend = computed(() => {
     Object.entries(myTheme.value.colors)
       .filter(([name]) => {
         return themeBase.includes(name)
       })
       .forEach(([name]) => {
-        return tagList.push(new Tag(name, name, 'mdi-circle-opacity'))
+        return themeMap.value.addTag(new Tag(name, name, 'mdi-circle-opacity'))
       })
-    return tagList as Tag[]
+    console.log(`themeLegend:`, themeMap.value)
+    return themeMap.value as Legend
+  })
+
+  const themeTags = computed(() => {
+    return themeLegend.value.tags as Tag[]
   })
 
   const handleKeydown = (event: KeyboardEvent) => {
@@ -134,6 +143,7 @@ const usePersonaStore = defineStore('persona', () => {
     memory,
     myTheme,
     themeTags,
+    themeLegend,
     focus,
     getFocus,
     show,

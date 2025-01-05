@@ -4,6 +4,7 @@ const TAG_WHITESPACE_REPLACER = '-'
 
 class Legend extends Tag {
   protected _tags: Map<string, Tag> = new Map()
+  protected _links: Record<string, Tag> = {}
 
   constructor(name?: string) {
     super(name)
@@ -38,11 +39,16 @@ class Legend extends Tag {
 
   // Tag LookUp
 
-  getTag(id: string): Tag | undefined {
-    return this._tags.get(id)
+  getTag(name: string): Tag | undefined {
+    const tag = this._tags.get(name)
+    if (tag) {
+      this._links[name] = tag
+    }
+    return this._tags.get(this._links[name].id)
   }
 
   setTag(id: string, tag: Tag) {
+    this._links[tag.name] = tag
     return this._tags.set(id, tag)
   }
 

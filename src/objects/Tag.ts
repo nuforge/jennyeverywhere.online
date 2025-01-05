@@ -4,20 +4,26 @@ const TAG_WHITESPACE_REPLACER = '-'
 
 interface nuTag {
   id: string
+  space: string
   name: string
-  type: string
-  space?: string
+  value?: string | number | boolean | Tag | nuTag | undefined
   icon?: string
   color?: string
+  origin?: Tag
 }
 
 class Tag {
+  // System Attributes
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()
   protected _type: string = this.constructor.name
-  protected _name: string
 
+  // Tag Attributes
+  protected _name: string
   protected _space?: string
+  protected _value?: string | number | boolean | Tag | nuTag | undefined
+
+  // Style Attributes
   protected _style?: Record<string, string | undefined> = {}
 
   constructor(name?: string, color?: string, icon?: string) {
@@ -79,6 +85,14 @@ class Tag {
   set(name: string, namespace: string) {
     this._name = name
     this._space = namespace
+  }
+
+  get value(): string | number | boolean | Tag | nuTag | undefined {
+    return this._value
+  }
+
+  set value(value: string | number | boolean | Tag | nuTag | undefined) {
+    this._value = value
   }
 
   get name() {

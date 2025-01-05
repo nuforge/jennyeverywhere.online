@@ -111,11 +111,14 @@ class Inator {
   } // Generate 5 random tags
 
   ntag = (space?: string, count: number = 1): Tag => {
-    return new Tag(
+    const tag = new Tag(
       `${space ?? this.words(count)}:${this.words(count)}`,
       this.themecolor(),
       this.icon() as string,
     )
+    tag.value = this.words(count).toString()
+    console.log()
+    return tag
   } // Generate 5 random tags
 
   ntags = (count: number = 1, space?: string): Tag[] => {

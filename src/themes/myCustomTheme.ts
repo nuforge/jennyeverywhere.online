@@ -2,13 +2,13 @@ const myCustomTheme = {
   dark: true,
   colors: {
     primary: '#2B75B1',
-    secondary: '#9E3E3B',
+    secondary: '#bd3c62',
 
     accent: '#3E3E3B',
 
     error: '#FF5252',
     info: '#2196F3',
-    success: '#2AC98C',
+    success: '#36C9B0',
     warning: '#FB8C00',
 
     background: '#161616',

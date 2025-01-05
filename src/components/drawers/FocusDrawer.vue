@@ -106,19 +106,7 @@ const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
 
 const descending = computed(() => [...persona.attention.tags].reverse())
 
-const tagVariant = ref('tonal')
-
-// watch(
-//   () => persona.focus, // Use optional chaining to avoid errors
-//   (newFocus) => {
-//     if (newFocus) {
-//       tempTag.value = persona.focus; // Update the temp tag
-//     } else {
-//     }
-//   },
-//   { immediate: true }
-// );
-
+const tagVariant = ref('text')
 
 function selectVariant(variant: string) {
   //console.log('selectVariant', variant)
@@ -133,5 +121,16 @@ function submitForm() {
 function resetTemp() {
   tempTag.value = persona.focus
 }
+
+// watch(
+//   () => persona.focus, // Use optional chaining to avoid errors
+//   (newFocus) => {
+//     if (newFocus) {
+//       tempTag.value = persona.focus; // Update the temp tag
+//     } else {
+//     }
+//   },
+//   { immediate: true }
+// );
 
 </script>

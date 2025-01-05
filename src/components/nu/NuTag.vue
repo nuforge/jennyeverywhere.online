@@ -100,21 +100,21 @@ const props = defineProps
   })
 
 
-const emit = defineEmits(['close', 'click-tag', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand', 'compact', 'toggle'])
+const emit = defineEmits(['close', 'click-tag', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 
 function expandTag(tag: Tag) {
   showSpace.value = showLabels.value
   showLabels.value = true
   //console.log('expandTag', tag)
-  emit('expand', tag)
+  emit('expand-tag', tag)
 }
 
 function compactTag(tag: Tag) {
   showLabels.value = showSpace.value
   showSpace.value = false
   //console.log('compactTag', tag)
-  emit('compact', tag)
+  emit('compact-tag', tag)
 }
 
 
@@ -124,7 +124,16 @@ function toggleLabel(tag: Tag) {
   showSpace.value = !showLabels.value
 
   //console.log('toggleTag', tag)
-  emit('toggle', tag)
+  emit('toggle-label', tag)
+}
+
+
+function expandToSpace(tag: Tag) {
+
+  if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
+
+  //console.log('toggleTag', tag)
+  emit('expand-space', tag)
 }
 
 
@@ -139,7 +148,6 @@ function onTagClick(event: Event) {
 
 
 function onDoubleClick(event: Event) {
-  console.log('onDoubleClick')
   emit('double-click', event, props.tag)
 }
 
@@ -154,15 +162,16 @@ function onClickIcon(event: Event) {
 }
 
 function onRightClickIcon(event: Event, tag: Tag) {
-
-  if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
+  expandToSpace(tag)
   emit('right-click-icon', event, tag)
 }
 
 function onDblClickIcon(event: Event, tag: Tag) {
 
-  toggleLabel(props.tag)
-  if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
+  // Clicking the icon draws content toward it, or opens the tag. Double-clicking the icon toggles the label.
+  // It is the call to action for the button or tag. ??
+  toggleLabel(tag)
+  //if (!showSpace.value) { compactTag(props.tag) } else { expandTag(props.tag) }
   emit('double-click-icon', event, tag)
 }
 

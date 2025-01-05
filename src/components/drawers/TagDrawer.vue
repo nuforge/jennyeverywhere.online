@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
-import { useTagStore } from '@/stores/tags'
-import { useStyleStore } from '@/stores/styles'
+import useStateStore from '@/stores/state';
+import useTagStore from '@/stores/tags'
+import useStyleStore from '@/stores/styles'
 import Tag from '@/objects/Tag.ts';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';

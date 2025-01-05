@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 import Legend from '@/objects/Legend'
 
-export const useTagStore = defineStore('tags', () => {
+const useTagStore = defineStore('tags', () => {
   const tagMap = ref(new Legend())
   const selection = ref<string[]>([''])
   const selected = computed(() =>
@@ -20,8 +20,8 @@ export const useTagStore = defineStore('tags', () => {
 
   const taglist = tagMap
 
-  const cleanTag = (name: string | number) => {
-    return Tag.cleanTag(name)
+  const normalizeTagName = (name: string | number) => {
+    return Tag.normalizeTagName(name)
   }
 
   const tempTag = (newText: string = 'tag') => {
@@ -47,7 +47,7 @@ export const useTagStore = defineStore('tags', () => {
   }
 
   const addLabel = (newName: string, newColor: string, newIcon: string) => {
-    const tag = cleanTag(newName)
+    const tag = normalizeTagName(newName)
     const existingTag = tagMap.value.getTag(tag)
     const newTag = existingTag ? existingTag : new Tag(newName)
     newTag.icon = newIcon
@@ -112,9 +112,10 @@ export const useTagStore = defineStore('tags', () => {
     linkText,
     copyTag,
     pasteTag,
-    cleanTag,
+    normalizeTagName,
     clipboardEmpty,
     clipboardSave,
     triggerSnackbar,
   }
 })
+export default useTagStore

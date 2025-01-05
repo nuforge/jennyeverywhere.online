@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useTimelineStore } from '@/stores/timelines'
-import { useStateStore } from '@/stores/state'
+import useStateStore from '@/stores/state'
 const state = useStateStore()
 
 const timeline = useTimelineStore()

@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 
-import { useDiceStore } from '@/stores/dice';
+import useDiceStore from '@/stores/dice';
 
 const dice = useDiceStore()
 

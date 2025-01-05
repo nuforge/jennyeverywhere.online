@@ -6,8 +6,8 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useStateStore } from '@/stores/state';
-import { useTagStore } from '@/stores/tags'
+import useStateStore from '@/stores/state';
+import useTagStore from '@/stores/tags'
 import Tag from '@/objects/Tag.ts';
 import EvTagTray from '@/components/tags/EvTagTray.vue';
 

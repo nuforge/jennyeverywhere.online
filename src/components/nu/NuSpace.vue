@@ -20,16 +20,16 @@ const emit = defineEmits(['click', 'right-click', 'double-click'])
 
 const onDoubleClick = (event: Event) => {
   console.log('onDoubleClick')
-  emit('double-click', event, tag)
+  emit('double-click', event)
 }
 const onRightClickIcon = (event: Event) => {
   console.log('onRightClickIcon')
-  emit('right-click', event, tag)
+  emit('right-click', event)
 }
 
 const onClick = (event: Event) => {
   console.log('onClick')
-  emit('click', event, tag)
+  emit('click', event)
 }
 
 </script>

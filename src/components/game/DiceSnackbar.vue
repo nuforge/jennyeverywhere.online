@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useDiceStore } from '@/stores/dice';
+import useDiceStore from '@/stores/dice';
 import Tag from '@/objects/Tag';
 const dice = useDiceStore();
 

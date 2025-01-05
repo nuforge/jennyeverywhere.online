@@ -49,9 +49,9 @@ import { ref, computed, watch } from 'vue'
 import Tag from '@/objects/Tag'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-import { useDiceStore } from '@/stores/dice';
-import { useTagStore } from '@/stores/tags';
-import { usePersonaStore } from '@/stores/persona';
+import useDiceStore from '@/stores/dice';
+import useTagStore from '@/stores/tags';
+import usePersonaStore from '@/stores/persona';
 
 
 import MarkdownManager from '@/objects/MarkdownManager';

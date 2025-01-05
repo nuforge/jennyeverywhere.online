@@ -223,7 +223,7 @@ export const vuetify = createVuetify({
     },
     VTooltip: {
       location: 'top',
-      contentClass: 'bg-surface ma-2 pa-3',
+      contentClass: 'bg-background ma-2 pa-3',
     },
     VBottomNavigation: {},
     VNavigationDrawer: {},

@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
 import type Tag from '@/objects/Tag';
-import { useTagStore } from '@/stores/tags'
+import useTagStore from '@/stores/tags'
 import { useStoryStore } from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';

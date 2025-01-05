@@ -22,7 +22,6 @@ class Tag {
 
   constructor(name?: string, color?: string, icon?: string) {
     const label = Tag.cleanLabel(name ?? this._id)
-    this._id = Tag.cleanTag(label)
     this.color = color
     this.icon = icon
     const { value, namespace } = Tag.splitTag(label)
@@ -34,7 +33,7 @@ class Tag {
   static cleanLabel = (text: string) => {
     return text.toString().trim()
   }
-  static cleanTag = (name: string | number) => {
+  static normalizeTagName = (name: string | number) => {
     return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
@@ -63,7 +62,7 @@ class Tag {
       name: 'mdi-label-variant-outline',
       type: 'mdi-label-outline',
       space: 'mdi-tray',
-      icon: 'mdi-robot-outline',
+      icon: 'mdi-symbol',
       color: 'mdi-circle-opacity',
     }
 

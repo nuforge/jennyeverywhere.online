@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import PersonaAvatar from '@/components/PersonaAvatar.vue';
-import { useStateStore } from '@/stores/state'
+import useStateStore from '@/stores/state'
 import { computed } from 'vue';
 const state = useStateStore()
 

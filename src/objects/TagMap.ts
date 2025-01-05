@@ -14,8 +14,8 @@ class TagMap {
     return [...this._tags.values()] as Tag[]
   })
 
-  static cleanTag = (name: string | number) => {
-    return Tag.cleanTag(name)
+  static normalizeTagName = (name: string | number) => {
+    return Tag.normalizeTagName(name)
   }
 
   get tags() {
@@ -49,7 +49,7 @@ class TagMap {
   }
 
   addLabel = (newName: string, newColor: string, newIcon: string) => {
-    const tag = Tag.cleanTag(newName)
+    const tag = Tag.normalizeTagName(newName)
     const existingTag = this.getTag(tag)
     const newTag = existingTag ? existingTag : new Tag(newName)
     newTag.icon = newIcon

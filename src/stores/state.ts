@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useTheme } from 'vuetify'
 import { useRouter } from 'vue-router'
 
-export const useStateStore = defineStore('state', () => {
+const useStateStore = defineStore('state', () => {
   const theme = ref('myCustomTheme')
   const tags = ref(true)
   const add = ref(false)
@@ -147,3 +147,5 @@ export const useStateStore = defineStore('state', () => {
     dragDrop,
   }
 })
+
+export default useStateStore

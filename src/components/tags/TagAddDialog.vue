@@ -64,8 +64,8 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import VTagItem from '@/components/tags/VTagItem.vue'
-import { useStateStore } from '@/stores/state'
-import { useTagStore } from '@/stores/tags'
+import useStateStore from '@/stores/state'
+import useTagStore from '@/stores/tags'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
 import Tag from '@/objects/Tag';

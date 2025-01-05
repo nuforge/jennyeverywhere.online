@@ -45,7 +45,7 @@
               v-if="mergedTags.length > 0 && tray.tray && styles.trays" :tags="mergedTags" :labels="tray.labels"
               :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
               @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick"
-              @click-tag="onClickTag" @double-click="onDoubleClick" />
+              @click-tag="onClickTag" @double-click="onDoubleClick" @click-icon="onClickIcon" />
           </v-fade-transition>
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
@@ -69,8 +69,8 @@ import { ref, watch, defineProps, defineEmits, computed, onMounted } from 'vue';
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
-import { useStateStore } from '@/stores/state'
-import { useClipboardStore } from '@/stores/clipboard';
+import useStateStore from '@/stores/state'
+import useClipboardStore from '@/stores/clipboard';
 
 import Tag from '@/objects/Tag'
 import TagTray from '@/objects/TagTray'
@@ -80,11 +80,11 @@ import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import EvTag from './EvTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';
-import { usePersonaStore } from '@/stores/persona';
+import usePersonaStore from '@/stores/persona';
 import TagBodyStyles from './TagBodyStyles.vue';
 
 
-import { useStyleStore } from '@/stores/styles';
+import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
 
 const persona = usePersonaStore()
@@ -125,6 +125,7 @@ const props = defineProps({
   },
   modelValue: {
     type: Array as () => string[],
+    default: () => []
   },
   labels: {
     type: Boolean,
@@ -163,7 +164,7 @@ const props = defineProps({
 
 // EMIT AND PROPS
 
-const emit = defineEmits(['update:modelValue', 'click-tag'])
+const emit = defineEmits(['update:modelValue', 'click-tag', 'click-icon', 'double-click-tag'])
 
 watch(() => props.modelValue, (newVal) => {
   selection.value = newVal
@@ -179,6 +180,12 @@ const onCreateTag = (event: MouseEvent, tag: Tag) => {
 
 }
 
+const onClickIcon = (event: MouseEvent, tag: Tag) => {
+  console.log('onClickIcon:Tag', tag)
+  //persona.focusOn(tag, true)
+  emit('click-icon', event, tag)
+
+}
 const onClickTag = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
   //persona.focusOn(tag, true)

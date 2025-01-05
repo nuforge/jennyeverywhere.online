@@ -4,6 +4,6 @@
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state'
+import useStateStore from '@/stores/state'
 const state = useStateStore()
 </script>

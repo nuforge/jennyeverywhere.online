@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Counter from '@/objects/Counter'
 
-export const useCounterStore = defineStore('counter', () => {
+const useCounterStore = defineStore('counter', () => {
   const counter = ref(new Counter())
 
   function increment() {
@@ -23,3 +23,5 @@ export const useCounterStore = defineStore('counter', () => {
 
   return { counter, increment, decrement, count, icon }
 })
+
+export default useCounterStore

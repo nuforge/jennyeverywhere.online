@@ -10,8 +10,8 @@ class Legend extends Tag {
     return this
   }
 
-  static cleanTag = (name: string | number) => {
-    return Tag.cleanTag(name)
+  static normalizeTagName = (name: string | number) => {
+    return Tag.normalizeTagName(name)
   }
 
   get tags() {

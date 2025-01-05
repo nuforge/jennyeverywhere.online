@@ -11,7 +11,7 @@ export interface Story {
   image: string
 }
 
-export const useStoryStore = defineStore('story', () => {
+const useStoryStore = defineStore('story', () => {
   const title = ref(story.title)
   const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
   const choices = ref(story.choices)
@@ -109,3 +109,5 @@ export const useStoryStore = defineStore('story', () => {
     linkTag,
   }
 })
+
+export default useStoryStore

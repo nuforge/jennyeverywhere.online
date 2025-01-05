@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import TagGroup from '@/components/tags/TagGroup.vue';
-import { useTagStore } from '@/stores/tags'
+import useTagStore from '@/stores/tags'
 const tags = useTagStore()
 import storyImage from '@/assets/stories/gallery/001.png'
 

@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
-import { useStyleStore } from '@/stores/styles'
+import useStateStore from '@/stores/state';
+import useStyleStore from '@/stores/styles'
 
 const styles = useStyleStore()
 const state = useStateStore()

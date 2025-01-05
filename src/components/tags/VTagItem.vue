@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStyleStore } from '@/stores/styles';
+import useStyleStore from '@/stores/styles';
 
 const styles = useStyleStore()
 

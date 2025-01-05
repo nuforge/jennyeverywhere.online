@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import DiceTag from '@/components/game/DiceTag.vue'
-import { useDiceStore } from '@/stores/dice'
+import useDiceStore from '@/stores/dice'
 
 const dice = useDiceStore()
 

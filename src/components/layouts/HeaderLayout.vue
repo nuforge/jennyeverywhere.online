@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import logo from '@/assets/images/logos/jenny-everywhere-online-logo.png'
-import { usePersonaStore } from '@/stores/persona';
+import usePersonaStore from '@/stores/persona';
 
 const persona = usePersonaStore()
 

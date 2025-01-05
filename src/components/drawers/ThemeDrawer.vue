@@ -50,8 +50,8 @@ declare global {
 const color = ref<string | null>(null);
 import { computed } from 'vue';
 import { useTheme } from 'vuetify';
-import { useStateStore } from '@/stores/state';
-import { usePersonaStore } from '@/stores/persona';
+import useStateStore from '@/stores/state';
+import usePersonaStore from '@/stores/persona';
 import ThemePalette from '@/components/ThemePalette.vue';
 
 const theme = useTheme();

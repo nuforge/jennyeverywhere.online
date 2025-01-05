@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { computed, defineProps, defineEmits } from 'vue';
 
-import { usePersonaStore } from '@/stores/persona';
+import usePersonaStore from '@/stores/persona';
 // import { emit } from 'process';
 import { useTheme } from 'vuetify';
 const theme = useTheme();
@@ -44,7 +44,6 @@ const computedModelValue = computed({
   }
 });
 
-console.log('ColorAutocomplete', props.modelValue)
 
 //import json from '@/assets/icons.json'
 //const icons = json.map((icon) => `mdi-${icon.name}`) // It's an array of strings... stop looking!

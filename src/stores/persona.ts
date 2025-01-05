@@ -13,16 +13,16 @@ export interface Persona {
   avatar: string | null
 }
 
-export const usePersonaStore = defineStore('persona', () => {
+const usePersonaStore = defineStore('persona', () => {
   const display = ref(false)
   const name = ref<string | null>(null)
   const avatar = ref<string | null>(null)
-  const drawer = ref(false)
+  const drawer = ref(true)
 
   const theme = useTheme()
   const lastKey = ref('')
 
-  const focus = ref(new Tag(''))
+  const focus = ref(new Tag('mythological bird:Phoenix', 'warning', 'mdi-fire'))
   const attention = ref(new Legend())
   const memory = ref(new Legend())
 
@@ -120,7 +120,7 @@ export const usePersonaStore = defineStore('persona', () => {
     }
     lastKey.value = event.key // Store the key that was pressed
     if (event.key === 'f') {
-      drawer.value = !drawer.value
+      toggleDrawer()
     }
   }
 
@@ -150,3 +150,5 @@ export const usePersonaStore = defineStore('persona', () => {
     handleKeydown,
   }
 })
+
+export default usePersonaStore

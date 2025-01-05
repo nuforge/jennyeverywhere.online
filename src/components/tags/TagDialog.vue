@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
-import { useTagStore } from '@/stores/tags'
+import useStateStore from '@/stores/state';
+import useTagStore from '@/stores/tags'
 import Tag from '@/objects/Tag' // Adjust the import path as necessary
 import EvTagTray from '@/components/tags/EvTagTray.vue';
 

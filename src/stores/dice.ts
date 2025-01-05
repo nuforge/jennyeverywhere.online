@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Dice from '@/objects/game/Dice'
 
-export const useDiceStore = defineStore('dice', () => {
+const useDiceStore = defineStore('dice', () => {
   const die = ref<Dice>(new Dice(20))
   const defaultTimeout = 4000
   const timeout = ref(defaultTimeout)
@@ -86,3 +86,5 @@ export const useDiceStore = defineStore('dice', () => {
     clearSnackbar,
   }
 })
+
+export default useDiceStore

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip content-class="bg-background" activator="parent" location="bottom" persistent :close-delay="500"
     :open-delay="500" :opacity="0.8">
-    <v-chip prepend-icon="mdi-help" :text="text" variant="text" />
+    <v-chip :prepend-icon="tag.icon" :text="text ?? tag.name" variant="text" />
   </v-tooltip>
 </template>
 

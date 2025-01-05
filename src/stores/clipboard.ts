@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/Tag'
 
-export const useClipboardStore = defineStore('clipboard', () => {
+const useClipboardStore = defineStore('clipboard', () => {
   const dragging = ref(false)
   const clipboard = ref<Tag[]>([])
 
@@ -54,3 +54,5 @@ export const useClipboardStore = defineStore('clipboard', () => {
     pasteTag,
   }
 })
+
+export default useClipboardStore

@@ -21,10 +21,10 @@ const noLabel = computed(() => props.noLabel || styles.labels)
 const noColor = computed(() => props.noColor || styles.color)
 
 
-import { useStateStore } from '@/stores/state';
-import { useStyleStore } from '@/stores/styles';
+import useStateStore from '@/stores/state';
+import useStyleStore from '@/stores/styles';
 
-import { useClipboardStore } from '@/stores/clipboard'
+import useClipboardStore from '@/stores/clipboard'
 import Tag from '@/objects/Tag'
 
 const state = useStateStore()

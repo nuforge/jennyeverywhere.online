@@ -9,7 +9,7 @@
 import { ref, defineProps, computed, watch } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 
-import { usePersonaStore } from '@/stores/persona';
+import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 const selection = ref<string[]>([])
 

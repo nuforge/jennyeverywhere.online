@@ -4,9 +4,9 @@
 </template>
 
 <script setup lang="ts">
-import { useClipboardStore } from '@/stores/clipboard'
-import { useStateStore } from '@/stores/state';
-import { useTagStore } from '@/stores/tags'
+import useClipboardStore from '@/stores/clipboard'
+import useStateStore from '@/stores/state';
+import useTagStore from '@/stores/tags'
 import Tag from '@/objects/Tag.ts';
 
 const tags = useTagStore()

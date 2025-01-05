@@ -1,98 +1,126 @@
 <template>
-  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging">
+  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging" eager :rail="rail"
+    permanent @click="rail = false">
     <v-card>
 
       <!-- Focus Drawer Card Actions -->
       <v-card-actions>
         <v-icon @click="persona.drawer = !persona.drawer">mdi-close</v-icon>
-        <v-spacer> </v-spacer>
-        <v-icon @click="addTagVisible = !addTagVisible"
-          :icon="addTagVisible ? `mdi-tag-plus` : `mdi-tag-plus-outline`"></v-icon>
+        <v-spacer />
+        <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons" :colors="styles.colors"
+          :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
+          @update:icons="(value: boolean) => { styles.icons = value }"
+          @update:colors="(value: boolean) => { styles.colors = value }"
+          @update:logs="(value: boolean) => { styles.logs = value }"
+          @update:tray="(value: boolean) => { styles.trays = value }" />
       </v-card-actions>
 
-
       <!-- Focus Tag Tray -->
-      <v-card-text v-if="persona.focus">
-        <v-divider></v-divider>
+      <v-card-text>
+        <v-divider />
+        <v-btn-toggle density="compact" v-model="styles.variant" class="d-flex justify-space-evenly">
+          <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
+            <template v-slot:activator="{ props }">
+              <v-btn icon="mdi-tag-multiple-outline" :value="variant" v-bind="props" @click="selectVariant(variant)"
+                variant="plain" size="md" class="rounded" />
+            </template>
+            {{ variant }}
+          </v-tooltip>
+        </v-btn-toggle>
         <v-container class="bg-background pa-2 text-center">
-          <NuTag :tag="persona.focus" v-if="persona.focus.id" elevation="2" />
+          <v-btn-toggle>
+            <NuTag :tag="(persona.focus as Tag)" @click="clickFocus" :variant="styles.variant" :key="12" />
+          </v-btn-toggle>
         </v-container>
-        <v-divider></v-divider>
+        <v-divider />
       </v-card-text>
 
+      <v-card-text>
+        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-close">
+          <v-expansion-panel title="Edit Tag" expand-icon="mdi-tag-edit">
+            <v-expansion-panel-text>
+              <v-btn @click="resetTemp" block>Reset</v-btn>
+              <v-form @submit.prevent="submitForm()">
 
+
+                <v-text-field label="label" v-model="tempTag.name" density="compact" variant="outlined"
+                  prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
+                <tag-autocomplete v-model="tempTag.icon" :prepend-inner-icon="tempTag.icon" />
+                <ColorAutocomplete v-model="(tempTag.color as string)" label="color" />
+
+
+              </v-form>
+
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+
+          <v-expansion-panel title="System Tags" expand-icon="mdi-tag-multiple-outline">
+            <v-expansion-panel-text>
+
+              <v-list lines="one" density="compact">
+                <v-list-item v-for="tag in (persona.focus.attributesToTags() as Tag[])" :key="tag.id">
+                  <NuTag :tag="tag" elevation="2" />
+                </v-list-item>
+              </v-list>
+
+
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-card-text>
       <!-- Tag Details -->
-      <v-scale-transition>
-        <v-card-text v-if="selection.length === 1">
-          <EvTrayCard :name="persona.focus.name" :tags="(persona.focus.attributesToTags() as Tag[])" />
-
-        </v-card-text>
-      </v-scale-transition>
-
-      <!-- Add Tag Form -->
-      <v-scale-transition>
-        <v-container v-if="addTagVisible && selection.length === 1">
-          <v-form @submit.prevent="submitForm()">
-            <v-text-field label="label" v-model="text" density="compact" variant="outlined"
-              prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
-            <tag-autocomplete v-model="icon" :prepend-inner-icon="icon" />
-            <ColorAutocomplete v-model="color" label="color" />
-            <v-card-actions>
-              <v-btn icon="mdi-close" variant="plain" @click="addTagVisible = false" />
-              <EvTag :icon="icon" :color="color" :text="text"></EvTag>
-              <v-spacer>
-              </v-spacer>
-              <v-btn type="submit" icon="mdi-tag-plus" :disabled="!text" variant="text" />
-            </v-card-actions>
-          </v-form>
-        </v-container>
-      </v-scale-transition>
-
-
-
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import EvTag from '@/components/tags/EvTag.vue';
 import Tag from '@/objects/Tag.ts';
 import NuTag from '@/components/nu/NuTag.vue';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';
+import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 
-import { useStateStore } from '@/stores/state';
-import { usePersonaStore } from '@/stores/persona';
+import useStateStore from '@/stores/state';
+import usePersonaStore from '@/stores/persona';
+import useStyleStore from '@/stores/styles'
 const persona = usePersonaStore()
 const state = useStateStore()
+const styles = useStyleStore()
 
-const text = ref('')
-const color = ref('primary')
-const icon = ref('mdi-tag')
+const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
 
-const addTagVisible = ref(false)
+const rail = ref(false)
 
-const selection = ref<string[]>([])
+const tagVariant = ref('tonal')
 
 watch(
   () => persona.focus, // Use optional chaining to avoid errors
   (newFocus) => {
     if (newFocus) {
-      selection.value = [newFocus.id]; // Update the selection array
+      tempTag.value = persona.focus; // Update the temp tag
     } else {
-      selection.value = []; // Clear the selection array
     }
   },
   { immediate: true }
 );
 
-
-function submitForm() {
-  console.log('submitForm', text.value, color.value, icon.value)
-  persona.myFocusOn(new Tag(text.value, color.value, icon.value))
+function clickFocus() {
+  console.log('clickFocus', persona.focus)
 }
 
+function selectVariant(variant: string) {
+  //console.log('selectVariant', variant)
+  tagVariant.value = variant
+}
+
+function submitForm() {
+  //console.log('submitForm', tempTag.value)
+  persona.focusOn(new Tag(tempTag.value.name, tempTag.value.color, tempTag.value.icon))
+}
+
+function resetTemp() {
+  tempTag.value = persona.focus
+}
 
 </script>

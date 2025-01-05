@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { usePersonaStore } from '@/stores/persona';
+import usePersonaStore from '@/stores/persona';
 
 const persona = usePersonaStore()
 

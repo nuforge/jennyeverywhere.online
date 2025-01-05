@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import storyChoice from '@/components/story/StoryChoice.vue'
-import { useStoryStore } from '@/stores/story';
+import useStoryStore from '@/stores/story';
 import Tag from '@/objects/Tag'
 const story = useStoryStore()
 const selection = ref<number>();

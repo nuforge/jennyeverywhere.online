@@ -3,18 +3,16 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-
-import NuTooltip from '@/components/nu/NuTooltip.vue';
-import NuBadge from '@/components/nu/NuBadge.vue';
-import NuIcon from '@/components/nu/NuIcon.vue';
-import NuSpace from '@/components/nu/NuSpace.vue';
-import NuLabel from './NuLabel.vue';
-
 import Tag from '@/objects/Tag';
+
+import NuIcon from '@/components/nu/NuIcon.vue';
+import NuLabel from './NuLabel.vue';
+import NuSpace from '@/components/nu/NuSpace.vue';
+import NuBadge from '@/components/nu/NuBadge.vue';
+import NuTooltip from '@/components/nu/NuTooltip.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
-
 
 const showSpace = ref(false);
 
@@ -27,9 +25,10 @@ const defaultNoColor = 'text'
 const icons = computed(() => showIcons.value && styles.display.icons && props.tag.icon)
 const colors = computed(() => showColors.value && styles.display.colors && props.tag.color)
 const labels = computed(() => showLabels.value && styles.display.labels && props.tag.name)
+
 const variant = computed(() => {
   if (showLabels.value && styles.display.variants) {
-    return styles.display.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
+    return styles.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
   }
   return undefined;
 });
@@ -97,7 +96,6 @@ function compactTag(tag: Tag) {
   emit('compact-tag', tag)
 }
 
-
 function toggleLabel(tag: Tag) {
 
   showLabels.value = showSpace.value
@@ -107,7 +105,6 @@ function toggleLabel(tag: Tag) {
   emit('toggle-label', tag)
 }
 
-
 function expandToSpace(tag: Tag) {
 
   if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
@@ -116,16 +113,13 @@ function expandToSpace(tag: Tag) {
   emit('expand-space', tag)
 }
 
-
 function onCloseTag(event: Event) {
   emit('close', event, props.tag)
 }
 
-
 function onTagClick(event: Event) {
   emit('click-tag', event, props.tag)
 }
-
 
 function onDoubleClick(event: Event) {
   emit('double-click', event, props.tag)

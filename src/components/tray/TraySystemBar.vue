@@ -22,8 +22,8 @@ const tray = reactive(props.modelValue)
 const selection = ref<string[]>([])
 const focus = ref(false)
 
-const showActions = ref(true);
-const showStyles = ref(true);
+const showActions = ref(false);
+const showStyles = ref(false);
 
 
 const mergedTags = computed(() => [...tray.tags, ...props.modelValue.tags] as Tag[])

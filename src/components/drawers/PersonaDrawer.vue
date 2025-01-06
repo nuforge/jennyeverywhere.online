@@ -5,9 +5,9 @@ import NuTag from '@/components/nu/NuTag.vue';
 
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
-import GlobalSettings from '@/components/drawers/persona/GlobalSettings.vue';
-import TagManager from './persona/TagManager.vue';
-import SystemTags from './persona/SystemTags.vue';
+import GlobalSettings from '@/components/persona/GlobalSettings.vue';
+import TagManager from '@/components/persona/TagManager.vue';
+import SystemTags from '@/components/persona/SystemTags.vue';
 const persona = usePersonaStore()
 const state = useStateStore()
 
@@ -27,11 +27,15 @@ watch(
 
 
 <template>
-  <v-navigation-drawer permanent class="bg-background " v-model="persona.drawer" width="300" :scrim="!state.dragging"
-    flat :rail="persona.rail">
+  <v-navigation-drawer :permanent="persona.permanent" class="bg-background " v-model="persona.drawer" width="300"
+    :scrim="!state.dragging" :rail="persona.rail">
     <v-card class="bg-transparent">
       <v-card-actions class="bg-background">
-        <v-icon @click=" persona.drawer = !persona.drawer">mdi-chevron-left</v-icon>
+        <v-icon @click=" persona.drawer = !persona.drawer">mdi-close</v-icon>
+        <v-icon @click=" persona.rail = !persona.rail"
+          :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"></v-icon>
+        <v-icon @click=" persona.permanent = !persona.permanent"
+          :icon="persona.permanent ? 'mdi-dock-window' : 'mdi-page-layout-sidebar-left'"></v-icon>
         <v-spacer />
         <v-chip-group density="compact" class="bg-background ga-0">
           <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag as Tag)"
@@ -50,21 +54,21 @@ watch(
               <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)" />
             </v-expansion-panel-title>
             <v-expansion-panel-text class="bg-background align-start">
-              <SystemTags id="SystemTags_Persona" />
+              <SystemTags />
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- Focus Tag -->
           <v-expansion-panel :title="'Tag Manager'" expand-icon="mdi-tag-plus" class="bg-background">
             <v-expansion-panel-text class="bg-background">
-              <TagManager id="TagManager_Persona" />
+              <TagManager />
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- FORM END -->
           <v-expansion-panel :title="'Global Styles'" expand-icon="mdi-palette-swatch" class="bg-background">
             <v-expansion-panel-text class="bg-background  text-center ma-0 ">
-              <GlobalSettings id="GlobalSettings_Persona" />
+              <GlobalSettings />
             </v-expansion-panel-text>
           </v-expansion-panel>
 

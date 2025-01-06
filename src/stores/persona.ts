@@ -19,6 +19,7 @@ const usePersonaStore = defineStore('persona', () => {
   const avatar = ref<string | null>(null)
   const drawer = ref(false)
   const rail = ref(false)
+  const permanent = ref(false)
 
   const theme = useTheme()
   const lastKey = ref('')
@@ -188,6 +189,7 @@ const usePersonaStore = defineStore('persona', () => {
     themeLegend,
     focus,
     rail,
+    permanent,
     getFocus,
     show,
     hide,

@@ -1,69 +1,3 @@
-<template>
-  <v-layout class="d-flex flex-column">
-    <v-card @mouseenter=" hoverStart()" @mouseleave="hoverEnd()" @focusin="focusStart()" @focusout="focusEnd()"
-      :elevation="showManager ? 10 : 0" class="bg-transparent">
-      <v-fade-transition>
-        <v-system-bar v-show="showManager" @dragover="preventDefault" class="align-center ga-2"
-          :class="focus ? 'border-opacity-100' : 'border-opacity-52'" @dblclick="minimizeBar($event)">
-
-          <v-btn :icon="showActions ? 'mdi-menu-close' : 'mdi-menu'" @click="showActions = !showActions" variant="plain"
-            @dragover="showActions = true" />
-          <v-expand-x-transition>
-            <v-card-actions v-if="showActions">
-              <TagCardActions :tags="(mergedTags as Tag[])" :closable="tray.closable" :selection="selection"
-                @update:closable="(value: boolean) => { tray.closable = value }" @delete-drop="onDeleteDropTags"
-                @add-drop="onDragDrop" @drag-start="onDragStart" @drag-end="onDragEnd"
-                @toggle-select="doToggleSelect" />
-            </v-card-actions>
-          </v-expand-x-transition>
-          <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'"
-            :ripple="false" variant="plain" @dragstart="onDragTrayStart" :draggable="true" />
-          <v-spacer></v-spacer>
-          <v-expand-x-transition>
-            <v-card-actions v-if="showStyles">
-              <TagCardStyles :tray="tray.tray" :labels="tray.labels" :icons="tray.icons" :colors="tray.colors"
-                :logs="tray.logs" @update:tray="(value: boolean) => { tray.tray = value }"
-                @update:labels="(value: boolean) => { tray.labels = value }"
-                @update:icons="(value: boolean) => { tray.icons = value }"
-                @update:colors="(value: boolean) => { tray.colors = value }"
-                @update:logs="(value: boolean) => { tray.logs = value }" />
-              <TagBodyStyles :bodys="tray.bodys" :titles="tray.titles"
-                @update:bodys="(value: boolean) => { tray.bodys = value }"
-                @update:titles="(value: boolean) => { tray.titles = value }" />
-            </v-card-actions>
-          </v-expand-x-transition>
-          <v-btn :icon="showStyles ? 'mdi-dots-vertical' : 'mdi-dots-horizontal'" @click="showStyles = !showStyles"
-            variant="plain"></v-btn>
-        </v-system-bar>
-      </v-fade-transition>
-
-      <v-fade-transition>
-        <v-card-text v-if="!minimized">
-
-          <v-fade-transition>
-            <EvTagGroup v-model="selection" :multiple="multiple"
-              v-if="mergedTags.length > 0 && tray.tray && styles.trays" :tags="mergedTags" :labels="tray.labels"
-              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
-              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick"
-              @click-tag="onClickTag" @double-click="onDoubleClick" @click-icon="onClickIcon" />
-          </v-fade-transition>
-          <v-fade-transition>
-            <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
-              v-if="mergedTags.length === 0 && showManager" />
-          </v-fade-transition>
-          <v-fade-transition>
-            <v-container v-if="tray.logs && body && styles.logs">
-              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
-                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
-                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
-            </v-container>
-          </v-fade-transition>
-        </v-card-text>
-      </v-fade-transition>
-    </v-card>
-  </v-layout>
-</template>
-
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits, computed, onMounted } from 'vue';
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
@@ -75,16 +9,13 @@ import useClipboardStore from '@/stores/clipboard';
 import Tag from '@/objects/Tag'
 import TagTray from '@/objects/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue'
-import TagCardActions from '@/components/tags/TagCardActions.vue';
-import TagCardStyles from '@/components/tags/TagCardStyles.vue';
-import EvTag from './EvTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';
 import usePersonaStore from '@/stores/persona';
-import TagBodyStyles from './TagBodyStyles.vue';
 
 
 import useStyleStore from '@/stores/styles';
+import TraySystemBar from '../tray/TraySystemBar.vue';
 const styles = useStyleStore()
 
 const persona = usePersonaStore()
@@ -101,18 +32,13 @@ const focus = ref(false)
 
 // Default Tray Settings
 const minimized = ref(false)
-const showStyles = ref(false)
-const showActions = ref(false)
 
 const mergedTags = computed(() => [...legend.value.tags, ...props.tags] as Tag[])
 const showManager = computed(() => !props.dense && (focus.value || manage.value || state.tagmanager))
 const selectedTags = computed(() => { return mergedTags.value.filter(tag => selection.value.includes(tag.id)) })
 
-const minimizeBar = (event: MouseEvent) => {
-  console.log(event)
-  showStyles.value = false
-  showActions.value = false
-}
+// EMIT AND PROPS
+const emit = defineEmits(['update:modelValue', 'click-tag', 'click-icon', 'double-click-tag'])
 
 const props = defineProps({
   tag: {
@@ -159,12 +85,7 @@ const props = defineProps({
   }
 
 })
-// Local State
 
-
-// EMIT AND PROPS
-
-const emit = defineEmits(['update:modelValue', 'click-tag', 'click-icon', 'double-click-tag'])
 
 watch(() => props.modelValue, (newVal) => {
   selection.value = newVal
@@ -227,21 +148,7 @@ function focusEnd() {
   focus.value = false
 }
 
-function doToggleSelect() {
-  if (selection.value.length === mergedTags.value.length) {
-    selection.value = []
-  } else {
-    selection.value = mergedTags.value.map(tag => tag.id)
-  }
-}
 
-// DRAG START
-/* <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'" :ripple="false" variant="plain" @dragstart="onDragStart" :draggable="true" /> */
-const onDragTrayStart = (event: DragEvent) => {
-  console.log('onDragTrayStart', event, mergedTags.value)
-  writeDataTransfer(event, 'tag', 'tray')
-  onDragStart(event, mergedTags.value)
-}
 
 const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
   console.log('onDragStart', payload)
@@ -254,6 +161,13 @@ const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
   tray.value.dragStart()
 }
 
+// DRAG START
+/* <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'" :ripple="false" variant="plain" @dragstart="onDragStart" :draggable="true" /> */
+const onDragTrayStart = (event: DragEvent) => {
+  console.log('onDragTrayStart', event, mergedTags.value)
+  writeDataTransfer(event, 'tag', 'tray')
+  onDragStart(event, mergedTags.value)
+}
 // DRAG END
 
 const onDragEnd = () => {
@@ -277,9 +191,9 @@ const onDragDrop = (event: DragEvent) => {
 
 }
 
-const onDeleteDropTags = () => {
-  //console.log('onDeleteDropTags', clipboard.paste(), event)
-  legend.value.delete(clipboard.paste(true) as Tag[])
+
+const onDeleteDropTags = (event: Event, tags: Tag[]) => {
+  console.log('onDeleteDropTags', clipboard.paste(), event, tags)
   onDragEnd()
 }
 
@@ -316,3 +230,40 @@ onMounted(() => {
 });
 
 </script>
+<template>
+  <v-layout class="d-flex flex-column">
+    <v-card @mouseenter=" hoverStart()" @mouseleave="hoverEnd()" @focusin="focusStart()" @focusout="focusEnd()"
+      :elevation="showManager ? 10 : 0" class="bg-transparent">
+      <v-fade-transition>
+
+        <TraySystemBar v-show="showManager" :tray="tray" @delete-drop="onDeleteDropTags"
+          @drag-tray-start="onDragTrayStart">
+        </TraySystemBar>
+      </v-fade-transition>
+
+      <v-fade-transition>
+        <v-card-text v-if="!minimized">
+
+          <v-fade-transition>
+            <EvTagGroup v-model="selection" :multiple="multiple"
+              v-if="mergedTags.length > 0 && tray.tray && styles.trays" :tags="mergedTags" :labels="tray.labels"
+              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
+              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick"
+              @click-tag="onClickTag" @double-click="onDoubleClick" @click-icon="onClickIcon" />
+          </v-fade-transition>
+          <v-fade-transition>
+            <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
+              v-if="mergedTags.length === 0 && showManager" />
+          </v-fade-transition>
+          <v-fade-transition>
+            <v-container v-if="tray.logs && body && styles.logs">
+              <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
+                :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
+                @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />
+            </v-container>
+          </v-fade-transition>
+        </v-card-text>
+      </v-fade-transition>
+    </v-card>
+  </v-layout>
+</template>

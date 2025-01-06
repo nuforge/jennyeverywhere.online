@@ -9,6 +9,7 @@ import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
 import useStyleStore from '@/stores/styles'
+import BtnFocusLink from '../BtnFocusLink.vue';
 const persona = usePersonaStore()
 const state = useStateStore()
 const styles = useStyleStore()
@@ -89,7 +90,9 @@ watch(
 
           <v-expansion-panel title="Create Tag" expand-icon="mdi-tag-plus">
             <v-expansion-panel-text>
-              <v-btn @click="resetTemp" block prepend-icon="mdi-eye-plus" flat>Load Focus</v-btn>
+              <v-spacer>
+                <BtnFocusLink @click="resetTemp" />
+              </v-spacer>
               <v-form @submit.prevent="submitForm()">
 
                 <v-text-field label="label" v-model="tempTag.name" density="compact" variant="outlined"

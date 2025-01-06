@@ -74,6 +74,9 @@ class TagTray {
   get tags() {
     return this._legend.tags
   }
+  get name() {
+    return this._tag.name
+  }
 
   // STYLES
 

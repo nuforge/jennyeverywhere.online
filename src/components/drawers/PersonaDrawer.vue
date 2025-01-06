@@ -10,6 +10,7 @@ import SystemTags from '@/components/persona/SystemTags.vue';
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 
+
 import useStateStore from '@/stores/state';
 const state = useStateStore()
 
@@ -39,8 +40,8 @@ watch(
           :icon="persona.permanent ? 'mdi-dock-window' : 'mdi-page-layout-sidebar-left'"></v-icon>
         <v-spacer />
         <v-chip-group density="compact" class="bg-background ga-0">
-          <NuTag v-for="tag in (descending.slice(0, 3).reverse())" :key="tag.id" :tag="(tag)" variant="plain"
-            @click="persona.focusOn(persona.focus)" :labels="false" size="small" />
+          <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag)" variant="plain"
+            :labels="false" size="small" />
         </v-chip-group>
 
         <NuTag :tag="new Tag('label:history', 'text', 'mdi-history')" variant="plain"

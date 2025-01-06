@@ -44,7 +44,7 @@ const usePersonaStore = defineStore('persona', () => {
   ]
 
   // Default to maintaining focus or no?
-  function focusOn(tag?: Tag, clear: boolean = false) {
+  function focusOn(tag: Tag, clear: boolean = false) {
     if (clear) {
       attention.value.clearTags()
     }
@@ -52,7 +52,7 @@ const usePersonaStore = defineStore('persona', () => {
       console.error('focus is undefined')
       focus.value = new Tag() // Fallback to a new Tag if undefined
     }
-    focus.value = tag as Tag // This updates the `focus` ref correctly
+    focus.value = tag // This updates the `focus` ref correctly
   }
 
   function getFocus() {

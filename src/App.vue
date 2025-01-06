@@ -24,7 +24,7 @@
       <TagSnackbar location="bottom" />
       <UndoSnackbar />
 
-      <v-footer app class="bg-background align-end ps-8 mb-2 opacity-20">
+      <v-footer app class="bg-background align-start opacity-20">
         <img :src="logo" /> <v-spacer /> &copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>

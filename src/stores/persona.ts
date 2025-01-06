@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 // 'myCustomTheme'
 
 import { useTheme } from 'vuetify'
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import Legend from '@/objects/Legend'
 
 // Create a new store for different categories of sheets: attributes, image, description, actions
@@ -52,11 +52,7 @@ const usePersonaStore = defineStore('persona', () => {
       console.error('focus is undefined')
       focus.value = new Tag() // Fallback to a new Tag if undefined
     }
-    if (!tag) {
-      return attention.value.add(focus.value as Tag)
-    }
-    focus.value = tag // This updates the `focus` ref correctly
-    return attention.value.add(tag)
+    focus.value = tag as Tag // This updates the `focus` ref correctly
   }
 
   function getFocus() {
@@ -74,8 +70,8 @@ const usePersonaStore = defineStore('persona', () => {
     memory.value.create(note)
   }
 
-  function tag(tag: Tag | Tag[]) {
-    memory.value.add(tag)
+  function tag(tag: Tag) {
+    memory.value.addTag(tag)
   }
 
   function show() {
@@ -125,7 +121,7 @@ const usePersonaStore = defineStore('persona', () => {
   })
 
   const themeTags = computed(() => {
-    return themeLegend.value.tags as Tag[]
+    return themeLegend.value.tags
   })
 
   const handleKeydown = (event: KeyboardEvent) => {

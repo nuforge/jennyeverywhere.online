@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import Tag from '@/objects/Tag.ts';
+import Tag from '@/objects/NuTag.ts';
 
 import NuTag from '@/components/nu/NuTag.vue';
 import GlobalSettings from '@/components/persona/GlobalSettings.vue';
@@ -39,8 +39,8 @@ watch(
           :icon="persona.permanent ? 'mdi-dock-window' : 'mdi-page-layout-sidebar-left'"></v-icon>
         <v-spacer />
         <v-chip-group density="compact" class="bg-background ga-0">
-          <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag as Tag)"
-            variant="plain" @click="persona.focusOn(persona.focus as Tag)" :labels="false" size="small" />
+          <NuTag v-for="tag in (descending.slice(0, 3).reverse())" :key="tag.id" :tag="(tag)" variant="plain"
+            @click="persona.focusOn(persona.focus)" :labels="false" size="small" />
         </v-chip-group>
 
         <NuTag :tag="new Tag('label:history', 'text', 'mdi-history')" variant="plain"

@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
 import Legend from '@/objects/Legend'
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import story from '@/assets/stories/story.json'
 
 export interface Story {

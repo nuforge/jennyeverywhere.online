@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
-import usePersonaStore from '@/stores/persona';
-const persona = usePersonaStore()
+// import usePersonaStore from '@/stores/persona';
+// const persona = usePersonaStore()
 
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
@@ -31,7 +31,6 @@ const selectedColor = computed(() => { return colorList.value[suitSelect.value] 
 
 const AceOfSpades = new Tag('Ace:Spades', 'black', 'mdi-cards-spade')
 
-const KingOfHearts = new Tag('King of Hearts', 'red', 'mdi-cards-heart')
 
 
 watch(randomNumber.value, () => {
@@ -45,7 +44,7 @@ watch(randomNumber.value, () => {
   <v-container>
     <v-row>
       <v-col>
-        <NuTag :tag="AceOfSpades" @click="persona.focusOn(AceOfSpades as Tag)" />
+        <NuTag :tag="AceOfSpades" />
 
         <v-btn-toggle column v-model="suitSelect">
           <v-btn v-for="suit in suitList" :key="suit" :color="colorList[suit]" :icon="`mdi-cards-${suit}`"

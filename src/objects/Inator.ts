@@ -1,6 +1,6 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import IconsJSON from '@/assets/mdi-icons.json'
 
 class Inator {

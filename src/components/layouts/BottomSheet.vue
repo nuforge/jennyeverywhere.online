@@ -8,7 +8,7 @@
 import { onMounted } from 'vue'
 import useStateStore from '@/stores/state';
 import useTagStore from '@/stores/tags'
-import Tag from '@/objects/Tag.ts';
+import Tag from '@/objects/NuTag.ts';
 import EvTagTray from '@/components/tags/EvTagTray.vue';
 
 const state = useStateStore()

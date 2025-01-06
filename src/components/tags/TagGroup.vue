@@ -13,7 +13,7 @@ import useStateStore from '@/stores/state';
 import useStyleStore from '@/stores/styles';
 
 import useClipboardStore from '@/stores/clipboard'
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 
 const state = useStateStore()
 const clipboard = useClipboardStore()

@@ -1,4 +1,4 @@
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import Legend from '@/objects/Legend'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -169,7 +169,7 @@ class TagTray {
 
   // ACTIONS
   create(payload: string) {
-    this._legend.add(new Tag(payload))
+    this._legend.addTag(new Tag(payload))
   }
   copy(copyValue: Tag | Tag[]) {
     if (Array.isArray(copyValue)) {
@@ -216,7 +216,7 @@ class TagTray {
 
   dropString = (payload: string) => {
     console.log('dropString: ', payload, new Tag(payload))
-    this._legend.add(new Tag(payload))
+    this._legend.addTag(new Tag(payload))
     this._dragging = false
   }
 }

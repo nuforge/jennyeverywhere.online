@@ -6,7 +6,7 @@ const dragImage = ref<HTMLImageElement | null>(null);
 import useStateStore from '@/stores/state'
 import useClipboardStore from '@/stores/clipboard';
 
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import TagTray from '@/objects/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
@@ -155,7 +155,7 @@ const onDragStart = (event: DragEvent, payload: Tag | Tag[]) => {
 
   writeDataTransfer(event, 'tag', Array.isArray(payload) ? 'tags' : 'tag')
   //console.log('payload', payload)
-  clipboard.copy(payload as Tag[])
+  clipboard.copy(payload)
   //console.log('clipboard', clipboard.clipboard) // Now what? Clipboard?
   state.dragStart()
   tray.value.dragStart()
@@ -186,7 +186,8 @@ const onDragDrop = (event: DragEvent) => {
       // props.tray.map.stringTag(event.dataTransfer.getData('text/plain').trim())
     }
   }
-  legend.value.add(clipboard.paste(true) as Tag[])
+  const pastedTags = clipboard.paste(true) as Tag[];
+  legend.value.addTags(pastedTags);
   onDragEnd()
 
 }

@@ -24,22 +24,34 @@ class Tag {
   protected _space?: Space
   protected _value?: Value
 
-  constructor(name?: Value, value?: Value, origin?: Value) {
+  constructor(name?: Value, value?: Value, symbol?: Value) {
     const normalizedName = Tag.cleanValue(name ?? this._id)
     const { label, namespace } = Tag.splitTag(normalizedName.toString())
     this._name = label.trim()
     this._space = namespace?.trim()
     this._value = value
-    this._at = origin
-    console.log(this._name, this)
+    this._at = symbol
     return this
   }
 
   get color(): string {
     return this._value?.toString() ?? DEFAULT_COLOR
   }
+
+  set color(value: string) {
+    this._value = value
+  }
+
+  set icon(value: string) {
+    this._at = value
+  }
+
   get icon(): string {
     return this._at?.toString() ?? DEFAULT_ICON
+  }
+
+  get symbol(): string {
+    return this._name
   }
 
   static cleanValue = (text: Value) => {

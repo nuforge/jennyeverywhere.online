@@ -13,7 +13,7 @@
 import { ref } from 'vue'
 import storyChoice from '@/components/story/StoryChoice.vue'
 import useStoryStore from '@/stores/story';
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 const story = useStoryStore()
 const selection = ref<number>();
 

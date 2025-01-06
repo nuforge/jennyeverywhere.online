@@ -1,4 +1,4 @@
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 
 class Attribute extends Tag {
   protected _value: number | string = 0

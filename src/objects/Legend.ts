@@ -1,4 +1,4 @@
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 
 const TAG_WHITESPACE_REPLACER = '-'
 
@@ -16,7 +16,7 @@ class Legend extends Tag {
   }
 
   get tags() {
-    return [...this._tags.values()] as Tag[]
+    return [...this._tags.values()]
   }
 
   get keys() {
@@ -24,7 +24,7 @@ class Legend extends Tag {
   }
 
   selection = (tags: Tag[]) => {
-    return this.tags.filter((tag) => tags.includes(tag)) as Tag[]
+    return this.tags.filter((tag) => tags.includes(tag))
   }
 
   difference(tags: Tag[]): Tag[] {
@@ -39,7 +39,7 @@ class Legend extends Tag {
 
   // Tag LookUp
 
-  getTag(name: string): Tag | undefined {
+  getTag(name: string) {
     const tag = this._tags.get(name)
     if (tag) {
       this._links[name] = tag
@@ -50,15 +50,6 @@ class Legend extends Tag {
   setTag(id: string, tag: Tag) {
     this._links[tag.name] = tag
     return this._tags.set(id, tag)
-  }
-
-  // Tag Creation
-
-  add(newTag: Tag | Tag[]) {
-    if (Array.isArray(newTag)) {
-      return this.addTags(newTag)
-    }
-    return this.addTag(newTag)
   }
 
   addTag(newTag: Tag) {
@@ -77,18 +68,14 @@ class Legend extends Tag {
     return this.createTag(note)
   }
   createTag(newName: string, newColor?: string, newIcon?: string): Tag {
-    const tag = new Tag(newName)
-    tag.icon = newIcon
-    tag.color = newColor
+    const tag = new Tag(newName, newColor, newIcon)
     this.setTag(tag.id, tag)
     return tag
   }
 
   createTags(newTags: string[], newColor?: string, newIcon?: string): Tag[] {
     return newTags.map((tag) => {
-      const newTag = new Tag(tag)
-      newTag.icon = newIcon
-      newTag.color = newColor
+      const newTag = new Tag(tag, newColor, newIcon)
       this.setTag(newTag.id, newTag)
       return newTag
     })
@@ -96,11 +83,11 @@ class Legend extends Tag {
 
   stringTag(newText: string = 'tag'): Tag {
     const tag = new Tag(newText)
-    const parent = tag.space ? this.getTag(tag.space) : undefined
-    if (tag.space && parent) {
-      tag.icon = parent.icon
-      tag.color = parent.color
-    }
+    // const parent = tag.space ? this.getTag(tag.space) : undefined
+    // if (tag.space && parent) {
+    //   tag.icon = parent.icon
+    //   tag.color = parent.color
+    // }
     this.setTag(tag.id, tag)
     return tag
   }

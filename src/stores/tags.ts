@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import Tag from '@/objects/Tag'
+import Tag from '@/objects/NuTag'
 import Legend from '@/objects/Legend'
 
 const useTagStore = defineStore('tags', () => {

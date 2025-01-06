@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-import Tag from '@/objects/Tag';
+import Tag from '@/objects/NuTag';
 import NuTag from '@/components/nu/NuTag.vue';
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()

@@ -2,7 +2,6 @@
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 import { ref, reactive, defineEmits, onMounted, computed } from 'vue';
-import NuTag from '@/components/nu/NuTag.vue';
 
 import Tag from '@/objects/Tag';
 
@@ -71,34 +70,7 @@ const onDeleteDropTags = (event: Event, tags: Tag[]) => {
   onDragEnd(event, tags)
 }
 
-
-// DRAG TRAY START
-/* <EvTag :text="name" :color="tray.tag.color" :icon="mergedTags.length === 0 ? 'mdi-tray' : 'mdi-tray-full'" :ripple="false" variant="plain" @dragstart="onDragStart" :draggable="true" /> */
-const onDragTrayStart = (event: DragEvent) => {
-  console.log('onDragTrayStart', event, mergedTags.value)
-  writeDataTransfer(event, 'tag', 'tray')
-  emit('drag-tray-start', event, mergedTags.value)
-  onDragStart(event, mergedTags.value as Tag[])
-}
-
 const preventDefault = (event: Event) => event.preventDefault()
-
-const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  event.dataTransfer.setData(type, data);
-
-  const selectedText = window.getSelection()?.toString().trim();
-  if (selectedText) {
-    event.dataTransfer?.setData('text/plain', selectedText);
-  }
-  if (dragImage.value) {
-    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
-  } else {
-    console.warn('Drag image not ready!');
-  }
-  if (!event.dataTransfer) return
-}
 
 onMounted(() => {
   // Preload the drag image
@@ -125,7 +97,6 @@ onMounted(() => {
 
       </v-card-actions>
     </v-expand-x-transition>
-    <NuTag :tag="(tray.tag as Tag)" @dragstart="onDragTrayStart" />
     <v-spacer></v-spacer>
     <v-expand-x-transition>
       <v-card-actions v-if="showStyles">

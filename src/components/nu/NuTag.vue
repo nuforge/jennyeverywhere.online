@@ -24,10 +24,15 @@ const defaultNoColor = 'text'
 //const icons = computed(() => props.icons && showIcons.value && styles.icons && props.tag.icon)
 //const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 
-const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
-const colors = computed(() => showColors.value && styles.colors && props.tag.color)
-const labels = computed(() => showLabels.value && styles.labels && props.tag.name)
-const variant = computed(() => styles.variant)
+const icons = computed(() => showIcons.value && styles.display.icons && props.tag.icon)
+const colors = computed(() => showColors.value && styles.display.colors && props.tag.color)
+const labels = computed(() => showLabels.value && styles.display.labels && props.tag.name)
+const variant = computed(() => {
+  if (showLabels.value && styles.display.variants) {
+    return styles.display.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
+  }
+  return undefined;
+});
 
 const colorStyle = computed(() => !colors.value ? defaultNoColor : props.tag.color)
 const variantColorStyle = computed(() => variant.value === 'flat' || variant.value === 'elevated' ? 'text' : colorStyle.value)

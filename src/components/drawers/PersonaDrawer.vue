@@ -20,7 +20,8 @@ const descending = computed(() => [...persona.attention.tags].reverse())
 
 const tagVariant = ref('text')
 
-const expansions = ref([0])
+const expansions = ref([])
+const colorStyle = ref('primary') // placeholder variable
 
 function selectVariant(variant: string) {
   //console.log('selectVariant', variant)
@@ -36,10 +37,10 @@ function resetTemp() {
   tempTag.value = persona.focus
 }
 
+
 watch(
   () => persona.focus, // Use optional chaining to avoid errors
-  (newFocus) => {
-    expansions.value = [0]
+  (newFocus) => { // OPEN FOCUS PANEL
     console.log('watch', newFocus)
   }
 );
@@ -48,78 +49,120 @@ watch(
 
 
 <template>
-  <v-navigation-drawer class="bg-background" v-model="persona.drawer" app right width="300" :scrim="!state.dragging"
-    flat>
-    <v-card flat>
-
-      <!-- Focus Drawer Card Actions -->
-      <v-card-actions>
-        <v-icon @click="persona.drawer = !persona.drawer">mdi-close</v-icon>
+  <v-navigation-drawer permanent class="bg-background " v-model="persona.drawer" width="300" :scrim="!state.dragging"
+    flat :rail="persona.rail">
+    <v-card class="bg-transparent">
+      <v-card-actions class="bg-background">
+        <v-icon @click=" persona.drawer = !persona.drawer">mdi-chevron-left</v-icon>
         <v-spacer />
-        <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons" :colors="styles.colors"
-          :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
-          @update:icons="(value: boolean) => { styles.icons = value }"
-          @update:colors="(value: boolean) => { styles.colors = value }"
-          @update:logs="(value: boolean) => { styles.logs = value }"
-          @update:tray="(value: boolean) => { styles.trays = value }" />
-      </v-card-actions>
+        <v-chip-group density="compact" class="bg-background ga-0">
+          <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag as Tag)"
+            variant="plain" @click="persona.focusOn(persona.focus as Tag)" :labels="false" size="small"
+            density="compact" />
+        </v-chip-group>
 
-      <!-- Focus Tag Tray -->
+        <NuTag :tag="new Tag('label:history', 'text', 'mdi-history')" variant="plain"
+          @click="persona.focusOn(persona.focus as Tag)" :labels="false" />
+
+      </v-card-actions>
       <v-card-text>
-        <v-divider />
-        <v-btn-toggle v-model="styles.variant" class="d-flex justify-space-evenly">
-          <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
-            <template v-slot:activator="{ props }">
-              <v-btn icon="mdi-button-pointer" :value="variant" v-bind="props" @click="selectVariant(variant)"
-                variant="plain" class="rounded" />
-            </template>
-            {{ variant }}
-          </v-tooltip>
-        </v-btn-toggle>
-        <v-divider />
-      </v-card-text>
-      <v-card-text>
-        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-chevron-up"
-          v-model="expansions">
-          <v-expansion-panel title="Focus" expand-icon="mdi-eye">
-            <v-expansion-panel-text class="bg-background  text-center ma-0 ">
-              <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" />
+        <v-expansion-panels v-model="expansions" collapse-icon="mdi-chevron-up" selected-class="bg-primary" multiple
+          static flat>
+          <v-expansion-panel>
+            <v-expansion-panel-title expand-icon="mdi-image-filter-center-focus" class="bg-background">
+
+              <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)" />
+
+            </v-expansion-panel-title>
+            <v-expansion-panel-text class="bg-background align-start">
+              <v-label>system tags</v-label>
+              <v-list-item v-for="tag in (persona.focus.attributesToTags() as Tag[])" :key="tag.id">
+                <NuTag :tag="tag" elevation="2" />
+              </v-list-item>
+
             </v-expansion-panel-text>
           </v-expansion-panel>
 
-
-          <v-expansion-panel title="Create Tag" expand-icon="mdi-tag-plus">
-            <v-expansion-panel-text>
+          <!-- Focus Tag -->
+          <v-expansion-panel :title="persona.rail ? undefined : 'Create Tag'" expand-icon="mdi-tag-plus"
+            class="bg-background">
+            <v-expansion-panel-text class="bg-background">
               <v-spacer>
                 <BtnFocusLink @click="resetTemp" />
               </v-spacer>
+
+              <!-- ADD TAG FORM -->
               <v-form @submit.prevent="submitForm()">
 
                 <v-text-field label="label" v-model="tempTag.name" density="compact" variant="outlined"
-                  prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
+                  prepend-inner-icon="mdi-label-outline" persistent-counter></v-text-field>
                 <tag-autocomplete v-model="tempTag.icon" :prepend-inner-icon="tempTag.icon" />
                 <ColorAutocomplete v-model="(tempTag.color as string)" label="color" />
-
-
               </v-form>
 
             </v-expansion-panel-text>
           </v-expansion-panel>
 
-          <v-expansion-panel title="System Tags" expand-icon="mdi-tag-multiple-outline">
-            <v-expansion-panel-text>
+          <!-- FORM END -->
 
-              <v-list lines="one" density="compact">
-                <v-list-item v-for="tag in (persona.focus.attributesToTags() as Tag[])" :key="tag.id">
-                  <NuTag :tag="tag" elevation="2" />
-                </v-list-item>
-              </v-list>
+          <v-expansion-panel :title="persona.rail ? undefined : 'Styles'" expand-icon="mdi-palette-swatch"
+            class="bg-background">
+            <v-expansion-panel-text class="bg-background  text-center ma-0 ">
 
+              <v-label>Global Setting</v-label><v-btn class="rounded" @click="styles.global = !styles.global"
+                :icon="styles.global ? 'mdi-earth-box' : 'mdi-earth-box-off'"
+                :variant="styles.global ? 'text' : 'plain'" size="small"
+                :color="styles.global ? 'primary' : 'disabled'" />
+              <v-divider><v-label>Variants</v-label></v-divider>
+              <v-btn-toggle density="comfortable" v-model="styles.variants" color="primary">
+                <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon="mdi-button-pointer" :value="variant" v-bind="props" @click="selectVariant(variant)"
+                      :variant="variant" />
+                  </template>
+                  {{ variant }}
+                </v-tooltip>
+              </v-btn-toggle>
+              <v-divider><v-label>Tag & Trays</v-label></v-divider>
+              <v-btn-toggle density="comfortable">
+                <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons"
+                  :colors="styles.colors" :logs="styles.logs"
+                  @update:labels="(value: boolean) => { styles.labels = value }"
+                  @update:icons="(value: boolean) => { styles.icons = value }"
+                  @update:colors="(value: boolean) => { styles.colors = value }"
+                  @update:logs="(value: boolean) => { styles.logs = value }"
+                  @update:tray="(value: boolean) => { styles.trays = value }" />
+              </v-btn-toggle>
 
+              <v-divider><v-label>Colors</v-label></v-divider>
+
+              <v-btn-toggle density="comfortable" v-model="colorStyle" color="primary">
+                <v-tooltip bottom v-for="color in persona.themeTags" :key="color.name">
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" :color="color.color"
+                      size="small">
+                      <v-icon :color="color.color"></v-icon>
+                    </v-btn>
+                  </template>
+                  {{ color.name }}
+                </v-tooltip>s
+              </v-btn-toggle>
+              <v-item-group class=" d-flex justify-space-between" style="cursor:copy">
+                <v-item v-for="color in persona.themeTags" :key="color.name">
+                  <v-tooltip location="bottom">
+                    <template v-slot:activator="{ props }">
+                      <v-icon :color="color.color" v-bind="props" icon="mdi-circle-opacity"
+                        @click="persona.copyToClipboard(color.color || '')" />
+                    </template>
+                    {{ color.name }} : {{ color.color ? persona.myTheme.colors[color.color] : 'undefined' }}
+                  </v-tooltip>
+                </v-item>
+              </v-item-group>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
-          <v-expansion-panel title="History" expand-icon="mdi-timeline">
+          <v-expansion-panel :title="persona.rail ? undefined : 'History'" expand-icon="mdi-history"
+            class="bg-background">
             <v-expansion-panel-text>
 
               <v-list lines="one" density="compact">
@@ -132,10 +175,7 @@ watch(
           </v-expansion-panel>
         </v-expansion-panels>
 
-
-
       </v-card-text>
-      <!-- Tag Details -->
     </v-card>
   </v-navigation-drawer>
 </template>

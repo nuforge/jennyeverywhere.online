@@ -18,6 +18,7 @@ const usePersonaStore = defineStore('persona', () => {
   const name = ref<string | null>(null)
   const avatar = ref<string | null>(null)
   const drawer = ref(false)
+  const rail = ref(false)
 
   const theme = useTheme()
   const lastKey = ref('')
@@ -88,6 +89,17 @@ const usePersonaStore = defineStore('persona', () => {
     display.value = !display.value
   }
 
+  function toggleRail() {
+    rail.value = !rail.value
+  }
+  function openRail() {
+    rail.value = true
+  }
+
+  function closeRail() {
+    rail.value = false
+  }
+
   function toggleDrawer() {
     drawer.value = !drawer.value
   }
@@ -131,6 +143,37 @@ const usePersonaStore = defineStore('persona', () => {
     if (event.key === 'f') {
       toggleDrawer()
     }
+    if (event.key === 'r') {
+      toggleRail()
+    }
+  }
+
+  const copyToClipboard = async (name: string) => {
+    try {
+      const textToCopy = myTheme.value.colors[name].toString().replace('#', '')
+      await navigator.clipboard.writeText(textToCopy)
+    } catch (err) {
+      console.error('Failed to copy text:', err)
+    }
+  }
+
+  async function pickColor(name: string) {
+    if (window.EyeDropper) {
+      const eyeDropper = new window.EyeDropper()
+      try {
+        const result = await eyeDropper.open()
+        if (result.sRGBHex !== null) {
+          const updatedColors = { ...myTheme.value.colors }
+          updatedColors[name] = result.sRGBHex
+          myTheme.value = { ...myTheme.value, colors: updatedColors }
+        }
+        console.log('EyeDropper', result.sRGBHex)
+      } catch (error) {
+        console.error('EyeDropper canceled or failed', error)
+      }
+    } else {
+      console.error('EyeDropper API is not supported in this browser.')
+    }
   }
 
   return {
@@ -144,6 +187,7 @@ const usePersonaStore = defineStore('persona', () => {
     themeTags,
     themeLegend,
     focus,
+    rail,
     getFocus,
     show,
     hide,
@@ -155,9 +199,14 @@ const usePersonaStore = defineStore('persona', () => {
     toggleDrawer,
     openDrawer,
     closeDrawer,
+    toggleRail,
+    openRail,
+    closeRail,
     drawer,
     themeBase,
     handleKeydown,
+    copyToClipboard,
+    pickColor,
   }
 })
 

@@ -1,14 +1,7 @@
-<template>
-  <v-icon :icon="icon" :color="color ? color : defaultNoColor" @click.right.exact.prevent="onRightClickIcon"
-    @click="onClick" @dblclick="onDoubleClick" />
-</template>
-
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 
 const defaultNoColor = 'text'
-
-
 
 defineProps({
   icon: {
@@ -23,7 +16,6 @@ defineProps({
   },
 })
 
-
 const emit = defineEmits(['click', 'right-click', 'double-click'])
 
 const onClick = (event: Event) => {
@@ -32,7 +24,6 @@ const onClick = (event: Event) => {
 }
 
 const onRightClickIcon = (event: Event) => {
-
   //console.log('onRightClickIcon')
   emit('right-click', event)
 }
@@ -43,3 +34,8 @@ const onDoubleClick = (event: Event) => {
 }
 
 </script>
+
+<template>
+  <v-icon :icon="icon" :color="color ? color : defaultNoColor" @click.right.exact.prevent="onRightClickIcon"
+    @click="onClick" @dblclick="onDoubleClick" />
+</template>

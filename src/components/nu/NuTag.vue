@@ -4,6 +4,7 @@ const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
 import Tag from '@/objects/NuTag';
+import Value from '@/objects/NuTag';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from './NuLabel.vue';
@@ -25,6 +26,8 @@ const defaultNoColor = 'text'
 const icons = computed(() => showIcons.value && styles.display.icons && props.icons)
 const colors = computed(() => showColors.value && styles.display.colors && props.colors)
 const labels = computed(() => showLabels.value && styles.display.labels && props.labels)
+const values = computed(() => showValues.value && styles.display.values && props.values)
+
 
 const variant = computed(() => {
   if (showLabels.value && styles.display.variants) {
@@ -58,16 +61,16 @@ const props = defineProps
       type: Boolean,
       default: true,
     },
-    count: {
-      type: Number,
-      default: 1,
-    },
     selected: {
       type: Boolean,
       default: false,
     },
     closable: {
       type: Boolean,
+      default: false,
+    },
+    value: {
+      type: Value,
       default: false,
     },
 
@@ -210,7 +213,8 @@ onMounted(() => {
 
           </div>
         </v-expand-x-transition>
-        <NuBadge :count="count" v-if="showValues && count" color="transparent" text-color="accent" />
+        <NuBadge v-if="values" :icon="`mdi-cards-${value}`" show color="transparent" :text-color="variantColorStyle"
+          :labels="false" />
       </template>
 
     </v-chip>

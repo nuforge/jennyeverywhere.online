@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:logs'])
+const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:logs', 'update:values'])
 defineProps({
   tray: {
     type: Boolean,
@@ -15,6 +15,10 @@ defineProps({
     required: true
   },
   icons: {
+    type: Boolean,
+    required: true
+  },
+  values: {
     type: Boolean,
     required: true
   },
@@ -37,6 +41,11 @@ defineProps({
   <v-btn @click="emit('update:colors', !colors)" :icon="!colors ? `mdi-palette-outline` : `mdi-palette`"
     :color="colors ? `text` : `disabled`">
   </v-btn>
+  <v-btn @click="emit('update:values', !values)"
+    :icon="!values ? `mdi-checkbox-blank-badge-outline` : `mdi-checkbox-blank-badge`"
+    :color="logs ? `text` : `disabled`">
+  </v-btn>
+  <v-divider vertical />
   <v-btn @click="emit('update:tray', !tray)" :icon="!tray ? `mdi-tag-multiple-outline` : `mdi-tag-multiple`"
     :color="tray ? `text` : `disabled`">
   </v-btn>

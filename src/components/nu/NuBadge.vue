@@ -1,35 +1,45 @@
-<template>
-  <v-badge v-if="props.value > 1" :content="props.value" :dot="showCount" floating @click="onClickBadge"
-    :class="showCount ? `opacity-20` : `opacity-100`">
-    <template v-slot:badge>
-      <v-icon @click="onClickBadge">mdi-lock</v-icon>
-    </template>
-  </v-badge>
-</template>
-
 <script setup lang="ts">
-import { ref, defineProps, computed } from 'vue';
+import { defineProps, computed } from 'vue';
+import Value from '@/objects/NuTag';
 
-const show = ref(false)
 
 // Props
 
 const props = defineProps({
   value: {
-    type: Number,
-    default: 1,
+    type: Value,
+    default: 1
   },
+  icon: {
+    type: String || undefined,
+    default: undefined
+  },
+  show: {
+    type: Boolean,
+    default: false
+  }
 })
 
-const showCount = computed(() => show.value && props.value > 1)
-
+const showValue = computed(() => props.show && (props.value || props.icon))
 
 const emit = defineEmits(['click-badge'])
 
 function onClickBadge() {
-  show.value = !show.value
   emit('click-badge')
   console.log('onClickBadge')
 }
 
+const value = computed(() => {
+  return props.value
+})
+
 </script>
+
+<template>
+  <v-badge v-if="showValue" :content="!icon ? value.toString() : undefined" floating @click="onClickBadge"
+    :class="showValue ? `opacity-80` : `opacity-100`">
+    <template v-slot:badge>
+      <v-icon @click="onClickBadge" :icon="icon" v-if="icon"></v-icon>
+    </template>
+  </v-badge>
+</template>

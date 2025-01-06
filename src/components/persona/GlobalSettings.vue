@@ -34,11 +34,12 @@ const colorStyle = ref('primary') // placeholder variable
     </v-divider>
     <v-btn-toggle density="comfortable">
       <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons" :colors="styles.colors"
-        :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
+        :values="styles.values" :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
         @update:icons="(value: boolean) => { styles.icons = value }"
         @update:colors="(value: boolean) => { styles.colors = value }"
         @update:logs="(value: boolean) => { styles.logs = value }"
-        @update:tray="(value: boolean) => { styles.trays = value }" />
+        @update:tray="(value: boolean) => { styles.trays = value }"
+        @update:values="(value: boolean) => { styles.values = value }" />
     </v-btn-toggle>
 
     <v-divider>

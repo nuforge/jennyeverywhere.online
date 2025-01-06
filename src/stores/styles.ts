@@ -15,6 +15,7 @@ const useStyleStore = defineStore('styles', () => {
   const labels = ref(true)
   const colors = ref(true)
   const icons = ref(true)
+  const values = ref(true)
 
   const logs = ref(true)
   const trays = ref(true)
@@ -28,12 +29,14 @@ const useStyleStore = defineStore('styles', () => {
   const gColors = computed(() => !global.value || colors.value)
   const gIcons = computed(() => !global.value || icons.value)
   const gVariants = computed(() => !global.value || variants.value)
+  const gValues = computed(() => !global.value || values.value)
 
   const display = computed(() => ({
     labels: gLabels.value,
     colors: gColors.value,
     icons: gIcons.value,
     variants: gVariants.value,
+    values: gValues.value,
   }))
 
   return {
@@ -43,6 +46,7 @@ const useStyleStore = defineStore('styles', () => {
     icons,
     colors,
     remove,
+    values,
     logs,
     trays,
     variants,

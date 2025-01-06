@@ -18,7 +18,7 @@ const styles = useStyleStore()
 const showClosable = computed(() => props.closable || styles.closable)
 const noIcon = computed(() => props.noIcon || styles.icons)
 const noLabel = computed(() => props.noLabel || styles.labels)
-const noColor = computed(() => props.noColor || styles.color)
+const noColor = computed(() => props.noColor || styles.colors)
 
 
 import useStateStore from '@/stores/state';

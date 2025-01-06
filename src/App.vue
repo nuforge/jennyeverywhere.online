@@ -24,7 +24,8 @@
       <TagSnackbar location="bottom" />
       <UndoSnackbar />
 
-      <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
+      <v-footer class="bg-background align-center opacity-20">
+        <img :src="logo" /> <v-spacer /> &copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>
@@ -34,6 +35,7 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
+import logo from '@/assets/images/logos/jenny-everywhere-online-logo.png'
 
 import HeaderLayout from '@/components/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';

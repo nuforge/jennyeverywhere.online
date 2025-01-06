@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Tag from '@/objects/Tag.ts';
+import NuTag from '@/components/nu/NuTag.vue';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
@@ -20,7 +22,7 @@ const backgroundColors = {
   background: { description: '[ light | dark ] themes depending on intensity of attention', icon: 'mdi-palette' },
   surface: { description: 'the surface color on which most content (text, images, icons) will appear (...or not appear...)', icon: 'mdi-palette' }
 }
-const convolutedVariableDeclaration = [customColors, feedbackColors, backgroundColors]
+const convolutedVariableDeclaration = { custom: customColors, feedback: feedbackColors, background: backgroundColors }
 
 </script>
 
@@ -31,7 +33,9 @@ const convolutedVariableDeclaration = [customColors, feedbackColors, backgroundC
       <v-row>
         <v-col cols="12" sm="6" v-for="(section, index) in convolutedVariableDeclaration" :key="index">
 
-          <v-list lines="three" class="bg-surface rounded-lg" shaped>
+          <v-label class="text-capitalize">{{ index }} Colors</v-label>
+
+          <v-list lines="three" class="bg-background rounded-lg" shaped>
 
             <v-item v-slot="{ isSelected, selectedClass, toggle }" v-for="(color, id) in section" :key="id" :value="id">
 
@@ -42,14 +46,21 @@ const convolutedVariableDeclaration = [customColors, feedbackColors, backgroundC
 
                 <template #prepend>
                   <div class="d-flex flex-column justify-center align-center me-4">
-                    <v-icon :color="id"></v-icon><v-label>
-                      {{ persona.myTheme.colors[id] }}</v-label>
+                    <v-icon :color="id"></v-icon>
                   </div>
+                </template>
+
+                <template #append>
+                  <NuTag :tag="new Tag(`${id}:${persona.myTheme.colors[id]}`, id, 'mdi-circle-opacity')" :value="2" />
                 </template>
               </v-list-item>
             </v-item>
 
           </v-list>
+
+
+
+
         </v-col>
       </v-row>
     </v-item-group>

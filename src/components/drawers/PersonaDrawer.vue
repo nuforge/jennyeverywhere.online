@@ -1,5 +1,54 @@
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import Tag from '@/objects/Tag.ts';
+import NuTag from '@/components/nu/NuTag.vue';
+import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
+import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';
+import TagCardStyles from '@/components/tags/TagCardStyles.vue';
+
+import useStateStore from '@/stores/state';
+import usePersonaStore from '@/stores/persona';
+import useStyleStore from '@/stores/styles'
+const persona = usePersonaStore()
+const state = useStateStore()
+const styles = useStyleStore()
+
+const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
+
+const descending = computed(() => [...persona.attention.tags].reverse())
+
+const tagVariant = ref('text')
+
+const expansions = ref([0])
+
+function selectVariant(variant: string) {
+  //console.log('selectVariant', variant)
+  tagVariant.value = variant
+}
+
+function submitForm() {
+  //console.log('submitForm', tempTag.value)
+  persona.focusOn(new Tag(tempTag.value.name, tempTag.value.color, tempTag.value.icon))
+}
+
+function resetTemp() {
+  tempTag.value = persona.focus
+}
+
+watch(
+  () => persona.focus, // Use optional chaining to avoid errors
+  (newFocus) => {
+    expansions.value = [0]
+    console.log('watch', newFocus)
+  }
+);
+
+</script>
+
+
 <template>
-  <v-navigation-drawer v-model="persona.drawer" app right width="300" :scrim="!state.dragging" permanent>
+  <v-navigation-drawer class="bg-background" v-model="persona.drawer" app right width="300" :scrim="!state.dragging"
+    flat>
     <v-card flat>
 
       <!-- Focus Drawer Card Actions -->
@@ -28,12 +77,12 @@
         </v-btn-toggle>
         <v-divider />
       </v-card-text>
-
       <v-card-text>
-        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-chevron-up">
+        <v-expansion-panels variant="accordion" multiple static flat collapse-icon="mdi-chevron-up"
+          v-model="expansions">
           <v-expansion-panel title="Focus" expand-icon="mdi-eye">
             <v-expansion-panel-text class="bg-background  text-center ma-0 ">
-              <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" :key="12" />
+              <NuTag :tag="(persona.focus as Tag)" :variant="styles.variant" />
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -87,51 +136,3 @@
     </v-card>
   </v-navigation-drawer>
 </template>
-
-<script setup lang="ts">
-import { computed, ref } from 'vue';
-import Tag from '@/objects/Tag.ts';
-import NuTag from '@/components/nu/NuTag.vue';
-import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
-import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';
-import TagCardStyles from '@/components/tags/TagCardStyles.vue';
-
-import useStateStore from '@/stores/state';
-import usePersonaStore from '@/stores/persona';
-import useStyleStore from '@/stores/styles'
-const persona = usePersonaStore()
-const state = useStateStore()
-const styles = useStyleStore()
-
-const tempTag = ref(new Tag('', 'primary', 'mdi-tag'))
-
-const descending = computed(() => [...persona.attention.tags].reverse())
-
-const tagVariant = ref('text')
-
-function selectVariant(variant: string) {
-  //console.log('selectVariant', variant)
-  tagVariant.value = variant
-}
-
-function submitForm() {
-  //console.log('submitForm', tempTag.value)
-  persona.focusOn(new Tag(tempTag.value.name, tempTag.value.color, tempTag.value.icon))
-}
-
-function resetTemp() {
-  tempTag.value = persona.focus
-}
-
-// watch(
-//   () => persona.focus, // Use optional chaining to avoid errors
-//   (newFocus) => {
-//     if (newFocus) {
-//       tempTag.value = persona.focus; // Update the temp tag
-//     } else {
-//     }
-//   },
-//   { immediate: true }
-// );
-
-</script>

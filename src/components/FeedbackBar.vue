@@ -1,4 +1,7 @@
 <template>
+
+  <NuTag :tag="tag" v-for="(tag, index) in tags" :key="index" class="mx-2" :labels="false" />
+
   <div class="d-flex  justify-space-around">
     <v-btn-toggle v-model="selected" selected-class="opacity-100" class="d-flex flex-row justify-space-around">
       <v-btn v-for="(vote, index) in votes" :key="index" :value="index"
@@ -17,11 +20,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import NuTag from '@/components/nu/NuTag.vue';
+import Tag from '@/objects/Tag';
+
 
 const selected = ref<string>('');
 const acted = ref<Array<string>>([]);
 
-const votes = ref({
+const votes = {
   upvote: {
     icon: '$upvote',
     color: 'primary',
@@ -30,9 +36,9 @@ const votes = ref({
     icon: '$downvote',
     color: 'error',
   },
-})
+}
 
-const actions = ref({
+const actions = {
   comment: {
     icon: '$comment',
     color: 'secondary',
@@ -41,5 +47,10 @@ const actions = ref({
     icon: '$favorite',
     color: 'quaternary',
   }
+}
+
+
+const tags = [...Object.entries(votes), ...Object.entries(actions)].map(([name, item]) => {
+  return new Tag(name, item.color, item.icon)
 })
 </script>

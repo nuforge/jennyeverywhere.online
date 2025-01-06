@@ -38,7 +38,7 @@ const lib = ref(new Legend())
 
 
 watch(randomNumber.value, () => {
-  console.log('randomNumber:', randomNumber.value.getResults())
+  // console.log('randomNumber:', randomNumber.value.getResults())
   tags.value = inator.ntags(randomNumber.value.getResults())
   lib.value.clearTags()
 

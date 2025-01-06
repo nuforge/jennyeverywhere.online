@@ -108,7 +108,6 @@ const usePersonaStore = defineStore('persona', () => {
       .forEach(([name]) => {
         return themeMap.value.addTag(new Tag(name, name, 'mdi-circle-opacity'))
       })
-    console.log(`themeLegend:`, themeMap.value)
     return themeMap.value as Legend
   })
 

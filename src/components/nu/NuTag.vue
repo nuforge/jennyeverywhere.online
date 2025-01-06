@@ -1,72 +1,28 @@
-<template>
-  <v-expand-x-transition>
-    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :value="tag.name"
-      :icon="tag.icon" :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
-      @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
-      @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
-
-      <!-- Tag Icon / Space -->
-      <template #prepend>
-        <v-fab-transition>
-          <div v-if="icons">
-
-            <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
-              @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
-
-          </div>
-        </v-fab-transition>
-      </template>
-      <!-- Tag Label / Value -->
-      <template #default>
-
-        <v-expand-x-transition>
-
-          <div v-if="labels">
-
-            <v-expand-x-transition>
-
-              <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
-
-            </v-expand-x-transition>
-
-            <NuLabel :tag="tag" />
-            <NuTooltip :tag="tag" />
-
-          </div>
-        </v-expand-x-transition>
-        <NuBadge :count="count" v-if="showBadges && count" color="transparent" text-color="accent" />
-      </template>
-
-    </v-chip>
-  </v-expand-x-transition>
-</template>
-
 <script setup lang="ts">
-
-
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import Tag from '@/objects/Tag';
+
 import NuTooltip from '@/components/nu/NuTooltip.vue';
 import NuBadge from '@/components/nu/NuBadge.vue';
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuSpace from '@/components/nu/NuSpace.vue';
+import NuLabel from './NuLabel.vue';
+
+import Tag from '@/objects/Tag';
 
 import useStyleStore from '@/stores/styles';
-import NuLabel from './NuLabel.vue';
 const styles = useStyleStore()
 
-const showLabels = ref(true);
-const showColors = ref(true);
-const showIcons = ref(true);
-const showBadges = ref(true);
-const showClosable = ref(false);
 
 const showSpace = ref(false);
 
 const defaultNoColor = 'text'
+
+// SETTING Default vs Setting permanent
+//const icons = computed(() => props.icons && showIcons.value && styles.icons && props.tag.icon)
+//const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 
 const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 const colors = computed(() => showColors.value && styles.colors && props.tag.color)
@@ -82,8 +38,21 @@ const props = defineProps
       type: Tag,
       required: true,
     },
-    label: {
-      type: String,
+    labels: {
+      type: Boolean,
+      default: true,
+    },
+    icons: {
+      type: Boolean,
+      default: true,
+    },
+    colors: {
+      type: Boolean,
+      default: true,
+    },
+    values: {
+      type: Boolean,
+      default: true,
     },
     count: {
       type: Number,
@@ -100,6 +69,11 @@ const props = defineProps
 
   })
 
+const showLabels = ref(props.labels);
+const showColors = ref(props.colors);
+const showIcons = ref(props.icons);
+const showValues = ref(props.values);
+const showClosable = ref(props.closable);
 
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
@@ -200,3 +174,46 @@ onMounted(() => {
   };
 });
 </script>
+
+<template>
+  <v-expand-x-transition>
+    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :value="tag.name"
+      :icon="tag.icon" :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
+      @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
+      @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+
+      <!-- Tag Icon / Space -->
+      <template #prepend>
+        <v-fab-transition>
+          <div v-if="icons">
+
+            <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
+              @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
+
+          </div>
+        </v-fab-transition>
+      </template>
+      <!-- Tag Label / Value -->
+      <template #default>
+
+        <v-expand-x-transition>
+
+          <div v-if="labels">
+
+            <v-expand-x-transition>
+
+              <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
+
+            </v-expand-x-transition>
+
+            <NuLabel :tag="tag" />
+            <NuTooltip :tag="tag" />
+
+          </div>
+        </v-expand-x-transition>
+        <NuBadge :count="count" v-if="showValues && count" color="transparent" text-color="accent" />
+      </template>
+
+    </v-chip>
+  </v-expand-x-transition>
+</template>

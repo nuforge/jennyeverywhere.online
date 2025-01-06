@@ -49,13 +49,14 @@ const onDoubleClick = (event: MouseEvent, tag: Tag) => {
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <TraySystemBar :v-model="lib" @delete-drop="console.log('deleted')" />
         <NuTag v-for="tag in tags" :key="tag.id" :tag="(tag as Tag)" :count="inator.number(randomNumber.getResults())"
           @double-click="onDoubleClick" />
       </v-col>
+      <v-divider></v-divider>
       <v-divider vertical></v-divider>
-      <v-col>
+      <v-col cols="12">
         <NuTag v-for="tag in lib.tags" :key="tag.id" :tag="(tag as Tag)"
           :count="inator.number(randomNumber.getResults())" @double-click="onDoubleClick" />
       </v-col>

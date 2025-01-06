@@ -1,64 +1,71 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import Tag from '@/objects/Tag';
+import { computed, ref, watch } from 'vue';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
+// import useCardStore from '@/stores/cards';
+// const cards = useCardStore()
 
-import Inator from '@/objects/Inator';
 import NuTag from '@/components/nu/NuTag.vue';
-import Legend from '@/objects/Legend';
-import TraySystemBar from '@/components/tray/TraySystemBar.vue';
+import Tag from '@/objects/NuTag';
+//import NuCard from '@/objects/game/NuCard.ts';
 
-const inator = new Inator()
+// import Inator from '@/objects/Inator';
+// const inator = new Inator()
 
 const randomNumber = ref(dice)
-const icons = ref(inator.icons(randomNumber.value.getResults()))
-const tags = ref(inator.ntags(randomNumber.value.getResults()))
 
-const lib = ref(new Legend())
+//const card = new NuCard('Ace:Spaces', 'primary', 'mdi-cards-spade')
+
+const suitList = ref<string[]>(['spade', 'heart', 'club', 'diamond'])
+const colorList = ref<{ [key: string]: string }>({ 'spade': 'primary', 'heart': 'secondary', 'club': 'success', 'diamond': 'warning' })
+
+const ranks = ref(['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'joker'])
+const rankIcons = ref<{ [key: string]: string }>({ 'joker': 'mdi-all-inclusive', 'ace': 'mdi-chess-bishop', '10': 'mdi-chess-rook', 'jack': 'mdi-chess-knight', 'queen': 'mdi-chess-queen', 'king': 'mdi-chess-king' })
+
+const suitSelect = ref<string>('spade')
+const selectedColor = computed(() => { return colorList.value[suitSelect.value] })
+
+const AceOfSpades = new Tag('Ace:Spades', 'black', 'mdi-cards-spade')
+
+const KingOfHearts = new Tag('King of Hearts', 'red', 'mdi-cards-heart')
 
 
 watch(randomNumber.value, () => {
   // console.log('randomNumber:', randomNumber.value.getResults())
-  tags.value = inator.ntags(randomNumber.value.getResults())
-  lib.value.clearTags()
-
-  icons.value.forEach((icon: string) => {
-    const name = icon.replace('mdi-', '').replace(/-/g, ' ')
-    const tag = new Tag(`icon:${name}`, 'text', icon)
-    lib.value.addTag(tag)
-
-  })
-
-  icons.value = inator.icons(randomNumber.value.getResults())
 })
-
-const onDoubleClick = (event: MouseEvent, tag: Tag) => {
-  //console.log('onClickTag:Tag', tag)
-  if (tag) persona.focusOn(tag)
-  persona.openDrawer()
-
-}
 
 
 </script>
+
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <TraySystemBar :v-model="lib" @delete-drop="console.log('deleted')" />
-        <NuTag v-for="tag in tags" :key="tag.id" :tag="(tag as Tag)" :count="inator.number(randomNumber.getResults())"
-          @double-click="onDoubleClick" />
-      </v-col>
-      <v-divider></v-divider>
-      <v-divider vertical></v-divider>
-      <v-col cols="12">
-        <NuTag v-for="tag in lib.tags" :key="tag.id" :tag="(tag as Tag)"
-          :count="inator.number(randomNumber.getResults())" @double-click="onDoubleClick" />
+      <v-col>
+        <NuTag :tag="AceOfSpades" @click="persona.focusOn(AceOfSpades as Tag)" />
+
+        <v-btn-toggle column v-model="suitSelect">
+          <v-btn v-for="suit in suitList" :key="suit" :color="colorList[suit]" :icon="`mdi-cards-${suit}`"
+            variant="plain" :value="suit" />
+        </v-btn-toggle>
+        <v-divider />
+
+        <v-sheet class="d-flex flex-column align-start bg-background">
+          <v-btn v-for="rank in ranks" :key="rank" :text="rank"
+            :prepend-icon="rankIcons[rank] ? rankIcons[rank] : `mdi-chess-pawn`" :color="selectedColor"
+            :append-icon="`mdi-cards-${suitSelect}`" variant="plain" size="small">
+            <template #prepend>
+              <v-icon :icon="rankIcons[rank] ? rankIcons[rank] : `mdi-chess-pawn`" :color="'grey'"></v-icon>
+            </template>
+            <template #append>
+              <v-badge color="transparent" overlap :icon="`mdi-cards-${suitSelect}`" floating>
+              </v-badge>
+            </template>
+          </v-btn>
+        </v-sheet>
       </v-col>
     </v-row>
   </v-container>

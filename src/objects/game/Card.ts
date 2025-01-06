@@ -1,5 +1,3 @@
-import Tag from '@/objects/Tag'
-
 // Card class
 export default class Card {
   protected _value: number | string | boolean
@@ -78,38 +76,6 @@ class PokerPlayingCard extends Card {
   }
 }
 
-// NuCard class
-
-interface Symbol {
-  symbol: Value
-  value?: Value
-}
-
-type Value = boolean | number | string | undefined
-
-interface Face {
-  value: Value
-  symbol: Symbol
-}
-
-class NuCard extends Tag {
-  protected _value: Value
-  // name, value, default ->
-  constructor() {
-    super()
-    console.log('NuCard constructor')
-  }
-  protected ask(question?: boolean, answer?: boolean): boolean {
-    return question && answer ? true : false
-  }
-  protected answer(question?: boolean, answer?: boolean) {
-    return question && answer ? answer : false
-  }
-  protected question(question?: boolean, answer?: boolean) {
-    return question && answer ? question : false
-  }
-}
-
 class DeckofCards {}
 
-export { PokerPlayingCard, NuCard, Card, DeckofCards }
+export { PokerPlayingCard, Card, DeckofCards }

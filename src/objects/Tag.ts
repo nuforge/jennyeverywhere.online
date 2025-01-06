@@ -36,6 +36,10 @@ class Tag {
     return this
   }
 
+  toString() {
+    return this._name
+  }
+
   static cleanLabel = (text: string) => {
     return text.toString().trim()
   }

@@ -3,7 +3,7 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import Tag from '@/objects/Tag';
+import Tag from '@/objects/NuTag';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from './NuLabel.vue';
@@ -22,9 +22,9 @@ const defaultNoColor = 'text'
 //const icons = computed(() => props.icons && showIcons.value && styles.icons && props.tag.icon)
 //const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 
-const icons = computed(() => showIcons.value && styles.display.icons && props.tag.icon)
-const colors = computed(() => showColors.value && styles.display.colors && props.tag.color)
-const labels = computed(() => showLabels.value && styles.display.labels && props.tag.name)
+const icons = computed(() => showIcons.value && styles.display.icons && props.icons)
+const colors = computed(() => showColors.value && styles.display.colors && props.colors)
+const labels = computed(() => showLabels.value && styles.display.labels && props.labels)
 
 const variant = computed(() => {
   if (showLabels.value && styles.display.variants) {

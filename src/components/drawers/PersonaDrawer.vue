@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import Tag from '@/objects/Tag.ts';
-import NuTag from '@/components/nu/NuTag.vue';
 
-import useStateStore from '@/stores/state';
-import usePersonaStore from '@/stores/persona';
+import NuTag from '@/components/nu/NuTag.vue';
 import GlobalSettings from '@/components/persona/GlobalSettings.vue';
 import TagManager from '@/components/persona/TagManager.vue';
 import SystemTags from '@/components/persona/SystemTags.vue';
+
+import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
+
+import useStateStore from '@/stores/state';
 const state = useStateStore()
 
 const descending = computed(() => [...persona.attention.tags].reverse())
-
 
 const expansions = ref([])
 

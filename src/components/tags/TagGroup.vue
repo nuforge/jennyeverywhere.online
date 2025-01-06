@@ -1,14 +1,3 @@
-<template>
-  <v-chip-group draggable column multiple>
-    <VTagItem v-for="tag in (tags as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
-      :label="tag.name" :color="tag.color" :space="tag.space" :closable="showClosable" @click="emit('click', tag)"
-      :noColor="noColor" :noIcon="noIcon" :noLabel="noLabel" @close="onTagClosed(tag)"
-      @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="onDragStart($event, tag)" @dragend="onDragend($event, tag)">
-    </VTagItem>
-  </v-chip-group>
-</template>
-
-
 <script setup lang="ts">
 import { defineProps, defineEmits, onMounted, ref, computed } from 'vue'
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
@@ -19,7 +8,6 @@ const showClosable = computed(() => props.closable || styles.closable)
 const noIcon = computed(() => props.noIcon || styles.icons)
 const noLabel = computed(() => props.noLabel || styles.labels)
 const noColor = computed(() => props.noColor || styles.colors)
-
 
 import useStateStore from '@/stores/state';
 import useStyleStore from '@/stores/styles';
@@ -58,7 +46,6 @@ const onDragend = (event: DragEvent, tag: Tag) => {
   emit('dragend', tag)
 }
 
-
 const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
   if (!event.dataTransfer) return
   event.dataTransfer.clearData();
@@ -73,7 +60,6 @@ const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
   event.dataTransfer.clearData();
   event.dataTransfer?.setData('text/plain', 'tag');
 }
-
 
 const props = defineProps({
   tags: {
@@ -119,3 +105,13 @@ onMounted(() => {
 });
 
 </script>
+
+<template>
+  <v-chip-group draggable column multiple>
+    <VTagItem v-for="tag in (tags as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
+      :label="tag.name" :color="tag.color" :space="tag.space" :closable="showClosable" @click="emit('click', tag)"
+      :noColor="noColor" :noIcon="noIcon" :noLabel="noLabel" @close="onTagClosed(tag)"
+      @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="onDragStart($event, tag)" @dragend="onDragend($event, tag)">
+    </VTagItem>
+  </v-chip-group>
+</template>

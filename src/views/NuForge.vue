@@ -1,24 +1,16 @@
 <script setup lang="ts">
-import { reactive, computed, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
-// import useCardStore from '@/stores/cards';
-// const cards = useCardStore()
 
 import NuTag from '@/components/nu/NuTag.vue';
 import Tag from '@/objects/NuTag';
-//import NuCard from '@/objects/game/NuCard.ts';
-
-// import Inator from '@/objects/Inator';
-// const inator = new Inator()
 
 const randomNumber = ref(dice)
-
-//const card = new NuCard('Ace:Spaces', 'primary', 'mdi-cards-spade')
 
 const suitList = ref<string[]>(['spade', 'heart', 'club', 'diamond'])
 const colorList = ref<{ [key: string]: string }>({ 'spade': 'primary', 'heart': 'secondary', 'club': 'success', 'diamond': 'warning' })
@@ -38,9 +30,7 @@ const DeckOfCards = computed(() => {
   const solid = false
   for (const suit of filteredSuits.value) {
 
-    console.log(suit)
     for (const rank of filteredRanks.value) {
-      console.log(rank)
       const newIcon = rankIcons.value[rank] ? rankIcons.value[rank] : typeof rank === 'number' ? `mdi-numeric-${rank}-circle` : `mdi-chess-pawn`
       const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
       //console.log(append)
@@ -48,17 +38,12 @@ const DeckOfCards = computed(() => {
       deck.push(tag)
     }
   }
-  console.log(deck)
   return deck
 })
-
-
 
 watch(randomNumber.value, () => {
   // console.log('randomNumber:', randomNumber.value.getResults())
 })
-
-
 </script>
 
 <template>

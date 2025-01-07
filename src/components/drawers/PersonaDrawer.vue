@@ -51,34 +51,59 @@ watch(
       <v-card-text>
         <v-expansion-panels v-model="expansions" collapse-icon="mdi-chevron-up" selected-class="bg-primary" multiple
           static flat>
+
+          <!-- Focus -->
           <v-expansion-panel>
             <v-expansion-panel-title expand-icon="mdi-image-filter-center-focus" class="bg-background">
+
+
               <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)" />
+
+
             </v-expansion-panel-title>
+
+            <!-- System Tags -->
             <v-expansion-panel-text class="bg-background align-start">
+
+
               <SystemTags />
+
+
             </v-expansion-panel-text>
           </v-expansion-panel>
 
-          <!-- Focus Tag -->
+          <!-- TagManager -->
           <v-expansion-panel :title="'Tag Manager'" expand-icon="mdi-tag-plus" class="bg-background">
             <v-expansion-panel-text class="bg-background">
+
+
               <TagManager />
+
+
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- FORM END -->
           <v-expansion-panel :title="'Global Styles'" expand-icon="mdi-palette-swatch" class="bg-background">
             <v-expansion-panel-text class="bg-background  text-center ma-0 ">
+
+
               <GlobalSettings />
+
+
             </v-expansion-panel-text>
           </v-expansion-panel>
 
+          <!-- History -->
           <v-expansion-panel :title="'History'" expand-icon="mdi-history" class="bg-background">
             <v-expansion-panel-text>
               <v-list lines="one" density="compact">
                 <v-list-item v-for="tag in (descending as Tag[])" :key="tag.id">
+
+
                   <NuTag :tag="tag" elevation="2" />
+
+
                 </v-list-item>
               </v-list>
             </v-expansion-panel-text>

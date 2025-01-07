@@ -1,45 +1,38 @@
 <script setup lang="ts">
-import { defineProps, computed } from 'vue';
-import Value from '@/objects/NuTag';
+import { ref } from 'vue';
+
+const emit = defineEmits(['click', 'right-click'])
 
 
-// Props
-
-const props = defineProps({
-  value: {
-    type: Value,
-    default: 1
-  },
-  icon: {
-    type: String || undefined,
-    default: undefined
-  },
-  show: {
-    type: Boolean,
-    default: false
-  }
-})
-
-const showValue = computed(() => props.show && (props.value || props.icon))
-
-const emit = defineEmits(['click-badge'])
-
-function onClickBadge() {
-  emit('click-badge')
-  console.log('onClickBadge')
+function toggleFloat() {
+  float.value = !float.value
+}
+function toggleShow() {
+  show.value = !show.value
 }
 
-const value = computed(() => {
-  return props.value
-})
+function onClickBadge(event: Event) {
+  toggleShow()
+  emit('click')
+  console.log('onClickBadge', event)
+}
+
+
+function onRightClickBadge(event: Event) {
+  toggleFloat()
+  show.value = float.value
+  emit('right-click')
+  console.log('onRightClickBadge', event)
+}
+
+const show = ref(false)
+const float = ref(true)
+
 
 </script>
 
 <template>
-  <v-badge v-if="showValue" :content="!icon ? value.toString() : undefined" floating @click="onClickBadge"
-    :class="showValue ? `opacity-80` : `opacity-100`">
-    <template v-slot:badge>
-      <v-icon @click="onClickBadge" :icon="icon" v-if="icon"></v-icon>
-    </template>
+  <v-badge :floating="float" @click="onClickBadge" @click.right.exact.prevent="onRightClickBadge" :color="`transparent`"
+    :class="[show ? `opacity-100` : `opacity-20`]">
   </v-badge>
 </template>

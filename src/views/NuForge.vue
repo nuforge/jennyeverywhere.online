@@ -25,7 +25,6 @@ const filteredSuits = computed(() => suitList.value.filter(suit => suitSelect.va
 const filteredRanks = computed(() => ranks.value.filter(rank => rankSelect.value.includes(rank)) as string[])
 
 const DeckOfCards = computed(() => {
-  console.log('                 -                    -                           -')
   const deck: Tag[] = []
   const solid = false
   for (const suit of filteredSuits.value) {
@@ -62,7 +61,7 @@ watch(randomNumber.value, () => {
           </v-btn>
         </v-btn-toggle>
         <v-divider class="my-2" />
-        <NuTag v-for="card in DeckOfCards" :key="card.name" :tag="card" :value="(card.space as string)"
+        <NuTag v-for="card in DeckOfCards" :key="card.name" :tag="card" :value="card"
           @double-click="persona.focusOn(card)" />
       </v-col>
     </v-row>

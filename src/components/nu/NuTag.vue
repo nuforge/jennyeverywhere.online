@@ -3,8 +3,9 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
+import type { PropType } from 'vue';
 import Tag from '@/objects/NuTag';
-import Value from '@/objects/NuTag';
+import type Value from '@/objects/NuTag';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from './NuLabel.vue';
@@ -26,8 +27,6 @@ const defaultNoColor = 'text'
 const icons = computed(() => showIcons.value && styles.display.icons && props.icons)
 const colors = computed(() => showColors.value && styles.display.colors && props.colors)
 const labels = computed(() => showLabels.value && styles.display.labels && props.labels)
-const values = computed(() => showValues.value && styles.display.values && props.values)
-
 
 const variant = computed(() => {
   if (showLabels.value && styles.display.variants) {
@@ -68,18 +67,16 @@ const props = defineProps
     closable: {
       type: Boolean,
       default: false,
-    },
-    value: {
-      type: Value,
-      default: false,
-    },
+    }, value: {
+      type: [Boolean, Number, String, Object] as PropType<Value>, // Explicitly allows Value types
+      default: undefined, // Matches the Value type
+    }
 
   })
 
 const showLabels = ref(props.labels);
 const showColors = ref(props.colors);
 const showIcons = ref(props.icons);
-const showValues = ref(props.values);
 const showClosable = ref(props.closable);
 
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
@@ -179,8 +176,8 @@ onMounted(() => {
 
 <template>
   <v-expand-x-transition>
-    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :value="tag.name"
-      :icon="tag.icon" :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
+    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="tag.icon"
+      :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
       @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
       @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
 
@@ -191,6 +188,7 @@ onMounted(() => {
 
             <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
               @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
+
 
           </div>
         </v-fab-transition>
@@ -203,9 +201,7 @@ onMounted(() => {
           <div v-if="labels">
 
             <v-expand-x-transition>
-
               <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
-
             </v-expand-x-transition>
 
             <NuLabel :tag="tag" />
@@ -213,8 +209,9 @@ onMounted(() => {
 
           </div>
         </v-expand-x-transition>
-        <NuBadge v-if="values" :icon="`mdi-cards-${value}`" show color="transparent" :text-color="variantColorStyle"
-          :labels="false" />
+        <v-expand-x-transition>
+          <NuBadge :icon="`mdi-cards-${tag.space}`" :text-color="colorStyle" />
+        </v-expand-x-transition>
       </template>
 
     </v-chip>

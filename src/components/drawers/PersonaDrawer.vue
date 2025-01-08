@@ -27,7 +27,6 @@ watch(
 
 </script>
 
-
 <template>
   <v-navigation-drawer :permanent="persona.permanent" class="bg-background " v-model="persona.drawer" width="300"
     :scrim="!state.dragging" :rail="persona.rail">
@@ -37,7 +36,7 @@ watch(
         <v-icon @click=" persona.rail = !persona.rail"
           :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"></v-icon>
         <v-icon @click=" persona.permanent = !persona.permanent"
-          :icon="persona.permanent ? 'mdi-dock-window' : 'mdi-page-layout-sidebar-left'"></v-icon>
+          :icon="persona.permanent ? 'mdi-pin' : 'mdi-pin-outline'"></v-icon>
         <v-spacer />
         <v-chip-group density="compact" class="bg-background ga-0">
           <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag)" variant="plain"

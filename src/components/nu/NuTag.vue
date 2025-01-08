@@ -3,12 +3,10 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import type { PropType } from 'vue';
 import Tag from '@/objects/NuTag';
-import type Value from '@/objects/NuTag';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
-import NuLabel from './NuLabel.vue';
+import NuLabel from '@/components/nu/NuLabel.vue';
 import NuSpace from '@/components/nu/NuSpace.vue';
 import NuBadge from '@/components/nu/NuBadge.vue';
 import NuTooltip from '@/components/nu/NuTooltip.vue';
@@ -16,7 +14,6 @@ import NuTooltip from '@/components/nu/NuTooltip.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
 
-const showSpace = ref(false);
 
 const defaultNoColor = 'text'
 
@@ -24,18 +21,29 @@ const defaultNoColor = 'text'
 //const icons = computed(() => props.icons && showIcons.value && styles.icons && props.tag.icon)
 //const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 
-const icons = computed(() => showIcons.value && styles.display.icons && props.icons)
-const colors = computed(() => showColors.value && styles.display.colors && props.colors)
-const labels = computed(() => showLabels.value && styles.display.labels && props.labels)
+const icon = ref(true)
+const label = ref(true)
+const space = ref(false)
+const tooltip = ref(true)
+const color = ref(true)
+
+
+
+const showSpace = computed(() => space.value && props.tag.space)
+const showIcon = computed(() => styles.display.icons && props.icons && icon.value)
+const showColor = computed(() => styles.display.colors && props.colors && color.value)
+const showLabel = computed(() => styles.display.labels && props.labels && label.value)
+const showValue = computed(() => styles.display.values && props.values && props.value)
+const showTooltip = computed(() => styles.display.tooltips && tooltip.value)
 
 const variant = computed(() => {
-  if (showLabels.value && styles.display.variants) {
+  if (showLabel.value && styles.display.variants) {
     return styles.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
   }
   return undefined;
 });
 
-const colorStyle = computed(() => !colors.value ? defaultNoColor : props.tag.color)
+const colorStyle = computed(() => !showColor.value ? defaultNoColor : props.tag.color)
 const variantColorStyle = computed(() => variant.value === 'flat' || variant.value === 'elevated' ? 'text' : colorStyle.value)
 
 const props = defineProps
@@ -67,39 +75,40 @@ const props = defineProps
     closable: {
       type: Boolean,
       default: false,
-    }, value: {
-      type: [Boolean, Number, String, Object] as PropType<Value>, // Explicitly allows Value types
+    },
+    value: {
+      type: [Boolean, Number, String, Object, Tag], // Explicitly allows Value types
       default: undefined, // Matches the Value type
     }
 
   })
 
-const showLabels = ref(props.labels);
-const showColors = ref(props.colors);
-const showIcons = ref(props.icons);
-const showClosable = ref(props.closable);
 
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 
+function showLabels() {
+  label.value = true
+}
+
 function expandTag(tag: Tag) {
-  showSpace.value = showLabels.value
-  showLabels.value = true
+  space.value = label.value
+  showLabels()
   //console.log('expandTag', tag)
   emit('expand-tag', tag)
 }
 
 function compactTag(tag: Tag) {
-  showLabels.value = showSpace.value
-  showSpace.value = false
+  label.value = space.value
+  space.value = false
   //console.log('compactTag', tag)
   emit('compact-tag', tag)
 }
 
 function toggleLabel(tag: Tag) {
 
-  showLabels.value = showSpace.value
-  showSpace.value = !showLabels.value
+  label.value = space.value
+  space.value = !label.value
 
   //console.log('toggleTag', tag)
   emit('toggle-label', tag)
@@ -107,7 +116,7 @@ function toggleLabel(tag: Tag) {
 
 function expandToSpace(tag: Tag) {
 
-  if (!showSpace.value) { expandTag(props.tag) } else { compactTag(props.tag) }
+  if (!space.value) { expandTag(props.tag) } else { compactTag(props.tag) }
 
   //console.log('toggleTag', tag)
   emit('expand-space', tag)
@@ -146,7 +155,7 @@ function onDblClickIcon(event: Event, tag: Tag) {
   // Clicking the icon draws content toward it, or opens the tag. Double-clicking the icon toggles the label.
   // It is the call to action for the button or tag. ??
   toggleLabel(tag)
-  //if (!showSpace.value) { compactTag(props.tag) } else { expandTag(props.tag) }
+  //if (!space.value) { compactTag(props.tag) } else { expandTag(props.tag) }
   emit('double-click-icon', event, tag)
 }
 
@@ -175,45 +184,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-expand-x-transition>
-    <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="tag.icon"
-      :id="`nu_${tag.id}`" :closable="props.closable ?? showClosable" @click:close="onCloseTag"
-      @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
-      @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+  <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="tag.icon"
+    :id="`nu_${tag.id}`" :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick"
+    @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver"
+    :draggable="true">
+    <!-- Tag Icon / Space -->
+    <template #prepend>
+      <v-fab-transition>
+        <div v-if="showIcon">
 
-      <!-- Tag Icon / Space -->
-      <template #prepend>
-        <v-fab-transition>
-          <div v-if="icons">
+          <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
+            @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
 
-            <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
-              @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
+        </div>
+      </v-fab-transition>
+    </template>
+    <!-- Tag Label / Value -->
+    <template #default>
 
+      <v-slide-x-transition>
+        <NuSpace v-if="showSpace && tag.space" :space="tag.space" class="align-center" />
+      </v-slide-x-transition>
+      <v-slide-x-transition>
+        <NuLabel v-if="showLabel && tag" :tag="tag" />
+      </v-slide-x-transition>
+      <v-fab-transition>
+        <NuBadge v-if="showValue" :icon="`mdi-cards-${tag.space}`" :text-color="colorStyle" />
+      </v-fab-transition>
+      <NuTooltip v-if="showTooltip && tag" :tag="tag" />
+    </template>
 
-          </div>
-        </v-fab-transition>
-      </template>
-      <!-- Tag Label / Value -->
-      <template #default>
-
-        <v-expand-x-transition>
-
-          <div v-if="labels">
-
-            <v-expand-x-transition>
-              <NuSpace :space="tag.space" v-if="showSpace && tag.space" class="align-center" />
-            </v-expand-x-transition>
-
-            <NuLabel :tag="tag" />
-            <NuTooltip :tag="tag" />
-
-          </div>
-        </v-expand-x-transition>
-        <v-expand-x-transition>
-          <NuBadge :icon="`mdi-cards-${tag.space}`" :text-color="colorStyle" />
-        </v-expand-x-transition>
-      </template>
-
-    </v-chip>
-  </v-expand-x-transition>
+  </v-chip>
 </template>

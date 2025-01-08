@@ -1,7 +1,7 @@
 <template>
   <v-form @submit.prevent="submitForm()">
     <v-text-field label="label" v-model="text" density="compact" variant="outlined"
-      prepend-inner-icon="mdi-label-outline" autofocus persistent-counter></v-text-field>
+      prepend-inner-icon="mdi-label-outline" persistent-counter></v-text-field>
 
     <tag-autocomplete v-model="icon" :prepend-inner-icon="icon" />
 

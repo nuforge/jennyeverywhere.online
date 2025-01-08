@@ -53,10 +53,7 @@ async function pickColor(name: string) {
     console.error('EyeDropper API is not supported in this browser.');
   }
 }
-
-
 </script>
-
 
 <template>
   <v-navigation-drawer :scrim="false" v-model="state.persona" disable-route-watcher close-delay="200">

@@ -12,8 +12,7 @@
             </v-card-title>
             <v-card-text>
               <v-text-field label="label" v-model="text" density="compact" @keydown.enter="addTag()"
-                variant="solo-filled" prepend-inner-icon="mdi-label-outline" autofocus
-                persistent-counter></v-text-field>
+                variant="solo-filled" prepend-inner-icon="mdi-label-outline" persistent-counter></v-text-field>
 
               <tag-autocomplete v-model="icon" @keydown.enter="addTag()" :prepend-inner-icon="icon"
                 variant="solo-filled" />

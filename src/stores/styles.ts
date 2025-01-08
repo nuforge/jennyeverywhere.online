@@ -11,16 +11,20 @@ export const chipVariants: Array<'text' | 'flat' | 'elevated' | 'tonal' | 'outli
 ]
 
 const useStyleStore = defineStore('styles', () => {
+  // IS global affecting everyhing? Yes | No?
   const global = ref(true)
+
+  // How is global affecting Tags?
   const labels = ref(true)
   const colors = ref(true)
   const icons = ref(true)
   const values = ref(true)
+  const tooltips = ref(true)
+  const variants = ref('tonal') // text as default?
 
+  // How is global affecting Tag Cards?
   const logs = ref(true)
   const trays = ref(true)
-
-  const variants = ref(chipVariants[0])
 
   const closable = ref(false)
   const remove = ref(false)
@@ -30,6 +34,7 @@ const useStyleStore = defineStore('styles', () => {
   const gIcons = computed(() => !global.value || icons.value)
   const gVariants = computed(() => !global.value || variants.value)
   const gValues = computed(() => !global.value || values.value)
+  const gTooltips = computed(() => !global.value || tooltips.value)
 
   const display = computed(() => ({
     labels: gLabels.value,
@@ -37,6 +42,7 @@ const useStyleStore = defineStore('styles', () => {
     icons: gIcons.value,
     variants: gVariants.value,
     values: gValues.value,
+    tooltips: gTooltips.value,
   }))
 
   return {
@@ -49,6 +55,7 @@ const useStyleStore = defineStore('styles', () => {
     values,
     logs,
     trays,
+    tooltips,
     variants,
     chipVariants,
     display,

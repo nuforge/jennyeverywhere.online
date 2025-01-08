@@ -1,10 +1,3 @@
-<template>
-  <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
-    <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags)"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
 import Tag from '@/objects/NuTag'
@@ -38,14 +31,15 @@ function onRightClick(event: MouseEvent) {
   const tag = markdowninator.getTagFromEvent(event)
   emit('right-click', event, tag)
 }
-
-
-// MARK DOWN
-
-
-
-
 </script>
+
+
+<template>
+  <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
+    <!-- Use the renderContent method to parse and render as Vue components -->
+    <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags)"></div>
+  </div>
+</template>
 
 <style scoped>
 :deep a,

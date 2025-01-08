@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import useDiceStore from '@/stores/dice';
+import Tag from '@/objects/NuTag';
+const dice = useDiceStore();
+
+const showTray = ref(true);
+
+const message = computed(() => `Rolled ${dice.getResults()} on ${dice.getRolls().length}d${dice.getFaces()} dice`)
+
+const rollTags = computed(() => {
+  const tags = [
+    dice.getTag(),
+  ];
+  return tags as Tag[]
+});
+</script>
+
 <template>
   <v-snackbar v-model="dice.snackbar" :timeout="dice.timeout" timer>
     <v-icon :icon="`$d${dice.getFaces()}`" @click="showTray = !showTray" /> {{ message }}
@@ -11,23 +29,3 @@
       variant="plain"></v-btn>
   </v-snackbar>
 </template>
-
-<script setup lang="ts">
-import { computed, ref } from 'vue';
-import useDiceStore from '@/stores/dice';
-import Tag from '@/objects/NuTag';
-const dice = useDiceStore();
-
-const showTray = ref(true);
-
-const message = computed(() => `Rolled ${dice.getResults()} on ${dice.getRolls().length}d${dice.getFaces()} dice`)
-
-const rollTags = computed(() => {
-  const tags = [
-    new Tag(`d20:${dice.getString(2)}`, 'primary', `mdi-dice-d${dice.getFaces()}`),
-  ];
-  return tags as Tag[]
-});
-
-
-</script>

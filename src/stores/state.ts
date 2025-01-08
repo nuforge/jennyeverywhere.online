@@ -86,7 +86,7 @@ const useStateStore = defineStore('state', () => {
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    console.log(`keydown: ${event.key}`)
+    // console.log(`keydown: ${event.key}`)
 
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
     if (
@@ -94,7 +94,7 @@ const useStateStore = defineStore('state', () => {
       ignoredTags.includes((event.target as HTMLElement).tagName) ||
       (event.target as HTMLElement).isContentEditable
     ) {
-      console.log('Ignoring keydown event')
+      // console.log('Ignoring keydown event')
       return
     }
     lastKey.value = event.key // Store the key that was pressed

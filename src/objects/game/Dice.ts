@@ -1,6 +1,6 @@
 class Dice {
   protected _faces: number
-  protected _value: number
+  protected _value: number | string | boolean | object
   protected _rolls: Array<number>
 
   constructor(dieFaces: number) {

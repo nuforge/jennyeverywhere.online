@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Dice from '@/objects/game/Dice'
+import Tag from '@/objects/NuTag'
 
 const useDiceStore = defineStore('dice', () => {
   const die = ref<Dice>(new Dice(20))
@@ -28,6 +29,14 @@ const useDiceStore = defineStore('dice', () => {
   }
   function getResults() {
     return die.value.results
+  }
+
+  function getTag() {
+    return new Tag(`d20:${getString(2)}`, 'primary', `mdi-dice-d${getFaces()}`)
+  }
+
+  function getIcon(): string {
+    return `mdi-dice-d${getFaces()}`
   }
 
   function getFaces() {
@@ -76,6 +85,8 @@ const useDiceStore = defineStore('dice', () => {
     snackbar,
     rollList,
     rollDice,
+    getTag,
+    getIcon,
     getResults,
     getString,
     getFaces,

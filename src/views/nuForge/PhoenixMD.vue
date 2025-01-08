@@ -1,21 +1,3 @@
-<template>
-  <v-container>
-    <v-container>
-      <v-divider>counts</v-divider>
-      <NuTag v-for="item in wordData" :key="item.word" :tag="new Tag(item.word, inator.color(), inator.icon())"
-        :count="item.count" @double-click="onDoubleClick" variant="text" />
-      <v-divider />
-    </v-container>
-    <v-row>
-      <v-col>
-        <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
-      </v-col>
-    </v-row>
-
-    {{ wordData }}
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
@@ -74,7 +56,7 @@ const bodytags = computed(() => inator.shuffleArray(wordData.value.map((word) =>
 })));
 
 watch(randomNumber.value, () => {
-  selected.value = inator.shuffleArray(bodytags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))
+  selected.value = inator.shuffleArray(bodytags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults()))
 })
 
 dice.rollDice(1)
@@ -106,3 +88,21 @@ onMounted(async () => {
   //console.log(' Markdown:', content.value); // You can log the result if needed
 });
 </script>
+
+<template>
+  <v-container>
+    <v-container>
+      <v-divider>counts</v-divider>
+      <NuTag v-for="item in wordData" :key="item.word" :tag="new Tag(item.word, inator.color(), inator.icon())"
+        :count="item.count" @double-click="onDoubleClick" variant="text" />
+      <v-divider />
+    </v-container>
+    <v-row>
+      <v-col>
+        <EvTrayCard name="phoenix.md" :body="content" :tags="bodytags" v-model="selected" />
+      </v-col>
+    </v-row>
+
+    {{ wordData }}
+  </v-container>
+</template>

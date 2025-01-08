@@ -133,7 +133,7 @@ const usePersonaStore = defineStore('persona', () => {
       ignoredTags.includes((event.target as HTMLElement).tagName) ||
       (event.target as HTMLElement).isContentEditable
     ) {
-      console.log('Ignoring keydown event')
+      // console.log('Ignoring keydown event')
       return
     }
     lastKey.value = event.key // Store the key that was pressed

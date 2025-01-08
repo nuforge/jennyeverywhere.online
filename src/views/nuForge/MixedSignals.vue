@@ -1,3 +1,71 @@
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import Tag from '@/objects/NuTag'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+import useDiceStore from '@/stores/dice';
+import useTagStore from '@/stores/tags';
+import usePersonaStore from '@/stores/persona';
+
+
+import MarkdownManager from '@/objects/MarkdownManager';
+const markdowninator = new MarkdownManager()
+import Inator from '@/objects/Inator';
+const inator = new Inator()
+
+const userTags = useTagStore()
+const persona = usePersonaStore()
+
+//const response = await fetch('@/public/icons.html');
+
+const dice = useDiceStore()
+const selected = ref<string[]>([])
+const randomNumber = ref(dice)
+
+const tags = computed(() => inator.iconTags(randomNumber.value.getResults() as number))
+const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() as number * 2)]).join(' '))
+const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
+
+// Markdown Tools
+
+const deets = computed(() => {
+  const textToMarkdown = markdowninator.textToMarkdown(body.value, filtered.value)
+  return markdowninator.htmlToTags(textToMarkdown)
+})
+
+// Color Stats
+
+const colorStats = computed(() => {
+  return tags.value.reduce((acc, tag) => {
+    const color = tag.color || 'default'; // Fallback to 'default' if no color
+    if (!acc[color]) {
+      acc[color] = { color, count: 0, selected: selected.value.includes(tag.name) };
+    }
+    acc[color].count += 1;
+    return acc;
+  }, {} as Record<string, { color: string; count: number, selected: boolean }>);
+});
+
+const filteredColorStats = computed(() => {
+  return filtered.value.reduce((acc, tag) => {
+    const color = tag.color || 'default'; // Fallback to 'default' if no color
+    if (!acc[color]) {
+      acc[color] = { color, count: 0 };
+    }
+    acc[color].count += 1;
+    return acc;
+  }, {} as Record<string, { color: string; count: number }>);
+});
+
+watch(randomNumber.value, () => {
+  selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() as number / 2))
+})
+
+dice.rollDice(1)
+
+inator.iconTags()
+</script>
+
 <template>
   <v-container>
     <v-row>
@@ -43,72 +111,3 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import Tag from '@/objects/NuTag'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-import useDiceStore from '@/stores/dice';
-import useTagStore from '@/stores/tags';
-import usePersonaStore from '@/stores/persona';
-
-
-import MarkdownManager from '@/objects/MarkdownManager';
-const markdowninator = new MarkdownManager()
-import Inator from '@/objects/Inator';
-const inator = new Inator()
-
-const userTags = useTagStore()
-const persona = usePersonaStore()
-
-//const response = await fetch('@/public/icons.html');
-
-const dice = useDiceStore()
-const selected = ref<string[]>([])
-const randomNumber = ref(dice)
-
-const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
-const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
-const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
-
-// Markdown Tools
-
-const deets = computed(() => {
-  const textToMarkdown = markdowninator.textToMarkdown(body.value, filtered.value)
-  return markdowninator.htmlToTags(textToMarkdown)
-})
-
-// Color Stats
-
-const colorStats = computed(() => {
-  return tags.value.reduce((acc, tag) => {
-    const color = tag.color || 'default'; // Fallback to 'default' if no color
-    if (!acc[color]) {
-      acc[color] = { color, count: 0, selected: selected.value.includes(tag.name) };
-    }
-    acc[color].count += 1;
-    return acc;
-  }, {} as Record<string, { color: string; count: number, selected: boolean }>);
-});
-
-const filteredColorStats = computed(() => {
-  return filtered.value.reduce((acc, tag) => {
-    const color = tag.color || 'default'; // Fallback to 'default' if no color
-    if (!acc[color]) {
-      acc[color] = { color, count: 0 };
-    }
-    acc[color].count += 1;
-    return acc;
-  }, {} as Record<string, { color: string; count: number }>);
-});
-
-watch(randomNumber.value, () => {
-  selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() / 2))
-})
-
-dice.rollDice(1)
-
-inator.iconTags()
-
-</script>

@@ -14,7 +14,6 @@ import NuTooltip from '@/components/nu/NuTooltip.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
 
-
 const defaultNoColor = 'text'
 
 // SETTING Default vs Setting permanent
@@ -26,8 +25,6 @@ const label = ref(true)
 const space = ref(false)
 const tooltip = ref(true)
 const color = ref(true)
-
-
 
 const showSpace = computed(() => space.value && props.tag.space)
 const showIcon = computed(() => styles.display.icons && props.icons && icon.value)
@@ -185,9 +182,9 @@ onMounted(() => {
 
 <template>
   <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="tag.icon"
-    :id="`nu_${tag.id}`" :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick"
-    @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver"
-    :draggable="true">
+    :value="value" :id="`nu_${tag.id}`" :closable="props.closable" @click:close="onCloseTag"
+    @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
+    @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
     <!-- Tag Icon / Space -->
     <template #prepend>
       <v-fab-transition>
@@ -209,7 +206,8 @@ onMounted(() => {
         <NuLabel v-if="showLabel && tag" :tag="tag" />
       </v-slide-x-transition>
       <v-fab-transition>
-        <NuBadge v-if="showValue" :icon="`mdi-cards-${tag.space}`" :text-color="colorStyle" />
+        <NuBadge v-if="showValue" :icon="value ? undefined : tag.icon" :content="value || undefined"
+          :text-color="colorStyle" />
       </v-fab-transition>
       <NuTooltip v-if="showTooltip && tag" :tag="tag" />
     </template>

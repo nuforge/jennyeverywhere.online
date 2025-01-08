@@ -240,8 +240,15 @@ class Inator {
     return this.shuffleArray(icons).slice(0, count)
   }
 
+  colorTags = (): Tag[] => {
+    return this.colors().map((color) => new Tag(`color:${color}`, color, 'mdi-circle-opacity'))
+  }
+
+  allcolors = () => {
+    return [...this.colors(), ...this.themecolors()]
+  }
   color = () => {
-    return this.randomArrayValue([...this.colors(), ...this.themecolors()])
+    return this.randomArrayValue(this.allcolors())
   } // Generate 1 random color
 
   themecolor = () => {

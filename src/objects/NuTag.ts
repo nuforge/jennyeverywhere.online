@@ -49,17 +49,6 @@ class Tag {
     return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
   }
 
-  static splitTag = (tagName: string) => {
-    const tagString = tagName.toString()
-    const label = tagString.includes(NAMESPACE_SPLIT_CHAR)
-      ? tagString.split(NAMESPACE_SPLIT_CHAR)[1]
-      : tagString
-    const namespace = tagString.includes(NAMESPACE_SPLIT_CHAR)
-      ? tagString.split(NAMESPACE_SPLIT_CHAR)[0]
-      : undefined
-    return { label, namespace }
-  }
-
   static parseString(input: string): { space?: string; label: string; value?: string } {
     // Normalize the string: lowercase and replace spaces with hyphens
     const normalized = Tag.normalizeTagName(input)

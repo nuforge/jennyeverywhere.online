@@ -22,7 +22,8 @@ const useStyleStore = defineStore('styles', () => {
   const tooltips = ref(true)
   const variants = ref('tonal') // text as default?
 
-  const filterColors = ref([''])
+  const filterThemeColors = ref([''])
+  const filterBaseColors = ref([''])
 
   // How is global affecting Tag Cards?
   const logs = ref(true)
@@ -37,6 +38,7 @@ const useStyleStore = defineStore('styles', () => {
   const gVariants = computed(() => !global.value || variants.value)
   const gValues = computed(() => !global.value || values.value)
   const gTooltips = computed(() => !global.value || tooltips.value)
+  const filterColors = computed(() => [...filterThemeColors.value, ...filterBaseColors.value])
 
   const display = computed(() => ({
     labels: gLabels.value,
@@ -61,6 +63,8 @@ const useStyleStore = defineStore('styles', () => {
     variants,
     chipVariants,
     display,
+    filterThemeColors,
+    filterBaseColors,
     filterColors,
   }
 })

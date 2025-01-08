@@ -64,18 +64,7 @@ export default class Card {
     return new Card(value, symbol)
   }
 }
-// Poker Playing Card class
-class PokerPlayingCard extends Card {
-  constructor(rank: number, suit: string) {
-    super(rank, suit)
-    console.log('PokerPlayingCard constructor: ', this.toString())
-  }
-
-  toString(): string {
-    return `${this._value} of ${this._symbol}`
-  }
-}
 
 class DeckofCards {}
 
-export { PokerPlayingCard, Card, DeckofCards }
+export { Card, DeckofCards }

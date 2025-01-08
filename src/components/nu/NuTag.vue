@@ -30,7 +30,7 @@ const showSpace = computed(() => space.value && props.tag.space)
 const showIcon = computed(() => styles.display.icons && props.icons && icon.value)
 const showColor = computed(() => styles.display.colors && props.colors && color.value)
 const showLabel = computed(() => styles.display.labels && props.labels && label.value)
-const showValue = computed(() => styles.display.values && props.values && props.value)
+const showValue = computed(() => styles.display.values && props.values)
 const showTooltip = computed(() => styles.display.tooltips && tooltip.value)
 
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
@@ -51,6 +51,10 @@ const props = defineProps
     tag: {
       type: Tag,
       required: true,
+    },
+    value: {
+      type: [Boolean, Number, String, Object, Tag], // Explicitly allows Value types
+      default: undefined, // Matches the Value type
     },
     labels: {
       type: Boolean,
@@ -75,14 +79,22 @@ const props = defineProps
     closable: {
       type: Boolean,
       default: false,
-    },
-    value: {
-      type: [Boolean, Number, String, Object, Tag], // Explicitly allows Value types
-      default: undefined, // Matches the Value type
     }
 
   })
 
+const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
+  console.log('writeDataTransfer', data)
+  if (!event.dataTransfer) return
+  event.dataTransfer.clearData();
+  event.dataTransfer.setData(type, data);
+
+  if (dragImage.value) {
+    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
+  } else {
+    console.warn('Drag image not ready!');
+  }
+}
 
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
@@ -160,7 +172,9 @@ function onDblClickIcon(event: Event, tag: Tag) {
 }
 
 // DRAG EVENTS
-function onDragStart(event: Event) {
+function onDragStart(event: DragEvent) {
+  console.log(onDragStart, props.tag.toString())
+  writeDataTransfer(event, 'tag', props.tag.toString())
   emit('drag-start', event, props.tag)
 }
 
@@ -207,7 +221,7 @@ onMounted(() => {
         <NuLabel v-if="showLabel && tag" :tag="tag" />
       </v-slide-x-transition>
       <v-fab-transition>
-        <NuBadge v-if="showValue" :icon="value ? undefined : tag.icon" :content="value || undefined"
+        <NuBadge v-if="showValue && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
           :text-color="colorStyle" />
       </v-fab-transition>
       <NuTooltip v-if="showTooltip && tag" :tag="tag" />

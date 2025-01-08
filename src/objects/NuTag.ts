@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 // const NAMESPACE_SPECIAL_CHARS = ['-', '_', ' ', '.', ':', ',', ';', "'", '"', '[', ']', '{', '}', '|', ' ']
 const NAMESPACE_SPLIT_CHAR = ':'
+const VALUE_SPLIT_CHAR = '.'
 const TAG_WHITESPACE_REPLACER = '-'
 
 const DEFAULT_COLOR = 'accent'
-const DEFAULT_ICON = 'mdi-tag'
+const DEFAULT_ICON = 'mdi-tag-outline'
 
 type Value = boolean | number | string | Tag | undefined
 type Name = string
@@ -24,14 +25,40 @@ class Tag {
   protected _space?: Space
   protected _value?: Value
 
-  constructor(name?: Value, value?: Value, symbol?: Value) {
-    const normalizedName = Tag.cleanValue(name ?? this._id)
-    const { label, namespace } = Tag.splitTag(normalizedName.toString())
+  constructor(name?: string, color?: Value, symbol?: Value) {
+    const { space, label, value } = Tag.parseString(Tag.cleanValue(name ?? this._id))
     this._name = label.trim()
-    this._space = namespace?.trim()
-    this._value = value
+    this._space = space?.trim()
+    this._value = value ? new Tag(`${label}:${value}`, color, symbol) : undefined
     this._at = symbol
     return this
+  }
+
+  static parseString(input: string): { space?: string; label: string; value?: string } {
+    // Normalize the string: lowercase and replace spaces with hyphens
+    const normalized = Tag.normalizeTagName(input)
+
+    // Initialize result
+    const result: { space?: string; label: string; value?: string } = { label: '' }
+
+    // Split into space and the rest
+    const [spaceLabel, valuePart] = normalized.split(NAMESPACE_SPLIT_CHAR) // ':' is the namespace separator
+    if (valuePart !== undefined) {
+      result.space = spaceLabel
+      const [label, value] = valuePart.split(VALUE_SPLIT_CHAR) // '.' is the value separator
+      result.label = label
+      if (value !== undefined) result.value = value
+    } else if (normalized.includes('.')) {
+      // No colon found; split by period for label and value
+      const [label, value] = spaceLabel.split(VALUE_SPLIT_CHAR) // '.' is the value separator
+      result.label = label
+      if (value !== undefined) result.value = value
+    } else {
+      // If neither colon nor period exists, the whole string is the label
+      result.label = normalized
+    }
+
+    return result
   }
 
   get color(): string {
@@ -73,7 +100,27 @@ class Tag {
   }
 
   toString() {
-    return this._space ? `${this._space}:${this._name}` : this._name
+    return this.reconstructString({ space: this._space, name: this._name, value: this._value })
+  }
+
+  reconstructString = ({
+    space,
+    name,
+    value,
+  }: {
+    space?: Space
+    name: string
+    value?: Value
+  }): string => {
+    // Construct the string step-by-step, adding only existing parts
+    let result = name // Start with the label, as it's always present
+    if (space) {
+      result = `${space}:${result}` // Add space if it exists
+    }
+    if (value) {
+      result = `${result}.${value}` // Add value if it exists
+    }
+    return result
   }
 
   attributesToTags = () => {
@@ -93,7 +140,7 @@ class Tag {
     return Object.entries(attributes)
       .map(([key, value]) => {
         if (value) {
-          return new Tag(`${key}:${value}`, 'accent', icons[key as keyof typeof icons])
+          return new Tag(`${key}:${value}`, DEFAULT_COLOR, icons[key as keyof typeof icons])
         }
         return undefined
       })

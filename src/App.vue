@@ -59,9 +59,10 @@ onUnmounted(() => {
       <DetailsDrawer location="left" />
 
       <HeaderLayout />
-
-      <v-main max-width="1440" class="mx-auto">
-        <RouterView />
+      <v-main>
+        <v-container>
+          <RouterView />
+        </v-container>
       </v-main>
 
       <EventAddDialog />

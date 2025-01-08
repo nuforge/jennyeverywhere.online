@@ -6,6 +6,7 @@ import IconsJSON from '@/assets/mdi-icons.json'
 class Inator {
   private _scale: number
   private _seed: number
+  private lastValidMatch: string | null = null
 
   constructor(scale: number = Math.random()) {
     this._scale = scale
@@ -13,8 +14,69 @@ class Inator {
     return this
   }
 
+  keywordTags(keyword: string) {
+    const keywords = Tag.extractKeywords(keyword)
+    const individualTags = keywords.individual.map((keyword) => {
+      console.log('best color', this.bestColor(keyword))
+      const tg = new Tag(keyword, this.bestColor(keyword) || '', this.bestIcon(keyword) || '')
+
+      return tg
+    })
+    return individualTags
+  }
+
+  bestIcon(word: string) {
+    const iconPotentials = this.checkIcons(word)
+    return iconPotentials.length > 0 ? iconPotentials[0] : this.lastValidMatch
+  }
+  bestColor(word: string) {
+    const ColorPotentials = this.checkColors(word)
+
+    return ColorPotentials.length > 0 ? ColorPotentials[0] : this.color()
+  }
+
   checkIcons(word: string) {
-    return IconsJSON.filter((icon) => icon.name === word)
+    const potentials = IconsJSON.filter((icon) => icon.name.includes(word)).sort((a, b) => {
+      const aExact = a.name === word
+      const bExact = b.name === word
+      if (aExact && !bExact) return -1 // Exact match
+      if (bExact && !aExact) return 1 // Exact match
+      const aSimilarity = a.name.includes(word)
+      const bSimilarity = b.name.includes(word)
+      if (aSimilarity && !bSimilarity) return -1 // Include if a is closer
+      if (bSimilarity && !aSimilarity) return 1 // Include if b is closer
+      const aStarts = a.name.startsWith(word)
+      const bStarts = b.name.startsWith(word)
+      if (aStarts && !bStarts) return -1 // Starts with `word`
+      if (bStarts && !aStarts) return 1 // Starts with `word`
+      return 0 // No preference
+    })
+
+    if (potentials.length === 0 && this.lastValidMatch) {
+      this.lastValidMatch = this.lastValidMatch
+    } else {
+      // If we have valid results, update the last valid match
+      this.lastValidMatch = potentials.length ? `mdi-${potentials[0].name}` : null
+    }
+    return potentials.map((icon) => `mdi-${icon.name}`)
+  }
+
+  checkColors(word: string) {
+    const colorpool = [...this.themecolors(), ...this.colors()]
+      .filter((color) => color.includes(word))
+      .sort((a, b) => {
+        const aExact = a === word
+        const bExact = b === word
+        const aStarts = a.startsWith(word)
+        const bStarts = b.startsWith(word)
+
+        if (aExact && !bExact) return -1 // Exact match
+        if (bExact && !aExact) return 1 // Exact match
+        if (aStarts && !bStarts) return -1 // Starts with `word`
+        if (bStarts && !aStarts) return 1 // Starts with `word`
+        return 0 // No preference
+      })
+    return colorpool
   }
 
   chaosinate(scale: number = this._scale) {

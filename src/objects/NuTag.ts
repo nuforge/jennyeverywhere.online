@@ -36,9 +36,28 @@ class Tag {
     const { space, label, value } = Tag.parseString(Tag.cleanValue(name ?? this._id))
     this._name = label.trim()
     this._space = space?.trim()
-    this._value = value ? new Tag(`${label}:${value}`, color, symbol) : undefined
+    this._value = value ? value : color
     this._at = symbol
     return this
+  }
+
+  static cleanValue = (text: Value) => {
+    return text !== undefined ? text.toString() : ''
+  }
+
+  static normalizeTagName = (name: string | number) => {
+    return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
+  }
+
+  static splitTag = (tagName: string) => {
+    const tagString = tagName.toString()
+    const label = tagString.includes(NAMESPACE_SPLIT_CHAR)
+      ? tagString.split(NAMESPACE_SPLIT_CHAR)[1]
+      : tagString
+    const namespace = tagString.includes(NAMESPACE_SPLIT_CHAR)
+      ? tagString.split(NAMESPACE_SPLIT_CHAR)[0]
+      : undefined
+    return { label, namespace }
   }
 
   static parseString(input: string): { space?: string; label: string; value?: string } {
@@ -136,24 +155,6 @@ class Tag {
 
   get symbol(): string {
     return this._name
-  }
-
-  static cleanValue = (text: Value) => {
-    return text !== undefined ? text.toString() : ''
-  }
-  static normalizeTagName = (name: string | number) => {
-    return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
-  }
-
-  static splitTag = (tagName: string) => {
-    const tagString = tagName.toString()
-    const label = tagString.includes(NAMESPACE_SPLIT_CHAR)
-      ? tagString.split(NAMESPACE_SPLIT_CHAR)[1]
-      : tagString
-    const namespace = tagString.includes(NAMESPACE_SPLIT_CHAR)
-      ? tagString.split(NAMESPACE_SPLIT_CHAR)[0]
-      : undefined
-    return { label, namespace }
   }
 
   toString() {

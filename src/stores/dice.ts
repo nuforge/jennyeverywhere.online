@@ -4,14 +4,22 @@ import Dice from '@/objects/game/Dice'
 import Tag from '@/objects/NuTag'
 
 const useDiceStore = defineStore('dice', () => {
+  const faces = ref([4, 6, 8, 10, 12, 20])
+  const colors = ref(['accent', 'secondary', 'success', 'warning', 'error', 'primary'])
   const die = ref<Dice>(new Dice(20))
   const defaultTimeout = 4000
   const timeout = ref(defaultTimeout)
   const snackbar = ref(false)
   const lastKey = ref('')
 
+  function nextDie() {
+    const currentIndex = faces.value.indexOf(die.value.faces)
+    const nextIndex = (currentIndex + 1) % faces.value.length
+    die.value = new Dice(faces.value[nextIndex])
+  }
+
   function clearDice() {
-    die.value = new Dice(20)
+    die.value = new Dice(die.value.faces)
   }
 
   function rollDice(dCount: number = 1, showSnackbar: boolean = false) {
@@ -24,6 +32,10 @@ const useDiceStore = defineStore('dice', () => {
     return [1, 2, 3]
   }
 
+  function getColor() {
+    return colors.value[faces.value.indexOf(die.value.faces)]
+  }
+
   function getString(pad: number = 1) {
     return die.value.results.toString().padStart(pad, '0')
   }
@@ -32,11 +44,15 @@ const useDiceStore = defineStore('dice', () => {
   }
 
   function getTag() {
-    return new Tag(`d20:${getString(2)}`, 'primary', `mdi-dice-d${getFaces()}`)
+    return new Tag(`${getType()}:${getString(2)}`, 'primary', `mdi-dice-${getType()}`)
   }
 
   function getIcon(): string {
-    return `mdi-dice-d${getFaces()}`
+    return `mdi-dice-${getType()}`
+  }
+
+  function getType() {
+    return die.value.type
   }
 
   function getFaces() {
@@ -45,7 +61,6 @@ const useDiceStore = defineStore('dice', () => {
   function getRolls() {
     return die.value.rolls
   }
-
   function clearSnackbar() {
     snackbar.value = false
   }
@@ -81,12 +96,16 @@ const useDiceStore = defineStore('dice', () => {
   }
   return {
     die,
+    faces,
     timeout,
     snackbar,
     rollList,
     rollDice,
+    nextDie,
     getTag,
     getIcon,
+    getColor,
+    getType,
     getResults,
     getString,
     getFaces,

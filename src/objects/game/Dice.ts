@@ -3,8 +3,8 @@ class Dice {
   protected _value: number | string | boolean | object
   protected _rolls: Array<number>
 
-  constructor(dieFaces: number) {
-    this._faces = dieFaces
+  constructor(faces: number) {
+    this._faces = faces
     this._value = 0
     this._rolls = []
   }
@@ -19,6 +19,10 @@ class Dice {
 
   get rolls() {
     return this._rolls
+  }
+
+  get type() {
+    return `d${this._faces}`
   }
 
   get faces() {

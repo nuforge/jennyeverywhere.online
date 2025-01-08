@@ -40,7 +40,8 @@ class MarkdownManager {
 
   // Escape special regex characters if pattern is a literal string
   generateRegex(pattern: string): RegExp {
-    return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case-insensitive
+    return new RegExp(`(?<!\\w)${this.escapePattern(pattern)}(?!\\w)`, 'gi') // Matches exact words
+    // return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case-insensitive
   }
 
   async loadMarkdown(filePath: string, render: boolean = true) {

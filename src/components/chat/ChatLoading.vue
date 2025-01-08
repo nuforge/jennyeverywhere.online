@@ -1,13 +1,10 @@
 <script setup lang="ts">
+import NuTag from '../nu/NuTag.vue';
+import Tag from '@/objects/NuTag';
+
+const loading = new Tag('...', 'grey', 'mdi-dots-horizontal');
 </script>
 
 <template>
-  <v-card flat>
-    <v-card-text class="bg-background pa-2 px-2 pb-2">
-
-      <v-list>
-        <v-list-item><v-icon icon="mdi-dots-horizontal"></v-icon></v-list-item>
-      </v-list>
-    </v-card-text>
-  </v-card>
+  <NuTag :tag="loading" :labels="false" />
 </template>

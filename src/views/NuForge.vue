@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import VChatBase from '@/components/chat/ChatBase.vue';
+import ChatBase from '@/components/chat/ChatBase.vue';
 // import usePersonaStore from '@/stores/persona';
 // const persona = usePersonaStore();
-
-
 </script>
+
 <template>
   <v-container>
-    <VChatBase />
+    <ChatBase />
   </v-container>
 
 </template>

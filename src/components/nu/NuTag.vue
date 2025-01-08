@@ -33,6 +33,9 @@ const showLabel = computed(() => styles.display.labels && props.labels && label.
 const showValue = computed(() => styles.display.values && props.values && props.value)
 const showTooltip = computed(() => styles.display.tooltips && tooltip.value)
 
+const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
+
+
 const variant = computed(() => {
   if (showLabel.value && styles.display.variants) {
     return styles.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
@@ -186,19 +189,17 @@ onMounted(() => {
     @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
     @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
     <!-- Tag Icon / Space -->
+
     <template #prepend>
       <v-fab-transition>
-        <div v-if="showIcon">
-
-          <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click.stop="onClickIcon"
-            @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="labels ? true : false" />
-
+        <div>
+          <NuIcon v-if="showIcon && icon" :icon="(tag.icon as string)" :color="variantColorStyle" @click="onClickIcon"
+            @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="prependIcon ? true : false" />
         </div>
       </v-fab-transition>
     </template>
     <!-- Tag Label / Value -->
     <template #default>
-
       <v-slide-x-transition>
         <NuSpace v-if="showSpace && tag.space" :space="tag.space" class="align-center" />
       </v-slide-x-transition>

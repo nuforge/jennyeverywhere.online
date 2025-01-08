@@ -52,7 +52,8 @@ const usePersonaStore = defineStore('persona', () => {
       console.error('focus is undefined')
       focus.value = new Tag() // Fallback to a new Tag if undefined
     }
-    focus.value = tag // This updates the `focus` ref correctly
+    console.log('focusOn', tag)
+    return (focus.value = tag) // This updates the `focus` ref correctly
   }
 
   function getFocus() {

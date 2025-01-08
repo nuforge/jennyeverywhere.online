@@ -28,8 +28,8 @@ class Tag {
   protected _split: string[] = []
 
   // Tag Attributes
-  protected _name: Name
-  protected _space?: Space
+  protected _name: string
+  protected _space?: string
   protected _value?: Value
 
   constructor(name?: string, color?: Value, symbol?: Value) {
@@ -187,12 +187,18 @@ class Tag {
       name: this._name,
       type: this._type,
       space: this._space,
+      value: this.value,
+      color: this.color,
+      icon: this.icon,
     }
     const icons: { [key: string]: string } = {
       id: 'mdi-identifier',
       name: 'mdi-label-variant-outline',
       type: 'mdi-label-outline',
       space: 'mdi-tray',
+      value: 'mdi-numeric-positive-1',
+      color: 'mdi-circle-opacity',
+      icon: this.icon,
     }
 
     return Object.entries(attributes)

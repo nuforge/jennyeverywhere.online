@@ -22,6 +22,8 @@ const useStyleStore = defineStore('styles', () => {
   const tooltips = ref(true)
   const variants = ref('tonal') // text as default?
 
+  const filterColors = ref([''])
+
   // How is global affecting Tag Cards?
   const logs = ref(true)
   const trays = ref(true)
@@ -59,6 +61,7 @@ const useStyleStore = defineStore('styles', () => {
     variants,
     chipVariants,
     display,
+    filterColors,
   }
 })
 

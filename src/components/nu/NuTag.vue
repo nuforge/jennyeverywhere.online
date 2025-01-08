@@ -28,7 +28,7 @@ const color = ref(true)
 
 const showSpace = computed(() => space.value && props.tag.space)
 const showIcon = computed(() => styles.display.icons && props.icons && icon.value)
-const showColor = computed(() => styles.display.colors && props.colors && color.value)
+const showColor = computed(() => styles.display.colors && props.colors && color.value && !styles.filterColors.includes(props.tag.color))
 const showLabel = computed(() => styles.display.labels && props.labels && label.value)
 const showValue = computed(() => styles.display.values && props.values)
 const showTooltip = computed(() => styles.display.tooltips && tooltip.value)

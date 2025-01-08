@@ -28,7 +28,6 @@ const usePersonaStore = defineStore('persona', () => {
 
   const attention = ref(new Legend())
   const memory = ref(new Legend())
-  const themeMap = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
   const themeBase = [
@@ -110,15 +109,19 @@ const usePersonaStore = defineStore('persona', () => {
     drawer.value = false
   }
 
+  /// WTF am I doing here?
+  // Add theme colors as tags to a legend... I think
+  // Mutating in a computed is not great... I think
   const themeLegend = computed(() => {
+    const legend = new Legend()
     Object.entries(myTheme.value.colors)
-      .filter(([name]) => {
-        return themeBase.includes(name)
+      .filter(([name]) => themeBase.includes(name))
+      .map(([name]) => {
+        const tagToAdd = new Tag(name, name, 'mdi-circle-opacity')
+        legend.addTag(tagToAdd)
       })
-      .forEach(([name]) => {
-        return themeMap.value.addTag(new Tag(name, name, 'mdi-circle-opacity'))
-      })
-    return themeMap.value as Legend
+    console.log(legend)
+    return legend
   })
 
   const themeTags = computed(() => {

@@ -4,6 +4,9 @@ import Tag from '@/objects/NuTag.ts'
 import usePersonaStore from '@/stores/persona'
 const persona = usePersonaStore()
 
+import Inator from '@/objects/Inator'
+const inator = new Inator()
+
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorAutocomplete from '@/components/form/ColorAutocomplete.vue';
 import BtnFocusLink from '@/components/BtnFocusLink.vue';
@@ -31,5 +34,7 @@ function resetTemp() {
       prepend-inner-icon="mdi-label-outline" persistent-counter></v-text-field>
     <tag-autocomplete v-model="tempTag.icon" :prepend-inner-icon="tempTag.icon" />
     <ColorAutocomplete v-model="(tempTag.color as string)" label="color" />
+    <v-text-field v-model="tempTag.value" density="compact"
+      :prepend-icon="inator.bestIcon(tempTag.name) || 'mdi-lock'"></v-text-field>
   </v-form>
 </template>

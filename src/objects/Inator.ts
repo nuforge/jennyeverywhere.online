@@ -13,6 +13,10 @@ class Inator {
     return this
   }
 
+  checkIcons(word: string) {
+    return IconsJSON.filter((icon) => icon.name === word)
+  }
+
   chaosinate(scale: number = this._scale) {
     return generate(Math.random() * scale)
   }

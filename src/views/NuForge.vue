@@ -5,37 +5,41 @@ import NuTag from '@/components/nu/NuTag.vue';
 // const persona = usePersonaStore();
 import Tag from '@/objects/NuTag';
 
+import Inator from '@/objects/Inator';
+
+const inator = new Inator();
+
 const tagString = ref('')
-const parsedString = computed(() => Tag.parseString(tagString.value))
 const myTag = computed(() => new Tag(tagString.value))
 const newTagString = computed(() => myTag.value.toString())
 // import useCardStore from '@/stores/cards';
 // const cards = useCardStore();
 
-const attributesToTags = computed(() => {
-  if (!parsedString.value) {
-    return []
-  }
-  return Object.entries(parsedString.value)
-    .map(([key, value]) => {
-      if (value) {
-        return new Tag(`${key}:${value}`)
-      }
-      return undefined
-    })
-    .filter((tag): tag is Tag => tag !== undefined)
-}
-)
+const keywordTags = computed(() => {
+  const keywords = Tag.extractKeywords(tagString.value)
+  const individualTags = keywords.individual.map((keyword) => {
+    //console.log('keyword', keyword)
+    const check = inator.checkIcons(keyword)
+    console.log('check', check)
+    const tg = new Tag(keyword, 'primary', !check ? 'mdi-tag' : 'mdi-' + check[0].name)
+    // console.log('tg', tg)
+
+    return tg
+  })
+  return individualTags
+})
+
 
 </script>
-
 <template>
   <v-divider>Tag String</v-divider>
   <v-text-field v-model="tagString" density="compact" min-width="200"
     label="Construct Tag: `space:name.default`"></v-text-field>
   <v-divider>{{ newTagString }}</v-divider>
   <NuTag :tag="myTag" />
+  {{ keywordTags }}
   <v-divider>Tag String</v-divider>
-  <NuTag v-for="tag in attributesToTags" :key="tag.id" :tag="tag" />
+  <NuTag v-for="tag in keywordTags" :key="tag.id" :tag="tag" />
+
 
 </template>

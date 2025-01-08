@@ -11,6 +11,12 @@ type Value = boolean | number | string | Tag | undefined
 type Name = string
 type Space = string | undefined
 
+interface Keywords {
+  space: string[]
+  label: string[]
+  value: string[]
+}
+
 // If the Value of Tag is itself, then it [... is a Tag] ??? CoPilot's contribution to my comment.
 
 class Tag {
@@ -19,6 +25,7 @@ class Tag {
   protected _stamp: Date = new Date()
   protected _type: string = this.constructor.name
   protected _at: Value
+  protected _split: string[] = []
 
   // Tag Attributes
   protected _name: Name
@@ -48,7 +55,7 @@ class Tag {
       const [label, value] = valuePart.split(VALUE_SPLIT_CHAR) // '.' is the value separator
       result.label = label
       if (value !== undefined) result.value = value
-    } else if (normalized.includes('.')) {
+    } else if (normalized.includes(VALUE_SPLIT_CHAR)) {
       // No colon found; split by period for label and value
       const [label, value] = spaceLabel.split(VALUE_SPLIT_CHAR) // '.' is the value separator
       result.label = label
@@ -59,6 +66,56 @@ class Tag {
     }
 
     return result
+  }
+  static extractKeywords(input: string): { individual: string[]; grouped: string[] } {
+    const normalized = input.trim().toLowerCase().replace(/\s+/g, ' ') // Normalize spacing and case
+    const words = normalized.match(/\w+/g) || [] // Match individual words/numbers
+
+    const individual = Array.from(new Set(words)) // Unique individual words
+    const grouped = new Set<string>()
+
+    // Generate grouped keywords (adjacent word pairs)
+    for (let i = 0; i < words.length; i++) {
+      for (let j = i + 1; j <= words.length; j++) {
+        const phrase = words.slice(i, j).join(' ')
+        if (phrase.split(' ').length > 1) grouped.add(phrase)
+      }
+    }
+
+    return {
+      individual,
+      grouped: Array.from(grouped),
+    }
+  }
+  static extractScopedKeywords(input: string): Keywords {
+    const normalized = input.trim().toLowerCase().replace(/\s+/g, ' ') // Normalize spacing and case
+    const [spaceLabel, valuePart] = normalized.split(':')
+    const [space, labelPart] = spaceLabel.includes('.')
+      ? spaceLabel.split('.')
+      : [undefined, spaceLabel]
+    const [label, value] = (valuePart || labelPart).split('.')
+
+    const scopes: Keywords = {
+      space: space ? Tag.extractPhrases(space) : [],
+      label: Tag.extractPhrases(label),
+      value: value ? Tag.extractPhrases(value) : [],
+    }
+
+    return scopes
+  }
+
+  static extractPhrases(input: string): string[] {
+    const words = input.match(/\w+/g) || []
+    const phrases = new Set<string>()
+
+    for (let i = 0; i < words.length; i++) {
+      for (let j = i + 1; j <= words.length; j++) {
+        const phrase = words.slice(i, j).join(' ')
+        phrases.add(phrase)
+      }
+    }
+
+    return Array.from(phrases)
   }
 
   get color(): string {

@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
+
+import OpenAI from 'openai'
 
 interface Message {
   id: number
@@ -17,43 +18,47 @@ const useChatStore = defineStore('chat', () => {
   const messages = ref<Message[]>([])
 
   // OpenAI API settings
-  const apiUrl = 'https://api.openai.com/v1/chat/completions'
-  const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+  const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
+  const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true })
 
-  // Function to send message to ChatGPT API
-  const sendMessage = async () => {
+  const sendGPTMessage = async () => {
     if (!userInput.value.trim()) return
+    isLoading.value = false
+    const stream = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'developer',
+          content: [
+            {
+              type: 'text',
+              text: 'You are the character of Jenny Everywhere and will respond as though you are getting texts messages.',
+            },
+          ],
+          name: 'jenny_everywhere',
+        },
+        { role: 'user', content: userInput.value, name: 'user_one' },
+      ],
+      stream: true,
+    })
 
-    console.log(userInput.value)
-    isLoading.value = true
-    errorMessage.value = ''
+    let streamedMessage = ''
+    chatResponse.value = '' // Reset chat response for the new stream
 
     try {
-      const response = await axios.post(
-        apiUrl,
-        {
-          model: 'gpt-4o-mini', // Use your preferred model
-          messages: [{ role: 'user', content: userInput.value }],
-          max_tokens: 150,
-          temperature: 0.7,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
-          },
-        },
-      )
-
-      // Parse response
-      chatResponse.value = response.data.choices[0].message.content
-      createMessage(chatResponse.value)
-      console.log(chatResponse.value)
+      for await (const chunk of stream) {
+        const partialContent = chunk.choices[0]?.delta?.content || ''
+        streamedMessage += partialContent
+        chatResponse.value += partialContent
+        console.log(' for await', chatResponse.value)
+      }
     } catch (error) {
       console.error(error)
       errorMessage.value = 'An error occurred while contacting ChatGPT.'
     } finally {
+      createMessage(streamedMessage)
       isLoading.value = false
+      console.log('finally', chatResponse.value)
     }
   }
 
@@ -80,9 +85,9 @@ const useChatStore = defineStore('chat', () => {
     isLoading,
     errorMessage,
     getMessages,
-    sendMessage,
     createMessage,
     addMessageToChat,
+    sendGPTMessage,
   }
 })
 

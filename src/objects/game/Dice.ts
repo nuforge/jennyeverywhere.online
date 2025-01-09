@@ -4,16 +4,12 @@ class Dice {
   protected _rolls: Array<number>
 
   constructor(faces: number) {
-    this._faces = faces
     this._value = 0
+    this._faces = faces
     this._rolls = []
   }
 
   get value() {
-    return this._value
-  }
-
-  get results() {
     return this._value
   }
 

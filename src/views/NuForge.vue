@@ -1,36 +1,73 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import ChatBase from '@/components/chat/ChatBase.vue';
-// import useCardStore from '@/stores/cards';
-// const cards = useCardStore();
+import { computed, ref, watch } from 'vue'
+import Tag from '@/objects/NuTag'
+import NuTag from '@/components/nu/NuTag.vue'
 
-import useChatStore from '@/stores/chat';
-const chat = useChatStore();
+import Inator from '@/objects/Inator'
+const inator = new Inator()
+
+import useDiceStore from '@/stores/dice'
+const dice = useDiceStore()
 
 
-const greeted = ref(false)
+const rollValue = computed(() => Number(randomNumber.value.getResults()) / dice.getFaces())
 
-const greet = () => {
-  chat.sendGPTMessage('Ummm... who is this?')
-  greeted.value = true
-}
+const hue = ref(inator.number(360))
+const saturation = ref(inator.number(100))
+const lightness = ref(inator.number(100))
 
-onMounted(() => {
-  if (!greeted.value || chat.getMessages().length === 0) {
+const color = computed(() => `hsl(${hue.value}, ${saturation.value}%, ${lightness.value}%)`)
 
-    chat.createMessage('hello World!', 'jenny_everywhere') // Add user message to chat
-    //chat.sendGPTMessage()
-    //greeted.value = true
-  }
+
+const randomNumber = ref(dice)
+watch(randomNumber.value, () => {
+  hue.value = inator.number(360)
+  saturation.value = inator.number(100)
+  lightness.value = inator.number(100)
+  // console.log('randomNumber:', randomNumber.value.getResults())
+
 })
-
+const tag = ref(new Tag('Physics'))
 
 </script>
 
-
 <template>
-  <v-btn @click="greet()" icon :disabled="greeted">
-    <v-icon>mdi-chat</v-icon>
-  </v-btn>
-  <ChatBase />
+
+
+  <v-row>
+    <v-col class="d-flex justify-center">
+      <v-progress-circular :model-value="hue" :color="color" width="30" :size="200">{{
+        Math.floor(hue)
+      }}
+        <NuTag :color="color" :tag="tag" />
+      </v-progress-circular>
+    </v-col>
+    <v-col>
+
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-label>Hue</v-label>
+      <v-container class="d-flex align-center">
+        <v-slider v-model="hue" :color="color" thumb-label track-size="10"></v-slider>
+      </v-container>
+    </v-col>
+    <v-col>
+      <v-label>Saturation</v-label>
+      <v-container class="d-flex align-center">
+        <v-slider v-model="saturation" :color="color" :min="0" :max="100" width="20" thumb-label
+          track-size="10"></v-slider>
+      </v-container>
+    </v-col>
+    <v-col>
+      <v-label>Lightness</v-label>
+      <v-container class="d-flex align-center">
+        <v-slider v-model="lightness" :color="color" :min="0" :max="100" thumb-label track-size="10"></v-slider>
+      </v-container>
+    </v-col>
+  </v-row>
+
+  <v-divider></v-divider>
+
 </template>

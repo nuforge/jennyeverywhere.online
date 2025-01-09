@@ -37,10 +37,10 @@ const useDiceStore = defineStore('dice', () => {
   }
 
   function getString(pad: number = 1) {
-    return die.value.results.toString().padStart(pad, '0')
+    return die.value.value.toString().padStart(pad, '0')
   }
   function getResults() {
-    return die.value.results
+    return die.value.value
   }
 
   function getTag() {

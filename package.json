@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "chroma-js": "^3.1.2",
     "cls": "^0.1.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
@@ -33,6 +34,7 @@
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@mdi/font": "^7.4.47",
     "@tsconfig/node22": "^22.0.0",
+    "@types/chroma-js": "^3.1.0",
     "@types/jsdom": "^21.1.7",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.9.3",

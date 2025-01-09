@@ -75,6 +75,8 @@ import {
   VStepperItem,
   VStepperWindow,
   VStepperWindowItem,
+  VProgressCircular,
+  VProgressLinear,
   VSpeedDial,
   VSystemBar,
   VSparkline,
@@ -88,6 +90,7 @@ import {
   VExpansionPanels,
   VExpansionPanelText,
   VExpansionPanelTitle,
+  VSlider,
 } from 'vuetify/components'
 import {
   VStepperVerticalActions,
@@ -355,6 +358,9 @@ export const vuetify = createVuetify({
     VStepperWindowItem,
     VStepperVerticalActions,
     VStepperVerticalItem,
+    VProgressCircular,
+    VProgressLinear,
+    VSlider,
     VSpeedDial,
     VSystemBar,
     VSparkline,

@@ -4,11 +4,8 @@ import usePersonaStore from '@/stores/persona';
 
 const persona = usePersonaStore()
 
-const showAvatar = ref(false)
+const showAvatar = ref(true)
 
-function toggleImage() {
-  showAvatar.value = !showAvatar.value
-}
 
 onMounted(async () => {
   persona.randomAvatar()
@@ -17,12 +14,6 @@ onMounted(async () => {
 
 <template>
   <v-avatar :image="showAvatar ? persona.avatar : undefined" rounded="0" v-if="persona.avatar"
-    :icon="!showAvatar ? persona.focus.icon : undefined" @click="toggleImage()" size="x-large">
+    :icon="!showAvatar ? persona.focus.icon : undefined" size="x-large">
   </v-avatar>
 </template>
-
-<style scoped>
-.v-avatar {
-  cursor: pointer;
-}
-</style>

@@ -29,6 +29,9 @@ const filters = ref([...inator.commonStopWords(), ...inator.htmlTags(), ...['wik
 const wordData = computed(() => markdowninator.cleanAndCountWords(props.message.text, 5, filters.value))
 const wordTags = computed(() => wordData.value.map((item) => new Tag(item.word, inator.color(), inator.icon())) as Tag[])
 
+const isUser = computed(() => props.message.sender === 'user')
+const isJenny = computed(() => props.message.sender === 'jenny_everywhere')
+
 function shuffleArray(array: Tag[]) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -42,9 +45,10 @@ const filteredTags = computed(() => shuffleArray(wordTags.value.filter((item) =>
 </script>
 
 <template>
-  <v-list-item class="align-top justify-start">
-    <template #prepend>
-      <PersonaAvatar />
+  <v-timeline-item size="large" dot-color="background" fill-dot>
+    <template #icon>
+      <v-icon v-if="isUser" icon="mdi-chat"></v-icon>
+      <PersonaAvatar v-if="isJenny" />
     </template>
     <MarkdownRenderer :text="message.text" :tags="filteredTags" class="pa-2 rounded-lg" />
     <v-label>{{ message.timestamp }}</v-label>
@@ -52,5 +56,6 @@ const filteredTags = computed(() => shuffleArray(wordTags.value.filter((item) =>
       <NuTag v-for=" tag in wordTags" :key="tag.name" :tag="tag" :value="tag.name" :values="false"
         @dblClick="persona.focusOn(tag)" :labels="false" :colors="!selection.includes(tag.name)" variant="plain" />
     </v-chip-group>
-  </v-list-item>
+
+  </v-timeline-item>
 </template>

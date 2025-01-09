@@ -7,7 +7,10 @@ const chat = useChatStore();
 </script>
 
 <template>
-  <v-list lines="three" class="bg-transparent" rounded v-if="chat.getMessages().length > 0" density="compact">
+
+
+
+  <v-timeline class="bg-transparent" rounded v-if="chat.getMessages().length > 0" density="compact" truncate-line="end">
     <ChatMessage v-for="message in chat.getMessages()" :key="message.id" :message="message" />
-  </v-list>
+  </v-timeline>
 </template>

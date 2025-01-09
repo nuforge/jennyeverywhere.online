@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import PersonaAvatar from '@/components/PersonaAvatar.vue';
+import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
 import useStateStore from '@/stores/state'
 import usePersonaStore from '@/stores/persona';
 

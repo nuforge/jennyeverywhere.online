@@ -21,7 +21,6 @@ const expansions = ref([])
 watch(
   () => persona.focus, // Use optional chaining to avoid errors
   (newFocus) => { // OPEN FOCUS PANEL
-    console.log('watch', newFocus)
   }
 );
 

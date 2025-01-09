@@ -43,7 +43,11 @@ const usePersonaStore = defineStore('persona', () => {
   ]
 
   function getThemeHexByName(name: string) {
-    return theme.themes.value.myCustomTheme.colors[name].toString().replace('#', '')
+    if (!myTheme.value.colors[name]) {
+      console.error('getThemeHexByName: color not found', name)
+      return `#161616`
+    }
+    return myTheme.value.colors[name]
   }
 
   // Default to maintaining focus or no?
@@ -55,7 +59,7 @@ const usePersonaStore = defineStore('persona', () => {
       console.error('focus is undefined')
       focus.value = new Tag() // Fallback to a new Tag if undefined
     }
-    console.log('focusOn', tag)
+    //console.log('focusOn', tag)
     return (focus.value = tag) // This updates the `focus` ref correctly
   }
 

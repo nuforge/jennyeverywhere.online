@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ColorPickerDialog from '@/components/ColorPickerDialog.vue';
+import ColorPickerDialog from '@/components/color/ColorPickerDialog.vue';
 const props = defineProps({
   modelValue: String, // Define the type of the prop
 });

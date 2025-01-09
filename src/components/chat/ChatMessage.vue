@@ -4,7 +4,7 @@ import Tag from '@/objects/NuTag';
 import NuTag from '@/components/nu/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
-import PersonaAvatar from '@/components/PersonaAvatar.vue';
+import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()

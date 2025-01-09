@@ -1,8 +1,37 @@
 import chroma from 'chroma-js'
 
 import cssColors from '@/assets/color/css.base.json' // Pre-loaded CSS colors
-import { convertColor, hexToHsl } from '@/objects/chatgpt/Colors' // Use a library or write custom functions
-console.log(cssColors)
+import xkcdColors from '@/assets/color/xkcd.colors.json' // Pre-loaded CSS colors
+import { convertColor, hexToHsl } from '@/objects/color/Colors' // Use a library or write custom functions
+
+export const namedColors: Record<string, string> = { ...cssColors, ...xkcdColors }
+
+export function findByKey(obj: Record<string, string>, key: string): string | undefined {
+  return key in obj ? obj[key] : undefined
+}
+export function findByValue(obj: Record<string, string>, value: string): string[] {
+  return Object.keys(obj).filter((k) => obj[k] === value)
+}
+
+type ColorDictionary = { [key: string]: string }
+
+export function mergeColorDictionaries(
+  cssColors: ColorDictionary,
+  xkcdColors: ColorDictionary,
+): ColorDictionary {
+  const mergedColors: ColorDictionary = { ...cssColors }
+
+  for (const key in xkcdColors) {
+    if (mergedColors[key]) {
+      // Both dictionaries contain the same key
+      // Optionally handle conflict resolution here
+      console.warn(`Duplicate color key: ${key}. Using xkcdColors value.`)
+    }
+    mergedColors[key] = xkcdColors[key]
+  }
+
+  return mergedColors
+}
 
 export interface ColorData {
   hex: string
@@ -32,6 +61,28 @@ function calculateDistance(color1: number | string, color2: number | string, mod
     return Math.abs(hsl1.h - hsl2.h) // Simplified for hue distance
   }
 }
+
+// // Case-insensitive key search
+// const caseInsensitiveKey = 'BlAcK'
+// const normalizedKey = Object.keys(namedColors).find(
+//   (key) => key.toLowerCase() === caseInsensitiveKey.toLowerCase(),
+// )
+
+// console.log(
+//   normalizedKey ? `Found: ${normalizedKey} = ${namedColors[normalizedKey]}` : 'Key not found.',
+// )
+
+// // Case-insensitive value search
+// const caseInsensitiveValue = '#000000'
+// const matchingKeysInsensitive = Object.keys(namedColors).filter(
+//   (key) => namedColors[key].toLowerCase() === caseInsensitiveValue.toLowerCase(),
+// )
+
+// console.log(
+//   matchingKeysInsensitive.length > 0
+//     ? `Found keys: ${matchingKeysInsensitive}`
+//     : 'Value not found.',
+// )
 
 // function findClosestColor(hex: string, dataset: { name: string, hex: string }[], mode = 'LAB') {
 //   let closest = null

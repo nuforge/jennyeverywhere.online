@@ -195,6 +195,26 @@ class Inator {
     return tags
   } // Generate 5 random tags
 
+  hexcode = (length: number = 6, hash: boolean = true): string => {
+    // Generate a random hex string
+    let hex = Math.random().toString(16).slice(2)
+
+    // Ensure the length matches the desired value
+    while (hex.length < length) {
+      hex += Math.random().toString(16).slice(2)
+    }
+
+    // Truncate to the exact length
+    hex = hex.slice(0, length)
+
+    // Return with or without a hash
+    return hash ? `#${hex}` : hex
+  }
+
+  hexcodes = (count: number = 1, length: number = 6, hash: boolean = true): string[] => {
+    return Array.from({ length: count }, () => this.hexcode(length, hash))
+  }
+
   icon = () => {
     return this.icons(1).toString()
   } // Generate 1 random icon

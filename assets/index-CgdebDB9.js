@@ -9596,8 +9596,8 @@ const g0 = fl('dice', () => {
       return (
         Vt(async () => {
           n.value.addLabel('Jenny Everywhere', 'primary', 'mdi-account-circle'),
-            n.value.addLabel('green portal', 'green', 'mdi-orbit'),
-            n.value.addLabel('flamethrower', 'red', 'mdi-fire'),
+            n.value.addLabel('green portal', 'success', 'mdi-orbit'),
+            n.value.addLabel('flamethrower', 'error', 'mdi-fire'),
             n.value.addLabel('jetpack', 'warning', 'mdi-rocket-launch'),
             n.value.addLabel('dude with a mohawk', 'text', 'mdi-account-circle-outline')
         }),
@@ -18395,13 +18395,11 @@ function Fw(e, t) {
     !s.value || (F && !M) ? (_ = F) : (s.value.scrollTop = M)
   }
   const U = b(() =>
-    t.value
-      .slice(a.value, o.value)
-      .map((F, M) => ({
-        raw: F,
-        index: M + a.value,
-        key: Lf(F) && 'value' in F ? F.value : M + a.value,
-      })),
+    t.value.slice(a.value, o.value).map((F, M) => ({
+      raw: F,
+      index: M + a.value,
+      key: Lf(F) && 'value' in F ? F.value : M + a.value,
+    })),
   )
   return (
     me(

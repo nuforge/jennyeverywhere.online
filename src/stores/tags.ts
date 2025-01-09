@@ -80,6 +80,13 @@ const useTagStore = defineStore('tags', () => {
   function clearSnackbar() {
     snackbar.value = false
   }
+
+  function listToTags(list: string[], color?: string, icon?: string) {
+    return list.map((item) => {
+      tag: new Tag(item, color, icon)
+    })
+  }
+
   function triggerSnackbar(tag: Tag) {
     timeout.value = 3200
     if (snackbar.value) {
@@ -112,6 +119,7 @@ const useTagStore = defineStore('tags', () => {
     linkText,
     copyTag,
     pasteTag,
+    listToTags,
     normalizeTagName,
     clipboardEmpty,
     clipboardSave,

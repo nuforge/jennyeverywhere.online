@@ -1,7 +1,42 @@
 import chroma from 'chroma-js'
+import tinycolor from 'tinycolor2'
+
+/* AI PLAYGROUND - LOTS OF CHATGPT COPYPASTA */
+
+const getColorCategory = (r: number, g: number, b: number) => {
+  if (r > g && r > b) {
+    if (g > b)
+      return 'Orange' // More green than blue
+    else return 'Red' // Dominant red
+  } else if (g > r && g > b) {
+    if (r > b)
+      return 'Lime' // More red than blue
+    else return 'Green' // Dominant green
+  } else if (b > r && b > g) {
+    if (r > g)
+      return 'Purple' // More red than green
+    else return 'Blue' // Dominant blue
+  }
+  return 'Gray' // No dominant color
+}
 
 const color = chroma('red') // Automatically maps to a color
 console.log(color.hsl()) // Returns HSL representation
+
+const getColorName = (hex: string) => {
+  const color = chroma(hex)
+  console.log(color.name()) // Returns the color name
+  const closest = chroma.scale(['#000000', '#ffffff']).mode('lab').colors(10) // Example scale for simplicity
+  // For more accurate results, you can integrate a color name database or library
+  return closest
+}
+
+const hexToColorName = (hex: string) => {
+  console.log(hex)
+  const color = tinycolor(hex)
+  console.log(color)
+  return color.toName() // Returns a standardized color name (if available)
+}
 
 /*
 1. Convert HEX to HSL:
@@ -200,3 +235,14 @@ function rgbToHex(r: number, g: number, b: number): string {
 getImageColors('https://example.com/image.jpg').then((colors) => {
   console.log(colors)
 })
+
+export {
+  hexToHsl,
+  hslToHex,
+  getImageColors,
+  hslToRgb,
+  rgbToHsl,
+  getColorName,
+  hexToColorName,
+  getColorCategory,
+}

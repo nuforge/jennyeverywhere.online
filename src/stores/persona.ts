@@ -42,6 +42,10 @@ const usePersonaStore = defineStore('persona', () => {
     'surface',
   ]
 
+  function getThemeHexByName(name: string) {
+    return theme.themes.value.myCustomTheme.colors[name].toString().replace('#', '')
+  }
+
   // Default to maintaining focus or no?
   function focusOn(tag: Tag, clear: boolean = false) {
     if (clear) {
@@ -208,6 +212,7 @@ const usePersonaStore = defineStore('persona', () => {
     handleKeydown,
     copyToClipboard,
     pickColor,
+    getThemeHexByName,
   }
 })
 

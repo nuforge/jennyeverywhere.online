@@ -17,9 +17,8 @@ const inator = new Inator()
     <v-btn class="rounded" @click="styles.global = !styles.global"
       :icon="styles.global ? 'mdi-earth-box' : 'mdi-earth-box-off'" :variant="styles.global ? 'text' : 'plain'"
       size="small" :color="styles.global ? 'primary' : 'disabled'" />
-    <v-divider>
-      <v-label>Variants</v-label>
-    </v-divider>
+    <v-divider class=" my-3"></v-divider>
+    <v-label>Variants</v-label>
     <v-btn-toggle density="comfortable" v-model="styles.variants" color="primary">
       <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
         <template v-slot:activator="{ props }">
@@ -28,9 +27,8 @@ const inator = new Inator()
         {{ variant }}
       </v-tooltip>
     </v-btn-toggle>
-    <v-divider>
-      <v-label>Tag & Trays</v-label>
-    </v-divider>
+    <v-divider class=" my-3"></v-divider>
+    <v-label>Tag & Trays</v-label>
     <v-btn-toggle density="comfortable">
       <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons" :colors="styles.colors"
         :values="styles.values" :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
@@ -41,36 +39,16 @@ const inator = new Inator()
         @update:values="(value: boolean) => { styles.values = value }" />
     </v-btn-toggle>
 
-    <v-divider>
-      <v-label>Palettes</v-label>
-    </v-divider>
-
-
-    <v-item-group class="d-flex justify-space-between" style="cursor:copy">
-      <v-item v-for="color in persona.themeTags" :key="color.name">
-        <v-tooltip location="bottom">
-          <template v-slot:activator="{ props }">
-            <v-icon :color="styles.filterColors.includes(color.color) ? 'disabled' : color.color" v-bind="props"
-              icon="mdi-circle-opacity" @click="persona.pickColor(color.color)"
-              :disabled="styles.filterColors.includes(color.color)" />
-          </template>
-          {{ color.name }} : {{ color.color ? persona.myTheme.colors[color.color] : 'undefined' }}
-        </v-tooltip>
-
-      </v-item>
-    </v-item-group>
-    <v-divider>
-      <v-label>Theme Colors</v-label>
-    </v-divider>
+    <v-divider class=" my-3"></v-divider>
+    <v-label>Active Colors</v-label>
     <v-btn-toggle density="comfortable" v-model="styles.filterThemeColors" multiple divided
-      class="overflow-visible rounded-lg ">
+      class=" d-flex flex-wrap h-auto justify-space-between">
       <v-tooltip bottom v-for="color in persona.themeTags" :key="color.name">
         <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="small">
+          <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="medium" :ripple="false">
             <v-icon :color="styles.filterColors.includes(color.color) ? 'disabled' : color.color"></v-icon>
             <v-fab-transition>
-              <v-badge :color="color.color" :floating="styles.filterColors.includes(color.color)" dot
-                v-if="styles.filterColors.includes(color.color)" />
+              <v-badge :color="color.color" dot v-if="styles.filterColors.includes(color.color)" />
             </v-fab-transition>
           </v-btn>
         </template>
@@ -78,25 +56,45 @@ const inator = new Inator()
       </v-tooltip>
     </v-btn-toggle>
 
-    <v-divider>
-      <v-label>Base Colors</v-label>
-    </v-divider>
-
-
+    <v-divider class=" my-3"></v-divider>
+    <v-label>Base Colors</v-label>
     <v-btn-toggle density="comfortable" v-model="styles.filterBaseColors" multiple column
-      class="overflow-visible rounded-lg d-flex flex-wrap justify-center ga-1">
+      class="d-flex flex-wrap h-auto ga-2 justify-center ">
       <v-tooltip bottom v-for="color in inator.colorTags()" :key="color.name">
         <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="small">
+          <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="medium" :ripple="false">
             <v-icon :color="styles.filterColors.includes(color.color) ? 'disabled' : color.color"></v-icon>
             <v-fab-transition>
-              <v-badge :color="color.color" :floating="styles.filterColors.includes(color.color)" dot
-                v-if="styles.filterColors.includes(color.color)" />
+              <v-badge :color="color.color" dot v-if="styles.filterColors.includes(color.color)" />
             </v-fab-transition>
           </v-btn>
         </template>
         {{ color.name }}
       </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" size="medium" variant="plain" icon="mdi-plus-circle-outline" color="accent" />
+        </template>
+        Custom Color
+      </v-tooltip>
     </v-btn-toggle>
+
+    <v-divider class=" my-3"></v-divider>
+
+    <v-label>Change Color Theme</v-label>
+    <v-item-group class="d-flex justify-space-between" style="cursor:copy">
+      <v-badge v-for="color in persona.themeTags" :key="color.name" :color="color.color" dot location="bottom end">
+        <v-item>
+          <v-tooltip location="bottom">
+            <template v-slot:activator="{ props }">
+              <v-icon :color="`disabled`" v-bind="props" icon="mdi-eyedropper" @click="persona.pickColor(color.color)"
+                :disabled="styles.filterColors.includes(color.color)" />
+            </template>
+            {{ color.name }} : {{ color.color ? persona.myTheme.colors[color.color] : 'undefined' }}
+
+          </v-tooltip>
+        </v-item>
+      </v-badge>
+    </v-item-group>
   </v-sheet>
 </template>

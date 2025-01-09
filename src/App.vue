@@ -3,7 +3,6 @@ const dragImage = ref<HTMLImageElement | null>(null);
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 
 import { onMounted, onUnmounted, ref } from 'vue';
-import logo from '@/assets/images/logos/jenny-everywhere-online-logo.png'
 
 import HeaderLayout from '@/components/layouts/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
@@ -45,6 +44,7 @@ onUnmounted(() => {
 });
 
 </script>
+
 <template>
   <v-responsive>
     <v-app :theme="state.theme">
@@ -72,8 +72,7 @@ onUnmounted(() => {
       <TagSnackbar location="bottom" />
       <UndoSnackbar />
 
-      <v-footer app class="bg-background align-start opacity-20">
-        <img :src="logo" /> <v-spacer /> &copy; 2025 @<router-link
+      <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>

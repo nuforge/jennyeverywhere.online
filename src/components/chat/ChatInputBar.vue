@@ -12,6 +12,7 @@ const send = () => {
 </script>
 
 <template>
+
   <v-card-actions>
     <v-textarea auto-grow clearable variant="solo-filled" :rows="1" v-model="chat.userInput"
       placeholder="Type a message..." @keyup.enter="send" density="compact" :loading="chat.isLoading"

@@ -4,6 +4,8 @@ import Tag from '@/objects/NuTag';
 import NuTag from '@/components/nu/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
+import PersonaAvatar from '@/components/PersonaAvatar.vue';
+
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 import MarkdownManager from '@/objects/MarkdownManager';
@@ -40,16 +42,15 @@ const filteredTags = computed(() => shuffleArray(wordTags.value.filter((item) =>
 </script>
 
 <template>
-  <v-list-item :prepend-icon="wordTags[0].icon">
+  <v-list-item class="align-top justify-start">
     <template #prepend>
-      <v-icon :color="wordTags[0].color"></v-icon>
+      <PersonaAvatar />
     </template>
-    <v-chip-group v-model="selection" multiple column>
-      <NuTag v-for="tag in wordTags" :key="tag.name" :tag="tag" :value="tag.name" :values="false"
-        @dblClick="persona.focusOn(tag)" :labels="false" :variant="selection.includes(tag.name) ? 'plain' : 'text'"
-        :colors="!selection.includes(tag.name)" />
-    </v-chip-group>
-    <MarkdownRenderer :text="message.text" :tags="filteredTags" class="bg-surface pa-2 rounded-lg" />
+    <MarkdownRenderer :text="message.text" :tags="filteredTags" class="pa-2 rounded-lg" />
     <v-label>{{ message.timestamp }}</v-label>
+    <v-chip-group v-model="selection" multiple column>
+      <NuTag v-for=" tag in wordTags" :key="tag.name" :tag="tag" :value="tag.name" :values="false"
+        @dblClick="persona.focusOn(tag)" :labels="false" :colors="!selection.includes(tag.name)" variant="plain" />
+    </v-chip-group>
   </v-list-item>
 </template>

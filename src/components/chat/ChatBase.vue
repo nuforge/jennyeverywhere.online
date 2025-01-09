@@ -30,7 +30,7 @@ const handleSend = (message: string) => {
 </script>
 
 <template>
-  <v-card class="bg-background" min-width="400">
+  <v-card class="bg-background">
     <!-- Header -->
     <ChatHeader title="Jenny Everywhere" />
     <!-- Messages List -->

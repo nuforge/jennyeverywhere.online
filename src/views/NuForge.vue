@@ -1,40 +1,36 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import NuTag from '@/components/nu/NuTag.vue';
-// import usePersonaStore from '@/stores/persona';
-// const persona = usePersonaStore();
-import Tag from '@/objects/NuTag';
-
-import Inator from '@/objects/Inator';
-
-const inator = new Inator();
-
-const tagString = ref('')
-const myTag = computed(() => new Tag(tagString.value, inator.bestColor(tagString.value) || '', inator.bestIcon(tagString.value) || ''))
-const newTagString = computed(() => myTag.value.toString())
+import { ref, onMounted } from 'vue';
+import ChatBase from '@/components/chat/ChatBase.vue';
 // import useCardStore from '@/stores/cards';
 // const cards = useCardStore();
 
-const keywordTags = computed(() => {
-  const keywords = Tag.extractKeywords(tagString.value)
-  const individualTags = keywords.individual.map((keyword) => {
-    const tg = new Tag(keyword, inator.bestColor(keyword) || '', inator.bestIcon(keyword) || '')
+import useChatStore from '@/stores/chat';
+const chat = useChatStore();
 
-    return tg
-  })
-  return individualTags
+
+const greeted = ref(false)
+
+const greet = () => {
+  chat.sendGPTMessage('Ummm... who is this?')
+  greeted.value = true
+}
+
+onMounted(() => {
+  if (!greeted.value || chat.getMessages().length === 0) {
+
+    chat.createMessage('hello World!', 'jenny_everywhere') // Add user message to chat
+    //chat.sendGPTMessage()
+    //greeted.value = true
+  }
 })
 
 
 </script>
+
+
 <template>
-  <v-divider>Tag String</v-divider>
-  <v-text-field v-model="tagString" density="compact" min-width="200"
-    label="Construct Tag: `space:name.default`"></v-text-field>
-  <v-divider>{{ newTagString }}</v-divider>
-  <NuTag :tag="myTag" />
-  <v-divider>Tag String</v-divider>
-  <NuTag v-for="tag in keywordTags" :key="tag.id" :tag="tag" />
-
-
+  <v-btn @click="greet()" icon :disabled="greeted">
+    <v-icon>mdi-chat</v-icon>
+  </v-btn>
+  <ChatBase />
 </template>

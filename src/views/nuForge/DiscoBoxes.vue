@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { hslToHex, } from '@/objects/color/Colors'
 import { namedColors, findByValue } from '@/objects/color/ColorNames' // Use a library or write custom functions
 
+
 const colors = namedColors
 
 import Inator from '@/objects/Inator'
@@ -18,29 +19,38 @@ const lightness = ref(inator.number(100))
 const color = computed(() => `hsl(${hue.value}, ${saturation.value}%, ${lightness.value}%)`)
 const hex = computed(() => hslToHex(hue.value, saturation.value, lightness.value))
 
+
 const name = computed(() => findByValue(colors, hex.value))
 
 const randomNumber = ref(dice)
 
 watch(randomNumber.value, () => {
   const rollModifier = Number(randomNumber.value.getResults()) / Number(randomNumber.value.getFaces())
+
+
   hue.value = (inator.number(360) * rollModifier)
   saturation.value = inator.number(100) * rollModifier
   lightness.value = inator.number(100)
+
 })
 
 const selection = ref<number[]>([])
+
+
+
+
 
 const selectHue = computed(() =>
   Array.from({ length: hue.value + 1 }, (_, index) => inator.number(360 - index)))
 
 const mergedHue = computed(() => [...selection.value, ...selectHue.value])
 
+
 </script>
 
 <template>
-  <v-btn-toggle :model-value="mergedHue" multiple class="d-flex flex-wrap h-auto">
-    <v-btn v-for="(index) in 32" :key="index" :color="color" icon="mdi-checkbox-blank" variant="plain" size="small"
+  <v-btn-toggle v-model="mergedHue" multiple class="d-flex flex-wrap h-auto">
+    <v-btn v-for="(index) in 360" :key="index" :color="color" icon="mdi-checkbox-blank" variant="plain" size="small"
       base-color="background" />
   </v-btn-toggle>
   <v-label class="mx-2">hex: {{ hex }}</v-label>

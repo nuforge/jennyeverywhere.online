@@ -12,7 +12,6 @@ const whereColor = computed(() => persona.getThemeHexByName('accent') || `#88888
 
 watch(() => persona.focus, (newVal) => {
   currentFocusColor.value = newVal
-  console.log('currentFocusColor.value.color', currentFocusColor.value.color)
 })
 
 </script>
@@ -22,6 +21,5 @@ watch(() => persona.focus, (newVal) => {
     <router-link to="/">
       <LogoThemed :jenny="jennyColor" :every="everyColor" :where="whereColor" />
     </router-link>
-    {{ currentFocusColor.color }}
   </v-app-bar>
 </template>

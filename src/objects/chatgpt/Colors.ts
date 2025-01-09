@@ -3,6 +3,95 @@ import tinycolor from 'tinycolor2'
 
 /* AI PLAYGROUND - LOTS OF CHATGPT COPYPASTA */
 
+export interface ColorData {
+  hex: string
+  rgb: [number, number, number]
+  hsl: [number, number, number]
+  lab: [number, number, number]
+  cmyk: [number, number, number, number]
+}
+
+export const convertColor = (hex: string): ColorData => {
+  const color = chroma(hex)
+
+  const rgb = color.rgb() as [number, number, number]
+  const hsl = color.hsl() as [number, number, number]
+  const lab = color.lab() as [number, number, number]
+  const cmyk = chroma
+    .rgb(...rgb)
+    .gl()
+    .map((v) => 1 - v) as [number, number, number, number]
+
+  return { hex, rgb, hsl, lab, cmyk }
+}
+// Extract luminance value
+export const getLuminance = (hex: string): number => chroma(hex).luminance()
+
+// Map HEX to a human-readable name
+export const getColorName = (hex: string): string => {
+  // Example mapping
+  const names: Record<string, string> = {
+    '#ff0000': 'Red',
+    '#00ff00': 'Green',
+    '#0000ff': 'Blue',
+    // Add more mappings
+  }
+  return names[hex.toLowerCase()] || 'Unknown Color'
+}
+
+// Compare two colors (e.g., based on LAB distance)
+export const compareColors = (hex1: string, hex2: string): number => {
+  const lab1 = chroma(hex1).lab()
+  const lab2 = chroma(hex2).lab()
+  return Math.sqrt(
+    Math.pow(lab2[0] - lab1[0], 2) +
+      Math.pow(lab2[1] - lab1[1], 2) +
+      Math.pow(lab2[2] - lab1[2], 2),
+  )
+}
+
+// ## Images
+
+function getImageColors(imageUrl: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = 'Anonymous' // Handle cross-origin images
+    img.src = imageUrl
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        reject('Failed to get context')
+        return
+      }
+
+      canvas.width = img.width
+      canvas.height = img.height
+      ctx.drawImage(img, 0, 0, img.width, img.height)
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      const colors: string[] = []
+
+      for (let i = 0; i < imageData.data.length; i += 4) {
+        const r = imageData.data[i]
+        const g = imageData.data[i + 1]
+        const b = imageData.data[i + 2]
+        const hex = rgbToHex(r, g, b)
+        colors.push(hex)
+      }
+
+      resolve(colors)
+    }
+
+    img.onerror = (error) => {
+      reject(error)
+    }
+  })
+}
+
+// ## Color Naming
+
 const getColorCategory = (r: number, g: number, b: number) => {
   if (r > g && r > b) {
     if (g > b)
@@ -20,23 +109,14 @@ const getColorCategory = (r: number, g: number, b: number) => {
   return 'Gray' // No dominant color
 }
 
-const color = chroma('red') // Automatically maps to a color
-console.log(color.hsl()) // Returns HSL representation
-
-const getColorName = (hex: string) => {
-  const color = chroma(hex)
-  console.log(color.name()) // Returns the color name
-  const closest = chroma.scale(['#000000', '#ffffff']).mode('lab').colors(10) // Example scale for simplicity
-  // For more accurate results, you can integrate a color name database or library
-  return closest
-}
-
 const hexToColorName = (hex: string) => {
-  console.log(hex)
   const color = tinycolor(hex)
-  console.log(color)
   return color.toName() // Returns a standardized color name (if available)
 }
+
+// ## Color Conversion
+
+// ## HEX
 
 /*
 1. Convert HEX to HSL:
@@ -54,35 +134,18 @@ function hexToRgb(hex: string) {
     : null
 }
 
-function rgbToHsl_alt(r: number, g: number, b: number): { h: number; s: number; l: number } {
-  r /= 255
-  g /= 255
-  b /= 255
-
-  const max = Math.max(r, g, b)
-  const min = Math.min(r, g, b)
-  const delta = max - min
-
-  let h = 0
-  let s = 0
-  const l = (max + min) / 2
-
-  if (delta !== 0) {
-    if (max === r) {
-      h = (g - b) / delta
-    } else if (max === g) {
-      h = (b - r) / delta + 2
-    } else {
-      h = (r - g) / delta + 4
-    }
-
-    s = delta / (1 - Math.abs(2 * l - 1))
-    h *= 60
-    if (h < 0) h += 360
-  }
-
-  return { h, s: s * 100, l: l * 100 }
+// Convert HEX to HSL
+function hexToHsl(hex: string): { h: number; s: number; l: number } {
+  const { r, g, b } = hexToRgb(hex) || { r: 0, g: 0, b: 0 }
+  return rgbToHsl(r, g, b)
 }
+
+// ## RGB
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
+}
+
 // Convert RGB to HSL
 function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
   r /= 255
@@ -121,13 +184,7 @@ function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: n
   }
 }
 
-// Convert HEX to HSL
-function hexToHsl(hex: string): { h: number; s: number; l: number } {
-  const { r, g, b } = hexToRgb(hex) || { r: 0, g: 0, b: 0 }
-  return rgbToHsl(r, g, b)
-}
-
-console.log(hexToHsl('#00ff00'), rgbToHsl_alt(0, 255, 0)) // Should print HSL values for green
+// ## HSL
 
 /*
 2. Convert HSL to HEX:
@@ -186,63 +243,6 @@ function hslToHex(h: number, s: number, l: number): string {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
 }
 
-console.log(hslToHex(120, 100, 50)) // Should print HEX for green
-
 // To extract color information from an image, you can use the Canvas API to sample colors. Here’s how you can pull colors from an image:
 
-function getImageColors(imageUrl: string): Promise<string[]> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.crossOrigin = 'Anonymous' // Handle cross-origin images
-    img.src = imageUrl
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      if (!ctx) {
-        reject('Failed to get context')
-        return
-      }
-
-      canvas.width = img.width
-      canvas.height = img.height
-      ctx.drawImage(img, 0, 0, img.width, img.height)
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      const colors: string[] = []
-
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        const r = imageData.data[i]
-        const g = imageData.data[i + 1]
-        const b = imageData.data[i + 2]
-        const hex = rgbToHex(r, g, b)
-        colors.push(hex)
-      }
-
-      resolve(colors)
-    }
-
-    img.onerror = (error) => {
-      reject(error)
-    }
-  })
-}
-
-function rgbToHex(r: number, g: number, b: number): string {
-  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
-}
-
-getImageColors('https://example.com/image.jpg').then((colors) => {
-  console.log(colors)
-})
-
-export {
-  hexToHsl,
-  hslToHex,
-  getImageColors,
-  hslToRgb,
-  rgbToHsl,
-  getColorName,
-  hexToColorName,
-  getColorCategory,
-}
+export { hexToHsl, hslToHex, getImageColors, hslToRgb, rgbToHsl, hexToColorName, getColorCategory }

@@ -1,20 +1,18 @@
 {
-  "colors": [
-    { "name": "black", "hex": "#000000" },
-    { "name": "silver", "hex": "#c0c0c0" },
-    { "name": "gray", "hex": "#808080" },
-    { "name": "white", "hex": "#ffffff" },
-    { "name": "maroon", "hex": "#800000" },
-    { "name": "red", "hex": "#ff0000" },
-    { "name": "purple", "hex": "#800080" },
-    { "name": "fuchsia", "hex": "#ff00ff" },
-    { "name": "green", "hex": "#008000" },
-    { "name": "lime", "hex": "#00ff00" },
-    { "name": "olive", "hex": "#808000" },
-    { "name": "yellow", "hex": "#ffff00" },
-    { "name": "navy", "hex": "#000080" },
-    { "name": "blue", "hex": "#0000ff" },
-    { "name": "teal", "hex": "#008080" },
-    { "name": "aqua", "hex": "#00ffff" }
-  ]
+  "black": "#000000",
+  "silver": "#c0c0c0",
+  "gray": "#808080",
+  "white": "#ffffff",
+  "maroon": "#800000",
+  "red": "#ff0000",
+  "purple": "#800080",
+  "fuchsia": "#ff00ff",
+  "green": "#008000",
+  "lime": "#00ff00",
+  "olive": "#808000",
+  "yellow": "#ffff00",
+  "navy": "#000080",
+  "blue": "#0000ff",
+  "teal": "#008080",
+  "aqua": "#00ffff"
 }

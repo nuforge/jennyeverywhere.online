@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import json from '@/assets/mdi-icons.json'
+import json from '@/assets/icons/mdi-icons.json'
 const icons = json.map((icon) => `mdi-${icon.name}`)
 
 </script>

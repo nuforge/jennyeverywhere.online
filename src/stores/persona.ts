@@ -120,7 +120,6 @@ const usePersonaStore = defineStore('persona', () => {
         const tagToAdd = new Tag(name, name, 'mdi-circle-opacity')
         legend.addTag(tagToAdd)
       })
-    console.log(legend)
     return legend
   })
 

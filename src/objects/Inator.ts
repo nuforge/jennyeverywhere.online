@@ -1,7 +1,7 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
 import Tag from '@/objects/NuTag'
-import IconsJSON from '@/assets/mdi-icons.json'
+import IconsJSON from '@/assets/icons/mdi-icons.json'
 
 class Inator {
   private _scale: number

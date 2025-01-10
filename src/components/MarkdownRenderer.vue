@@ -4,8 +4,8 @@ import Tag from '@/objects/nu/NuTag'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 
-import DragManager from '@/objects/DragManager';
-const drag = new DragManager()
+// import DragManager from '@/objects/DragManager';
+// const drag = new DragManager()
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 
@@ -36,59 +36,59 @@ function onRightClick(event: MouseEvent) {
 }
 
 
-function onDragOver(event: DragEvent) {
-  drag.dragOver(event)
+// // function onDragOver(event: DragEvent) {
+// //   drag.dragOver(event)
 
-}
-function onDragStart(event: DragEvent) {
-  editable.value = true
-  drag.dragStart(event, 'bold')
-}
-function onDragEnd() {
-  editable.value = false
-  drag.dragEnd(event)
-}
+// // }
+// // function onDragStart(event: DragEvent) {
+// //   editable.value = true
+// //   drag.dragStart(event, 'bold')
+// // }
+// // function onDragEnd() {
+// //   editable.value = false
+// //   drag.dragEnd(event)
+// // }
 
-function onDrop(event: DragEvent) {
+// // function onDrop(event: DragEvent) {
 
-  const selection = window.getSelection();
-  if (!selection || !selection.rangeCount) return;
+// //   const selection = window.getSelection();
+// //   if (!selection || !selection.rangeCount) return;
 
-  const range = selection.getRangeAt(0);
-  const selectedText = range.toString();
+// //   const range = selection.getRangeAt(0);
+// //   const selectedText = range.toString();
 
-  // Find the word or letters under the drop point (use range start or end)
-  const word = getWordFromRange(range);
+// //   // Find the word or letters under the drop point (use range start or end)
+// //   const word = getWordFromRange(range);
 
-  console.log('Dropped text:', selectedText);
-  console.log('Word under drop:', word);
+// //   console.log('Dropped text:', selectedText);
+// //   console.log('Word under drop:', word);
 
-  // Example action based on the drop (e.g., bold)
-  const action = drag.drop(event)
-  if (action === 'bold' && word) {
-    document.execCommand('bold'); // Apply bold formatting to the selected word
-  }
-  if (action === 'tag' && word) {
+// //   // Example action based on the drop (e.g., bold)
+// //   const action = drag.drop(event)
+// //   if (action === 'bold' && word) {
+// //     document.execCommand('bold'); // Apply bold formatting to the selected word
+// //   }
+// //   if (action === 'tag' && word) {
 
-    console.log('tag', word)
-  }
+// //     console.log('tag', word)
+// //   }
 
-  editable.value = false
-}
+// //   editable.value = false
+// // }
 
-function getWordFromRange(range: Range): string | null {
-  const textNode = range.startContainer;
-  if (textNode && textNode.nodeType === Node.TEXT_NODE) {
-    const text = textNode.textContent || '';
-    const startOffset = range.startOffset;
-    const endOffset = range.endOffset;
+// function getWordFromRange(range: Range): string | null {
+//   const textNode = range.startContainer;
+//   if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+//     const text = textNode.textContent || '';
+//     const startOffset = range.startOffset;
+//     const endOffset = range.endOffset;
 
-    // Extract the word (simple approach: split by spaces)
-    const word = text.slice(startOffset, endOffset);
-    return word;
-  }
-  return null;
-}
+//     // Extract the word (simple approach: split by spaces)
+//     const word = text.slice(startOffset, endOffset);
+//     return word;
+//   }
+//   return null;
+// }
 
 </script>
 
@@ -96,9 +96,9 @@ function getWordFromRange(range: Range): string | null {
   <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
     <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags)" :contenteditable="editable"></div>
-    <v-btn @dragstart="onDragStart" @drop="onDrop" @dragover="onDragOver" @dragend="onDragEnd" :draggable="true"
+    <!--v-btn @dragstart="onDragStart" @drop="onDrop" @dragover="onDragOver" @dragend="onDragEnd" :draggable="true"
       variant="plain">Drag
-      Me</v-btn>
+      Me</v-btn -->
   </div>
 </template>
 

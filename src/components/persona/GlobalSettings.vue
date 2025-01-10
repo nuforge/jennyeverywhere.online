@@ -26,6 +26,7 @@ const dialog = ref(false)
 <template>
   <v-sheet flat class="bg-transparent">
     <v-label>Global Setting</v-label>
+
     <v-btn class="rounded" @click="styles.toggleSetting('global')"
       :icon="styles.get('global') ? 'mdi-earth-box' : 'mdi-earth-box-off'" :variant="styles.global ? 'text' : 'plain'"
       size="small" :color="styles.get('global') ? 'primary' : 'disabled'" />
@@ -85,6 +86,7 @@ const dialog = ref(false)
         </template>
         {{ color.name }}
       </v-tooltip>
+      <v-divider vertical></v-divider>
       <v-tooltip bottom>
         <template v-slot:activator="{ props }">
           <CustomColorPicker app v-model="dialog" @apply-color="addCustomColor" v-bind="props" />
@@ -111,5 +113,11 @@ const dialog = ref(false)
         </v-item>
       </v-badge>
     </v-item-group>
+    <v-divider class=" my-3"></v-divider>
+    <v-card-text>
+      <v-label>Current Theme:</v-label> "{{ persona.theme.name }}"
+      <v-btn to="/theme" block prepend-icon="mdi-information" color="info" variant="plain" size="small">About
+        Themes</v-btn>
+    </v-card-text>
   </v-sheet>
 </template>

@@ -34,16 +34,16 @@ const selected = computed(() => {
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6">
+      <v-col cols="6" md="8" sm="12">
         <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
         <v-chip-group v-model="selection" column multiple>
           <NuTag v-for="tag in tagMap" :key="tag.label" :tag="tag" :value="tag.label" />
         </v-chip-group>
       </v-col>
-      <v-col>
+      <v-col cols="auto" md="4" sm="12">
         <v-img :src="img" alt="A glowing green portal" max-width="256px" />
       </v-col>
-      <v-col cols="12" sm="6">
+      <v-col cols="6" md="12">
         <StoryChoiceGroup />
       </v-col>
     </v-row>

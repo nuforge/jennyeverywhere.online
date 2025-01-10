@@ -7,8 +7,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import HeaderLayout from '@/components/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/components/BottomNavigationBar.vue';
-import ThemeDrawer from '@/components/drawers/ThemeDrawer.vue';
-import DetailsDrawer from '@/components/persona/PersonaDrawer.vue';
+import PersonaDrawer from '@/components/persona/PersonaDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import ChatSnackbar from '@/components/snackbars/ChatSnackbar.vue';
@@ -52,8 +51,7 @@ onUnmounted(() => {
       <AvatarFab location="bottom start" />
 
       <BottomNavigationLayout app />
-      <ThemeDrawer location="right" />
-      <DetailsDrawer location="left" />
+      <PersonaDrawer location="left" />
 
       <HeaderLayout />
       <v-container>

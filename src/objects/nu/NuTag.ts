@@ -53,14 +53,6 @@ class Tag {
     return this
   }
 
-  get name() {
-    return Tag.normalizeTagName(this._name)
-  }
-
-  get label() {
-    return this._name
-  }
-
   static cleanValue = (text: Value) => {
     return text !== undefined ? text.toString().trim() : ''
   }
@@ -233,8 +225,20 @@ class Tag {
     this._value = value
   }
 
+  get name() {
+    return this._name
+  }
+
   set name(value: string) {
     this._name = value
+  }
+
+  get label() {
+    return this._label
+  }
+
+  set label(value: string) {
+    this._label = value
   }
 
   get id() {

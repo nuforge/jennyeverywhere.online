@@ -24,6 +24,26 @@ class MarkdownManager {
     return this
   }
 
+  textToMarkdown(text: string, tags?: Array<Tag>) {
+    //const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
+    const markdown = tags ? this.linkTags(tags, text) : text
+    return this.markitdown(markdown)
+  }
+
+  markitdown(text: string) {
+    return this._md.render(text)
+  }
+
+  escapePattern(pattern: string): string {
+    return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
+  }
+
+  // Escape special regex characters if pattern is a literal string
+  generateRegex(pattern: string): RegExp {
+    return new RegExp(`(?<!\\w)${this.escapePattern(pattern)}(?!\\w)`, 'gi') // Matches exact words
+    // return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case-insensitive
+  }
+
   linkTags(tags: Array<Tag>, text?: string) {
     //match.toLowerCase().replace(/\s/g, '-') // Convert to lowercase and replace spaces with hyphens
     const placeholders: Record<string, Tag> = {}
@@ -32,11 +52,11 @@ class MarkdownManager {
 
     // Replace matches with unique placeholders
     for (const tag of sortedTags) {
-      const placeholder = `__PLACEHOLDER_${tag.label}__`
+      const placeholder = `__PLACEHOLDER_${tag.name}__`
       placeholders[placeholder] = tag
 
       // Match tag name as a whole word (case insensitive)
-      const regex = this.generateRegex(tag.label)
+      const regex = this.generateRegex(tag.name)
       //console.log('regex:', regex)
       modifiedText = modifiedText.replace(regex, placeholder)
     }
@@ -89,26 +109,6 @@ class MarkdownManager {
     }
 
     return sortedWordCount
-  }
-
-  textToMarkdown(text: string, tags?: Array<Tag>) {
-    //const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-    const markdown = tags ? this.linkTags(tags, text) : text
-    return this.markitdown(markdown)
-  }
-
-  markitdown(text: string) {
-    return this._md.render(text)
-  }
-
-  escapePattern(pattern: string): string {
-    return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
-  }
-
-  // Escape special regex characters if pattern is a literal string
-  generateRegex(pattern: string): RegExp {
-    return new RegExp(`(?<!\\w)${this.escapePattern(pattern)}(?!\\w)`, 'gi') // Matches exact words
-    // return new RegExp(`\\b${this.escapePattern(pattern)}\\b`, 'gi') // Whole word match, case-insensitive
   }
 
   async loadMarkdown(filePath: string, render: boolean = true) {

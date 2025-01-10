@@ -34,7 +34,6 @@ function onRightClick(event: MouseEvent) {
 
 
 function onDragOver(event: DragEvent) {
-  console.log('onDragOver:');
   event.preventDefault();
 
 }
@@ -68,6 +67,10 @@ function onDrop(event: DragEvent) {
   if (action === 'bold' && word) {
     document.execCommand('bold'); // Apply bold formatting to the selected word
   }
+  if (action === 'tag' && word) {
+
+    console.log('tag', word)
+  }
 
   editable.value = false
 }
@@ -92,7 +95,8 @@ function getWordFromRange(range: Range): string | null {
   <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
     <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags)" :contenteditable="editable"></div>
-    <v-btn @dragstart="onDragStart" @drop="onDrop" @dragover="onDragOver" @dragend="onDragEnd" :draggable="true">Drag
+    <v-btn @dragstart="onDragStart" @drop="onDrop" @dragover="onDragOver" @dragend="onDragEnd" :draggable="true"
+      variant="plain">Drag
       Me</v-btn>
   </div>
 </template>

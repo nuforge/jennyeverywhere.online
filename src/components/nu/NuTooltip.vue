@@ -16,8 +16,8 @@ defineProps
 </script>
 
 <template>
-  <v-tooltip content-class="bg-background" activator="parent" location="bottom" persistent :close-delay="500"
-    :open-delay="500" :opacity="0.8">
+  <v-tooltip content-class="bg-background" activator="parent" location="bottom" persistent :close-delay="300"
+    :open-delay="900" :opacity=".5">
     <v-chip :prepend-icon="(tag.icon as string)" :text="text ?? (tag.label as string)" variant="text" />
   </v-tooltip>
 </template>

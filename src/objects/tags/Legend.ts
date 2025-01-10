@@ -11,10 +11,6 @@ class Legend extends Tag {
     return this
   }
 
-  static normalizeTagName = (name: string | number) => {
-    return Tag.normalizeTagName(name)
-  }
-
   get tags() {
     return [...this._tags.values()]
   }
@@ -23,24 +19,42 @@ class Legend extends Tag {
     return this._tags.keys()
   }
 
-  selection = (tags: Tag[]) => {
-    return this.tags.filter((tag) => tags.includes(tag))
+  static normalizeTagName = (name: string | number) => {
+    return Tag.normalizeTagName(name)
   }
 
-  difference(tags: Tag[]): Tag[] {
-    const tagIds = new Set(tags.map((tag) => tag.id))
-    return Array.from(this.tags).filter((tag) => !tagIds.has(tag.id))
+  addTag(newTag: Tag) {
+    this._links[newTag.name] = newTag
+    return this._tags.set(newTag.id, newTag)
+  }
+
+  addTags(newTags: Tag[]) {
+    newTags.forEach((tag) => {
+      this._links[tag.name] = tag
+      this.addTag(tag)
+    })
+    return
   }
 
   clearTags() {
+    this._links = {}
     this._tags.clear()
     return this
   }
 
+  selection = (selection: Tag[]) => {
+    return this.tags.filter((tag) => selection.includes(tag))
+  }
+
+  // difference(tags: Tag[]): Tag[] {
+  //   const tagIds = new Set(tags.map((tag) => tag.id))
+  //   return Array.from(this.tags).filter((tag) => !tagIds.has(tag.id))
+  // }
+
   // Tag LookUp
 
   has(name: string) {
-    return this._tags.get(name) !== undefined
+    return this._links[name] ? true : false
   }
 
   getTag(name: string) {
@@ -56,16 +70,8 @@ class Legend extends Tag {
     return this._tags.set(id, tag)
   }
 
-  addTag(newTag: Tag) {
-    return this._tags.set(newTag.id, newTag)
-  }
-
-  addTags(newTags: Tag[]) {
-    newTags.forEach((tag) => this.addTag(tag))
-    return
-  }
-
   removeTag(tag: Tag) {
+    delete this._links[tag.name]
     return this._tags.delete(tag.id)
   }
 
@@ -106,8 +112,10 @@ class Legend extends Tag {
     }
     return this.deleteTag(payload)
   }
+
   deleteTag(tag: Tag | string) {
     if (typeof tag === 'string') return this._tags.delete(tag)
+    delete this._links[tag.name]
     return this._tags.delete(tag.id)
   }
 

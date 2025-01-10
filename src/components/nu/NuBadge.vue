@@ -11,18 +11,16 @@ function toggleShow() {
   show.value = !show.value
 }
 
-function onClickBadge(event: Event) {
+function onClickBadge() {
   toggleShow()
   emit('click')
-  console.log('onClickBadge', event)
 }
 
 
-function onRightClickBadge(event: Event) {
+function onRightClickBadge() {
   toggleFloat()
   show.value = float.value
   emit('right-click')
-  console.log('onRightClickBadge', event)
 }
 
 const show = ref(false)

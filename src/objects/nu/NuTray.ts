@@ -45,22 +45,15 @@ class TagTray extends Tag {
 
   // ACTIONS
 
-  add(payload: Tag | Tag[]) {
-    if (Array.isArray(payload)) {
-      return this._legend.addTags(payload)
-    } else {
-      return this._legend.addTag(payload)
-    }
+  addTags(payload: Tag[]) {
+    this._order.push(...payload.map((tag) => tag.name))
+    return this._legend.addTags(payload)
   }
 
   // ChatGPT
   addTag(tag: Tag): void {
-    if (!this._legend.has(tag.name)) {
-      this._legend.addTag(tag)
-      this._order.push(tag.name)
-    } else {
-      throw new Error(`Tag with name "${tag.name}" already exists.`)
-    }
+    this._legend.addTag(tag)
+    this._order.push(tag.name)
   }
 
   create(payload: string) {
@@ -85,6 +78,20 @@ class TagTray extends Tag {
     }
   }
 
+  moveIndex(currentIndex: number, newIndex: number): void {
+    if (newIndex < 0 || newIndex >= this._order.length) {
+      throw new Error(`Invalid newIndex: ${newIndex}`)
+    }
+    console.log(this._order[currentIndex])
+    console.log(this._order[newIndex])
+    const oldname = this._order[currentIndex]
+    // Reorder the array
+    this._order.splice(currentIndex, 1) // Remove from current position
+    this._order.splice(newIndex, 0, oldname) // Insert at new position
+    console.log(this._order[currentIndex])
+    console.log(this._order[newIndex])
+  }
+
   // ChatGPT
   moveTag(name: string, newIndex: number): void {
     const currentIndex = this._order.indexOf(name)
@@ -107,6 +114,9 @@ class TagTray extends Tag {
 
   getOrderedTags(): Tag[] {
     return this._order.map((name) => this._legend.getTag(name)!)
+  }
+  getTagIndex(name: string): number {
+    return this._order.indexOf(name)
   }
 
   //Drag Start

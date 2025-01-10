@@ -2,10 +2,7 @@
 import NuTag from '@/components/nu/NuTag.vue'
 import Tag from '@/objects/nu/NuTag'
 
-
-
 </script>
-
 
 <template>
   <NuTag v-for="tag in mergedTags" :key="tag.id" :tag="new Tag('hello')" />

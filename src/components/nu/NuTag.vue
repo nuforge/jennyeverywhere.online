@@ -12,28 +12,30 @@ import NuBadge from '@/components/nu/NuBadge.vue';
 import NuTooltip from '@/components/nu/NuTooltip.vue';
 
 import useStyleStore from '@/stores/styles';
+const styles = useStyleStore()
+
+import SettingsManager from '@/objects/SettingsManager';
+
+const settings = ref(
+  new SettingsManager({
+    icon: true,
+    label: true,
+    badge: false,
+    space: false,
+    tooltip: true,
+    color: true,
+  }),
+)
+
 
 const defaultNoColor = 'text'
 
 
-const icon = ref(true)
-const label = ref(true)
-const badge = ref(true)
-const space = ref(false)
-const tooltip = ref(true)
-const color = ref(true)
-
-// const showColor = computed(() => styles.colors.value && props.colors && color.value && !styles.filterColors.includes(props.tag.color))
-
-
-
-const styles = useStyleStore()
-
-const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space)
-const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && icon.value)
-const showColor = computed(() => styles.checkGlobal('colors') && props.colors && color.value)
-const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && label.value)
-const showBadge = computed(() => styles.checkGlobal('values') && props.values && badge.value)
+const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space && settings.value.get('space'))
+const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
+const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && !styles.filterColors.includes(props.tag.color))
+const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
+const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 const showTooltip = computed(() => styles.checkGlobal('tooltipss') && tooltip.value)
 
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
@@ -102,35 +104,34 @@ const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-
 
 
 function showLabels() {
-  label.value = true
+  settings.value.set('label', true)
 }
 
 function expandTag(tag: Tag) {
-  space.value = label.value
+
+  settings.value.set('space', settings.value.get('label'))
   showLabels()
   //console.log('expandTag', tag)
   emit('expand-tag', tag)
 }
 
 function compactTag(tag: Tag) {
-  label.value = space.value
-  space.value = false
+  settings.value.set('label', settings.value.get('space'))
+  settings.value.set('space', false)
   //console.log('compactTag', tag)
   emit('compact-tag', tag)
 }
 
 function toggleLabel(tag: Tag) {
-
-  label.value = space.value
-  space.value = !label.value
-
+  settings.value.set('label', settings.value.get('space'))
+  settings.value.set('space', !settings.value.get('label'))
   //console.log('toggleTag', tag)
   emit('toggle-label', tag)
 }
 
 function expandToSpace(tag: Tag) {
 
-  if (!space.value) { expandTag(props.tag) } else { compactTag(props.tag) }
+  if (!settings.value.get('space')) { expandTag(props.tag) } else { compactTag(props.tag) }
 
   //console.log('toggleTag', tag)
   emit('expand-space', tag)
@@ -209,24 +210,25 @@ onMounted(() => {
     <template #prepend>
       <v-fab-transition>
         <div>
-          <NuIcon v-if="showIcon && icon" :icon="(tag.icon as string)" :color="variantColorStyle" @click="onClickIcon"
-            @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="prependIcon ? true : false" />
+          <NuIcon v-if="showIcon && settings.check('icon')" :icon="(tag.icon as string)" :color="variantColorStyle"
+            @click="onClickIcon" @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon"
+            :start="prependIcon ? true : false" />
         </div>
       </v-fab-transition>
     </template>
     <!-- Tag Label / Value -->
     <template #default>
       <v-slide-x-transition>
-        <NuSpace v-if="showSpace && tag.space" :space="tag.space" class="align-center" />
+        <NuSpace v-if="showSpace && settings.check('space')" :space="tag.space" class="align-center" />
       </v-slide-x-transition>
       <v-slide-x-transition>
-        <NuLabel v-if="showLabel && tag" :tag="tag" />
+        <NuLabel v-if="showLabel && props.tag" :tag="props.tag" />
       </v-slide-x-transition>
       <v-fab-transition>
         <NuBadge v-if="showBadge && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
           :text-color="colorStyle" />
       </v-fab-transition>
-      <NuTooltip v-if="showTooltip && tag" :tag="tag" />
+      <NuTooltip v-if="showTooltip && props.tag" :tag="props.tag" />
     </template>
 
   </v-chip>

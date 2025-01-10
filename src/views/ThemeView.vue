@@ -8,7 +8,7 @@ const persona = usePersonaStore()
 const customColors = {
   primary: { description: 'common and pleasing. subtle but constant reminders an attention. easy to scan', icon: 'mdi-palette' },
   secondary: { description: 'important. changes the most often to match personal intentions', icon: 'mdi-palette' },
-  accent: { description: 'bits of information or data. scanned for or hidden in the shaddows. not distracting if lots are cluttering the view', icon: 'mdi-palette' },
+  accent: { description: 'bits of information or data. scanned for or hidden in the shadows. not distracting if lots are cluttering the view', icon: 'mdi-palette' },
 }
 
 const feedbackColors = {

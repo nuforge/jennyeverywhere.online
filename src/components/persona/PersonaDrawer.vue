@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, defineComponent, defineAsyncComponent } from 'vue';
 import Tag from '@/objects/nu/NuTag';
 
 import NuTag from '@/components/nu/NuTag.vue';
-import GlobalSettings from '@/components/persona/GlobalSettings.vue';
-import TagManager from '@/components/persona/TagManager.vue';
-import SystemTags from '@/components/persona/SystemTags.vue';
-
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
-
 
 import useStateStore from '@/stores/state';
 const state = useStateStore()
@@ -24,6 +19,44 @@ watch(
   }
 );
 
+const ExpansionPanel = defineComponent({
+  props: {
+    title: String,
+    icon: String,
+    component: String
+  },
+  components: {
+    SystemTags: defineAsyncComponent(() => import('@/components/persona/SystemTags.vue')),
+    TagManager: defineAsyncComponent(() => import('@/components/persona/TagManager.vue')),
+    GlobalSettings: defineAsyncComponent(() => import('@/components/persona/GlobalSettings.vue'))
+  },
+  template: `
+    <v-expansion-panel>
+    </v-expand-transition>
+      <v-expansion-panel-title :expand-icon="icon">
+        <v-label >{{ title }}</v-label>
+      </v-expansion-panel-title>
+      <v-expansion-panel-text class="bg-background">
+        <component :is="component" />
+      </v-expansion-panel-text>
+    </v-expand-transition>
+    </v-expansion-panel>
+  `
+});
+
+const TagListItem = defineComponent({
+  props: {
+    tag: Object
+  },
+  components: {
+    NuTag
+  },
+  template: `
+    <v-list-item :key="tag.id">
+      <NuTag :tag="tag" elevation="2" />
+    </v-list-item>
+  `
+});
 </script>
 
 <template>
@@ -39,73 +72,22 @@ watch(
         <v-expansion-panels v-model="expansions" collapse-icon="mdi-chevron-up" selected-class="bg-primary" multiple
           static flat>
 
-          <!-- Focus -->
+          <ExpansionPanel title="Focus" icon="mdi-image-filter-center-focus" component="SystemTags" />
+          <ExpansionPanel title="Tag Manager" icon="mdi-tag-plus" component="TagManager" />
+          <ExpansionPanel title="Global Styles" icon="mdi-palette-swatch" component="GlobalSettings" />
+
           <v-expansion-panel>
-
-            <v-expansion-panel-title expand-icon="mdi-image-filter-center-focus" class="">
-              <v-label v-if="!persona.rail">Focus</v-label>
-            </v-expansion-panel-title>
-
-            <!-- System Tags -->
-            <v-expansion-panel-text class="align-start bg-background">
-
-
-              <SystemTags />
-
-
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-
-          <!-- TagManager -->
-          <v-expansion-panel>
-
-
-            <v-expansion-panel-title expand-icon="mdi-tag-plus" class="">
-              <v-label v-if="!persona.rail">Tag Manager</v-label>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text class=" bg-background">
-
-              <TagManager />
-
-
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-
-          <!-- FORM END -->
-          <v-expansion-panel>
-
-            <v-expansion-panel-title expand-icon="mdi-palette-swatch" class="">
-              <v-label v-if="!persona.rail">Global Styles</v-label>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text class=" text-center ma-0  bg-background">
-
-
-              <GlobalSettings />
-
-
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-
-          <!-- History -->
-          <v-expansion-panel>
-            <v-expansion-panel-title expand-icon="mdi-history" class="">
+            <v-expansion-panel-title expand-icon="mdi-history">
               <v-label v-if="!persona.rail">History</v-label>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="bg-background">
               <v-list lines="one" density="compact">
-                <v-list-item v-for="tag in (descending as Tag[])" :key="tag.id">
-
-
-                  <NuTag :tag="tag" elevation="2" />
-
-
-                </v-list-item>
+                <TagListItem v-for="tag in (descending as Tag[])" :key="tag.id" :tag="tag" />
               </v-list>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
         </v-expansion-panels>
-
       </v-card-text>
       <v-card-actions class="bg-background">
         <v-icon @click="persona.rail = !persona.rail" :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"
@@ -117,13 +99,10 @@ watch(
           <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag)" :labels="false"
             size="small" />
         </v-chip-group>
-
-
       </v-card-actions>
     </v-card>
   </v-navigation-drawer>
 </template>
-
 
 <style scoped>
 .v-expansion-panel-title .v-label {

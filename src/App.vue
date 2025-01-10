@@ -10,7 +10,7 @@ import BottomNavigationLayout from '@/components/BottomNavigationBar.vue';
 import PersonaDrawer from '@/components/persona/PersonaDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
-import ChatSnackbar from '@/components/snackbars/ChatSnackbar.vue';
+import ChatSnackbar from '@/components/chat/ChatSnackbar.vue';
 import DiceSnackbar from '@/components/snackbars/DiceSnackbar.vue';
 import TagSnackbar from '@/components/tags/TagSnackbar.vue';
 import UndoSnackbar from '@/components/snackbars/UndoSnackbar.vue';

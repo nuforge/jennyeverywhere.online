@@ -11,16 +11,10 @@ const tray = ref<NuTray>(new NuTray())
 const index = ref(0)
 const hover = ref(0)
 
-Array.from({ length: 10 }, (_, i) => {
-  const tag = inator.ntag(i)
+Array.from({ length: 10 }, () => {
+  const tag = inator.ntag()
   tray.value.addTag(tag)
 })
-
-const tags = ref(tray.value.getOrderedTags())
-
-function tagClick(tag: Tag) {
-  console.log('tagClick', tag)
-}
 
 function trackIndex(tag: Tag) {
   index.value = tray.value.getTagIndex(tag.name)
@@ -48,9 +42,9 @@ function dragEnd(event: DragEvent) {
 <template>
   <v-container>
     <v-row>
-      <v-col>
-        <NuTag v-for="tag in tray.getOrderedTags()" :key="tag.id" :tag="tag" @click="tagClick(tag)"
-          @drag-start="trackIndex(tag, $event)" @drag-over="dragOver(tag, $event)" @drag-end="dragEnd" @drop="drop" />
+      <v-col class="d-flex flex-wrap ga-2">
+        <NuTag v-for="tag in tray.getOrderedTags()" :key="tag.id" :tag="tag" @drag-start="trackIndex(tag, $event)"
+          @drag-over="dragOver(tag, $event)" @drag-end="dragEnd" @drop="drop" />
 
       </v-col>
     </v-row>

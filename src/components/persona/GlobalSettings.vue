@@ -14,12 +14,12 @@ const inator = new Inator()
 <template>
   <v-sheet flat class="bg-transparent">
     <v-label>Global Setting</v-label>
-    <v-btn class="rounded" @click="styles.global = !styles.global"
-      :icon="styles.global ? 'mdi-earth-box' : 'mdi-earth-box-off'" :variant="styles.global ? 'text' : 'plain'"
-      size="small" :color="styles.global ? 'primary' : 'disabled'" />
+    <v-btn class="rounded" @click="styles.toggleSetting('global')"
+      :icon="styles.get('global') ? 'mdi-earth-box' : 'mdi-earth-box-off'" :variant="styles.global ? 'text' : 'plain'"
+      size="small" :color="styles.get('global') ? 'primary' : 'disabled'" />
     <v-divider class=" my-3"></v-divider>
     <v-label>Variants</v-label>
-    <v-btn-toggle density="comfortable" v-model="styles.variants" color="primary">
+    <v-btn-toggle density="comfortable" v-model="styles.settings.variants" color="primary">
       <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-button-pointer" :value="variant" v-bind="props" :variant="variant" />
@@ -30,13 +30,14 @@ const inator = new Inator()
     <v-divider class=" my-3"></v-divider>
     <v-label>Tag & Trays</v-label>
     <v-btn-toggle density="comfortable">
-      <TagCardStyles :tray="styles.trays" :labels="styles.labels" :icons="styles.icons" :colors="styles.colors"
-        :values="styles.values" :logs="styles.logs" @update:labels="(value: boolean) => { styles.labels = value }"
-        @update:icons="(value: boolean) => { styles.icons = value }"
-        @update:colors="(value: boolean) => { styles.colors = value }"
-        @update:logs="(value: boolean) => { styles.logs = value }"
-        @update:tray="(value: boolean) => { styles.trays = value }"
-        @update:values="(value: boolean) => { styles.values = value }" />
+      <TagCardStyles :tray="styles.get('trays')" :labels="styles.get('labels')" :icons="styles.get('icons')"
+        :colors="styles.get('colors')" :values="styles.get('values')" :logs="styles.get('logs')"
+        @update:labels="(value: boolean) => { styles.set('labels', value) }"
+        @update:icons="(value: boolean) => { styles.set('icons', value) }"
+        @update:colors="(value: boolean) => { styles.set('colors', value) }"
+        @update:logs="(value: boolean) => { styles.set('logs', value) }"
+        @update:tray="(value: boolean) => { styles.set('trays', value) }"
+        @update:values="(value: boolean) => { styles.set('values', value) }" />
     </v-btn-toggle>
 
     <v-divider class=" my-3"></v-divider>

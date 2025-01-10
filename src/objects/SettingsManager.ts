@@ -18,6 +18,14 @@ class SettingsManager {
     this.settings.set(key, false)
   }
 
+  set(key: SettingKey, value: SettingValue): void {
+    this.settings.set(key, value)
+  }
+
+  get<T extends SettingValue>(key: SettingKey, defaultValue?: T): T {
+    return (this.settings.get(key) as T) ?? defaultValue!
+  }
+
   setSetting(key: SettingKey, value: SettingValue): void {
     this.settings.set(key, value)
   }

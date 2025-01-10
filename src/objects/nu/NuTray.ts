@@ -16,6 +16,8 @@ class TagTray extends Tag {
     logs: true,
     bodys: true,
     titles: true,
+    sortable: true,
+    values: false,
   })
 
   constructor(tags?: Tag[] | Legend) {
@@ -82,14 +84,10 @@ class TagTray extends Tag {
     if (newIndex < 0 || newIndex >= this._order.length) {
       throw new Error(`Invalid newIndex: ${newIndex}`)
     }
-    console.log(this._order[currentIndex])
-    console.log(this._order[newIndex])
     const oldname = this._order[currentIndex]
     // Reorder the array
     this._order.splice(currentIndex, 1) // Remove from current position
     this._order.splice(newIndex, 0, oldname) // Insert at new position
-    console.log(this._order[currentIndex])
-    console.log(this._order[newIndex])
   }
 
   // ChatGPT

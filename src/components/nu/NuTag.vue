@@ -12,32 +12,34 @@ import NuBadge from '@/components/nu/NuBadge.vue';
 import NuTooltip from '@/components/nu/NuTooltip.vue';
 
 import useStyleStore from '@/stores/styles';
-const styles = useStyleStore()
 
 const defaultNoColor = 'text'
 
-// SETTING Default vs Setting permanent
-//const icons = computed(() => props.icons && showIcons.value && styles.icons && props.tag.icon)
-//const icons = computed(() => showIcons.value && styles.icons && props.tag.icon)
 
 const icon = ref(true)
 const label = ref(true)
+const badge = ref(true)
 const space = ref(false)
 const tooltip = ref(true)
 const color = ref(true)
 
-const showSpace = computed(() => space.value && props.tag.space)
-const showIcon = computed(() => styles.display.icons && props.icons && icon.value)
-const showColor = computed(() => styles.display.colors && props.colors && color.value && !styles.filterColors.includes(props.tag.color))
-const showLabel = computed(() => styles.display.labels && props.labels && label.value)
-const showValue = computed(() => styles.display.values && props.values)
-const showTooltip = computed(() => styles.display.tooltips && tooltip.value)
+// const showColor = computed(() => styles.colors.value && props.colors && color.value && !styles.filterColors.includes(props.tag.color))
+
+
+
+const styles = useStyleStore()
+
+const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space)
+const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && icon.value)
+const showColor = computed(() => styles.checkGlobal('colors') && props.colors && color.value)
+const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && label.value)
+const showBadge = computed(() => styles.checkGlobal('values') && props.values && badge.value)
+const showTooltip = computed(() => styles.checkGlobal('tooltipss') && tooltip.value)
 
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 
-
 const variant = computed(() => {
-  if (showLabel.value && styles.display.variants) {
+  if (showLabel.value && styles.get('variants')) {
     return styles.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
   }
   return undefined;
@@ -221,7 +223,7 @@ onMounted(() => {
         <NuLabel v-if="showLabel && tag" :tag="tag" />
       </v-slide-x-transition>
       <v-fab-transition>
-        <NuBadge v-if="showValue && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
+        <NuBadge v-if="showBadge && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
           :text-color="colorStyle" />
       </v-fab-transition>
       <NuTooltip v-if="showTooltip && tag" :tag="tag" />

@@ -1,6 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import SettingsManager from '@/objects/SettingsManager'
 
+export type SettingValue = string | number | boolean // Shared by Map and Record
 export const chipVariants: Array<'text' | 'flat' | 'elevated' | 'tonal' | 'outlined' | 'plain'> = [
   'text',
   'flat',
@@ -12,60 +14,61 @@ export const chipVariants: Array<'text' | 'flat' | 'elevated' | 'tonal' | 'outli
 
 const useStyleStore = defineStore('styles', () => {
   // IS global affecting everyhing? Yes | No?
-  const global = ref(true)
 
-  // How is global affecting Tags?
-  const labels = ref(true)
-  const colors = ref(true)
-  const icons = ref(true)
-  const values = ref(true)
-  const tooltips = ref(true)
-  const variants = ref('tonal') // text as default?
-
+  const remove = ref(false)
+  const variants = ref('tonal')
   const filterThemeColors = ref([''])
   const filterBaseColors = ref([''])
-
-  // How is global affecting Tag Cards?
-  const logs = ref(true)
-  const trays = ref(true)
-
-  const closable = ref(false)
-  const remove = ref(false)
-
-  const gLabels = computed(() => !global.value || labels.value)
-  const gColors = computed(() => !global.value || colors.value)
-  const gIcons = computed(() => !global.value || icons.value)
-  const gVariants = computed(() => !global.value || variants.value)
-  const gValues = computed(() => !global.value || values.value)
-  const gTooltips = computed(() => !global.value || tooltips.value)
   const filterColors = computed(() => [...filterThemeColors.value, ...filterBaseColors.value])
 
-  const display = computed(() => ({
-    labels: gLabels.value,
-    colors: gColors.value,
-    icons: gIcons.value,
-    variants: gVariants.value,
-    values: gValues.value,
-    tooltips: gTooltips.value,
-  }))
+  const settings = ref(
+    new SettingsManager({
+      global: true,
+      spaces: false,
+      labels: true,
+      colors: true,
+      icons: true,
+      values: false,
+      closable: false,
+      logs: true,
+      bodys: true,
+      trays: true,
+      titles: true,
+      tooltips: true,
+    }),
+  )
+
+  const toggleSetting = (name: string): void => {
+    settings.value.toggleSetting(name)
+  }
+  // How is global affecting Tag Cards?
+
+  const set = (name: string, value: SettingValue): void => {
+    settings.value.setSetting(name, value)
+  }
+
+  const checkGlobal = (name: string): boolean => {
+    return Boolean(settings.value.getSetting('global'))
+      ? Boolean(settings.value.getSetting(name))
+      : true
+  }
+
+  const get = (name: string) => {
+    return settings.value.getSetting(name)
+  }
 
   return {
-    global,
-    closable,
-    labels,
-    icons,
-    colors,
-    remove,
-    values,
-    logs,
-    trays,
-    tooltips,
+    set,
+    get,
     variants,
+    checkGlobal,
+    settings,
+    remove,
     chipVariants,
-    display,
     filterThemeColors,
     filterBaseColors,
     filterColors,
+    toggleSetting,
   }
 })
 

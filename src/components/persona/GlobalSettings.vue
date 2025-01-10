@@ -1,13 +1,25 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import useStyleStore from '@/stores/styles'
 import usePersonaStore from '@/stores/persona'
+import CustomColorPicker from '@/components/color/CustomColorPicker.vue'
 
 const styles = useStyleStore()
 const persona = usePersonaStore()
 
 import Inator from '@/objects/Inator'
 const inator = new Inator()
+
+const mergedColors = computed(() => {
+  return inator.colorTags().concat(persona.customColors.tags)
+})
+
+const addCustomColor = (color: string) => {
+  persona.addCustomColor(color, color)
+}
+const dialog = ref(false)
+
 
 </script>
 
@@ -62,7 +74,7 @@ const inator = new Inator()
     <v-label>Base Colors</v-label>
     <v-btn-toggle density="comfortable" v-model="styles.filterBaseColors" multiple column
       class="d-flex flex-wrap h-auto ga-2 justify-center ">
-      <v-tooltip bottom v-for="color in inator.colorTags()" :key="color.name">
+      <v-tooltip bottom v-for="color in mergedColors" :key="color.name">
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="medium" :ripple="false">
             <v-icon :color="styles.filterColors.includes(color.color) ? 'disabled' : color.color"></v-icon>
@@ -75,11 +87,12 @@ const inator = new Inator()
       </v-tooltip>
       <v-tooltip bottom>
         <template v-slot:activator="{ props }">
-          <v-btn v-bind="props" size="medium" variant="plain" icon="mdi-plus-circle-outline" color="accent" />
+          <CustomColorPicker app v-model="dialog" @apply-color="addCustomColor" v-bind="props" />
         </template>
         Custom Color
       </v-tooltip>
     </v-btn-toggle>
+
 
     <v-divider class=" my-3"></v-divider>
 

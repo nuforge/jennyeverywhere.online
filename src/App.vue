@@ -7,7 +7,6 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import HeaderLayout from '@/components/HeaderLayout.vue';
 import DiceFab from '@/components/fabs/DiceFab.vue';
 import BottomNavigationLayout from '@/components/BottomNavigationBar.vue';
-import TagDrawer from '@/components/drawers/TagDrawer.vue';
 import ThemeDrawer from '@/components/drawers/ThemeDrawer.vue';
 import DetailsDrawer from '@/components/persona/PersonaDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
@@ -19,7 +18,6 @@ import UndoSnackbar from '@/components/snackbars/UndoSnackbar.vue';
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
 import AvatarFab from './components/fabs/AvatarFab.vue';
-import TagFab from './components/fabs/TagFab.vue';
 
 const state = useStateStore()
 const persona = usePersonaStore()
@@ -50,13 +48,11 @@ onUnmounted(() => {
   <v-responsive>
     <v-app :theme="state.theme">
 
-      <DiceFab location="top end" />
-      <TagFab location="bottom end" />
+      <DiceFab location="bottom end" />
       <AvatarFab location="bottom start" />
 
       <BottomNavigationLayout app />
       <ThemeDrawer location="right" />
-      <TagDrawer location="bottom" />
       <DetailsDrawer location="left" />
 
       <HeaderLayout />

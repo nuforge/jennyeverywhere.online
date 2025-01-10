@@ -4,10 +4,8 @@ import Tag from '@/objects/nu/NuTag'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 
-
 import DragManager from '@/objects/DragManager';
 const drag = new DragManager()
-
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 

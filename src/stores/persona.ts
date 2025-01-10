@@ -30,6 +30,8 @@ const usePersonaStore = defineStore('persona', () => {
 
   const attention = ref(new Legend())
   const memory = ref(new Legend())
+  // new Tag(`color:${color}`, color, 'mdi-circle-opacity'))
+  const customColors = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
   const themeBase = [
@@ -49,6 +51,11 @@ const usePersonaStore = defineStore('persona', () => {
       return findByKey(namedColors, name)
     }
     return myTheme.value.colors[name]
+  }
+
+  function addCustomColor(name: string, hex: string) {
+    const cTag = new Tag(hex, name, 'mdi-circle-opacity')
+    customColors.value.addTag(cTag)
   }
 
   // Default to maintaining focus or no?
@@ -198,6 +205,7 @@ const usePersonaStore = defineStore('persona', () => {
     focus,
     rail,
     permanent,
+    customColors,
     getFocus,
     show,
     hide,
@@ -218,6 +226,7 @@ const usePersonaStore = defineStore('persona', () => {
     copyToClipboard,
     pickColor,
     getThemeHexByName,
+    addCustomColor,
   }
 })
 

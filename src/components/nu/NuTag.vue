@@ -9,7 +9,6 @@ import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from '@/components/nu/NuLabel.vue';
 import NuSpace from '@/components/nu/NuSpace.vue';
 import NuBadge from '@/components/nu/NuBadge.vue';
-import NuTooltip from '@/components/nu/NuTooltip.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
@@ -41,6 +40,8 @@ const showLabel = computed(() => styles.checkGlobal('labels') && props.labels &&
 const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
 
+
+const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.label)
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 
 const variant = computed(() => {
@@ -199,10 +200,15 @@ onMounted(() => {
 
     <template #prepend>
       <v-fab-transition>
-        <div>
-          <NuIcon v-if="showIcon && settings.check('icon')" :icon="(tag.icon as string)" :color="variantColorStyle"
-            @click="onClickIcon" @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon"
-            :start="prependIcon ? true : false" />
+        <div v-if="showIcon && settings.check('icon')">
+          <v-tooltip location="top start">
+            <template #activator="{ props }">
+              <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click="onClickIcon"
+                @right-click="onRightClickIcon" @double-click.stop="onDblClickIcon" :start="prependIcon ? true : false"
+                v-bind="props" />
+            </template>
+            {{ iconTooltip }}
+          </v-tooltip>
         </div>
       </v-fab-transition>
     </template>
@@ -218,7 +224,6 @@ onMounted(() => {
         <NuBadge v-if="showBadge && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
           :text-color="colorStyle" />
       </v-fab-transition>
-      <NuTooltip v-if="showTooltip && props.tag" :tag="props.tag" />
     </template>
 
   </v-chip>

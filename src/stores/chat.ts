@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -36,6 +36,10 @@ const useChatStore = defineStore('chat', () => {
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
   const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true })
+
+  const bodyValid = computed(() => {
+    return userInput.value.trim().length > 0
+  })
 
   const sendGPTMessage = async () => {
     if (!userInput.value.trim()) return
@@ -129,6 +133,8 @@ const useChatStore = defineStore('chat', () => {
     chatResponse,
     isLoading,
     errorMessage,
+    messages,
+    bodyValid,
     getMessages,
     createMessage,
     addMessageToChat,

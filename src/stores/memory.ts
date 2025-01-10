@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 import Meme from '@/objects/Meme' // Assuming you have a Meme class defined
 import Tag from '@/objects/nu/NuTag' // Assuming Tag is defined
 
+export const sortOptions = ['score', 'lastAccessed', 'creation']
+
+type sortBy = 'score' | 'last' | 'creation'
 // Type from earlier
 type Value = boolean | number | string | Tag | undefined
 
@@ -11,19 +14,15 @@ export const useMemoryStore = defineStore('meme', () => {
   const memories = ref<Meme[]>([])
 
   const addMeme = (meme: Meme) => {
-    console.log('Adding meme:', meme.name)
     const existingMemoryIndex = memories.value.findIndex(
       (existingMeme) => existingMeme.name === meme.name,
     )
 
-    console.log('existingMemoryIndex:', existingMemoryIndex)
     if (existingMemoryIndex !== -1) {
       const existingMeme = memories.value[existingMemoryIndex]
 
-      console.log('existingMeme:', existingMeme)
       // If the values are the same, just call touched()
       if (existingMeme.value === meme.value) {
-        console.log(' existingMeme.touch()')
         existingMeme.touch()
       } else {
         // Weigh the score and replace the old meme with the higher score one
@@ -34,10 +33,8 @@ export const useMemoryStore = defineStore('meme', () => {
         }
       }
     } else {
-      console.log('memories.value.push(meme)', meme)
       // If no existing memory found, just add the new one
       memories.value.push(meme)
-      console.log('memories', memories.value)
     }
   }
 
@@ -46,15 +43,23 @@ export const useMemoryStore = defineStore('meme', () => {
     return memories.value.find((meme) => meme.name === name)
   }
 
-  function getMemories(limit: number = 10): Tag[] {
-    // Sort by score
-    memories.value.sort((a, b) => a.score - b.score)
+  function getMemories(limit?: number, sortBy: sortBy = 'score'): Tag[] {
+    // Sort by the specified criteria
+    memories.value.sort((a, b) => {
+      if (sortBy === 'score') {
+        return b.score - a.score
+      } else if (sortBy === 'last') {
+        return (b.lastAccessed?.getTime() ?? 0) - (a.lastAccessed?.getTime() ?? 0)
+      } else if (sortBy === 'creation') {
+        return (b.stamp?.getTime() ?? 0) - (a.stamp?.getTime() ?? 0)
+      }
+      return 0
+    })
 
-    // Return a limited number of memories
+    // Return a limited number of memories if limit is specified
+    const sortedMemories = limit && limit != -1 ? memories.value.slice(0, limit) : memories.value
 
-    return memories.value
-      .slice(0, limit)
-      .map((meme) => new Tag(meme.name, meme.color, meme.icon)) as Tag[]
+    return sortedMemories.map((meme) => new Tag(meme.name, meme.color, meme.icon)) as Tag[]
   }
 
   // Actions

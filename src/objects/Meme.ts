@@ -4,15 +4,17 @@ type Value = boolean | number | string | Tag | undefined
 class Meme extends Tag {
   private _text: string // Core content of the Meme
   private _score: number // Scoring for relevance/decay
-  private _lastAccessed: Date // Timestamp for the last interaction
+  private _lastAccessed: Date = new Date() // Timestamp for the last interaction
 
   constructor(text: string, color?: Value, symbol?: Value, initialScore: number = 0) {
     super(text, color, symbol) // Initialize Tag properties
     this._text = text
     this._score = initialScore
-    this._lastAccessed = new Date()
   }
 
+  get lastAccessed(): Date {
+    return this._lastAccessed ? this._lastAccessed : this.stamp
+  }
   // Accessor and Mutator for text
   get text(): string {
     return this._text

@@ -3,7 +3,7 @@ import { LoremIpsum } from 'lorem-ipsum'
 import Tag from '@/objects/nu/NuTag'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
-import CommonStopWords from '@/assets/words/stopwords.common.json'
+import commonStopWords from '@/assets/words/stopwords.common.json'
 import HTMLTags from '@/assets/words/html.tags.json'
 import basicColors from '@/assets/color/colors.basic.json'
 import themeColors from '@/assets/color/colors.theme.json'
@@ -25,7 +25,7 @@ class Inator {
   }
 
   stopWords = () => {
-    return CommonStopWords
+    return commonStopWords
   }
 
   htmlTags = () => {
@@ -198,11 +198,9 @@ class Inator {
   } // Generate 5 random tags
 
   ntag = (space?: string, count: number = 1): Tag => {
-    const theme = this.themecolor()
-    console.log('theme', theme)
+    const theme = this.themecolor(false)
     const tag = new Tag(`${this.word()}`, theme, this.icon() as string)
     tag.value = this.words(count).toString()
-    console.log('tag', tag)
     return tag
   } // Generate 5 random tags
 
@@ -290,8 +288,8 @@ class Inator {
     return this.randomArrayValue(this.allcolors())
   } // Generate 1 random color
 
-  themecolor = () => {
-    return this.randomArrayValue(this.themecolors())
+  themecolor = (includeBackgroundColors: boolean = true) => {
+    return this.randomArrayValue(this.themecolors(includeBackgroundColors))
   } // G
 
   themecolors = (includeBackgroundColors: boolean = true) => {

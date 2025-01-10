@@ -1,5 +1,10 @@
 <script setup lang="ts">
+const USER_LABEL = 'user'
+const AGENT_LABEL = 'jenny_everywhere'
+
 import { ref, computed } from 'vue'
+import commonStopWords from '@/assets/words/stopwords.common.json'
+import HTMLTags from '@/assets/words/html.tags.json'
 import Tag from '@/objects/nu/NuTag';
 import NuTag from '@/components/nu/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
@@ -24,13 +29,13 @@ const props = defineProps<{
 
 
 const selection = ref([''])
-const filters = ref([...inator.commonStopWords(), ...inator.htmlTags(), ...['wiki', 'wikipedia']])
+const filters = ref([...commonStopWords, ...HTMLTags])
 
 const wordData = computed(() => markdowninator.cleanAndCountWords(props.message.text, 5, filters.value))
 const wordTags = computed(() => wordData.value.map((item) => new Tag(item.word, inator.color(), inator.icon())) as Tag[])
 
-const isUser = computed(() => props.message.sender === 'user')
-const isJenny = computed(() => props.message.sender === 'jenny_everywhere')
+const isUser = computed(() => props.message.sender === USER_LABEL)
+const isAgent = computed(() => props.message.sender === AGENT_LABEL)
 
 function shuffleArray(array: Tag[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -48,7 +53,7 @@ const filteredTags = computed(() => shuffleArray(wordTags.value.filter((item) =>
   <v-timeline-item size="large" dot-color="background" fill-dot>
     <template #icon>
       <v-icon v-if="isUser" icon="mdi-chat"></v-icon>
-      <PersonaAvatar v-if="isJenny" />
+      <PersonaAvatar v-if="isAgent" />
     </template>
     <MarkdownRenderer :text="message.text" :tags="filteredTags" class="pa-2 rounded-lg" />
     <v-label>{{ message.timestamp }}</v-label>

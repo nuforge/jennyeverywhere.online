@@ -189,12 +189,18 @@ const usePersonaStore = defineStore('persona', () => {
       toggleDrawer()
     }
     if (event.key === 'g') {
-      console.log('global')
       menuSelection.value = ['global']
+      openDrawer()
+    }
+    if (event.key === 'h') {
+      menuSelection.value = ['history']
       openDrawer()
     }
     if (event.key === 'r') {
       toggleRail()
+    }
+    if (event.key === 'Escape') {
+      closeDrawer()
     }
   }
 

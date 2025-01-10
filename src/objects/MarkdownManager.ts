@@ -35,7 +35,10 @@ class MarkdownManager {
   }
 
   escapePattern(pattern: string): string {
-    return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
+    return pattern.replace(/\[([^\]]+)\](?:\(([^)]+)\))?/g, (match, p1, p2) => {
+      return p2 ? `[${p1}](${p2})` : `[${p1}](${p1})` // If p2 exists, return [a](b); otherwise, return [a](a)
+    })
+    //return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
   }
 
   // Escape special regex characters if pattern is a literal string

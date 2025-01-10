@@ -163,18 +163,20 @@ class Tag {
       name: this._name,
       type: this._type,
       space: this._space,
-      value: this.value,
       color: this.color,
       icon: this.icon,
+      date: this.stamp.toLocaleDateString(),
+      time: this.stamp.toLocaleTimeString(),
     }
     const icons: { [key: string]: string } = {
       id: 'mdi-identifier',
       name: 'mdi-label-variant-outline',
       type: 'mdi-label-outline',
       space: 'mdi-tray',
-      value: 'mdi-numeric-positive-1',
       color: 'mdi-circle-opacity',
       icon: this.icon,
+      date: 'mdi-clock-outline',
+      time: 'mdi-calendar-outline',
     }
 
     return Object.entries(attributes)
@@ -265,6 +267,14 @@ class Tag {
 
   set space(value: string | undefined) {
     this._space = value
+  }
+
+  get stamp(): Date {
+    return this._stamp
+  }
+
+  set stamp(value: Date) {
+    this._stamp = value
   }
 }
 

@@ -1,4 +1,4 @@
-import Tag from '@/objects/NuTag'
+import Tag from '@/objects/nu/NuTag'
 
 const TAG_WHITESPACE_REPLACER = '-'
 
@@ -39,6 +39,10 @@ class Legend extends Tag {
 
   // Tag LookUp
 
+  has(name: string) {
+    return this._tags.get(name) !== undefined
+  }
+
   getTag(name: string) {
     const tag = this._tags.get(name)
     if (tag) {
@@ -59,6 +63,10 @@ class Legend extends Tag {
   addTags(newTags: Tag[]) {
     newTags.forEach((tag) => this.addTag(tag))
     return
+  }
+
+  removeTag(tag: Tag) {
+    return this._tags.delete(tag.id)
   }
 
   create(note: string | string[]) {

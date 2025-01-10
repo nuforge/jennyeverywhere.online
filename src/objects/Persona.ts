@@ -1,5 +1,5 @@
-import Tag from '@/objects/NuTag'
-import Legend from '@/objects/Legend'
+import Tag from '@/objects/nu/NuTag'
+import Legend from '@/objects/tags/Legend'
 
 class Persona {
   protected _id: string

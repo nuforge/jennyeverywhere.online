@@ -30,7 +30,8 @@ const useChatStore = defineStore('chat', () => {
   const isLoading = ref(false)
   const errorMessage = ref('')
 
-  const snackbar = ref(true)
+  const snackbar = ref(false)
+  const timeout = ref('3000')
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
@@ -121,6 +122,7 @@ const useChatStore = defineStore('chat', () => {
 
   return {
     snackbar,
+    timeout,
     greeting,
     emoji,
     userInput,

@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import useStateStore from '@/stores/state';
 import useTagStore from '@/stores/tags'
-import Tag from '@/objects/NuTag.ts';
+import Tag from '@/objects/nu/NuTag';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 
 const state = useStateStore()

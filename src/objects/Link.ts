@@ -1,4 +1,4 @@
-import Tag from '@/objects/NuTag'
+import Tag from '@/objects/nu/NuTag'
 
 class Link extends Tag {
   protected _tags: Map<Tag, Tag> = new Map()

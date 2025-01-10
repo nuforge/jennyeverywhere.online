@@ -1,6 +1,6 @@
-import Tag from '@/objects/NuTag'
+import Tag from '@/objects/nu/NuTag'
 import { format } from 'date-fns'
-import Legend from './Legend'
+import Legend from './tags/Legend'
 
 class Event extends Tag {
   // Extends tag?

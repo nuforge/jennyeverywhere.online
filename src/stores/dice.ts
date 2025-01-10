@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Dice from '@/objects/game/Dice'
-import Tag from '@/objects/NuTag'
+import Tag from '@/objects/nu/NuTag'
 
 const useDiceStore = defineStore('dice', () => {
   const faces = ref([4, 6, 8, 10, 12, 20])

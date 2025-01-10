@@ -1,5 +1,5 @@
 import markdownit from 'markdown-it'
-import Tag from '@/objects/NuTag'
+import Tag from '@/objects/nu/NuTag'
 
 class MarkdownManager {
   protected _md = markdownit({

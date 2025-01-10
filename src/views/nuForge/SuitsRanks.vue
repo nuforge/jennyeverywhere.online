@@ -8,7 +8,7 @@ import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
 
 import NuTag from '@/components/nu/NuTag.vue';
-import Tag from '@/objects/NuTag';
+import Tag from '@/objects/nu/NuTag';
 
 const randomNumber = ref(dice)
 

@@ -1,4 +1,4 @@
-import Tag from './Tag'
+import Tag from './tags/Tag'
 
 class Label extends Tag {
   constructor(name: string, color?: string, icon?: string) {

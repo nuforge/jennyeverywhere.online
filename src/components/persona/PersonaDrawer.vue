@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import Tag from '@/objects/NuTag.ts';
+import Tag from '@/objects/nu/NuTag';
 
 import NuTag from '@/components/nu/NuTag.vue';
 import GlobalSettings from '@/components/persona/GlobalSettings.vue';

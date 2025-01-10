@@ -67,7 +67,7 @@ import useStateStore from '@/stores/state'
 import useTagStore from '@/stores/tags'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
-import Tag from '@/objects/NuTag';
+import Tag from '@/objects/nu/NuTag';
 const state = useStateStore()
 
 const admin = ref(true)

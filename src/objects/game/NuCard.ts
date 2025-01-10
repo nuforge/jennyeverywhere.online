@@ -1,5 +1,5 @@
-import NuTag from '@/objects/NuTag'
-import type { Value, Name, Space } from '@/objects/NuTag'
+import NuTag from '@/objects/nu/NuTag'
+import type { Value, Name, Space } from '@/objects/nu/NuTag'
 
 // NuCard class
 

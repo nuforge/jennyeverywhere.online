@@ -6,8 +6,8 @@ const dragImage = ref<HTMLImageElement | null>(null);
 import useStateStore from '@/stores/state'
 import useClipboardStore from '@/stores/clipboard';
 
-import Tag from '@/objects/NuTag'
-import TagTray from '@/objects/TagTray'
+import Tag from '@/objects/nu/NuTag'
+import TagTray from '@/objects/tags/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';

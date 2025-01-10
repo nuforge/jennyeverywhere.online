@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import Tag from '@/objects/NuTag';
+import Tag from '@/objects/nu/NuTag';
 import NuTag from '@/components/nu/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 

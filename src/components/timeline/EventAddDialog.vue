@@ -74,11 +74,11 @@ import ColorPicker from '@/components/form/ColorPicker.vue';
 const state = useStateStore()
 const timeline = useTimelineStore()
 
-import Tag from '@/objects/NuTag';
+import Tag from '@/objects/nu/NuTag';
 import Log from '@/objects/Log';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTagTray from '@/components/tags/EvTagTray.vue';
-import { default as tagTray } from '@/objects/TagTray';
+import { default as tagTray } from '@/objects/tags/TagTray';
 
 const panels = ref([0, 1])
 const admin = ref(true)

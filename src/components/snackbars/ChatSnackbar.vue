@@ -7,7 +7,8 @@ const chat = useChatStore()
 
 
 <template>
-  <v-snackbar v-model="chat.snackbar" location="bottom start" :timeout="-1" timer eager class="ms-12 mb-0 pb-8 ps-3">
+  <v-snackbar v-model="chat.snackbar" location="bottom start" :timeout="timeout" timer eager
+    class="ms-12 mb-0 pb-8 ps-3">
     <ChatMessages :messages="chat.messages" />
     <v-label>
       @<router-link to="/">JennyEverywhere.online</router-link>

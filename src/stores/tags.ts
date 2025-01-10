@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import Tag from '@/objects/NuTag'
-import Legend from '@/objects/Legend'
+import Tag from '@/objects/nu/NuTag'
+import Legend from '@/objects/tags/Legend'
 
 const useTagStore = defineStore('tags', () => {
   const tagMap = ref(new Legend())

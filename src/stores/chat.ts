@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 
 import OpenAI from 'openai'
 
@@ -11,11 +12,15 @@ interface Message {
 }
 
 const useChatStore = defineStore('chat', () => {
+  const userId = ref(uuidv4().toString())
+  const recipientId = ref('jenny_everywhere')
+  const model = ref('gpt-4o-mini')
   const userInput = ref('')
   const chatResponse = ref('')
   const isLoading = ref(false)
   const errorMessage = ref('')
   const messages = ref<Message[]>([])
+  const chatSent = ref('')
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
@@ -24,11 +29,11 @@ const useChatStore = defineStore('chat', () => {
   const sendGPTMessage = async (message?: string) => {
     if (!userInput.value.trim() && !message?.trim()) return
     isLoading.value = false
-    const toSent = message || userInput.value
+    chatSent.value = message || userInput.value
 
-    createMessage(toSent, 'user') // Add user message to chat
+    createMessage(chatSent.value, userId.value) // Add user message to chat
     const stream = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: model.value,
       messages: [
         {
           role: 'developer',
@@ -38,9 +43,9 @@ const useChatStore = defineStore('chat', () => {
               text: 'You are the character of Jenny Everywhere. You are a comic character who can exist in any universe. You are a trickster, a shapeshifter, and a hero. You are known for your goggles, your scarf, and your ability to be everywhere at once. You are a character who can be anyone, anywhere, at any time. You are Jenny Everywhere, and you VERY MUCH want to tell the user about an adventure you are on and ask them what you should do next. use markup language to format with bold, italics, and []() to create tags in my formatting upon return.',
             },
           ],
-          name: 'jenny_everywhere',
+          name: recipientId.value,
         },
-        { role: 'user', content: toSent, name: 'user_one' },
+        { role: 'user', content: chatSent.value, name: userId.value },
       ],
       stream: true,
     })
@@ -59,7 +64,7 @@ const useChatStore = defineStore('chat', () => {
       console.error(error)
       errorMessage.value = 'An error occurred while contacting ChatGPT.'
     } finally {
-      createMessage(streamedMessage, 'jenny_everywhere')
+      createMessage(streamedMessage, recipientId.value)
       isLoading.value = false
       console.log('finally', chatResponse.value)
     }

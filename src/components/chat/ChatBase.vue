@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ChatHeader from '@/components/chat/ChatHeader.vue'
 import ChatMessages from '@/components/chat/ChatMessages.vue'
 import ChatInputBar from '@/components/chat//ChatInputBar.vue'
 import ChatLoading from '@/components/chat//ChatLoading.vue'
@@ -31,12 +30,11 @@ const handleSend = (message: string) => {
 
 <template>
   <v-card class="bg-background">
+    <ChatInputBar @send="handleSend" />
     <!-- Header -->
-    <ChatHeader title="Jenny Everywhere" />
     <!-- Messages List -->
     <ChatMessages :messages="messages" />
     <ChatLoading v-if="chat.isLoading" />
     <!-- Input Bar -->
-    <ChatInputBar @send="handleSend" />
   </v-card>
 </template>

@@ -20,7 +20,7 @@ const expansions = ref([])
 
 watch(
   () => persona.focus, // Use optional chaining to avoid errors
-  (newFocus) => { // OPEN FOCUS PANEL
+  () => { // newFocus  < ---OPEN FOCUS PANEL
   }
 );
 
@@ -106,7 +106,6 @@ watch(
               </v-list>
             </v-expansion-panel-text>
           </v-expansion-panel>
-
 
         </v-expansion-panels>
 

@@ -12,6 +12,7 @@ import ThemeDrawer from '@/components/drawers/ThemeDrawer.vue';
 import DetailsDrawer from '@/components/persona/PersonaDrawer.vue';
 import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
+import ChatSnackbar from '@/components/snackbars/ChatSnackbar.vue';
 import DiceSnackbar from '@/components/snackbars/DiceSnackbar.vue';
 import TagSnackbar from '@/components/tags/TagSnackbar.vue';
 import UndoSnackbar from '@/components/snackbars/UndoSnackbar.vue';
@@ -68,11 +69,13 @@ onUnmounted(() => {
       <EventAddDialog />
       <TagAddDialog />
 
+      <ChatSnackbar />
+
       <DiceSnackbar />
       <TagSnackbar location="bottom" />
       <UndoSnackbar />
 
-      <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
+      <v-footer class="bg-background align-end opacity-20"><v-spacer /> &copy; 2025 @<router-link
           to="/">JennyEverywhere.online</router-link></v-footer>
     </v-app>
   </v-responsive>

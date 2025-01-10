@@ -1,6 +1,6 @@
 <template>
   <span class="mx-2 text-no-wrap">
-    {{ tag.name }}
+    {{ tag.label }}
   </span>
 </template>
 

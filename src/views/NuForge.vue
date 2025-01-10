@@ -17,12 +17,12 @@ Array.from({ length: 10 }, () => {
 })
 
 function trackIndex(tag: Tag) {
-  index.value = tray.value.getTagIndex(tag.name)
+  index.value = tray.value.getTagIndex(tag.label)
 }
 
 function dragOver(tag: Tag) {
 
-  hover.value = tray.value.getTagIndex(tag.name)
+  hover.value = tray.value.getTagIndex(tag.label)
   event.preventDefault()
 }
 

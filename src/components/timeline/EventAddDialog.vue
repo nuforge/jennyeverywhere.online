@@ -92,8 +92,8 @@ const event = ref()
 const systemTags = computed(() => {
   const tags = []
   const tag = new Tag(`${event.value.title}`)
-  tags.push(new Tag(`name:${tag.name}`, 'system', `mdi-label-variant-outline`))   // Name
-  tags.push(new Tag(`title:${tag.name}`, 'system', `mdi-label-variant-outline`))   // Name
+  tags.push(new Tag(`name:${tag.label}`, 'system', `mdi-label-variant-outline`))   // Name
+  tags.push(new Tag(`title:${tag.label}`, 'system', `mdi-label-variant-outline`))   // Name
   tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-identifier`)) // ID
   tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `mdi-calendar-clock`)) // Timestamp
   tags.push(new Tag(`event`, 'system', 'mdi-calendar-outline')) // Event
@@ -127,8 +127,8 @@ onMounted(() => {
     const tag = new Tag(`${event.value.title}`)
     tag.icon = event.value.icon
     tag.color = event.value.color
-    evTags.value.copy(new Tag(`${tag.name}`, tag.color, tag.icon))
-    eventTags.value.push(new Tag(`${tag.name}`, tag.color, tag.icon))
+    evTags.value.copy(new Tag(`${tag.label}`, tag.color, tag.icon))
+    eventTags.value.push(new Tag(`${tag.label}`, tag.color, tag.icon))
   }
   eventTags.value.push(new Tag(`Federation`, `primary`, `mdi-account-group`))
   eventTags.value.push(new Tag(`planet:Earth`, `primary`, `mdi-earth`))

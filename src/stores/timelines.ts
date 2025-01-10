@@ -32,7 +32,7 @@ export const useTimelineStore = defineStore('timeline', () => {
     console.log('add Log: ', newLog)
     const eventObj = new Log(newLog.name, newLog.body)
     tags.forEach((tag) => {
-      eventObj.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+      eventObj.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
     })
     events.value.unshift(eventObj)
   }

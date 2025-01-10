@@ -201,7 +201,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="tag.icon"
+  <v-chip label class="overflow-visible" :text="tag.label" :color="colorStyle" :variant="variant" :icon="tag.icon"
     :value="value" :id="`nu_${tag.id}`" :closable="props.closable" @click:close="onCloseTag"
     @click.right.exact.prevent="onRightClick" @click="onTagClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
     @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">

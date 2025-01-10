@@ -53,8 +53,8 @@ const filteredTags = computed(() => shuffleArray(wordTags.value.filter((item) =>
     <MarkdownRenderer :text="message.text" :tags="filteredTags" class="pa-2 rounded-lg" />
     <v-label>{{ message.timestamp }}</v-label>
     <v-chip-group v-model="selection" multiple column>
-      <NuTag v-for=" tag in wordTags" :key="tag.name" :tag="tag" :value="tag.name" :values="false"
-        @dblClick="persona.focusOn(tag)" :labels="false" :colors="!selection.includes(tag.name)" variant="plain" />
+      <NuTag v-for=" tag in wordTags" :key="tag.label" :tag="tag" :value="tag.label" :values="false"
+        @dblClick="persona.focusOn(tag)" :labels="false" :colors="!selection.includes(tag.label)" variant="plain" />
     </v-chip-group>
 
   </v-timeline-item>

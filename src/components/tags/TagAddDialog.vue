@@ -83,7 +83,7 @@ const tempTag = ref(computed(() => {
   const tag = new Tag(text.value)
   return {
     id: tag.id,
-    name: tag.name,
+    name: tag.label,
     space: tag.space,
     color: color.value,
     icon: icon.value,

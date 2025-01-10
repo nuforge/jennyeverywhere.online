@@ -21,7 +21,7 @@ const tagMerge = computed(() => {
   const mergedTags = [...tags.tags, ...story.tags] as Tag[]
 
   const uniqueTags = mergedTags.filter(
-    (tag, index, self) => self.findIndex(t => t.name === tag.name) === index
+    (tag, index, self) => self.findIndex(t => t.name === tag.label) === index
   );
 
   return uniqueTags;

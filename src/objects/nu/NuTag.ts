@@ -29,20 +29,40 @@ class Tag {
 
   // Tag Attributes
   protected _name: string
+  protected _label: string
   protected _space?: string
   protected _value?: Value
 
-  constructor(name?: string, color?: Value, symbol?: Value) {
-    const { space, label, value } = Tag.parseString(Tag.cleanValue(name ?? this._id))
-    this._name = label.trim()
+  constructor(seed?: string, color?: Value, symbol?: Value) {
+    const { space, label, value } = Tag.parseString(Tag.cleanValue(seed ?? this._id))
+    console.log('{ space, label, value }:', { space, label, value })
+
     this._space = space?.trim()
-    this._value = value ? value : color
+    this._label = label.trim()
+    this._name = seed ? Tag.normalizeTagName(seed) : this._type
+    this._value = value ? value : color ? color : this._type
+
+    console.log(
+      '{ {  ._space, ._name, ._label,  ._value } }:',
+      this._space,
+      this._name,
+      this._label,
+      this._value,
+    )
     this._at = symbol
     return this
   }
 
+  get name() {
+    return Tag.normalizeTagName(this._name)
+  }
+
+  get label() {
+    return this._name
+  }
+
   static cleanValue = (text: Value) => {
-    return text !== undefined ? text.toString() : ''
+    return text !== undefined ? text.toString().trim() : ''
   }
 
   static normalizeTagName = (name: string | number) => {
@@ -51,7 +71,7 @@ class Tag {
 
   static parseString(input: string): { space?: string; label: string; value?: string } {
     // Normalize the string: lowercase and replace spaces with hyphens
-    const normalized = Tag.normalizeTagName(input)
+    const normalized = Tag.cleanValue(input)
 
     // Initialize result
     const result: { space?: string; label: string; value?: string } = { label: '' }
@@ -211,10 +231,6 @@ class Tag {
 
   set value(value: Value) {
     this._value = value
-  }
-
-  get name() {
-    return this._name
   }
 
   set name(value: string) {

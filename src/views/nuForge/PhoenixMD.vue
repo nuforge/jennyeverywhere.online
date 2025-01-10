@@ -41,8 +41,8 @@ const onDoubleClick = (event: Event, tag: Tag) => {
 }
 
 //const tags = computed(() => inator.iconTags(randomNumber.value.getResults()))
-//const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
-//const filtered = computed(() => bodytags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
+//const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.label), ...inator.words(randomNumber.value.getResults() * 2)]).join(' '))
+//const filtered = computed(() => bodytags.value.filter((tag) => selected.value.includes(tag.label.toLowerCase().replace(/ /g, '-'))))
 
 const wordData = computed(() => {
   const words = markdowninator.cleanAndCountWords(content.value, randomNumber.value.getResults() * 2, filters.value)
@@ -56,7 +56,7 @@ const bodytags = computed(() => inator.shuffleArray(wordData.value.map((word) =>
 })));
 
 watch(randomNumber.value, () => {
-  selected.value = inator.shuffleArray(bodytags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults()))
+  selected.value = inator.shuffleArray(bodytags.value.map((tag) => tag.label)).slice(0, Math.floor(randomNumber.value.getResults()))
 })
 
 dice.rollDice(1)
@@ -73,7 +73,7 @@ dice.rollDice(1)
   return tags.value.reduce((acc, tag) => {
     const color = tag.color || 'default'; // Fallback to 'default' if no color
     if (!acc[color]) {
-      acc[color] = { color, count: 0, selected: selected.value.includes(tag.name) };
+      acc[color] = { color, count: 0, selected: selected.value.includes(tag.label) };
     }
     acc[color].count += 1;
     return acc;

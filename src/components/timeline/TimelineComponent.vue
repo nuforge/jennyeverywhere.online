@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/nu/NuTag';
+import type Tag from '@/objects/NuTag';
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
@@ -57,7 +57,7 @@ const events = computed(() => { return [...timeline.events, StoryEvent.value] })
 const StoryEvent = computed(() => {
   const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
   story.tags.forEach((tag) => {
-    event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
   })
   return event
 })
@@ -76,7 +76,7 @@ onMounted(() => {
   const event = new Log(story.title, story.raw.substring(0, 100))
 
   story.tags.forEach((tag) => {
-    event.createTag(tag.name, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
   })
 })
 

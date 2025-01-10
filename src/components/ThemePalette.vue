@@ -15,7 +15,7 @@ const selection = ref<string[]>([])
 
 
 const filtered = computed(() => {
-  return persona.themeTags.filter(tag => props.filter?.includes(tag.name)) || []
+  return persona.themeTags.filter(tag => props.filter?.includes(tag.label)) || []
 })
 
 const props = defineProps({

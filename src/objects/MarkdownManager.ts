@@ -24,9 +24,76 @@ class MarkdownManager {
     return this
   }
 
-  textToMarkdown(text: string, tags: Array<Tag>) {
+  linkTags(tags: Array<Tag>, text?: string) {
+    //match.toLowerCase().replace(/\s/g, '-') // Convert to lowercase and replace spaces with hyphens
+    const placeholders: Record<string, Tag> = {}
+    let modifiedText = text || ''
+    const sortedTags = [...tags].sort((a, b) => b.name.length - a.name.length)
+
+    // Replace matches with unique placeholders
+    for (const tag of sortedTags) {
+      const placeholder = `__PLACEHOLDER_${tag.label}__`
+      placeholders[placeholder] = tag
+
+      // Match tag name as a whole word (case insensitive)
+      const regex = this.generateRegex(tag.label)
+      //console.log('regex:', regex)
+      modifiedText = modifiedText.replace(regex, placeholder)
+    }
+
+    // Replace placeholders with their final values
+    for (const [placeholder, replacement] of Object.entries(placeholders)) {
+      const escapedPlaceholder = this.escapePattern(placeholder)
+      modifiedText = modifiedText.replace(new RegExp(escapedPlaceholder, 'g'), replacement.name)
+    }
+
+    return tags.reduce((modifiedText, tag) => {
+      const icon = tag.icon || 'default'
+      const color = tag.color || 'default'
+      const pattern = tag.label
+      const regex = this.escapePattern(pattern)
+      // OLD:  `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`
+      return modifiedText.replace(
+        new RegExp(regex, 'g'),
+        (match) =>
+          `<custom-tag tag="${match}" color="${color}" icon="${icon}" >${match}</custom-tag>`,
+      )
+    }, modifiedText)
+  }
+
+  cleanAndCountWords(text: string, limit?: number, stopWords: string[] = []) {
+    // Remove all non-word characters (everything except letters and spaces)
+    const cleanedText = text.replace(/[^a-zA-Z\s]/g, ' ').toLowerCase()
+
+    // Split text into words, filtering out any empty strings
+    const words = cleanedText.split(/\s+/).filter(Boolean)
+
+    // Create a map to count occurrences
+    const wordCountMap: Record<string, number> = {}
+
+    // Count occurrences of each word
+    words.forEach((word) => {
+      if (!stopWords.includes(word) && word.length > 2) {
+        wordCountMap[word] = (wordCountMap[word] || 0) + 1
+      }
+    })
+
+    // Convert the map to an array of [word, count] pairs
+    const sortedWordCount = Object.entries(wordCountMap)
+      .sort(([, a], [, b]) => b - a) // Sort by count (highest to lowest)
+      .map(([word, count]) => ({ word, count })) // Map to objects for better readability
+
+    // Optionally limit the number of results
+    if (limit) {
+      return sortedWordCount.slice(0, limit)
+    }
+
+    return sortedWordCount
+  }
+
+  textToMarkdown(text: string, tags?: Array<Tag>) {
     //const selected = taglist.value.filter(tag => tags.selection.includes(tag.id))
-    const markdown = this.linkTags(tags, text)
+    const markdown = tags ? this.linkTags(tags, text) : text
     return this.markitdown(markdown)
   }
 
@@ -64,43 +131,6 @@ class MarkdownManager {
         console.error('An unknown error occurred')
       }
     }
-  }
-
-  linkTags(tags: Array<Tag>, text?: string) {
-    //match.toLowerCase().replace(/\s/g, '-') // Convert to lowercase and replace spaces with hyphens
-    const placeholders: Record<string, Tag> = {}
-    let modifiedText = text || ''
-    const sortedTags = [...tags].sort((a, b) => b.name.length - a.name.length)
-
-    // Replace matches with unique placeholders
-    for (const tag of sortedTags) {
-      const placeholder = `__PLACEHOLDER_${tag.name}__`
-      placeholders[placeholder] = tag
-
-      // Match tag name as a whole word (case insensitive)
-      const regex = this.generateRegex(tag.name)
-      //console.log('regex:', regex)
-      modifiedText = modifiedText.replace(regex, placeholder)
-    }
-
-    // Replace placeholders with their final values
-    for (const [placeholder, replacement] of Object.entries(placeholders)) {
-      const escapedPlaceholder = this.escapePattern(placeholder)
-      modifiedText = modifiedText.replace(new RegExp(escapedPlaceholder, 'g'), replacement.name)
-    }
-
-    return tags.reduce((modifiedText, tag) => {
-      const icon = tag.icon || 'default'
-      const color = tag.color || 'default'
-      const pattern = tag.name
-      const regex = this.escapePattern(pattern)
-      // OLD:  `<i class="mdi ${icon} text-${color}" icon="${icon}" color="${color}" tag="${match}"></i> [${match}]()`
-      return modifiedText.replace(
-        new RegExp(regex, 'g'),
-        (match) =>
-          `<custom-tag tag="${match}" color="${color}" icon="${icon}" >${match}</custom-tag>`,
-      )
-    }, modifiedText)
   }
 
   getTagFromEvent(event: MouseEvent) {
@@ -160,35 +190,6 @@ class MarkdownManager {
     return { links, icons, custom }
   }
 
-  cleanAndCountWords(text: string, limit?: number, stopWords: string[] = []) {
-    // Remove all non-word characters (everything except letters and spaces)
-    const cleanedText = text.replace(/[^a-zA-Z\s]/g, ' ').toLowerCase()
-
-    // Split text into words, filtering out any empty strings
-    const words = cleanedText.split(/\s+/).filter(Boolean)
-
-    // Create a map to count occurrences
-    const wordCountMap: Record<string, number> = {}
-
-    // Count occurrences of each word
-    words.forEach((word) => {
-      if (!stopWords.includes(word) && word.length > 2) {
-        wordCountMap[word] = (wordCountMap[word] || 0) + 1
-      }
-    })
-
-    // Convert the map to an array of [word, count] pairs
-    const sortedWordCount = Object.entries(wordCountMap)
-      .sort(([, a], [, b]) => b - a) // Sort by count (highest to lowest)
-      .map(([word, count]) => ({ word, count })) // Map to objects for better readability
-
-    // Optionally limit the number of results
-    if (limit) {
-      return sortedWordCount.slice(0, limit)
-    }
-
-    return sortedWordCount
-  }
   stripHtml(html: string): string {
     return html.replace(/<[^>]*>/g, '') // Remove all HTML tags
   }

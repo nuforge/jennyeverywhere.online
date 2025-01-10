@@ -23,8 +23,8 @@ const selected = ref<string[]>([])
 const randomNumber = ref(dice)
 
 const tags = computed(() => inator.iconTags(randomNumber.value.getResults() as number))
-const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.name), ...inator.words(randomNumber.value.getResults() as number * 2)]).join(' '))
-const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.name.toLowerCase().replace(/ /g, '-'))))
+const body = computed(() => inator.shuffleArray([...tags.value.map((tag) => tag.label), ...inator.words(randomNumber.value.getResults() as number * 2)]).join(' '))
+const filtered = computed(() => tags.value.filter((tag) => selected.value.includes(tag.label.toLowerCase().replace(/ /g, '-'))))
 
 // Markdown Tools
 
@@ -39,7 +39,7 @@ const colorStats = computed(() => {
   return tags.value.reduce((acc, tag) => {
     const color = tag.color || 'default'; // Fallback to 'default' if no color
     if (!acc[color]) {
-      acc[color] = { color, count: 0, selected: selected.value.includes(tag.name) };
+      acc[color] = { color, count: 0, selected: selected.value.includes(tag.label) };
     }
     acc[color].count += 1;
     return acc;
@@ -58,7 +58,7 @@ const filteredColorStats = computed(() => {
 });
 
 watch(randomNumber.value, () => {
-  selected.value = inator.shuffleArray(tags.value.map((tag) => tag.name)).slice(0, Math.floor(randomNumber.value.getResults() as number / 2))
+  selected.value = inator.shuffleArray(tags.value.map((tag) => tag.label)).slice(0, Math.floor(randomNumber.value.getResults() as number / 2))
 })
 
 dice.rollDice(1)

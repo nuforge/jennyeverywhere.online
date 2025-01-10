@@ -60,11 +60,11 @@ onUnmounted(() => {
       <DetailsDrawer location="left" />
 
       <HeaderLayout />
-      <v-main>
-        <v-container>
+      <v-container>
+        <v-main>
           <RouterView />
-        </v-container>
-      </v-main>
+        </v-main>
+      </v-container>
 
       <EventAddDialog />
       <TagAddDialog />

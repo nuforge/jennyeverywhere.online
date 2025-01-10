@@ -36,7 +36,7 @@ const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && se
 const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && !styles.filterColors.includes(props.tag.color))
 const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
 const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
-const showTooltip = computed(() => styles.checkGlobal('tooltipss') && tooltip.value)
+const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
 
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 

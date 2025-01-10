@@ -32,12 +32,13 @@ const inator = new Inator()
     <v-btn-toggle density="comfortable">
       <TagCardStyles :tray="styles.get('trays')" :labels="styles.get('labels')" :icons="styles.get('icons')"
         :colors="styles.get('colors')" :values="styles.get('values')" :logs="styles.get('logs')"
-        @update:labels="(value: boolean) => { styles.set('labels', value) }"
+        :spaces="styles.get('spaces')" @update:labels="(value: boolean) => { styles.set('labels', value) }"
         @update:icons="(value: boolean) => { styles.set('icons', value) }"
         @update:colors="(value: boolean) => { styles.set('colors', value) }"
         @update:logs="(value: boolean) => { styles.set('logs', value) }"
         @update:tray="(value: boolean) => { styles.set('trays', value) }"
-        @update:values="(value: boolean) => { styles.set('values', value) }" />
+        @update:values="(value: boolean) => { styles.set('values', value) }"
+        @update:spaces="(value: boolean) => { styles.set('spaces', value) }" />
     </v-btn-toggle>
 
     <v-divider class=" my-3"></v-divider>

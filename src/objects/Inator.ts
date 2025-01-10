@@ -2,6 +2,12 @@ import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
 import Tag from '@/objects/nu/NuTag'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
+import basicStopWords from '@/assets/words/stopwords.basic.json'
+import CommonStopWords from '@/assets/words/stopwords.common.json'
+import HTMLTags from '@/assets/words/html.tags.json'
+import basicColors from '@/assets/color/colors.basic.json'
+import themeColors from '@/assets/color/colors.theme.json'
+import backgroundColors from '@/assets/color/colors.background.json'
 
 class Inator {
   private _scale: number
@@ -12,6 +18,22 @@ class Inator {
     this._scale = scale
     this._seed = scale * (Math.random() + Math.random())
     return this
+  }
+
+  colors = () => {
+    return basicColors
+  }
+
+  stopWords = () => {
+    return CommonStopWords
+  }
+
+  htmlTags = () => {
+    return HTMLTags
+  }
+
+  themeColors = () => {
+    return themeColors
   }
 
   keywordTags(keyword: string) {
@@ -155,7 +177,6 @@ class Inator {
     for (let i = 0; i < count; i++) {
       sentences.push(this.sentence(count))
     }
-    console.log(sentences)
     return sentences
   } // Generate 5 random sentences
 
@@ -183,7 +204,6 @@ class Inator {
       this.icon() as string,
     )
     tag.value = this.words(count).toString()
-    console.log()
     return tag
   } // Generate 5 random tags
 
@@ -276,259 +296,15 @@ class Inator {
   } // G
 
   themecolors = (includeBackgroundColors: boolean = true) => {
-    return [
-      'primary',
-      'secondary',
-      'accent',
-      'error',
-      'info',
-      'success',
-      'warning',
-      ...(includeBackgroundColors ? this.bgcolors() : []),
-    ]
+    return [...themeColors, ...(includeBackgroundColors ? this.bgcolors() : [])]
   }
 
   bgcolors = () => {
-    return ['background', 'surface']
-  }
-
-  colors = () => {
-    return [
-      'red',
-      'pink',
-      'purple',
-      'deep-purple',
-      'indigo',
-      'blue',
-      'light-blue',
-      'cyan',
-      'teal',
-      'green',
-      'light-green',
-      'lime',
-      'yellow',
-      'amber',
-      'orange',
-      'deep-orange',
-      'brown',
-      'blue-grey',
-      'grey',
-    ]
-  }
-
-  htmlTags = () => {
-    return [
-      'org',
-      'com',
-      'net',
-      'a',
-      'b',
-      'blockquote',
-      'br',
-      'button',
-      'canvas',
-      'cite',
-      'code',
-      'div',
-      'em',
-      'footer',
-      'http',
-      'https',
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6',
-      'header',
-      'i',
-      'img',
-      'input',
-      'label',
-      'li',
-      'link',
-      'main',
-      'nav',
-      'ol',
-      'p',
-      'pre',
-      'section',
-      'span',
-      'strong',
-      'style',
-      'table',
-      'tbody',
-      'td',
-      'textarea',
-      'th',
-      'thead',
-      'tr',
-      'ul',
-      'video',
-      'wbr',
-    ]
+    return backgroundColors
   }
 
   stopwords = () => {
-    return ['the', 'is', 'a', 'and', 'for', 'of', 'from', 'its']
-  }
-
-  commonStopWords = () => {
-    return [
-      'i',
-      'me',
-      'my',
-      'myself',
-      'we',
-      'our',
-      'ours',
-      'ourselves',
-      'you',
-      'your',
-      'yours',
-      'yourself',
-      'yourselves',
-      'he',
-      'him',
-      'his',
-      'himself',
-      'she',
-      'her',
-      'hers',
-      'herself',
-      'it',
-      'its',
-      'itself',
-      'they',
-      'them',
-      'their',
-      'theirs',
-      'themselves',
-      'what',
-      'which',
-      'who',
-      'whom',
-      'this',
-      'that',
-      'these',
-      'those',
-      'am',
-      'is',
-      'are',
-      'was',
-      'were',
-      'be',
-      'been',
-      'being',
-      'have',
-      'has',
-      'had',
-      'having',
-      'do',
-      'does',
-      'did',
-      'doing',
-      'a',
-      'an',
-      'the',
-      'and',
-      'but',
-      'if',
-      'or',
-      'because',
-      'as',
-      'until',
-      'while',
-      'of',
-      'at',
-      'by',
-      'for',
-      'with',
-      'about',
-      'against',
-      'between',
-      'into',
-      'through',
-      'during',
-      'before',
-      'after',
-      'above',
-      'below',
-      'to',
-      'from',
-      'up',
-      'down',
-      'in',
-      'out',
-      'on',
-      'off',
-      'over',
-      'under',
-      'again',
-      'further',
-      'then',
-      'once',
-      'here',
-      'there',
-      'when',
-      'where',
-      'why',
-      'how',
-      'all',
-      'any',
-      'both',
-      'each',
-      'few',
-      'more',
-      'most',
-      'other',
-      'some',
-      'such',
-      'no',
-      'nor',
-      'not',
-      'only',
-      'own',
-      'same',
-      'so',
-      'than',
-      'too',
-      'very',
-      's',
-      't',
-      'can',
-      'will',
-      'just',
-      'don',
-      'should',
-      'now',
-      'd',
-      'll',
-      'm',
-      'o',
-      're',
-      've',
-      'y',
-      'ain',
-      'aren',
-      'couldn',
-      'didn',
-      'doesn',
-      'hadn',
-      'hasn',
-      'haven',
-      'isn',
-      'ma',
-      'mightn',
-      'mustn',
-      'needn',
-      'shan',
-      'shouldn',
-      'wasn',
-      'weren',
-      'won',
-      'wouldn',
-    ]
+    return basicStopWords
   }
 }
 

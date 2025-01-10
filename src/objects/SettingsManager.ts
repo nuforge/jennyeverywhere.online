@@ -26,7 +26,7 @@ class SettingsManager {
     return (this.settings.get(key) as T) ?? defaultValue!
   }
 
-  check(key: SettingKey): boolean {
+  has(key: SettingKey): boolean {
     return Boolean(this.get(key))
   }
 

@@ -35,6 +35,7 @@ const useStyleStore = defineStore('styles', () => {
       trays: true,
       titles: true,
       tooltips: true,
+      variants: true,
     }),
   )
 
@@ -48,13 +49,11 @@ const useStyleStore = defineStore('styles', () => {
   }
 
   const checkGlobal = (name: string): boolean => {
-    return Boolean(settings.value.getSetting('global'))
-      ? Boolean(settings.value.getSetting(name))
-      : true
+    return Boolean(settings.value.get('global')) ? Boolean(settings.value.get(name)) : true
   }
 
   const get = (name: string) => {
-    return settings.value.getSetting(name)
+    return settings.value.get(name)
   }
 
   return {

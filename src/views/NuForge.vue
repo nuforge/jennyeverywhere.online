@@ -1,40 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import Tag from '@/objects/nu/NuTag'
-import NuTag from '@/components/nu/NuTag.vue'
-import Inator from '@/objects/Inator'
+import NuTag from '@/components/nu/NuTag.vue';
+import { useMemoryStore } from '@/stores/memory';
+const memory = useMemoryStore()
+
+import usePersonaStore from '@/stores/persona';
+const persona = usePersonaStore()
+
+import Meme from '@/objects/Meme';
+import Inator from '@/objects/Inator';
+
 const inator = new Inator()
 
-import NuTray from '@/objects/nu/NuTray'
 
-const tray = ref<NuTray>(new NuTray())
-const index = ref(0)
-const hover = ref(0)
+const firstMemory = inator.ntag() as Meme
+memory.addMeme(firstMemory)
 
-Array.from({ length: 10 }, () => {
-  const tag = inator.ntag()
-  tray.value.addTag(tag)
-})
-
-function trackIndex(tag: Tag) {
-  index.value = tray.value.getTagIndex(tag.label)
-}
-
-function dragOver(tag: Tag) {
-
-  hover.value = tray.value.getTagIndex(tag.label)
-  event.preventDefault()
-}
-
-function drop(event: DragEvent) {
-  event.preventDefault()
-  tray.value.moveIndex(index.value, hover.value)
-}
-
-function dragEnd(event: DragEvent) {
-  event.preventDefault()
-  index.value = 0
-  hover.value = 0
+const addMemory = () => {
+  const newMemory = inator.ntag() as Meme
+  memory.addMeme(newMemory)
 }
 
 </script>
@@ -43,9 +26,8 @@ function dragEnd(event: DragEvent) {
   <v-container>
     <v-row>
       <v-col class="d-flex flex-wrap ga-2">
-        <NuTag v-for="tag in tray.getOrderedTags()" :key="tag.id" :tag="tag" @drag-start="trackIndex(tag, $event)"
-          @drag-over="dragOver(tag, $event)" @drag-end="dragEnd" @drop="drop" />
-
+        <NuTag v-for="tag in memory.getMemories()" :key="tag.id" :tag="tag" elevation="2" @click="persona.focusOn(tag)"
+          @double-click="addMemory" />
       </v-col>
     </v-row>
   </v-container>

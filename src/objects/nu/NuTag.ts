@@ -29,9 +29,11 @@ class Tag {
 
   // Tag Attributes
   protected _name: string
-  protected _label: string
   protected _space?: string
   protected _value?: Value
+
+  protected _label: string
+  protected _color?: string
 
   constructor(seed?: string, color?: Value, symbol?: Value) {
     const { space, label, value } = Tag.parseString(Tag.cleanValue(seed ?? this._id))
@@ -40,6 +42,7 @@ class Tag {
     this._label = label.trim()
     this._name = seed ? Tag.normalizeTagName(seed) : this._type
     this._value = value ? value : color ? color : this._type
+    this._color = color?.toString()
 
     this._at = symbol
     return this
@@ -130,26 +133,6 @@ class Tag {
     return Array.from(phrases)
   }
 
-  get color(): string {
-    return this._value?.toString() ?? DEFAULT_COLOR
-  }
-
-  set color(value: string) {
-    this._value = value
-  }
-
-  set icon(value: string) {
-    this._at = value
-  }
-
-  get icon(): string {
-    return this._at?.toString() ?? DEFAULT_ICON
-  }
-
-  get symbol(): string {
-    return this._name
-  }
-
   toString() {
     return this.reconstructString({ space: this._space, name: this._name, value: this._value })
   }
@@ -207,6 +190,26 @@ class Tag {
   set(name: string, namespace: string) {
     this._name = name
     this._space = namespace
+  }
+
+  get color(): string {
+    return this._color ?? DEFAULT_COLOR
+  }
+
+  set color(value: string) {
+    this._color = value
+  }
+
+  set icon(value: string) {
+    this._at = value
+  }
+
+  get icon(): string {
+    return this._at?.toString() ?? DEFAULT_ICON
+  }
+
+  get symbol(): string {
+    return this._name
   }
 
   get value(): Value {

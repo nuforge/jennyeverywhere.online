@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { computed, ref, watch, defineComponent, defineAsyncComponent } from 'vue';
+import { computed, watch } from 'vue';
+import ExpansionPanel from '@/components/persona/ExpansionPanel.vue';
 import Tag from '@/objects/nu/NuTag';
 
 import NuTag from '@/components/nu/NuTag.vue';
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 
+import { useMemoryStore } from '@/stores/memory';
+const memory = useMemoryStore()
+
 import useStateStore from '@/stores/state';
 const state = useStateStore()
 
-const descending = computed(() => [...persona.attention.tags].reverse())
+const descending = computed(() => [...persona.attention.tags, ...persona.memory.tags].reverse())
 
-const expansions = ref([])
 
 watch(
   () => persona.focus, // Use optional chaining to avoid errors
@@ -19,44 +22,7 @@ watch(
   }
 );
 
-const ExpansionPanel = defineComponent({
-  props: {
-    title: String,
-    icon: String,
-    component: String
-  },
-  components: {
-    SystemTags: defineAsyncComponent(() => import('@/components/persona/SystemTags.vue')),
-    TagManager: defineAsyncComponent(() => import('@/components/persona/TagManager.vue')),
-    GlobalSettings: defineAsyncComponent(() => import('@/components/persona/GlobalSettings.vue'))
-  },
-  template: `
-    <v-expansion-panel>
-    </v-expand-transition>
-      <v-expansion-panel-title :expand-icon="icon">
-        <v-label >{{ title }}</v-label>
-      </v-expansion-panel-title>
-      <v-expansion-panel-text class="bg-background">
-        <component :is="component" />
-      </v-expansion-panel-text>
-    </v-expand-transition>
-    </v-expansion-panel>
-  `
-});
 
-const TagListItem = defineComponent({
-  props: {
-    tag: Object
-  },
-  components: {
-    NuTag
-  },
-  template: `
-    <v-list-item :key="tag.id">
-      <NuTag :tag="tag" elevation="2" />
-    </v-list-item>
-  `
-});
 </script>
 
 <template>
@@ -69,20 +35,24 @@ const TagListItem = defineComponent({
           :labels="!persona.rail" /><v-divider class="mt-2" />
       </v-row>
       <v-card-text>
-        <v-expansion-panels v-model="expansions" collapse-icon="mdi-chevron-up" selected-class="bg-primary" multiple
-          static flat>
+        <v-expansion-panels v-model="persona.menuSelection" collapse-icon="mdi-chevron-up" selected-class="bg-primary"
+          multiple static flat>
 
-          <ExpansionPanel title="Focus" icon="mdi-image-filter-center-focus" component="SystemTags" />
-          <ExpansionPanel title="Tag Manager" icon="mdi-tag-plus" component="TagManager" />
-          <ExpansionPanel title="Global Styles" icon="mdi-palette-swatch" component="GlobalSettings" />
+          <ExpansionPanel title="Focus" icon="mdi-image-filter-center-focus" component="SystemTags" value="system"
+            panelKey="system" />
+          <ExpansionPanel title="Tag Manager" icon="mdi-tag-plus" component="TagManager" value="manager"
+            panelKey="manager" />
+          <ExpansionPanel title="Global Styles" icon="mdi-palette-swatch" component="GlobalSettings" value="global"
+            panelKey="global" />
 
-          <v-expansion-panel>
+          <v-expansion-panel value="history" key="history">
             <v-expansion-panel-title expand-icon="mdi-history">
               <v-label v-if="!persona.rail">History</v-label>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="bg-background">
               <v-list lines="one" density="compact">
-                <TagListItem v-for="tag in (descending as Tag[])" :key="tag.id" :tag="tag" />
+                <NuTag v-for="tag in memory.getMemories()" :key="tag.id" :tag="tag" elevation="2" :labels="false"
+                  @click="persona.focusOn(tag)" />
               </v-list>
             </v-expansion-panel-text>
           </v-expansion-panel>
@@ -96,6 +66,8 @@ const TagListItem = defineComponent({
         <v-icon v-if="!persona.rail" @click=" persona.permanent = !persona.permanent"
           :icon="persona.permanent ? 'mdi-pin' : 'mdi-pin-outline'" variant="plain" />
         <v-chip-group density="compact" class="ga-0">
+          <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag)" :labels="false"
+            size="small" />
           <NuTag v-for="tag in (descending.slice(0, 3).reverse() as Tag[])" :key="tag.id" :tag="(tag)" :labels="false"
             size="small" />
         </v-chip-group>

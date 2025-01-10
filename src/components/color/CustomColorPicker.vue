@@ -29,7 +29,7 @@ defineProps({
   <v-dialog width="auto" v-model="dialog" :scrim="false" persistent>
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn v-bind="activatorProps" size="medium" variant="plain" icon="mdi-plus-circle-outline" color="accent"
-        @click="openColorPicker" :ripple="false" />
+        :ripple="false" />
 
     </template>
     <template v-slot:default="{ isActive }">

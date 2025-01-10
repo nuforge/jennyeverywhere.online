@@ -22,12 +22,12 @@ const usePersonaStore = defineStore('persona', () => {
   const drawer = ref(false)
   const rail = ref(false)
   const permanent = ref(false)
+  const menuSelection = ref([''])
 
   const theme = useTheme()
   const lastKey = ref('')
 
   const focus = ref(new Tag('mythological bird:Phoenix', 'warning', 'mdi-fire'))
-
   const attention = ref(new Legend())
   const memory = ref(new Legend())
   // new Tag(`color:${color}`, color, 'mdi-circle-opacity'))
@@ -143,27 +143,6 @@ const usePersonaStore = defineStore('persona', () => {
     return themeLegend.value.tags
   })
 
-  const handleKeydown = (event: KeyboardEvent) => {
-    //console.log(`keydown: ${event.key}`)
-
-    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
-    if (
-      !event.target ||
-      ignoredTags.includes((event.target as HTMLElement).tagName) ||
-      (event.target as HTMLElement).isContentEditable
-    ) {
-      // console.log('Ignoring keydown event')
-      return
-    }
-    lastKey.value = event.key // Store the key that was pressed
-    if (event.key === 'f') {
-      toggleDrawer()
-    }
-    if (event.key === 'r') {
-      toggleRail()
-    }
-  }
-
   const copyToClipboard = async (name: string) => {
     try {
       const textToCopy = myTheme.value.colors[name].toString().replace('#', '')
@@ -192,6 +171,33 @@ const usePersonaStore = defineStore('persona', () => {
     }
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    //console.log(`keydown: ${event.key}`)
+
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT']
+    if (
+      !event.target ||
+      ignoredTags.includes((event.target as HTMLElement).tagName) ||
+      (event.target as HTMLElement).isContentEditable
+    ) {
+      // console.log('Ignoring keydown event')
+      return
+    }
+    lastKey.value = event.key // Store the key that was pressed
+    if (event.key === 'f') {
+      menuSelection.value = ['focus']
+      toggleDrawer()
+    }
+    if (event.key === 'g') {
+      console.log('global')
+      menuSelection.value = ['global']
+      openDrawer()
+    }
+    if (event.key === 'r') {
+      toggleRail()
+    }
+  }
+
   return {
     display,
     name,
@@ -205,6 +211,7 @@ const usePersonaStore = defineStore('persona', () => {
     focus,
     rail,
     permanent,
+    menuSelection,
     customColors,
     getFocus,
     show,

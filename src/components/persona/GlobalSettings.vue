@@ -4,6 +4,7 @@ import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import useStyleStore from '@/stores/styles'
 import usePersonaStore from '@/stores/persona'
 import CustomColorPicker from '@/components/color/CustomColorPicker.vue'
+import Tag from '@/objects/nu/NuTag'
 
 const styles = useStyleStore()
 const persona = usePersonaStore()
@@ -12,14 +13,13 @@ import Inator from '@/objects/Inator'
 const inator = new Inator()
 
 const mergedColors = computed(() => {
-  return inator.colorTags().concat(persona.customColors.tags)
+  return inator.colorTags().concat(persona.customColors.tags as Tag[])
 })
 
 const addCustomColor = (color: string) => {
   persona.addCustomColor(color, color)
 }
 const dialog = ref(false)
-
 
 </script>
 
@@ -28,11 +28,12 @@ const dialog = ref(false)
     <v-label>Global Setting</v-label>
 
     <v-btn class="rounded" @click="styles.toggleSetting('global')"
-      :icon="styles.get('global') ? 'mdi-earth-box' : 'mdi-earth-box-off'" :variant="styles.global ? 'text' : 'plain'"
-      size="small" :color="styles.get('global') ? 'primary' : 'disabled'" />
+      :icon="styles.get('global') ? 'mdi-earth-box' : 'mdi-earth-box-off'"
+      :variant="styles.get('global') ? 'text' : 'plain'" size="small"
+      :color="styles.get('global') ? 'primary' : 'disabled'" />
     <v-divider class=" my-3"></v-divider>
     <v-label>Variants</v-label>
-    <v-btn-toggle density="comfortable" v-model="styles.settings.variants" color="primary">
+    <v-btn-toggle density="comfortable" v-model="styles.variants" color="primary">
       <v-tooltip bottom v-for="variant in styles.chipVariants" :key="variant">
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-button-pointer" :value="variant" v-bind="props" :variant="variant" />
@@ -43,9 +44,10 @@ const dialog = ref(false)
     <v-divider class=" my-3"></v-divider>
     <v-label>Tag & Trays</v-label>
     <v-btn-toggle density="comfortable">
-      <TagCardStyles :tray="styles.get('trays')" :labels="styles.get('labels')" :icons="styles.get('icons')"
-        :colors="styles.get('colors')" :values="styles.get('values')" :logs="styles.get('logs')"
-        :spaces="styles.get('spaces')" @update:labels="(value: boolean) => { styles.set('labels', value) }"
+      <TagCardStyles :tray="styles.settings.get('trays')" :labels="styles.settings.get('labels')"
+        :icons="styles.settings.get('icons')" :colors="styles.settings.get('colors')"
+        :values="styles.settings.get('values')" :logs="styles.settings.get('logs')"
+        :spaces="styles.settings.get('spaces')" @update:labels="(value: boolean) => { styles.set('labels', value) }"
         @update:icons="(value: boolean) => { styles.set('icons', value) }"
         @update:colors="(value: boolean) => { styles.set('colors', value) }"
         @update:logs="(value: boolean) => { styles.set('logs', value) }"

@@ -2,6 +2,8 @@
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
+
+
 import { ref, computed, defineProps, onMounted } from 'vue';
 import Tag from '@/objects/nu/NuTag';
 
@@ -12,6 +14,7 @@ import NuBadge from '@/components/nu/NuBadge.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
+
 
 import DragManager from '@/objects/DragManager';
 const drag = new DragManager()
@@ -166,17 +169,17 @@ function onDblClickIcon(event: Event, tag: Tag) {
 
 // DRAG EVENTS
 function onDragStart(event: DragEvent) {
-  drag.dragStart(event, 'tag', props.tag.toString())
+  drag.dragStart(event, props.tag.toString())
   emit('drag-start', event, props.tag)
 }
 
-function onDragEnd(event: Event) {
-  drag.dragEnd(event, 'tag', props.tag.toString())
+function onDragEnd(event: DragEvent) {
+  drag.dragEnd(event, props.tag.toString())
   emit('drag-end', event, props.tag)
 }
 
-function onDragOver(event: Event) {
-  drag.dragOver(event, 'tag', props.tag.toString())
+function onDragOver(event: DragEvent) {
+  drag.dragOver(event, props.tag.toString())
   emit('drag-over', event, props.tag)
 }
 
@@ -200,7 +203,7 @@ onMounted(() => {
 
     <template #prepend>
       <v-fab-transition>
-        <div v-if="showIcon && settings.check('icon')">
+        <div v-if="showIcon && settings.has('icon')">
           <v-tooltip location="top start">
             <template #activator="{ props }">
               <NuIcon :icon="(tag.icon as string)" :color="variantColorStyle" @click="onClickIcon"
@@ -215,7 +218,7 @@ onMounted(() => {
     <!-- Tag Label / Value -->
     <template #default>
       <v-slide-x-transition>
-        <NuSpace v-if="showSpace && settings.check('space')" :space="tag.space" class="align-center" />
+        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :space="tag.space" class="align-center" />
       </v-slide-x-transition>
       <v-slide-x-transition>
         <NuLabel v-if="showLabel && props.tag" :tag="props.tag" />

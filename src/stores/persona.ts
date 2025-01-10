@@ -7,6 +7,8 @@ import { useTheme } from 'vuetify'
 import Tag from '@/objects/NuTag'
 import Legend from '@/objects/Legend'
 
+import { findByKey, namedColors } from '@/objects/color/ColorNames'
+
 // Create a new store for different categories of sheets: attributes, image, description, actions
 export interface Persona {
   name: string | null
@@ -44,8 +46,7 @@ const usePersonaStore = defineStore('persona', () => {
 
   function getThemeHexByName(name: string) {
     if (!myTheme.value.colors[name]) {
-      console.error('getThemeHexByName: color not found', name)
-      return `#161616`
+      return findByKey(namedColors, name)
     }
     return myTheme.value.colors[name]
   }

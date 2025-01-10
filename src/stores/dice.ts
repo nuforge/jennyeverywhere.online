@@ -18,11 +18,15 @@ const useDiceStore = defineStore('dice', () => {
     die.value = new Dice(faces.value[nextIndex])
   }
 
-  function clearDice() {
-    die.value = new Dice(die.value.faces)
+  function newDie(faces: number) {
+    return (die.value = new Dice(faces))
   }
 
-  function rollDice(dCount: number = 1, showSnackbar: boolean = false) {
+  function clearDice() {
+    die.value = newDie(die.value.faces)
+  }
+
+  function rollDice(dCount: number = 1, showSnackbar: boolean = true) {
     clearDice()
     if (showSnackbar) triggerSnackbar()
     return die.value.roll(dCount)
@@ -44,7 +48,8 @@ const useDiceStore = defineStore('dice', () => {
   }
 
   function getTag() {
-    return new Tag(`${getType()}:${getString(2)}`, 'primary', `mdi-dice-${getType()}`)
+    const diecolor = colors.value[faces.value.indexOf(die.value.faces)]
+    return new Tag(`${getType()}:${getString(2)}`, diecolor, `mdi-dice-${getType()}`)
   }
 
   function getIcon(): string {

@@ -27,7 +27,7 @@ watch(
 </script>
 
 <template>
-  <v-navigation-drawer :permanent="persona.permanent" class="bg-background " v-model="persona.drawer" width="300"
+  <v-navigation-drawer :permanent="persona.permanent" class="bg-surface " v-model="persona.drawer" width="300"
     :scrim="!state.dragging" :rail="persona.rail">
     <v-card class="bg-transparent">
       <v-card-actions class="bg-background">
@@ -47,6 +47,9 @@ watch(
 
       </v-card-actions>
       <v-card-text>
+        <v-row class="bg-background pa-4 ">
+          <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)" />
+        </v-row>
         <v-expansion-panels v-model="expansions" collapse-icon="mdi-chevron-up" selected-class="bg-primary" multiple
           static flat>
 
@@ -55,7 +58,6 @@ watch(
             <v-expansion-panel-title expand-icon="mdi-image-filter-center-focus" class="bg-background">
 
 
-              <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)" />
 
 
             </v-expansion-panel-title>

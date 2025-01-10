@@ -13,23 +13,35 @@ interface Message {
 
 const useChatStore = defineStore('chat', () => {
   const userId = ref(uuidv4().toString())
+
+  const greeting = ref(`New reality... who this ?`)
+  const emoji = ref(`🤔`)
+
   const recipientId = ref('jenny_everywhere')
   const model = ref('gpt-4o-mini')
+
   const userInput = ref('')
+
+  const messages = ref<Message[]>([])
+
+  const chatSent = ref('')
   const chatResponse = ref('')
+
   const isLoading = ref(false)
   const errorMessage = ref('')
-  const messages = ref<Message[]>([])
-  const chatSent = ref('')
+
+  const snackbar = ref(true)
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
   const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true })
 
-  const sendGPTMessage = async (message?: string) => {
-    if (!userInput.value.trim() && !message?.trim()) return
+  const sendGPTMessage = async () => {
+    if (!userInput.value.trim()) return
     isLoading.value = false
-    chatSent.value = message || userInput.value
+    console.log('sendGPTMessage userInput.value', userInput.value)
+    chatSent.value = userInput.value
+    clearUserInput()
 
     createMessage(chatSent.value, userId.value) // Add user message to chat
     const stream = await openai.chat.completions.create({
@@ -87,7 +99,30 @@ const useChatStore = defineStore('chat', () => {
     messages.value.push(message)
   }
 
+  const toggleChat = () => {
+    snackbar.value = !snackbar.value
+  }
+
+  const displayChat = () => {
+    return (snackbar.value = true)
+  }
+
+  const hideChat = () => {
+    snackbar.value = false
+  }
+
+  const isChatVisible = () => {
+    return snackbar.value
+  }
+
+  const clearUserInput = () => {
+    userInput.value = ''
+  }
+
   return {
+    snackbar,
+    greeting,
+    emoji,
     userInput,
     chatResponse,
     isLoading,
@@ -96,6 +131,10 @@ const useChatStore = defineStore('chat', () => {
     createMessage,
     addMessageToChat,
     sendGPTMessage,
+    hideChat,
+    displayChat,
+    toggleChat,
+    isChatVisible,
   }
 })
 

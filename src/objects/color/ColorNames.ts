@@ -1,8 +1,15 @@
-import chroma from 'chroma-js'
-
 import cssColors from '@/assets/color/css.base.json' // Pre-loaded CSS colors
 import xkcdColors from '@/assets/color/xkcd.colors.json' // Pre-loaded CSS colors
 import { convertColor, hexToHsl } from '@/objects/color/Colors' // Use a library or write custom functions
+
+export interface ColorData {
+  hex: string
+  rgb: [number, number, number]
+  hsl: [number, number, number]
+  lab: [number, number, number]
+  cmyk: [number, number, number, number]
+}
+type ColorDictionary = { [key: string]: string }
 
 export const namedColors: Record<string, string> = { ...cssColors, ...xkcdColors }
 
@@ -12,8 +19,6 @@ export function findByKey(obj: Record<string, string>, key: string): string | un
 export function findByValue(obj: Record<string, string>, value: string): string[] {
   return Object.keys(obj).filter((k) => obj[k] === value)
 }
-
-type ColorDictionary = { [key: string]: string }
 
 export function mergeColorDictionaries(
   cssColors: ColorDictionary,
@@ -31,23 +36,6 @@ export function mergeColorDictionaries(
   }
 
   return mergedColors
-}
-
-export interface ColorData {
-  hex: string
-  rgb: [number, number, number]
-  hsl: [number, number, number]
-  lab: [number, number, number]
-  cmyk: [number, number, number, number]
-}
-
-function getColorName(hex: string) {
-  const color = chroma(hex)
-  console.log(color.name()) // Returns the color name
-  const closest = chroma.scale(['#000000', '#ffffff']).mode('lab').colors(10) // Example scale for simplicity
-  console.log(closest) // Returns the color name
-  // For more accurate results, you can integrate a color name database or library
-  return closest
 }
 
 function calculateDistance(color1: number | string, color2: number | string, mode = 'LAB') {
@@ -130,4 +118,4 @@ function calculateDistance(color1: number | string, color2: number | string, mod
 
 // console.log(`Closest match: ${match.name} (${match.hex})`)
 
-export { calculateDistance, getColorName } // , findClosestColor, findColorWithTier
+export { calculateDistance } // , findClosestColor, findColorWithTier

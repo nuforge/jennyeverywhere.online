@@ -1,32 +1,24 @@
 <script setup lang="ts">
-
-import { ref } from 'vue'
-
-import useChatStore from '@/stores/state';
-
+import useChatStore from '@/stores/chat';
+import ChatMessages from '@/components/chat/ChatMessages.vue'
 const chat = useChatStore()
-const open = ref(true)
-const greeting = ref(`New reality... who this ?`)
-const emoji = ref(`🤔`)
 
 </script>
 
 
 <template>
-  <v-snackbar v-model="open" location="bottom start" permanent :timeout="-1" content-class="bg-background"
-    :timer="chat.isLoading" variant="plain" eager open-delay="3000">
+  <v-snackbar v-model="chat.snackbar" location="bottom start" :timeout="-1" timer eager class="ms-12 mb-0 pb-8 ps-3">
+    <ChatMessages :messages="chat.messages" />
     <v-label>
       @<router-link to="/">JennyEverywhere.online</router-link>
     </v-label>
-    <v-text-field v-model="chat.userInput" :label="greeting" density="compact" variant="solo" clearable
-      append-inner-icon="mdi-emoticon-outline" :disabled="chat.bodyValid">
+    <v-text-field v-model="chat.userInput" :label="chat.greeting" density="compact" variant="solo-filled" clearable
+      append-inner-icon="mdi-emoticon-outline" :disabled="chat.bodyValid" auto-grow
+      @keydown.enter="chat.sendGPTMessage">
       <template #prepend-inner>
-        {{ emoji }}
+        {{ chat.emoji }}
       </template>
     </v-text-field>
-    <v-label>
-      :<router-link to="/">Whoever you are?</router-link>
-    </v-label>
   </v-snackbar>
 </template>
 

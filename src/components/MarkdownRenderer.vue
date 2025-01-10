@@ -4,6 +4,11 @@ import Tag from '@/objects/nu/NuTag'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 
+
+import DragManager from '@/objects/DragManager';
+const drag = new DragManager()
+
+
 const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 
 const editable = ref(false)
@@ -34,22 +39,20 @@ function onRightClick(event: MouseEvent) {
 
 
 function onDragOver(event: DragEvent) {
-  event.preventDefault();
+  drag.dragOver(event)
 
 }
 function onDragStart(event: DragEvent) {
   editable.value = true
-  console.log('onDragStart:');
-  event.dataTransfer?.setData('text/plain', 'bold');
+  drag.dragStart(event, 'bold')
 }
 function onDragEnd() {
   editable.value = false
-  console.log('onDragEnd:');
+  drag.dragEnd(event)
 }
 
 function onDrop(event: DragEvent) {
-  console.log('onDrop:');
-  event.preventDefault();
+
   const selection = window.getSelection();
   if (!selection || !selection.rangeCount) return;
 
@@ -63,7 +66,7 @@ function onDrop(event: DragEvent) {
   console.log('Word under drop:', word);
 
   // Example action based on the drop (e.g., bold)
-  const action = event.dataTransfer?.getData('text/plain');
+  const action = drag.drop(event)
   if (action === 'bold' && word) {
     document.execCommand('bold'); // Apply bold formatting to the selected word
   }

@@ -35,20 +35,12 @@ class Tag {
 
   constructor(seed?: string, color?: Value, symbol?: Value) {
     const { space, label, value } = Tag.parseString(Tag.cleanValue(seed ?? this._id))
-    console.log('{ space, label, value }:', { space, label, value })
 
     this._space = space?.trim()
     this._label = label.trim()
     this._name = seed ? Tag.normalizeTagName(seed) : this._type
     this._value = value ? value : color ? color : this._type
 
-    console.log(
-      '{ {  ._space, ._name, ._label,  ._value } }:',
-      this._space,
-      this._name,
-      this._label,
-      this._value,
-    )
     this._at = symbol
     return this
   }

@@ -14,6 +14,9 @@ import NuTooltip from '@/components/nu/NuTooltip.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore()
 
+import DragManager from '@/objects/DragManager';
+const drag = new DragManager()
+
 import SettingsManager from '@/objects/SettingsManager';
 
 const settings = ref(
@@ -86,20 +89,6 @@ const props = defineProps
     }
 
   })
-
-const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-  console.log('writeDataTransfer', data)
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  event.dataTransfer.setData(type, data);
-
-  if (dragImage.value) {
-    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
-  } else {
-    console.warn('Drag image not ready!');
-  }
-}
-
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 
@@ -176,16 +165,17 @@ function onDblClickIcon(event: Event, tag: Tag) {
 
 // DRAG EVENTS
 function onDragStart(event: DragEvent) {
-  console.log(onDragStart, props.tag.toString())
-  writeDataTransfer(event, 'tag', props.tag.toString())
+  drag.dragStart(event, 'tag', props.tag.toString())
   emit('drag-start', event, props.tag)
 }
 
 function onDragEnd(event: Event) {
+  drag.dragEnd(event, 'tag', props.tag.toString())
   emit('drag-end', event, props.tag)
 }
 
 function onDragOver(event: Event) {
+  drag.dragOver(event, 'tag', props.tag.toString())
   emit('drag-over', event, props.tag)
 }
 

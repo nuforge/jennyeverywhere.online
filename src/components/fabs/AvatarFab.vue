@@ -21,10 +21,11 @@ const size = computed(() => {
     <template v-slot:activator="{ props: activatorProps }">
       <v-fab variant="text" app rounded icon size="xl-large" v-bind="activatorProps" :ripple="false" :z-index="1000"
         location="bottom start">
-        <v-badge attach="parent" :content="jenny.emoji" color="transparent" :dot="jenny.snackbar" fab-transition
-          @click="jenny.toggleChat()">
+        <v-badge attach="parent" :content="jenny.emoji" color="transparent" fab-transition @click="jenny.toggleChat()"
+          location="top end" :dot="jenny.snackbar">
           <template v-slot:badge>
-            <span class="text-h6 text-shadow bg-background rounded-circle elevation-1">{{ jenny.emoji }}</span>
+            <span class="text-h6 text-shadow bg-background rounded-circle elevation-1 position-absolute">{{ jenny.emoji
+              }}</span>
           </template>
           <PersonaAvatar :size="size" />
         </v-badge>

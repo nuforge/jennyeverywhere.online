@@ -31,7 +31,7 @@ class MarkdownManager {
   }
 
   writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-    console.log('writeDataTransfer', data)
+    // console.log('writeDataTransfer', data)
     if (!event.dataTransfer) return
     this.clearDataTransfer(event)
     event.dataTransfer.setData(type, data)
@@ -51,26 +51,26 @@ class MarkdownManager {
   // Global Drag and Drop Event Handlers
 
   drop = (event: DragEvent, type: string) => {
-    console.log('onDrop:', type)
+    // console.log('onDrop:', type)
     event.preventDefault()
     const data = event.dataTransfer?.getData(type)
     this.clearDataTransfer(event)
-    console.log(data)
+    // console.log(data)
     return data
   }
 
   dragStart = (event: DragEvent, type: string) => {
-    console.log('dragStart', type)
+    // console.log('dragStart', type)
     return this.writeDataTransfer(event, 'tag', type)
   }
 
   dragEnd = (event: DragEvent, type: string) => {
-    console.log('dragEnd', type)
+    // console.log('dragEnd', type)
     return this.clearDataTransfer(event)
   }
 
   dragOver = (event: DragEvent, type: string) => {
-    console.log('dragOver', type)
+    // console.log('dragOver', type)
 
     return event.preventDefault()
   }

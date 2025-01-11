@@ -16,7 +16,6 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import tagBehavior from '@/objects/directive/tags'
-import simpleDirective from '@/objects/directive/simple'
 
 const app = createApp(App)
 
@@ -24,5 +23,4 @@ app.use(createPinia())
 app.use(router)
 app.use(vuetify)
 app.directive('tag', tagBehavior)
-app.directive('simple-directive', simpleDirective)
 app.mount('#app')

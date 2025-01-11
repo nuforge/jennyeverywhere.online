@@ -1,53 +1,55 @@
 // src/directives/tagBehavior.ts
 import type { Directive, DirectiveBinding } from 'vue'
+import Tag from '@/objects/nu/NuTag'
 
 const tagBehavior: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const tag = binding.value
-    console.log('Tag directive mounted:', binding.value)
+    const tag = binding.value as Tag
 
     if (tag && tag.name) {
       // Example: If the tag represents 'strong', apply bold style
-      if (tag.name === 'strong') {
-        el.style.fontWeight = 'bold'
-      }
-
-      // Example: If the tag represents 'visibility' (invisibility), hide the element
-      if (tag.name === 'invisibility') {
-        el.style.opacity = '20'
-      }
-
-      // You could also handle adding more complex behaviors based on other tag attributes
-      if (tag.name === 'fire') {
-        el.style.color = '#FF0000' // Apply a class for fire-based styling
-      }
-
-      el.addEventListener('click', () => {
-        console.log('Tag clicked:', tag.name)
-      })
+      updateTagStyle(el, tag)
 
       el.addEventListener('dragend', () => {
         el.classList.remove('dragging')
       })
     }
+    el.addEventListener('dragend', () => {
+      updateTagStyle(el, tag)
+    })
   },
 
   updated(el: HTMLElement, binding: DirectiveBinding) {
-    const { tag } = binding.value
-
-    // Recheck tag values in case they change
-    if (tag.name === 'strong') {
-      el.style.fontWeight = 'bold'
-    }
-    // ... handle other dynamic updates based on tag changes
+    const tag = binding.value as Tag
+    // If tag changes, reapply the behavior
+    updateTagStyle(el, tag)
+    console.log('Tag directive updated:', tag)
   },
 
   unmounted(el: HTMLElement) {
     // Clean up if needed
-    el.classList.remove('fire-class')
     el.removeEventListener('click', () => {})
     el.removeEventListener('dragend', () => {})
   },
+}
+
+const updateTagStyle = (el: HTMLElement, tag: Tag) => {
+  el.addEventListener('click', () => {
+    //el.innerHTML = tag.name
+    console.log('Tag clicked:', tag.name)
+  })
+  el.style.color = tag.color
+  if (tag.name === 'strong') {
+    el.style.fontWeight = 'bold'
+  }
+
+  if (tag.name === 'invisibility') {
+    el.style.opacity = '0.2'
+  }
+
+  if (tag.name === 'fire') {
+    el.style.color = 'orange'
+  }
 }
 
 export default tagBehavior

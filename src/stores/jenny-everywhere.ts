@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import Tag from '@/objects/nu/NuTag'
 import Inator from '@/objects/Inator'
 
+import prompts from '@/assets/gpt/prompts.json'
+
 const inator = new Inator()
 
 import OpenAI from 'openai'
@@ -32,13 +34,14 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
   const userInput = ref('')
 
   const snackbar = ref(false)
-  const timeout = ref('-1') // -1 for no timeout
+  const timeout = ref('3000') // -1 for no timeout
 
   const streamResponse = ref('')
   const chatSent = ref('')
   const chatResponse = ref('')
 
   const chatTags = ref<Tag[]>([])
+  const chatTagSelection = ref<string[]>([])
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
@@ -54,30 +57,32 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     chatSent.value = userInput.value
     clearUserInput()
 
-    createMessage(chatSent.value, userId.value) // Ad
+    createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
     const formattedTags = tags.length > 0 ? tags.map((tag) => `[${tag}]`).join(', ') : ''
     const stream = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
         {
+          role: prompts[0].role as 'system' | 'user' | 'assistant',
+          content: prompts[0].content,
+          name: agentId.value,
+        },
+        {
           role: 'system',
-          content: `
-              You are Jenny Everywhere, a multidimensional explorer. Your role is to guide the user through an adventure.
-              Each response should follow these guidelines:
-                . Incorporate a meta-textual summary of past events to maintain continuity between messages.
-                . Keep the conversation relevant and interactive and driving toward a mission or goal.
-                . 3-6 tags are send with messages to relay intention and memory between you and user. [namespace:label.value] format
-                . Help build up concise narrative scenarios using the user's input and your previous summary.
-                . Keep responses short, casual, and engaging, like a text message.
-                . The Markdown structure should always look like this example: \n\n## Body\n\n<message content>\n\n## Tags\n\n[keyword], [keyword], [keyword]\n\n## Summary\n\n<summary content>\n\n',
-              The conversation summary and context so far is:
+          content: `The conversation summary and context so far is:
               ${chatSummary.value}
             `,
           name: agentId.value,
         },
         {
+          role: 'system',
+          content: `User tags associated with this message Use these to influence direction of store and the tags sent in return: ${formattedTags}`,
+          name: agentId.value,
+        },
+
+        {
           role: 'user',
-          content: `## body: ${chatSent.value} ## tags: ${formattedTags}`,
+          content: chatSent.value,
           name: userId.value,
         },
       ],
@@ -102,6 +107,7 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     } finally {
       // Extract tags and body content from the streamed response
       const [body, tags, summary] = parseMarkdownResponse(streamedMessage)
+      emoji.value = extractFirstEmoji(body)
       console.log('Parsed Body:', body)
       console.log('Parsed Tags:', tags)
       console.log('Parsed Summary:', summary)
@@ -126,9 +132,10 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
 
     return [body, tags, summary]
   }
+
   const createMessage = (body: string, sender?: string, tags?: string[], timestamp?: string) => {
     const tagObjects = (tags || []).map(
-      (tag) => new Tag(tag, inator.themecolor(true), inator.icon()),
+      (tag) => new Tag(tag, inator.themecolor(false), inator.icon()),
     )
     chatTags.value = tagObjects
     messages.value.push({
@@ -138,6 +145,12 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
       timestamp: timestamp || new Date().toLocaleTimeString(),
       tags: tagObjects,
     })
+  }
+
+  const extractFirstEmoji = (text: string) => {
+    const emojiRegex = /\p{Emoji}/u
+    const match = text.match(emojiRegex)
+    return match ? match[0] : emoji.value
   }
 
   const clearUserInput = () => {
@@ -174,12 +187,14 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     emoji,
     chatSent,
     chatTags,
+    chatTagSelection,
     sendGPTMessage,
     hideChat,
     displayChat,
     toggleChat,
     isChatVisible,
     clearUserInput,
+    extractFirstEmoji,
   }
 })
 

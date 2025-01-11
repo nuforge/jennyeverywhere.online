@@ -27,7 +27,7 @@ watch(
 <template>
   <v-navigation-drawer :permanent="persona.permanent" v-model="persona.drawer" width="300" :scrim="!state.dragging"
     :rail="persona.rail" flat disable-resize-watcher disable-route-watcher :mobile="true" sticky elevation="0"
-    class="bg-transparent">
+    class="bg-transparent scroll-container ">
     <v-card :class="[' mt-16', !persona.rail ? 'pb-2' : 'justify-center']" :flat="persona.rail">
       <v-row class="bg-background align-center justify-center  my-2">
         <v-divider class="mb-2" />

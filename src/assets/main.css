@@ -37,3 +37,38 @@ custom-tag {
   background-color: var(--st-c-bg);
   border: 1px dashed var(--st-c-border);
 }
+
+/* Initial state */
+.scroll-container {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-background) transparent;
+  /* Initially transparent */
+  transition: scrollbar-color 0.3s ease;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  /* Initially hidden */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  /* Thumb color */
+  border-radius: 8px;
+}
+
+/* Show on hover or focus */
+.scroll-container:hover,
+.scroll-container:focus {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-background) transparent;
+  /* Show thumb and track */
+}
+
+.scroll-container:hover::-webkit-scrollbar,
+.scroll-container:focus::-webkit-scrollbar {
+  opacity: 1;
+  /* Make visible */
+}

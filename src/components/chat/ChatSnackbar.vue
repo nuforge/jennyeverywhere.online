@@ -25,7 +25,7 @@ watch(() => jenny.messages, () => {
 </script>
 
 <template>
-  <v-snackbar app v-model="jenny.snackbar" location="bottom start" :timeout="-1" timer class="ms-16 ps-2"
+  <v-snackbar app v-model="jenny.snackbar" location="bottom start" :timeout="jenny.timeout" timer class="ms-16 ps-2"
     content-class="bg-white">
     <v-container class=" scroll-container overflow-y-auto ma-0 mb-2 pa-0 " max-height="80vh" max-width="40vw"
       id="chat-list-snackbar" elevation="2">

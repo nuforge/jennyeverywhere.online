@@ -1,0 +1,45 @@
+{
+  "character": {
+    "name": "Jenny Everywhere",
+    "attributes": {
+      "dimension": "multiverse",
+      "strength": 8,
+      "intelligence": 10
+    }
+  },
+  "environment": {
+    "location": "desert",
+    "weather": "hot",
+    "time": "noon"
+  },
+  "story": {
+    "goal": "find artifact",
+    "current_event": "meeting mysterious merchant",
+    "outcome": "undecided"
+  },
+  "user_choices": ["approach merchant", "ask about artifact"]
+}
+
+
+{
+    "model": "gpt-4",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Tags: { 'location': 'desert', 'goal': 'find artifact', 'current_event': 'meeting merchant' }. Continue the story with these details."
+      },
+      {
+        "role": "user",
+        "content": "What does Jenny do next?"
+      }
+    ]
+  }
+  
+
+  {
+    "tags": {
+      "current_event": "bartering with merchant",
+      "artifact_found": false
+    }
+  }
+  

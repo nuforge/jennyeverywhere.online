@@ -33,6 +33,6 @@ const size = computed(() => {
       @click="state.changeTheme"></v-btn>
     <v-btn key="3" icon @click="persona.drawer = !persona.drawer"><v-icon
         icon="mdi-page-layout-sidebar-left"></v-icon></v-btn>
-    <v-btn key="4" :icon="chat.isChatVisible ? `mdi-chat` : `mdi-chat-outline`" @click="chat.toggleChat()"></v-btn>
+    <v-btn key="4" icon="mdi-chat" @click="chat.toggleChat()"></v-btn>
   </v-speed-dial>
 </template>

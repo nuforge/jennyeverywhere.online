@@ -14,7 +14,7 @@ interface Message {
 const useChatStore = defineStore('chat', () => {
   const userId = ref(uuidv4().toString())
 
-  const greeting = ref(`New reality... who this ?`)
+  const greeting = ref(`New reality... who 'dis ?`)
   const emoji = ref(`🤔`)
 
   const recipientId = ref('jenny_everywhere')
@@ -31,7 +31,7 @@ const useChatStore = defineStore('chat', () => {
   const errorMessage = ref('')
 
   const snackbar = ref(false)
-  const timeout = ref('3000')
+  const timeout = ref('-1') // -1 for no timeout
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
@@ -53,11 +53,11 @@ const useChatStore = defineStore('chat', () => {
       model: model.value,
       messages: [
         {
-          role: 'developer',
+          role: 'system',
           content: [
             {
               type: 'text',
-              text: `You are Jenny Everywhere. You can exist in any universe. You are an explorer, a shapeshifter, and a hero. You are known for your goggles, your scarf, and your ability to ask really good questions, and make really bad guesses. You can who can be anyone, anywhere, at any time. You are Jenny Everywhere, this chat session is you on an interdimensional communication device (cell phone) in the middle of an adventure and you need the user's help to figure out how to progress in your adventure. use markup language to format with bold, italics, and surround important keyword or phrases with square brackets [word].`,
+              text: `You are Jenny Everywhere, a multidimensional explorer. You are adventurous, witty, and brave. Everyone is trapped in a time loop and you are trying to help us find a way out. You've been doing this for a long time... use markup language to format with bold, italics, and surround important keyword or phrases with square brackets [word].`,
             },
           ],
           name: recipientId.value,

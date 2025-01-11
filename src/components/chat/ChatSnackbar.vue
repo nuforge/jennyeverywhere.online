@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import useChatStore from '@/stores/chat';
 import ChatMessages from '@/components/chat/ChatMessages.vue'
 const chat = useChatStore()
+
+const sentButton = ref('mdi-send')
 
 </script>
 
@@ -10,15 +13,16 @@ const chat = useChatStore()
   <v-snackbar v-model="chat.snackbar" location="bottom start" :timeout="chat.timeout" timer
     class="ms-12 mb-0 pb-8 ps-3">
     <ChatMessages :messages="chat.messages" />
-    <v-label>
-      @<router-link to="/">JennyEverywhere.online</router-link>
-    </v-label>
-    <v-text-field v-model="chat.userInput" :label="chat.greeting" density="compact" variant="solo-filled" clearable
-      append-inner-icon="mdi-emoticon-outline" auto-grow @keydown.enter="chat.sendGPTMessage">
-      <template #prepend-inner>
-        {{ chat.emoji }}
+    <v-textarea v-model="chat.userInput" auto-grow :rows="1" :label="`${chat.greeting}`" density="compact"
+      @keydown.enter="chat.sendGPTMessage" bg-color="background" hide-details>
+      <template #prepend-inner>{{ chat.emoji }}
       </template>
-    </v-text-field>
+      <template #append-inner>
+        <v-btn v-if="!chat.isLoading" @click="chat.sendGPTMessage" :disabled="!chat.bodyValid" :icon="sentButton" flat
+          size="medium" variant="plain" />
+        <v-progress-circular v-else indeterminate color="warning" size="18" />
+      </template>
+    </v-textarea>
   </v-snackbar>
 </template>
 

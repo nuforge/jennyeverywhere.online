@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 import NuTag from '@/components/nu/NuTag.vue';
 
@@ -7,6 +7,7 @@ import Tag from '@/objects/nu/NuTag';
 
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
 const jenny = jennyEverywhere()
 const sentButton = ref('mdi-send')
 
@@ -17,71 +18,52 @@ const sentButton = ref('mdi-send')
 //         <ChatMessage v-for="message in messages" :key="message.id" :message="message" class="bg-transparent" />
 //       </v-timeline>
 //     </v-col>
-const messages = computed(() => jenny.getMessages())
+const messages = ref(jenny.messages.reverse())
 
-const tags = computed(() => {
-  return jenny.getTags().map(tag => {
-    return new Tag(tag)
-  })
-})
+const phoenix = new Tag('phoenix', 'warning', 'mdi-fire')
 
-const selection = ref<Tag[]>([])
-const body = ref(jenny.getBody())
+const selection = ref<string[]>([])
 
 </script>
 
 <template>
-  <v-textarea v-model="jenny.userInput" auto-grow :rows="1" :v-label="`${jenny.greeting}`" density="compact"
-    @keydown.enter="jenny.sendGPTMessage" bg-color="background" hide-details>
+  <v-textarea v-model="jenny.userInput" auto-grow :rows="1" :label="`${jenny.greeting}`" density="compact"
+    @keydown.enter="jenny.sendGPTMessage(selection)" bg-color="background" variant="solo" counter>
     <template #prepend-inner>{{ jenny.emoji }}
     </template>
     <template #append-inner>
-      <v-btn v-if="!jenny.isLoading" @click="jenny.sendGPTMessage" :disabled="!jenny.bodyValid" :icon="sentButton" flat
-        size="medium" variant="plain" />
+      <v-btn v-if="!jenny.isLoading" @click="jenny.sendGPTMessage(selection)" :disabled="!jenny.bodyValid"
+        :icon="sentButton" flat size="medium" variant="plain" />
       <v-progress-circular v-else indeterminate color="warning" size="18" />
     </template>
   </v-textarea>
   <v-row>
-    <v-col cols="4">
-      <v-card>
-        <v-card-title>
-          {{ jenny.getTitle() }}
-          <v-icon left>mdi-chat</v-icon>
-        </v-card-title>
-        <MarkdownRenderer :markdown="body" :tags="tags" />
-        {{ body }}
-        <v-divider />
-        {{ jenny.getSummary() }}
-        {{ selection }}
-        <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tags" :key="tag.id" :tag="tag" :value="tag.name" />
-        </v-chip-group>
+    <v-col cols="3">
+      <v-label>Tags</v-label>
+      <v-spacer />
+      <NuTag :key="phoenix.label" :tag="phoenix" :value="phoenix.label" v-model="selection" />
+    </v-col>
+    <v-col cols="9">
+      <v-card v-for="message in messages" :key="message.id" class="ma-2 px-4 rounded-lg bg-background border-s-lg"
+        :border="message.sender === 'jenny_everywhere' ? 'primary' : 'none'"
+        :flat="message.sender !== 'jenny_everywhere'">
+        <v-card-text class="d-flex ga-4" v-if="message.sender === 'jenny_everywhere'">
+          <PersonaAvatar v-if="message.sender === 'jenny_everywhere'" size="large" />
+          <MarkdownRenderer :text="message.text" :tags="message.tags?.filter(tag => selection.includes(tag.label))"
+            :class="message.sender === 'jenny_everywhere' ? undefined : 'opacity-60 text-center mx-auto'" />
+        </v-card-text>
+        <v-card-text class="d-flex ga-4" v-else>
+          <PersonaAvatar v-if="message.sender === 'jenny_everywhere'" size="large" />
+          <MarkdownRenderer :text="message.text" :tags="message.tags?.filter(tag => selection.includes(tag.label))"
+            :class="message.sender === 'jenny_everywhere' ? undefined : 'opacity-60 text-center mx-auto'" />
+        </v-card-text>
+        <v-card-actions v-if="message.tags && message.tags.length > 0">
+          <v-chip-group v-model="selection" column multiple>
+            <NuTag v-for="tag in message.tags" :key="tag.label" :tag="(tag as Tag)" :value="tag.label" variant="text"
+              :labels="false" />
+          </v-chip-group>
+        </v-card-actions>
       </v-card>
     </v-col>
-    <v-col cols="8">
-      <v-divider />
-      <v-label>JSON</v-label>
-      <v-divider />
-    </v-col>
-    <v-col cols="8">
-      <v-divider />
-      <v-label>Messages</v-label>
-      {{ messages }}
-      <v-divider />
-    </v-col>
-    <v-col cols="8">
-      <v-divider />
-      <v-label>Chat</v-label>
-      {{ jenny.chatSent }}
-      <v-divider />
-    </v-col>
-    <v-col cols="8">
-      <v-divider />
-      <v-label>Response</v-label>
-      {{ jenny.chatResponse }}
-      <v-divider />
-    </v-col>
   </v-row>
-
-  sd: {{ jenny.chatSent }}
 </template>

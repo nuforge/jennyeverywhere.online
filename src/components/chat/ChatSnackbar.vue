@@ -2,7 +2,6 @@
 import { ref, nextTick, watch } from 'vue';
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
 import NuTag from '@/components/nu/NuTag.vue';
 import Tag from '@/objects/nu/NuTag';
 const jenny = jennyEverywhere()
@@ -25,32 +24,30 @@ watch(() => jenny.messages, () => {
 </script>
 
 <template>
-  <v-snackbar app v-model="jenny.snackbar" location="bottom start" :timeout="jenny.timeout" timer class="ms-16 ps-2"
-    content-class="bg-white">
+  <v-snackbar app v-model="jenny.snackbar" location="bottom start" :timeout="-1" timer class="ms-16 ps-2"
+    content-class="rounded-lg">
     <v-container class=" scroll-container overflow-y-auto ma-0 mb-2 pa-0 " max-height="80vh" max-width="40vw"
       id="chat-list-snackbar" elevation="2">
       <v-card v-for="message in messages" :key="message.id" :flat="message.sender !== 'jenny_everywhere'">
-        <v-card-text v-if="isJenny(message.sender)"
-          class="d-flex ga-2 bg-background border-s-lg px-2 py-2 rounded-t-lg "
+        <v-card-text v-if="isJenny(message.sender)" class="ga-1 bg-background border-s-lg px-2 py-2 rounded-lg "
           :border="isJenny(message.sender) ? 'primary opacity-50' : 'none'">
-          <PersonaAvatar size="large" />
           <MarkdownRenderer :text="message.text"
             :tags="(message.tags as Tag[])?.filter((tag: Tag) => jenny.chatTagSelection.includes(tag.label))" />
+          <v-chip-group v-model="jenny.chatTagSelection" multiple class=" ">
+            <NuTag v-for="tag in message.tags" :key="tag.label" :tag="(tag as Tag)" :value="tag.label" :labels="false"
+              size="small" :variant="isJenny(message.sender) ? 'text' : 'plain'" />
+          </v-chip-group>
         </v-card-text>
-        <v-card-text v-else>
-          <MarkdownRenderer :text="message.text" class="text-center pa-1 align-center mx-auto " />
+        <v-card-text v-else class="d-flex"><v-icon icon="mdi-emoticon-happy-outline" class="text-h6 text-accent" />
+          <MarkdownRenderer :text="message.text" class="text-caption ps-4 align-right opacity-80 " />
         </v-card-text>
-        <v-chip-group v-model="jenny.chatTagSelection" column multiple class="rounded-b-lg bg-background pa-0 mb-0 ">
-          <NuTag v-for="tag in message.tags" :key="tag.label" :tag="(tag as Tag)" :value="tag.label" :labels="false"
-            size="small" variant="plain" />
-        </v-chip-group>
+
       </v-card>
 
     </v-container><v-textarea v-model="jenny.userInput" auto-grow :rows="1" :label="`${jenny.greeting}`"
       density="compact" @keydown.enter.prevent="jenny.sendGPTMessage" bg-color="background" hide-details>
       <template #prepend-inner>
-
-        <span v-if="!jenny.isLoading" class="text-h6 text-shadow bg-background rounded-circle elevation-1">{{
+        <span v-if="!jenny.isLoading" class="text-h6  bg-background rounded-circle">{{
           jenny.emoji }}</span>
         <v-progress-circular v-else indeterminate color="accent" size="18" />
       </template>

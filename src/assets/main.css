@@ -26,3 +26,14 @@ custom-tag {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
+
+.dragging {
+  cursor: grabbing !important;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.drag-over {
+  background-color: var(--st-c-bg);
+  border: 1px dashed var(--st-c-border);
+}

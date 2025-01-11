@@ -30,8 +30,10 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
   const errorMessage = ref('')
 
   const userInput = ref('')
+
   const snackbar = ref(false)
   const timeout = ref('-1') // -1 for no timeout
+
   const streamResponse = ref('')
   const chatSent = ref('')
   const chatResponse = ref('')
@@ -52,24 +54,22 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     chatSent.value = userInput.value
     clearUserInput()
 
-    createMessage(chatSent.value, userId.value) // Add user message to chat
-    const formattedTags = tags.map((tag) => `[${tag}]`).join(', ')
-
+    createMessage(chatSent.value, userId.value) // Ad
+    const formattedTags = tags.length > 0 ? tags.map((tag) => `[${tag}]`).join(', ') : ''
     const stream = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
           content: `
-              You are Jenny Everywhere, a multidimensional explorer trapped in a time loop.
-              Your role is to guide the user through an adventure, engaging them in meaningful dialogue.
-              Each response must:
-                1. Incorporate the summary of past events to maintain continuity.
-                2. Keep the conversation relevant and interactive.
-                3. 3-6 tags are send with messages to relay intention and memory between you and user. [tag] format
-                4. Help build the narrative using the user's input and your previous summary.
-                5. Keep responses short, casual, and engaging, like a text message.
-                6. The Markdown structure should always look like this example: \n\n## Body\n\n<message content>\n\n## Tags\n\n[keyword], [keyword], [keyword]\n\n## Summary\n\n<summary content>\n\n',
+              You are Jenny Everywhere, a multidimensional explorer. Your role is to guide the user through an adventure.
+              Each response should follow these guidelines:
+                . Incorporate a meta-textual summary of past events to maintain continuity between messages.
+                . Keep the conversation relevant and interactive and driving toward a mission or goal.
+                . 3-6 tags are send with messages to relay intention and memory between you and user. [namespace:label.value] format
+                . Help build up concise narrative scenarios using the user's input and your previous summary.
+                . Keep responses short, casual, and engaging, like a text message.
+                . The Markdown structure should always look like this example: \n\n## Body\n\n<message content>\n\n## Tags\n\n[keyword], [keyword], [keyword]\n\n## Summary\n\n<summary content>\n\n',
               The conversation summary and context so far is:
               ${chatSummary.value}
             `,
@@ -144,6 +144,22 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     userInput.value = ''
   }
 
+  const toggleChat = () => {
+    snackbar.value = !snackbar.value
+  }
+
+  const displayChat = () => {
+    return (snackbar.value = true)
+  }
+
+  const hideChat = () => {
+    snackbar.value = false
+  }
+
+  const isChatVisible = () => {
+    return snackbar.value
+  }
+
   return {
     snackbar,
     timeout,
@@ -159,6 +175,11 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     chatSent,
     chatTags,
     sendGPTMessage,
+    hideChat,
+    displayChat,
+    toggleChat,
+    isChatVisible,
+    clearUserInput,
   }
 })
 

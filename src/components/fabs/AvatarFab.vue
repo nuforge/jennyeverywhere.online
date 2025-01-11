@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
 import useStateStore from '@/stores/state'
-import useChatStore from '@/stores/chat'
+import jennyEverywhere from '@/stores/jenny-everywhere';
 import usePersonaStore from '@/stores/persona';
 
 const state = useStateStore()
 const persona = usePersonaStore()
-const chat = useChatStore()
+const jenny = jennyEverywhere()
 
-const emoji = ref(`🤔`)
 
 const size = computed(() => {
   return state.tagmanager ? 'x-large' : 'x-large'
@@ -22,8 +21,11 @@ const size = computed(() => {
     <template v-slot:activator="{ props: activatorProps }">
       <v-fab variant="text" app rounded icon size="xl-large" v-bind="activatorProps" :ripple="false" :z-index="1000"
         location="bottom start">
-        <v-badge attach="parent" :content="emoji" color="transparent" floating :dot="chat.snackbar" fab-transition
-          @click="chat.toggleChat()">
+        <v-badge attach="parent" :content="jenny.emoji" color="transparent" :dot="jenny.snackbar" fab-transition
+          @click="jenny.toggleChat()">
+          <template v-slot:badge>
+            <span class="text-h6 text-shadow bg-background rounded-circle elevation-1">{{ jenny.emoji }}</span>
+          </template>
           <PersonaAvatar :size="size" />
         </v-badge>
       </v-fab>
@@ -33,6 +35,6 @@ const size = computed(() => {
       @click="state.changeTheme"></v-btn>
     <v-btn key="3" icon @click="persona.drawer = !persona.drawer"><v-icon
         icon="mdi-page-layout-sidebar-left"></v-icon></v-btn>
-    <v-btn key="4" icon="mdi-chat" @click="chat.toggleChat()"></v-btn>
+    <v-btn key="4" icon="mdi-chat" @click="jenny.toggleChat()"></v-btn>
   </v-speed-dial>
 </template>

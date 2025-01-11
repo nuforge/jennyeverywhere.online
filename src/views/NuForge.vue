@@ -47,15 +47,13 @@ const selection = ref<string[]>([])
       <v-card v-for="message in messages" :key="message.id" class="ma-2 px-4 rounded-lg bg-background border-s-lg"
         :border="message.sender === 'jenny_everywhere' ? 'primary' : 'none'"
         :flat="message.sender !== 'jenny_everywhere'">
-        <v-card-text class="d-flex ga-4" v-if="message.sender === 'jenny_everywhere'">
-          <PersonaAvatar v-if="message.sender === 'jenny_everywhere'" size="large" />
-          <MarkdownRenderer :text="message.text" :tags="message.tags?.filter(tag => selection.includes(tag.label))"
-            :class="message.sender === 'jenny_everywhere' ? undefined : 'opacity-60 text-center mx-auto'" />
+        <v-card-text v-if="message.sender === 'jenny_everywhere'" class="d-flex ga-4">
+          <PersonaAvatar size="large" />
+          <MarkdownRenderer :text="message.text"
+            :tags="(message.tags as Tag[])?.filter((tag: Tag) => selection.includes(tag.label))" />
         </v-card-text>
-        <v-card-text class="d-flex ga-4" v-else>
-          <PersonaAvatar v-if="message.sender === 'jenny_everywhere'" size="large" />
-          <MarkdownRenderer :text="message.text" :tags="message.tags?.filter(tag => selection.includes(tag.label))"
-            :class="message.sender === 'jenny_everywhere' ? undefined : 'opacity-60 text-center mx-auto'" />
+        <v-card-text v-else class="d-flex ga-4">
+          <MarkdownRenderer :text="message.text" class="opacity-60 text-center mx-auto" />
         </v-card-text>
         <v-card-actions v-if="message.tags && message.tags.length > 0">
           <v-chip-group v-model="selection" column multiple>

@@ -3,9 +3,11 @@ import { ref } from "vue";
 import Tag from '@/objects/nu/NuTag';
 
 import Inator from '@/objects/Inator';
-import NuTag from "@/components/nu/NuTag.vue";
+//import NuTag from "@/components/nu/NuTag.vue";
+import DragManager from '@/objects/DragManager';
 
 const inator = new Inator();
+const dragManager = new DragManager();
 
 const tags = ref(inator.ntags(3))
 const sTag = ref(new Tag('strong', 'primary', 'mdi-format-bold'))
@@ -22,35 +24,28 @@ const updateColor = (tag: Tag) => {
 
 const currentTag = ref(sTag.value);
 
-const onDragStart = (tag: Tag) => {
-  // console.log('onDragStart:', tag);
+const onDragStart = (event: DragEvent, tag: Tag) => {
   currentTag.value = tag;
-  //console.log('onDragStart.currentTag:', currentTag.value);
+  dragManager.dragStart(event, 'text/plain', JSON.stringify(tag));
 };
 
-// const onDrop = (event: Event) => {
-//   const target = event.target as HTMLElement;
-//   //target.setAttribute('v-tag', currentTag.value); // CHATGPT LIES!!!!
-
-
-//   // console.log('onDrop:', target.attributes);
-//   // console.log('onDrop:currentTag.value', currentTag.value);
-//   // Set the tag directive on the target element
-//   // console.log('onDrop:', target.attributes);
-// }
+const onDrop = (event: DragEvent) => {
+  dragManager.drop(event, (data: string) => {
+    const droppedTag = JSON.parse(data);
+    // Handle the dropped tag
+  });
+};
 
 </script>
 <template>
   <div>
     <v-btn @click="updateColor(fTag as Tag)" v-tag="currentTag">Update Color</v-btn>
-    <p :draggable="true" @dragover="event => event.preventDefault()">I do nothing</p>
-    <p v-tag="sTag" draggable="true" @dragover="event => event.preventDefault()">Strong as Bull
-    </p>
-    <p v-tag="fTag" draggable="true" @dragover="event => event.preventDefault()">Burn baby Burn
-    </p>
-    <p v-tag="iTag" draggable="true" @dragover="event => event.preventDefault()">Can you See Me?
-    </p>
-    <NuTag v-for="tag in (tags as Tag[])" :key="tag.label" :tag="(tag as Tag)" :v-tag="tag"
-      @dragstart="onDragStart(tag)" draggable="true" />
+    <p :draggable="true" @dragstart="event => onDragStart(event, sTag.value)"
+      @dragover="event => dragManager.dragOver(event)">I do nothing</p>
+    <p v-tag="sTag" draggable="true" @dragstart="event => onDragStart(event, sTag.value)"
+      @dragover="event => dragManager.dragOver(event)">Strong as Bull</p>
+    <p v-tag="fTag" draggable="true" @dragstart="event => onDragStart(event, fTag.value)"
+      @dragover="event => dragManager.dragOver(event)">Burn baby Burn</p>
+    <div @drop="onDrop" @dragover="event => dragManager.dragOver(event)">Drop Zone</div>
   </div>
 </template>

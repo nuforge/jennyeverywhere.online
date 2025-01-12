@@ -2,10 +2,9 @@
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
-
-
 import { ref, computed, defineProps, onMounted } from 'vue';
 import Tag from '@/objects/nu/NuTag';
+import { TagInterface } from '@/objects/nu/TagInterface';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from '@/components/nu/NuLabel.vue';
@@ -13,11 +12,10 @@ import NuSpace from '@/components/nu/NuSpace.vue';
 import NuBadge from '@/components/nu/NuBadge.vue';
 
 import useStyleStore from '@/stores/styles';
-const styles = useStyleStore()
-
+const styles = useStyleStore();
 
 import DragManager from '@/objects/DragManager';
-const drag = new DragManager()
+const drag = new DragManager();
 
 import SettingsManager from '@/objects/SettingsManager';
 
@@ -32,9 +30,7 @@ const settings = ref(
   }),
 )
 
-
 const defaultNoColor = 'text'
-
 
 const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space && settings.value.get('space'))
 const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
@@ -42,7 +38,6 @@ const showColor = computed(() => styles.checkGlobal('colors') && props.colors &&
 const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
 const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
-
 
 const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.label)
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
@@ -95,12 +90,11 @@ const props = defineProps
   })
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
-
 function showLabels() {
   settings.value.set('label', true)
 }
 
-function expandTag(tag: Tag) {
+function expandTag(tag: TagInterface) {
 
   settings.value.set('space', settings.value.get('label'))
   showLabels()
@@ -108,21 +102,21 @@ function expandTag(tag: Tag) {
   emit('expand-tag', tag)
 }
 
-function compactTag(tag: Tag) {
+function compactTag(tag: TagInterface) {
   settings.value.set('label', settings.value.get('space'))
   settings.value.set('space', false)
   //console.log('compactTag', tag)
   emit('compact-tag', tag)
 }
 
-function toggleLabel(tag: Tag) {
+function toggleLabel(tag: TagInterface) {
   settings.value.set('label', settings.value.get('space'))
   settings.value.set('space', !settings.value.get('label'))
   //console.log('toggleTag', tag)
   emit('toggle-label', tag)
 }
 
-function expandToSpace(tag: Tag) {
+function expandToSpace(tag: TagInterface) {
 
   if (!settings.value.get('space')) { expandTag(props.tag) } else { compactTag(props.tag) }
 
@@ -153,7 +147,7 @@ function onClickIcon(event: Event) {
   emit('click-icon', event, props.tag)
 }
 
-function onRightClickIcon(event: Event, tag: Tag) {
+function onRightClickIcon(event: Event, tag: TagInterface) {
   expandToSpace(tag)
   emit('right-click-icon', event, tag)
 }
@@ -169,17 +163,17 @@ function onDblClickIcon(event: Event, tag: Tag) {
 
 // DRAG EVENTS
 function onDragStart(event: DragEvent) {
-  drag.dragStart(event, props.tag.toString())
+  drag.dragStart(event, 'tag', props.tag.toString())
   emit('drag-start', event, props.tag)
 }
 
 function onDragEnd(event: DragEvent) {
-  drag.dragEnd(event, props.tag.toString())
+  drag.dragEnd(event)
   emit('drag-end', event, props.tag)
 }
 
 function onDragOver(event: DragEvent) {
-  drag.dragOver(event, props.tag.toString())
+  drag.dragOver(event)
   emit('drag-over', event, props.tag)
 }
 

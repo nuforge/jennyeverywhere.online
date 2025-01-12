@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-// const NAMESPACE_SPECIAL_CHARS = ['-', '_', ' ', '.', ':', ',', ';', "'", '"', '[', ']', '{', '}', '|', ' ']
+import TagInterface from './TagInterface'
+
 const NAMESPACE_SPLIT_CHAR = ':'
 const VALUE_SPLIT_CHAR = '.'
 const TAG_WHITESPACE_REPLACER = '-'
@@ -19,7 +20,7 @@ interface Keywords {
 
 // If the Value of Tag is itself, then it [... is a Tag] ??? CoPilot's contribution to my comment.
 
-class Tag {
+class Tag implements TagInterface {
   // System Attributes
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()

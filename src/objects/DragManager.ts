@@ -1,79 +1,56 @@
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png'
+import type { DragManager as DragManagerInterface } from './DragManagerInterface'
 
-class MarkdownManager {
-  protected _dragImage: HTMLImageElement | null = null
-  // Track who starts and ends the drag
-  // Tags can drag to text area, so we need to know who starts the drag
-  // And text can be dragged into Tags to create tags
-  // ANd Trays and selections of trays can be dragged into tags, text, and other trays
+class DragManager implements DragManagerInterface {
+  private _dragImage: HTMLImageElement | null = null
+
   constructor() {
     const img = new Image()
     img.src = imgSrc
-
     img.onload = () => {
       this._dragImage = img
     }
-    return this
   }
 
-  setDragImage = (event: DragEvent) => {
-    if (!event.dataTransfer) return
-    if (this._dragImage) {
-      event.dataTransfer?.setDragImage(this._dragImage, 10, 10)
-    } else {
-      console.warn('Drag image not ready!')
+  setDragImage(event: DragEvent) {
+    if (event.dataTransfer && this._dragImage) {
+      event.dataTransfer.setDragImage(this._dragImage, 10, 10)
     }
   }
 
-  hasDataTransfer = (event: DragEvent, type: string) => {
-    if (!event.dataTransfer) return false
-    return event.dataTransfer.types.includes(type)
+  writeDataTransfer(event: DragEvent, type: string, data: string) {
+    if (event.dataTransfer) {
+      event.dataTransfer.setData(type, data)
+    }
   }
 
-  writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-    // console.log('writeDataTransfer', data)
-    if (!event.dataTransfer) return
+  clearDataTransfer(event: DragEvent) {
+    if (event.dataTransfer) {
+      event.dataTransfer.clearData()
+    }
+  }
+
+  dragStart(event: DragEvent, type: string, data: string) {
+    this.writeDataTransfer(event, type, data)
+    this.setDragImage(event)
+  }
+
+  dragEnd(event: DragEvent) {
     this.clearDataTransfer(event)
-    event.dataTransfer.setData(type, data)
-    return this.setDragImage(event)
   }
 
-  clearDataTransfer = (event: DragEvent) => {
-    if (!event.dataTransfer) return
-    return event.dataTransfer.clearData()
-  }
-
-  readDataTransfer = (event: DragEvent, type: string) => {
-    if (!event.dataTransfer) return
-    return event.dataTransfer.getData(type)
-  }
-
-  // Global Drag and Drop Event Handlers
-
-  drop = (event: DragEvent, type: string) => {
-    // console.log('onDrop:', type)
+  dragOver(event: DragEvent) {
     event.preventDefault()
-    const data = event.dataTransfer?.getData(type)
+  }
+
+  drop(event: DragEvent, callback: (data: string) => void) {
+    event.preventDefault()
+    const data = event.dataTransfer?.getData('text/plain')
+    if (data) {
+      callback(data)
+    }
     this.clearDataTransfer(event)
-    // console.log(data)
-    return data
-  }
-
-  dragStart = (event: DragEvent, type: string) => {
-    // console.log('dragStart', type)
-    return this.writeDataTransfer(event, 'tag', type)
-  }
-
-  dragEnd = (event: DragEvent, type: string) => {
-    // console.log('dragEnd', type)
-    return this.clearDataTransfer(event)
-  }
-
-  dragOver = (event: DragEvent, type: string) => {
-    // console.log('dragOver', type)
-
-    return event.preventDefault()
   }
 }
 
-export default MarkdownManager
+export default DragManager

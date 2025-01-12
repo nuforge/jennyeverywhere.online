@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()

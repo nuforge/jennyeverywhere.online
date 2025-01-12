@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 import NuTag from '@/components/nu/NuTag.vue';
 
 import usePersonaStore from '@/stores/persona';

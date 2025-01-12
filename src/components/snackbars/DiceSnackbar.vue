@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import useDiceStore from '@/stores/dice';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 const dice = useDiceStore();
 
 const showTray = ref(true);

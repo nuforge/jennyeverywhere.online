@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 import ExpansionPanel from '@/components/persona/ExpansionPanel.vue';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 
 import NuTag from '@/components/nu/NuTag.vue';
 import usePersonaStore from '@/stores/persona';

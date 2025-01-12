@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 import Inator from '@/objects/Inator'
 
 import prompts from '@/assets/gpt/prompts.json'
@@ -15,6 +15,7 @@ interface Message {
   text: string
   sender: string
   timestamp: string
+  emoji?: string
   tags?: Tag[]
 }
 
@@ -107,15 +108,15 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     } finally {
       // Extract tags and body content from the streamed response
       const [body, tags, summary] = parseMarkdownResponse(streamedMessage)
-      emoji.value = extractFirstEmoji(body)
-      console.log('Parsed Body:', body)
-      console.log('Parsed Tags:', tags)
+      const emoji = extractFirstEmoji(body)
+      //console.log('Parsed Body:', body)
+      //console.log('Parsed Tags:', tags)
+      console.log('Extracted Tags:', tags)
       console.log('Parsed Summary:', summary)
       chatSummary.value = summary
       // Create message with body and tags
-      createMessage(body, agentId.value, tags)
+      createMessage(body, agentId.value, tags, emoji)
       // Log the tags for future use
-      console.log('Extracted Tags:', tags)
       isLoading.value = false
     }
   }
@@ -133,7 +134,13 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     return [body, tags, summary]
   }
 
-  const createMessage = (body: string, sender?: string, tags?: string[], timestamp?: string) => {
+  const createMessage = (
+    body: string,
+    sender?: string,
+    tags?: string[],
+    timestamp?: string,
+    emoji?: string,
+  ) => {
     const tagObjects = (tags || []).map(
       (tag) => new Tag(tag, inator.themecolor(false), inator.icon()),
     )
@@ -143,6 +150,7 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
       text: body,
       sender: sender || 'bot',
       timestamp: timestamp || new Date().toLocaleTimeString(),
+      emoji: emoji,
       tags: tagObjects,
     })
   }

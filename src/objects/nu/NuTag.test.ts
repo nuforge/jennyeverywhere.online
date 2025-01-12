@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import Tag from './NuTag'
+import Tag from './Tag'
 
 describe('Tag', () => {
   it('should create a Tag instance with default values', () => {

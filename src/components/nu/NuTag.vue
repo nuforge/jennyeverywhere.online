@@ -5,7 +5,7 @@ const dragImage = ref<HTMLImageElement | null>(null);
 
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from '@/components/nu/NuLabel.vue';

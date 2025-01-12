@@ -1,24 +1,32 @@
 <script setup lang="ts">
-import useChatStore from '@/stores/chat';
-const chat = useChatStore();
+import { ref, nextTick, watch } from 'vue';
+import jennyEverywhere from '@/stores/jenny-everywhere';
+const jenny = jennyEverywhere()
 
-const emit = defineEmits(['send'])
+const sentButton = ref('mdi-send')
 
-const send = () => {
-  chat.sendGPTMessage()
-  emit('send', chat.userInput)
-  chat.userInput = ''
-}
+watch(() => jenny.messages, () => {
+  nextTick(function () {
+    const div = document.getElementById('chat-list-snackbar');
+    return div ? div.scrollTop = div?.scrollHeight : null;
+  })
+})
+
 </script>
 
 <template>
 
   <v-card-actions>
-    <v-textarea auto-grow clearable variant="solo-filled" :rows="1" v-model="chat.userInput"
-      placeholder="Type a message..." @keyup.enter="send" density="compact" :loading="chat.isLoading"
-      persistent-counter>
+    <v-textarea v-model="jenny.userInput" :rows="1" :label="`${jenny.greeting}`"
+      density="compact" @keydown.enter.exact.prevent="jenny.sendGPTMessage" bg-color="background"  :loading="jenny.isLoading"  variant="solo-filled" auto-grow persistent-counter>
       <template #append>
-        <v-btn @click="send" icon="mdi-send" :disabled="chat.userInput.length <= 0"></v-btn>
+        <span v-if="!jenny.isLoading" class="text-h6 ">{{
+          jenny.emoji }}</span>
+        <v-progress-circular v-else indeterminate color="accent" size="18" />
+      </template>
+      <template #append-inner>
+        <v-btn @click="jenny.sendGPTMessage" :disabled="!jenny.bodyValid" :icon="sentButton" flat size="medium"
+          variant="plain" />
       </template>
     </v-textarea>
   </v-card-actions>

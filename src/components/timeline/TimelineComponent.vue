@@ -1,3 +1,44 @@
+<script setup lang="ts">
+import { onMounted, computed } from 'vue';
+import type Tag from '@/objects/NuTag';
+import useTagStore from '@/stores/tags'
+import useStoryStore from '@/stores/story'
+import { useTimelineStore } from '@/stores/timelines'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import TimelineStyles from './TimelineStyles.vue';
+import Log from '@/objects/Log';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+
+const story = useStoryStore()
+const tags = useTagStore()
+const timeline = useTimelineStore()
+const events = computed(() => { return [...timeline.events, StoryEvent.value] })
+
+const StoryEvent = computed(() => {
+  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
+  story.tags.forEach((tag) => {
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+  return event
+})
+
+function handleCtrlClick(tag: Tag) {
+
+  console.log('handleCtrlClick', tag)
+  tags.addTag(tag)
+}
+
+onMounted(() => {
+
+  const event = new Log(story.title, story.raw.substring(0, 100))
+
+  story.tags.forEach((tag) => {
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+})
+
+</script>
+
 <template>
   <v-sheet class="bg-transparent overflow-auto">
     <TimelineStyles />
@@ -38,47 +79,3 @@
   </v-sheet>
 </template>
 
-<script setup lang="ts">
-import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/NuTag';
-import useTagStore from '@/stores/tags'
-import useStoryStore from '@/stores/story'
-import { useTimelineStore } from '@/stores/timelines'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TimelineStyles from './TimelineStyles.vue';
-import Log from '@/objects/Log';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-
-const story = useStoryStore()
-const tags = useTagStore()
-const timeline = useTimelineStore()
-const events = computed(() => { return [...timeline.events, StoryEvent.value] })
-
-const StoryEvent = computed(() => {
-  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
-  story.tags.forEach((tag) => {
-    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
-  })
-  return event
-})
-
-
-
-function handleCtrlClick(tag: Tag) {
-
-  console.log('handleCtrlClick', tag)
-  tags.addTag(tag)
-}
-
-
-onMounted(() => {
-
-  const event = new Log(story.title, story.raw.substring(0, 100))
-
-  story.tags.forEach((tag) => {
-    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
-  })
-})
-
-
-</script>

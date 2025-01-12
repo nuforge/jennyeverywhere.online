@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 
 const TAG_WHITESPACE_REPLACER = '-'
 

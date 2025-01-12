@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 import Legend from '@/objects/tags/Legend'
 
 class Persona {

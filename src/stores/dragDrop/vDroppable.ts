@@ -1,6 +1,6 @@
 import type { DirectiveBinding } from 'vue'
 import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 
 const { onDrop } = useDragDrop()
 

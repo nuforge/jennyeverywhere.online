@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NuTag from '../nu/NuTag.vue';
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 
 const loading = new Tag('...', 'grey', 'mdi-dots-horizontal');
 </script>

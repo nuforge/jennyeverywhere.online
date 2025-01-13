@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 
 const props = defineProps<{
   tag: Tag;

@@ -1,26 +1,3 @@
-<template>
-  <v-chip :value="value" :color="!noColor ? !noIcon ? noLabel ? color : color : color : 'text'"
-    :closable="styles.closable" @click:close="closeTag($event, value)" @click="clickTag($event, value)"
-    :variant="noIcon && noLabel ? noColor ? 'outlined' : 'tonal' : noIcon ? 'text' : 'text'">
-    <template v-slot:prepend>
-      <v-fab-transition>
-        <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
-          @click="clickIcon($event, value)" v-show="!noIcon"></v-icon>
-      </v-fab-transition>
-      <v-tooltip activator="parent" location="bottom">
-        <v-icon :icon="icon" :color="!noColor ? color : 'text'" v-show="icon"></v-icon> <span class="opacity-50">
-          {{ space ? `${space} : ` :
-            '' }}</span> {{ label }}
-      </v-tooltip>
-    </template>
-    <template v-slot:default>
-      <v-slide-x-transition>
-        <span v-show="!noLabel">{{ label }}</span>
-      </v-slide-x-transition>
-    </template>
-  </v-chip>
-</template>
-
 <script setup lang="ts">
 import useStyleStore from '@/stores/styles';
 
@@ -94,3 +71,25 @@ function clickIcon(event: Event, value: string | number) {
 
 
 </script>
+<template>
+  <v-chip :value="value" :color="!noColor ? !noIcon ? noLabel ? color : color : color : 'text'"
+    :closable="styles.closable" @click:close="closeTag($event, value)" @click="clickTag($event, value)"
+    :variant="noIcon && noLabel ? noColor ? 'outlined' : 'tonal' : noIcon ? 'text' : 'text'">
+    <template v-slot:prepend>
+      <v-fab-transition>
+        <v-icon :icon="icon ? icon : `$tag`" :color="!noColor ? color : 'text'" :start="!noLabel"
+          @click="clickIcon($event, value)" v-show="!noIcon"></v-icon>
+      </v-fab-transition>
+      <v-tooltip activator="parent" location="bottom">
+        <v-icon :icon="icon" :color="!noColor ? color : 'text'" v-show="icon"></v-icon> <span class="opacity-50">
+          {{ space ? `${space} : ` :
+            '' }}</span> {{ label }}
+      </v-tooltip>
+    </template>
+    <template v-slot:default>
+      <v-slide-x-transition>
+        <span v-show="!noLabel">{{ label }}</span>
+      </v-slide-x-transition>
+    </template>
+  </v-chip>
+</template>

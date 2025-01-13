@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import NuTag from '@/components/nu/NuTag.vue';
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 
 
 const selected = ref<string>('');

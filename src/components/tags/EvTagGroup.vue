@@ -17,7 +17,7 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 
 
 
-import Tag from '@/objects/nu/Tag'
+import Tag from '@/objects/nu/NuTag'
 import NuTag from '@/components/nu/NuTag.vue'
 
 // EMIT AND PROPS

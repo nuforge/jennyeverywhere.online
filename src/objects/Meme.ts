@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/Tag'
+import Tag from '@/objects/nu/NuTag'
 type Value = boolean | number | string | Tag | undefined
 
 class Meme extends Tag {

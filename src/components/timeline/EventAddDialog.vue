@@ -74,7 +74,7 @@ import ColorPicker from '@/components/form/ColorPicker.vue';
 const state = useStateStore()
 const timeline = useTimelineStore()
 
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 import Log from '@/objects/Log';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTagTray from '@/components/tags/EvTagTray.vue';

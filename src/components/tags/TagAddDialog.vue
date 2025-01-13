@@ -1,3 +1,46 @@
+<script setup lang="ts">
+import { computed, ref, onMounted } from 'vue'
+import VTagItem from '@/components/tags/VTagItem.vue'
+import useStateStore from '@/stores/state'
+import useTagStore from '@/stores/tags'
+import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
+import ColorPicker from '@/components/form/ColorPicker.vue';
+import Tag from '@/objects/nu/NuTag';
+const state = useStateStore()
+
+const admin = ref(true)
+const panels = ref([0, 1])
+
+const tags = useTagStore()
+
+const text = ref('')
+const color = ref('#FFFFFF')
+const icon = ref('mdi-tag')
+
+const tempTag = ref(computed(() => {
+  const tag = new Tag(text.value)
+  return {
+    id: tag.id,
+    name: tag.label,
+    space: tag.space,
+    color: color.value,
+    icon: icon.value,
+  }
+}))
+
+function addTag() {
+  tags.addLabel(text.value, color.value, icon.value)
+  text.value = ''
+}
+
+
+onMounted(() => {
+  text.value = tags.pasteTag().name
+  tags.clipboardEmpty()
+})
+</script>
+
+
 <template>
   <v-dialog v-model="state.add" scrim="#000000" class="elevation-10">
     <form @submit.prevent="addTag()">
@@ -59,47 +102,3 @@
   </v-dialog>
 
 </template>
-
-<script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import VTagItem from '@/components/tags/VTagItem.vue'
-import useStateStore from '@/stores/state'
-import useTagStore from '@/stores/tags'
-import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
-import ColorPicker from '@/components/form/ColorPicker.vue';
-import Tag from '@/objects/nu/Tag';
-const state = useStateStore()
-
-const admin = ref(true)
-const panels = ref([0, 1])
-
-const tags = useTagStore()
-
-const text = ref('')
-const color = ref('#FFFFFF')
-const icon = ref('mdi-tag')
-
-const tempTag = ref(computed(() => {
-  const tag = new Tag(text.value)
-  return {
-    id: tag.id,
-    name: tag.label,
-    space: tag.space,
-    color: color.value,
-    icon: icon.value,
-  }
-}))
-
-function addTag() {
-  tags.addLabel(text.value, color.value, icon.value)
-  text.value = ''
-}
-
-
-onMounted(() => {
-  text.value = tags.pasteTag().name
-  tags.clipboardEmpty()
-})
-
-
-</script>

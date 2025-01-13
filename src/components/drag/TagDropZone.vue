@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 
 const isActive = ref(false);
 

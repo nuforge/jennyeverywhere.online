@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 
-const defaultNoColor = 'text'
-
 defineProps({
   icon: {
     type: String,
@@ -36,6 +34,5 @@ const onDoubleClick = (event: Event) => {
 </script>
 
 <template>
-  <v-icon :icon="icon" :color="color ? color : defaultNoColor" @click.right.exact.prevent="onRightClickIcon"
-    @click="onClick" @dblclick="onDoubleClick" />
+  <v-icon :icon="icon" :color="color" @click.right="onRightClickIcon" @click="onClick" @dblclick="onDoubleClick" />
 </template>

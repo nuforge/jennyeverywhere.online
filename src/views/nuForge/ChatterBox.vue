@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import NuTag from '@/components/nu/NuTag.vue';
 
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';

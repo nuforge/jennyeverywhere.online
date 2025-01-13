@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Meme from '@/objects/Meme' // Assuming you have a Meme class defined
-import Tag from '@/objects/nu/Tag' // Assuming Tag is defined
+import Tag from '@/objects/nu/NuTag' // Assuming Tag is defined
 
 export const sortOptions = ['score', 'lastAccessed', 'creation']
 

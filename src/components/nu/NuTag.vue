@@ -3,7 +3,7 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import Tag from '@/objects/nu/Tag';
+import Tag from '@/objects/nu/NuTag';
 import type TagInterface from '@/objects/nu/TagInterface';
 
 import NuIcon from '@/components/nu/NuIcon.vue';
@@ -218,7 +218,7 @@ onMounted(() => {
         <NuLabel v-if="showLabel && props.tag" :tag="props.tag" />
       </v-slide-x-transition>
       <v-fab-transition>
-        <NuBadge v-if="showBadge && tag.value" :icon="value ? undefined : tag.icon" :content="value || undefined"
+        <NuBadge v-if="showBadge && tag" :icon="value ? undefined : tag.icon" :content="value || undefined"
           :text-color="colorStyle" />
       </v-fab-transition>
     </template>

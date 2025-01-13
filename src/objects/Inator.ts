@@ -1,6 +1,8 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import Tag from '@/objects/nu/Tag'
+import Tag from '@/objects/nu/NuTag'
+import NuTag from '@/objects/nu/v2/Tag'
+import Label from '@/objects/nu/v2/Label'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
 import commonStopWords from '@/assets/words/stopwords.common.json'
@@ -186,21 +188,33 @@ class Inator {
   } // Generate  random sentences
 
   tag = (count: number = 1) => {
-    return new Tag(this.words(count) as string, this.themecolor(), this.icon() as string)
+    return new NuTag(this.words(count) as string)
   } // Generate
 
-  tags = (count: number = 1): Tag[] => {
-    const tags = [] as Tag[]
+  tags = (count: number = 1): NuTag[] => {
+    const tags = [] as NuTag[]
     for (let i = 0; i < count; i++) {
       tags.push(this.tag())
     }
     return tags
   } // Generate 5 random tags
 
-  ntag = (space?: string, count: number = 1): Tag => {
+  label = (count: number = 1): Label => {
+    return new Label(this.words(count) as string).setColor(this.themecolor()).setIcon(this.icon())
+  } // Generate 1 random label
+
+  labels = (count: number = 1): Label[] => {
+    const labels = [] as Label[]
+    for (let i = 0; i < count; i++) {
+      labels.push(this.label(count))
+    }
+    return labels
+  } // Generate 5 random labels
+
+  ntag = (space?: string): Tag => {
     const theme = this.themecolor(false)
-    const tag = new Tag(`${this.word()}`, theme, this.icon() as string)
-    tag.value = this.words(count).toString()
+    const seed = space ? `${space}:${this.word()}` : this.word()
+    const tag = new Tag(`${seed}`, theme, this.icon() as string)
     return tag
   } // Generate 5 random tags
 

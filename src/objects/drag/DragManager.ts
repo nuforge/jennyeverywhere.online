@@ -20,6 +20,7 @@ class DragManager implements DragManagerInterface {
 
   writeDataTransfer(event: DragEvent, type: string, data: string) {
     if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData(type, data)
     }
   }

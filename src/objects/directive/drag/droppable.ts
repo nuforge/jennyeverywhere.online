@@ -1,9 +1,14 @@
 import type { Directive } from 'vue'
+import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
+import DragManager from '@/objects/drag/DragManager'
+
+const { onDrop } = useDragDrop()
+const dragManager = new DragManager()
 
 export const droppable: Directive = {
   mounted(el, binding) {
     el.addEventListener('dragover', (event: DragEvent) => {
-      event.preventDefault()
+      dragManager.dragOver(event)
       el.classList.add('drag-over')
     })
 
@@ -15,15 +20,20 @@ export const droppable: Directive = {
       event.preventDefault()
       el.classList.remove('drag-over')
 
-      const payload = event.dataTransfer?.getData('application/json')
+      const payload = event.dataTransfer?.getData('generic')
+      console.log('drop', payload)
       if (!payload) return
-
-      const { type, data } = JSON.parse(payload)
 
       if (typeof binding.value === 'function') {
         // Pass type and data to the drop handler
-        binding.value({ type, data })
+        binding.value({ payload })
       }
+      if (binding.value) onDrop(el.id, binding.value)
     })
+  },
+  unmounted(el: HTMLElement) {
+    el.removeEventListener('dragleave', () => {})
+    el.removeEventListener('dragover', () => {})
+    el.removeEventListener('drop', () => {})
   },
 }

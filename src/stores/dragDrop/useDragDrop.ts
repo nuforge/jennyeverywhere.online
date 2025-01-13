@@ -15,7 +15,7 @@ const dragState = ref<DragState>({
 
 export function useDragDrop() {
   function onDragStart(tags: Tag[]) {
-    console.log('onDragStart', tags)
+    //console.log('onDragStart', tags)
     dragState.value.activeTags = tags
     dragState.value.isDragging = true
   }
@@ -27,6 +27,7 @@ export function useDragDrop() {
   }
 
   function onDrop(targetId: string, callback: (tags: Tag[]) => void) {
+    console.log('onDrop', targetId, dragState.value)
     if (dragState.value.isDragging && targetId) {
       dragState.value.dropTargetId = targetId
       callback(dragState.value.activeTags as Tag[])

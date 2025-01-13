@@ -1,32 +1,31 @@
 import type { Directive } from 'vue'
 import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
-//import Tag from '@/objects/nu/v1/ValTag'
+import DragManager from '@/objects/drag/DragManager'
 
 const { onDragStart, onDragEnd } = useDragDrop()
+const dragManager = new DragManager()
 
 export const draggable: Directive = {
   mounted(el, binding) {
     el.setAttribute('draggable', 'true')
 
     el.addEventListener('dragstart', (event: DragEvent) => {
-      console.log('draggable', binding.value)
+      //console.log('draggable', binding.value)
       if (!event.dataTransfer) return
-      const { data, type } = binding.value
-      const dragPayload = {
-        type: type || 'generic', // Default to "generic" if no type is provided
-        data, // Pass the object to be dragged (e.g., Tag, Image data)
-      }
+      console.log(binding.value)
       if (binding.value) onDragStart(binding.value)
-
-      event.dataTransfer.setData('application/json', JSON.stringify(dragPayload))
-      event.dataTransfer.effectAllowed = 'move'
-
       el.classList.add('dragging')
+      dragManager.dragStart(event, 'generic', binding.value)
     })
 
-    el.addEventListener('dragend', () => {
-      el.classList.remove('dragging')
+    el.addEventListener('dragend', (event: DragEvent) => {
       onDragEnd()
+      el.classList.remove('dragging')
+      dragManager.dragEnd(event)
     })
+  },
+  unmounted(el: HTMLElement) {
+    el.removeEventListener('dragstart', () => {})
+    el.removeEventListener('dragend', () => {})
   },
 }

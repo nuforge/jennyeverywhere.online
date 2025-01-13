@@ -10,8 +10,6 @@ import NuSpace from '@/components/nu/NuSpace.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
 
-import DragManager from '@/objects/drag/DragManager';
-const dragManager = new DragManager();
 
 import SettingsManager from '@/objects/SettingsManager';
 
@@ -122,21 +120,21 @@ function onDblClickIcon(event: Event, tag: Tag) {
   emit('double-click-icon', event, tag)
 }
 
-// DRAG EVENTS
-function onDragStart(event: DragEvent) {
-  //dragManager.dragStart(event, 'tag', tag.value.name)
-  emit('drag-start', event, tag.value)
-}
+// // DRAG EVENTS
+// function onDragStart(event: DragEvent) {
+//   dragManager.dragStart(event, 'tag', tag.value.name)
+//   emit('drag-start', event, tag.value)
+// }
 
-function onDragEnd(event: DragEvent) {
-  dragManager.dragEnd(event)
-  emit('drag-end', event, tag.value)
-}
+// function onDragEnd(event: DragEvent) {
+//   dragManager.dragEnd(event)
+//   emit('drag-end', event, tag.value)
+// }
 
-function onDragOver(event: DragEvent) {
-  dragManager.dragOver(event)
-  emit('drag-over', event, tag.value)
-}
+// function onDragOver(event: DragEvent) {
+//   dragManager.dragOver(event)
+//   emit('drag-over', event, tag.value)
+// }
 
 
 </script>
@@ -144,7 +142,7 @@ function onDragOver(event: DragEvent) {
 <template>
   <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.seed" :id="`nu_${tag?.id}`"
     :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
-    @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+    @dblclick="onDoubleClick" v-draggable="tag" v-droppable>
     <!-- Tag Icon / Space -->
 
     <template #prepend v-if="icon">

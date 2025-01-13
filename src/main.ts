@@ -16,8 +16,6 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import tagBehavior from '@/objects/directive/tags'
-import { vDraggable } from '@/objects/directive/drag/vDraggable'
-import { vDroppable } from '@/objects/directive/drag/vDroppable'
 import { droppable } from '@/objects/directive/drag/droppable'
 import { draggable } from '@/objects/directive/drag/draggable'
 
@@ -27,8 +25,6 @@ app.use(createPinia())
 app.use(router)
 app.use(vuetify)
 app.directive('tag', tagBehavior)
-app.directive('draggish', vDraggable)
-app.directive('droppish', vDroppable)
 app.directive('droppable', droppable)
 app.directive('draggable', draggable)
 app.mount('#app')

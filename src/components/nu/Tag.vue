@@ -3,8 +3,12 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
+<<<<<<< HEAD
 import Tag from '@/objects/nu/NuTag';
 import { TagInterface } from '@/objects/nu/TagInterface';
+=======
+import Tag from '@/objects/nu/Tag';
+>>>>>>> dev
 
 import NuIcon from '@/components/nu/NuIcon.vue';
 import NuLabel from '@/components/nu/NuLabel.vue';

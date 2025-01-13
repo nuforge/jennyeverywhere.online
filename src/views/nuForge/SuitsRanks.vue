@@ -7,8 +7,8 @@ const persona = usePersonaStore()
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
 
-import NuTag from '@/components/nu/NuTag.vue';
-import Tag from '@/objects/nu/NuTag';
+import NuTag from '@/components/nu/Tag.vue';
+import Tag from '@/objects/nu/Tag';
 
 const randomNumber = ref(dice)
 

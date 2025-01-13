@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import NuTag from '@/components/nu/NuTag.vue';
+import NuTag from '@/components/nu/Tag.vue';
 import { useMemoryStore } from '@/stores/memory';
 const memory = useMemoryStore()
 

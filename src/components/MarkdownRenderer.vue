@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 

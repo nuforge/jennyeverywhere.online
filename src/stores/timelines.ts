@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 import Log from '@/objects/Log'
 import Timeline from '@/objects/Timeline'
 

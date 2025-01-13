@@ -1,6 +1,6 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/Tag'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
 import commonStopWords from '@/assets/words/stopwords.common.json'

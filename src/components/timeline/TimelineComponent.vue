@@ -1,6 +1,53 @@
+<script setup lang="ts">
+import { onMounted, computed } from 'vue';
+import type Tag from '@/objects/nu/Tag';
+import useTagStore from '@/stores/tags'
+import useStoryStore from '@/stores/story'
+import { useTimelineStore } from '@/stores/timelines'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import useStateStore from '@/stores/state'
+const state = useStateStore()
+import TimelineStyles from './TimelineStyles.vue';
+import Log from '@/objects/Log';
+import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+
+const story = useStoryStore()
+const tags = useTagStore()
+const timeline = useTimelineStore()
+const events = computed(() => { return [...timeline.events, StoryEvent.value] })
+
+const StoryEvent = computed(() => {
+  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
+  story.tags.forEach((tag) => {
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+  return event
+})
+
+function handleCtrlClick(tag: Tag) {
+
+  console.log('handleCtrlClick', tag)
+  tags.addTag(tag)
+}
+
+onMounted(() => {
+
+  const event = new Log(story.title, story.raw.substring(0, 100))
+
+  story.tags.forEach((tag) => {
+    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
+  })
+})
+
+</script>
+
 <template>
   <v-sheet class="bg-transparent overflow-auto">
     <TimelineStyles />
+
+    <v-spacer>
+      <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
+        text="Add Event"></v-btn></v-spacer>
     <v-timeline :direction="timeline.timelineDirection" truncate-line="both" :side="timeline.timelineSide"
       :hide-opposite="timeline.timelineOpposite">
       <v-timeline-item dot-color="background" fill-dot>
@@ -37,48 +84,3 @@
     </v-timeline>
   </v-sheet>
 </template>
-
-<script setup lang="ts">
-import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/NuTag';
-import useTagStore from '@/stores/tags'
-import useStoryStore from '@/stores/story'
-import { useTimelineStore } from '@/stores/timelines'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import TimelineStyles from './TimelineStyles.vue';
-import Log from '@/objects/Log';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
-
-const story = useStoryStore()
-const tags = useTagStore()
-const timeline = useTimelineStore()
-const events = computed(() => { return [...timeline.events, StoryEvent.value] })
-
-const StoryEvent = computed(() => {
-  const event = new Log(story.title, story.raw.substring(0, 80).concat('...'))
-  story.tags.forEach((tag) => {
-    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
-  })
-  return event
-})
-
-
-
-function handleCtrlClick(tag: Tag) {
-
-  console.log('handleCtrlClick', tag)
-  tags.addTag(tag)
-}
-
-
-onMounted(() => {
-
-  const event = new Log(story.title, story.raw.substring(0, 100))
-
-  story.tags.forEach((tag) => {
-    event.createTag(tag.label, tag.color || 'text', tag.icon || 'mdi-tag') // #FIX HARD CODED VALUES
-  })
-})
-
-
-</script>

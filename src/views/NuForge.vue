@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/Tag';
 
 import Inator from '@/objects/Inator';
 //import NuTag from "@/components/nu/NuTag.vue";

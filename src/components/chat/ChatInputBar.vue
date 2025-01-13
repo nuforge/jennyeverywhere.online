@@ -17,9 +17,10 @@ watch(() => jenny.messages, () => {
 <template>
 
   <v-card-actions>
-    <v-textarea v-model="jenny.userInput" :rows="1" :label="`${jenny.greeting}`"
-      density="compact" @keydown.enter.exact.prevent="jenny.sendGPTMessage" bg-color="background"  :loading="jenny.isLoading"  variant="solo-filled" auto-grow persistent-counter>
-      <template #append>
+    <v-textarea v-model="jenny.userInput" :rows="1" :label="`${jenny.greeting}`" density="compact"
+      @keydown.enter.exact.prevent="jenny.sendGPTMessage" bg-color="background" :loading="jenny.isLoading"
+      variant="solo-filled" auto-grow persistent-counter>
+      <template #prepend-inner>
         <span v-if="!jenny.isLoading" class="text-h6 ">{{
           jenny.emoji }}</span>
         <v-progress-circular v-else indeterminate color="accent" size="18" />

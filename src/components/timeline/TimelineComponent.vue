@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/NuTag';
+import type Tag from '@/objects/nu/Tag';
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import useStateStore from '@/stores/state'
+const state = useStateStore()
 import TimelineStyles from './TimelineStyles.vue';
 import Log from '@/objects/Log';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
@@ -42,6 +44,10 @@ onMounted(() => {
 <template>
   <v-sheet class="bg-transparent overflow-auto">
     <TimelineStyles />
+
+    <v-spacer>
+      <v-btn @click="state.event = !state.event" prepend-icon="mdi-calendar-edit" block class="my-2" variant="plain"
+        text="Add Event"></v-btn></v-spacer>
     <v-timeline :direction="timeline.timelineDirection" truncate-line="both" :side="timeline.timelineSide"
       :hide-opposite="timeline.timelineOpposite">
       <v-timeline-item dot-color="background" fill-dot>
@@ -78,4 +84,3 @@ onMounted(() => {
     </v-timeline>
   </v-sheet>
 </template>
-

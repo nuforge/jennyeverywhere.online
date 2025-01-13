@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import TagInterface from './TagInterface'
+import type TagInterface from './TagInterface'
 
 const NAMESPACE_SPLIT_CHAR = ':'
 const VALUE_SPLIT_CHAR = '.'
@@ -213,14 +213,6 @@ class Tag implements TagInterface {
 
   get symbol(): string {
     return this._name
-  }
-
-  get value(): Value {
-    return this._value
-  }
-
-  set value(value: Value) {
-    this._value = value
   }
 
   get name() {

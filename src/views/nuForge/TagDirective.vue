@@ -3,7 +3,7 @@ import { ref } from "vue";
 import Tag from '@/objects/nu/Tag';
 
 import Inator from '@/objects/Inator';
-import NuTag from "@/components/nu/Tag.vue";
+import NuTag from "@/components/nu/NuTag.vue";
 
 const inator = new Inator();
 

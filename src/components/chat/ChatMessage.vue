@@ -6,7 +6,7 @@ import { ref, computed } from 'vue'
 import commonStopWords from '@/assets/words/stopwords.common.json'
 import HTMLTags from '@/assets/words/html.tags.json'
 import Tag from '@/objects/nu/Tag';
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';

@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import Tag from '@/objects/nu/Tag';
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import useDiceStore from '@/stores/dice';
 const dice = useDiceStore()
 

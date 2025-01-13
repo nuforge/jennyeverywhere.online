@@ -1,4 +1,4 @@
-export interface TagInterface {
+export default interface TagInterface {
   id: string
   name: string
   color: string

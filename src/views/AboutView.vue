@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import Tag from '@/objects/nu/Tag';
 
 </script>

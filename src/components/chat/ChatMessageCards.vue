@@ -2,7 +2,7 @@
 import { ref, nextTick, watch } from 'vue';
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import Tag from '@/objects/nu/Tag';
 const jenny = jennyEverywhere()
 

@@ -3,7 +3,7 @@ import { watch } from 'vue';
 import ExpansionPanel from '@/components/persona/ExpansionPanel.vue';
 import Tag from '@/objects/nu/Tag';
 
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
 

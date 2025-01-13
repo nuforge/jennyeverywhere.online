@@ -11,7 +11,7 @@ const dice = useDiceStore()
 import { NuCard } from '@/objects/game/Card.ts';
 
 import Inator from '@/objects/Inator';
-import NuTag from '@/components/nu/Tag.vue';
+import NuTag from '@/components/nu/NuTag.vue';
 import Legend from '@/objects/tags/Legend';
 import TraySystemBar from '@/components/tray/TraySystemBar.vue';
 

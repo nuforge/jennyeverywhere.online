@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/v1/NuTag'
 
 class Physics {
   protected _tags: Tag[] = []

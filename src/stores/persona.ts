@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 // 'myCustomTheme'
 
 import { useTheme } from 'vuetify'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/v1/NuTag'
 import Legend from '@/objects/tags/Legend'
 
 import { findByKey, namedColors } from '@/objects/color/ColorNames'

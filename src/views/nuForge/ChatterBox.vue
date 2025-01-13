@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import NuTag from '@/components/nu/NuTag.vue';
+import NuTag from '@/components/nu/v1/NuTag.vue';
 
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/v1/NuTag';
 
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';

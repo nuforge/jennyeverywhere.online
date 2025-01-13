@@ -25,6 +25,30 @@ class Tag {
     return this
   }
 
+  setName(name: string) {
+    this._name = name
+    return this
+  }
+
+  setSpace(space: string) {
+    this._space = space
+    return this
+  }
+
+  setStamp(stamp: Date) {
+    this._stamp = stamp
+    return this
+  }
+
+  setSeed(seed: object | string | number | boolean) {
+    this._seed = seed
+    return this
+  }
+
+  returnAs(object: object) {
+    return Object.assign(object, this)
+  }
+
   static cleanstring = (text: string) => {
     return text !== undefined ? text.toString().trim() : ''
   }
@@ -161,25 +185,10 @@ class Tag {
   set stamp(value: Date) {
     this._stamp = value
   }
-
-  setName(name: string) {
-    this._name = name
-    return this
-  }
-
-  setSpace(space: string) {
-    this._space = space
-    return this
-  }
-
-  setStamp(stamp: Date) {
-    this._stamp = stamp
-    return this
-  }
-
-  setSeed(seed: object | string | number | boolean) {
-    this._seed = seed
-    return this
+  static clone(tag: Tag): Tag {
+    const newTag = new Tag(tag._seed as string)
+    Object.assign(newTag, tag)
+    return newTag
   }
 }
 

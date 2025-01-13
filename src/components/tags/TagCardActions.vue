@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import useStateStore from '@/stores/state';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/v1/NuTag';
 
 const state = useStateStore()
 

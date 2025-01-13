@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 
-import Tag from '@/objects/nu/v2/Tag';
-import Label from '@/objects/nu/v2/Label';
-import NuTag from '@/components/nu/v2/NuTag.vue';
+import Tag from '@/objects/nu/Tag';
+import Label from '@/objects/nu/Label';
+import NuTag from '@/components/nu/NuTag.vue';
 
 import Inator from '@/objects/Inator';
 const inator = new Inator();
@@ -12,16 +11,22 @@ const currentTag = ref<Tag>()
 const manyLabels = ref<Label[]>([])
 
 const generateTags = (): void => {
-  currentTag.value = inator.tag()
+  currentTag.value = inator.label()
 };
 
 
 watch(currentTag, (newTag) => {
   if (newTag) {
     const newLabel = inator.label()
+    console.log(newLabel)
     manyLabels.value.push(newLabel)
   }
 });
+
+
+const Jenny = ref(new Tag('Jenny '))
+
+
 
 </script>
 <template>

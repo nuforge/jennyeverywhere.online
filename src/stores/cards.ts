@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Card from '@/objects/game/Card'
-import Tag from '@/objects/nu/NuTag'
+import Tag from '@/objects/nu/v1/NuTag'
 
 // Poker Playing Card class
 class PokerPlayingCard extends Card {

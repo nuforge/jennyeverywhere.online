@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import DragManager from '@/objects/DragManager'
+import DragManager from '@/objects/drag/DragManager'
 
 describe('DragManager', () => {
   let dragManager: DragManager

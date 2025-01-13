@@ -1,8 +1,8 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import Tag from '@/objects/nu/NuTag'
-import NuTag from '@/objects/nu/v2/Tag'
-import Label from '@/objects/nu/v2/Label'
+import Tag from '@/objects/nu/v1/NuTag'
+import NuTag from '@/objects/nu/Tag'
+import Label from '@/objects/nu/Label'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
 import commonStopWords from '@/assets/words/stopwords.common.json'
@@ -188,7 +188,7 @@ class Inator {
   } // Generate  random sentences
 
   tag = (count: number = 1) => {
-    return new NuTag(this.words(count) as string)
+    return new NuTag(this.words(count).toString())
   } // Generate
 
   tags = (count: number = 1): NuTag[] => {
@@ -200,7 +200,10 @@ class Inator {
   } // Generate 5 random tags
 
   label = (count: number = 1): Label => {
-    return new Label(this.words(count) as string).setColor(this.themecolor()).setIcon(this.icon())
+    const label = new Label(this.words(count).toString())
+    label.setColor(this.themecolor())
+    label.setIcon(this.icon())
+    return label
   } // Generate 1 random label
 
   labels = (count: number = 1): Label[] => {

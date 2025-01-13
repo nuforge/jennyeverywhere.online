@@ -7,7 +7,7 @@
 import useClipboardStore from '@/stores/clipboard'
 import useStateStore from '@/stores/state';
 import useTagStore from '@/stores/tags'
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/v1/NuTag';
 
 const tags = useTagStore()
 const clipboard = useClipboardStore()

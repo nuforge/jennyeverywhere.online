@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import NuTag from '@/components/nu/NuTag.vue';
-import Tag from '@/objects/nu/NuTag';
+import NuTag from '@/components/nu/v1/NuTag.vue';
+import Tag from '@/objects/nu/v1/NuTag';
 
 
 const selected = ref<string>('');

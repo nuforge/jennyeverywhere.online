@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import type TagInterface from './TagInterface'
+import type TagInterface from '../TagInterface'
 
 const NAMESPACE_SPLIT_CHAR = ':'
 const VALUE_SPLIT_CHAR = '.'

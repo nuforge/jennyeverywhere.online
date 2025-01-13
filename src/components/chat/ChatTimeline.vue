@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import type Tag from '@/objects/nu/NuTag';
-import NuTag from '@/components/nu/NuTag.vue';
+import type Tag from '@/objects/nu/v1/NuTag';
+import NuTag from '@/components/nu/v1/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TimelineStyles from '@/components/timeline/TimelineStyles.vue';
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import Tag from '@/objects/nu/NuTag';
+import Tag from '@/objects/nu/v1/NuTag';
 
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
@@ -11,7 +11,7 @@ const dice = useDiceStore()
 import { NuCard } from '@/objects/game/Card.ts';
 
 import Inator from '@/objects/Inator';
-import NuTag from '@/components/nu/NuTag.vue';
+import NuTag from '@/components/nu/v1/NuTag.vue';
 import Legend from '@/objects/tags/Legend';
 import TraySystemBar from '@/components/tray/TraySystemBar.vue';
 

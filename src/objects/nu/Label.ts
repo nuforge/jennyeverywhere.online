@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/v2/Tag'
+import Tag from '@/objects/nu/Tag'
 const DEFAULT_ICON = 'mdi-information'
 const DEFAULT_COLOR = 'grey'
 
@@ -7,9 +7,10 @@ export default class Label extends Tag {
   protected _color: string
   protected _icon: string
 
-  constructor(name: string, color?: string, symbol?: string) {
+  constructor(tagOrName: Tag | string, color?: string, symbol?: string) {
+    const name = typeof tagOrName === 'string' ? tagOrName : tagOrName.name
     super(name)
-    this._label = this._name
+    this._label = name
     this._color = color ?? DEFAULT_COLOR
     this._icon = symbol ?? DEFAULT_ICON
     return this
@@ -43,7 +44,7 @@ export default class Label extends Tag {
   }
 
   get label() {
-    return this._label
+    return this._label ?? this.name
   }
 
   set label(value: string) {

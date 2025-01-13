@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/nu/NuTag';
+import type Tag from '@/objects/nu/v1/NuTag';
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import { useTimelineStore } from '@/stores/timelines'

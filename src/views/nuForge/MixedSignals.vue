@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 import useDiceStore from '@/stores/dice';

@@ -1,20 +1,18 @@
-<template>
-  <v-label class="text-black" @click.right.exact.prevent="onRightClickIcon" @click="onClick" @dblclick="onDoubleClick">
-    <template #default>
-      {{ space }}
-    </template>
-  </v-label>
-</template>
-
 <script setup lang="ts">
 import { defineEmits } from 'vue';
 
-defineProps({
-  space: {
-    type: String,
+const props = defineProps({
+  tag: {
+    type: Object,
     required: true,
   },
+  space: {
+    type: String,
+  },
 })
+
+
+const spaceLabel = props.space ?? props.tag.name
 
 const emit = defineEmits(['click', 'right-click', 'double-click'])
 
@@ -33,3 +31,10 @@ const onClick = (event: Event) => {
 }
 
 </script>
+
+
+<template>
+  <span class="mx-2 text-no-wrap" @click.right.exact.prevent="onRightClickIcon" @click="onClick"
+    @dblclick="onDoubleClick"> {{ spaceLabel }}
+  </span>
+</template>

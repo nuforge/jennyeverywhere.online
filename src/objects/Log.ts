@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 import { format } from 'date-fns'
 import Legend from './tags/Legend'
 

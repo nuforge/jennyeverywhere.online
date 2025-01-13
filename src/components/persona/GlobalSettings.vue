@@ -4,7 +4,7 @@ import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import useStyleStore from '@/stores/styles'
 import usePersonaStore from '@/stores/persona'
 import CustomColorPicker from '@/components/color/CustomColorPicker.vue'
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 
 const styles = useStyleStore()
 const persona = usePersonaStore()

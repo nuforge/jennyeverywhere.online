@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
-import Tag from '@/objects/nu/v1/NuTag';
+import Tag from '@/objects/nu/v1/ValTag';
 
 const tagLabel = computed(() => { return !props.text ? (!props.value ? undefined : String(props.value)) : props.text })
 const tagColor = computed(() => { return props.selected ? 'plain' : props.color ? props.text ? props.color : props.color : 'text' })

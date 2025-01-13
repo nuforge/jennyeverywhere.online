@@ -3,13 +3,9 @@ import { ref, computed } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import story from '@/assets/stories/story.json'
 import Label from '@/objects/nu/Label'
+import Tag from '@/objects/nu/Tag'
 import NuTag from '@/components/nu/v1/NuTag.vue'
 
-interface Tag {
-  label: string
-  color: string
-  icon: string
-}
 
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 
@@ -41,9 +37,9 @@ const selected = computed(() => {
   <v-container>
     <v-row>
       <v-col cols="6" md="8" sm="12">
-        <MarkdownRenderer :text="raw" id="md_container" :tags="(selected as Tag[])" />
+        <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
         <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tagMap" :key="tag.label" :tag="(tag as Tag)" :value="tag.label" />
+          <NuTag v-for="tag in tagMap" :key="tag.label" :tag="tag.tag as Tag" :value="tag.label" />
         </v-chip-group>
       </v-col>
       <v-col cols="auto" md="4" sm="12">

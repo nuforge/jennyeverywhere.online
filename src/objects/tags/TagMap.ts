@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 import { computed } from 'vue'
 const TAG_WHITESPACE_REPLACER = '-'
 

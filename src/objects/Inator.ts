@@ -1,6 +1,6 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import Tag from '@/objects/nu/v1/NuTag'
+import ValTag from '@/objects/nu/v1/ValTag'
 import NuTag from '@/objects/nu/Tag'
 import Label from '@/objects/nu/Label'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
@@ -39,10 +39,10 @@ class Inator {
   }
 
   keywordTags(keyword: string) {
-    const keywords = Tag.extractKeywords(keyword)
+    const keywords = ValTag.extractKeywords(keyword)
     const individualTags = keywords.individual.map((keyword) => {
       console.log('best color', this.bestColor(keyword))
-      const tg = new Tag(keyword, this.bestColor(keyword) || '', this.bestIcon(keyword) || '')
+      const tg = new ValTag(keyword, this.bestColor(keyword) || '', this.bestIcon(keyword) || '')
 
       return tg
     })
@@ -127,10 +127,10 @@ class Inator {
     return array
   }
 
-  bodyToTags = (body: string): Tag[] => {
+  bodyToTags = (body: string): ValTag[] => {
     const words = body.split(' ')
     const tags = words.map((word) => {
-      return new Tag(word, this.themecolor(), this.icon())
+      return new ValTag(word, this.themecolor(), this.icon())
     })
     return tags
   }
@@ -187,21 +187,24 @@ class Inator {
     return Array.isArray(sentences) ? sentences.join(' ') : sentences
   } // Generate  random sentences
 
-  tag = (count: number = 1) => {
-    return new NuTag(this.words(count).toString())
-  } // Generate
+  ntag = (space?: string): ValTag => {
+    const theme = this.themecolor(false)
+    const seed = space ? `${space}:${this.word()}` : this.word()
+    const tag = new ValTag(`${seed}`, theme, this.icon() as string)
+    return tag
+  } // Generate 5 random tags
 
-  tags = (count: number = 1): NuTag[] => {
-    const tags = [] as NuTag[]
+  ntags = (count: number = 1, space?: string): ValTag[] => {
+    const tags = [] as ValTag[]
     for (let i = 0; i < count; i++) {
-      tags.push(this.tag())
+      tags.push(this.ntag(space))
     }
     return tags
   } // Generate 5 random tags
 
   label = (count: number = 1): Label => {
     const label = new Label(this.words(count).toString())
-    label.setColor(this.themecolor())
+    label.setColor(this.themecolor(false))
     label.setIcon(this.icon())
     return label
   } // Generate 1 random label
@@ -214,39 +217,34 @@ class Inator {
     return labels
   } // Generate 5 random labels
 
-  ntag = (space?: string): Tag => {
-    const theme = this.themecolor(false)
-    const seed = space ? `${space}:${this.word()}` : this.word()
-    const tag = new Tag(`${seed}`, theme, this.icon() as string)
-    return tag
-  } // Generate 5 random tags
+  tag = (count: number = 1) => {
+    console.log('tag', this.iconWord(count).toString())
+    return new NuTag(this.iconWord(count).toString())
+  } // Generate
 
-  ntags = (count: number = 1, space?: string): Tag[] => {
-    const tags = [] as Tag[]
+  tags = (count: number = 1): NuTag[] => {
+    const tags = [] as NuTag[]
     for (let i = 0; i < count; i++) {
-      tags.push(this.ntag(space))
+      tags.push(this.tag())
     }
     return tags
   } // Generate 5 random tags
 
-  hexcode = (length: number = 6, hash: boolean = true): string => {
-    // Generate a random hex string
-    let hex = Math.random().toString(16).slice(2)
-
-    // Ensure the length matches the desired value
-    while (hex.length < length) {
-      hex += Math.random().toString(16).slice(2)
-    }
-
-    // Truncate to the exact length
-    hex = hex.slice(0, length)
-
-    // Return with or without a hash
-    return hash ? `#${hex}` : hex
+  iconList = () => {
+    return IconsJSON.map((icon) => `mdi-${icon.name}`)
   }
 
-  hexcodes = (count: number = 1, length: number = 6, hash: boolean = true): string[] => {
-    return Array.from({ length: count }, () => this.hexcode(length, hash))
+  iconWords = (limit?: number) => {
+    //const wordlist = IconsJSON.map((icon) => icon.name.split('-'))
+    const wordlist = IconsJSON.map((icon) => icon.name)
+      .join('-')
+      .split('-')
+      .slice(0, limit)
+    return [...new Set(wordlist)]
+  }
+
+  iconWord = (limit: number = 1) => {
+    return this.shuffleArray(this.iconWords()).slice(0, limit)
   }
 
   icon = () => {
@@ -254,7 +252,7 @@ class Inator {
   } // Generate 1 random icon
 
   icons = (count: number = 1): string[] => {
-    const iconList = IconsJSON.map((icon) => `mdi-${icon.name}`)
+    const iconList = this.iconList()
     const randomIcons: string[] = []
 
     // Ensure count doesn't exceed available icons
@@ -273,12 +271,12 @@ class Inator {
     return randomIcons
   } // Generate 5 random icons
 
-  iconTag = (): Tag => {
+  iconTag = (): ValTag => {
     const icon = this.randomArrayValue(IconsJSON)
-    return new Tag(`${icon.name}`, `mdi-${icon.name}`)
+    return new ValTag(`${icon.name}`, `mdi-${icon.name}`)
   }
 
-  iconTags = (count: number = 1): Tag[] => {
+  iconTags = (count: number = 1): ValTag[] => {
     const formatName = (name: string) => {
       return name
         .replace(/-/g, ' ') // Replace hyphens with spaces
@@ -289,13 +287,13 @@ class Inator {
     const getColor = () => this.themecolor()
 
     const icons = IconsJSON.map(
-      (icon) => new Tag(formatName(icon.name), getColor(), `mdi-${icon.name}`),
+      (icon) => new ValTag(formatName(icon.name), getColor(), `mdi-${icon.name}`),
     )
     return this.shuffleArray(icons).slice(0, count)
   }
 
-  colorTags = (): Tag[] => {
-    return this.colors().map((color) => new Tag(`color:${color}`, color, 'mdi-circle-opacity'))
+  colorTags = (): ValTag[] => {
+    return this.colors().map((color) => new ValTag(`color:${color}`, color, 'mdi-circle-opacity'))
   }
 
   allcolors = () => {
@@ -319,6 +317,25 @@ class Inator {
 
   stopwords = () => {
     return basicStopWords
+  }
+  hexcode = (length: number = 6, hash: boolean = true): string => {
+    // Generate a random hex string
+    let hex = Math.random().toString(16).slice(2)
+
+    // Ensure the length matches the desired value
+    while (hex.length < length) {
+      hex += Math.random().toString(16).slice(2)
+    }
+
+    // Truncate to the exact length
+    hex = hex.slice(0, length)
+
+    // Return with or without a hash
+    return hash ? `#${hex}` : hex
+  }
+
+  hexcodes = (count: number = 1, length: number = 6, hash: boolean = true): string[] => {
+    return Array.from({ length: count }, () => this.hexcode(length, hash))
   }
 }
 

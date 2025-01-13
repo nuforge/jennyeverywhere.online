@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import NuTag from '@/components/nu/v1/NuTag.vue';
 // import usePersonaStore from '@/stores/persona';
 // const persona = usePersonaStore();
-import Tag from '@/objects/nu/v1/NuTag';
+import Tag from '@/objects/nu/v1/ValTag';
 
 import Inator from '@/objects/Inator';
 

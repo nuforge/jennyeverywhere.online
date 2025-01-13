@@ -7,7 +7,7 @@
 import { computed } from 'vue';
 import TagTray from '@/objects/tags/TagTray'
 import EvTagGroup from '@/components/tags/EvTagGroup.vue';
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 
 const emit = defineEmits(['click', 'ctrl-click', 'drag-start', 'drag-end', 'drop', 'close'])
 

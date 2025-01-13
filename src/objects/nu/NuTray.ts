@@ -1,4 +1,4 @@
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 import Legend from '@/objects/tags/Legend'
 import SettingsManager from '@/objects/SettingsManager'
 type SettingValue = string | number | boolean // Shared by Map and Record

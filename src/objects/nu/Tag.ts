@@ -8,6 +8,7 @@ class Tag {
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()
   protected _seed?: object | string | number | boolean = this.constructor.name
+  protected _tag: Tag
 
   // string Attributes
   protected _name: string
@@ -21,7 +22,7 @@ class Tag {
 
     this._name = name ? Tag.cleanstring(name) : this._seed
     this._space = space ? Tag.cleanstring(space) : undefined
-
+    this._tag = this
     return this
   }
 
@@ -150,6 +151,10 @@ class Tag {
     return this
   }
 
+  get label() {
+    return this._name
+  }
+
   get name() {
     return this._name
   }
@@ -164,6 +169,10 @@ class Tag {
 
   get seed() {
     return this._seed ?? ''
+  }
+
+  get tag() {
+    return this as Tag
   }
 
   set seed(value: object | string | number | boolean) {

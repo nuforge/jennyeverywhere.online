@@ -16,6 +16,11 @@ const nameLabel = props.label ?? props.tag.name
 
 <template>
   <span class="mx-2 text-no-wrap">
-    {{ nameLabel }}
+    <v-tooltip location="top start" :open-delay="900">
+      <template #activator="{ props }">
+        <span v-bind="props"> {{ nameLabel }} </span>
+      </template>
+      {{ nameLabel }}
+    </v-tooltip>
   </span>
 </template>

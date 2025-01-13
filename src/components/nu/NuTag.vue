@@ -23,12 +23,13 @@ const settings = ref(
     space: false,
     tooltip: true,
     color: true,
+    toolTipDelay: 800
   }),
 )
 
 const defaultNoColor = 'white'
 
-const showName = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('name'))
+const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('name'))
 const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space && settings.value.get('space'))
 
 const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
@@ -38,10 +39,10 @@ const showColor = computed(() => styles.checkGlobal('colors') && props.colors &&
 
 const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
 const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.name)
-const prependIcon = computed(() => showIcon.value && (showName.value || showSpace.value))
+const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 
 const variant = computed(() => {
-  if (showName.value && styles.get('variants')) {
+  if (showLabel.value && styles.get('variants')) {
     return styles.variants as 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined;
   }
   return undefined;
@@ -56,12 +57,14 @@ const props = defineProps
       type: Tag,
       required: true,
     },
+    label: {
+      type: String,
+    },
     color: {
       type: String,
     },
     icon: {
       type: String,
-      default: '',
     },
     labels: {
       type: Boolean,
@@ -142,10 +145,10 @@ function onDragOver(event: DragEvent) {
     @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
     <!-- Tag Icon / Space -->
 
-    <template #prepend>
+    <template #prepend v-if="icon">
       <v-fab-transition>
         <div v-if="showIcon && settings.has('icon')">
-          <v-tooltip location="top start">
+          <v-tooltip location="top start" :open-delay="Number(settings.get('toolTipDelay'))">
             <template #activator="{ props }">
               <NuIcon :icon="icon" :color="variantColorStyle" @click="onClickIcon" @right-click="onRightClickIcon"
                 @double-click="onDblClickIcon" :start="prependIcon ? true : false" v-bind="props" />
@@ -157,13 +160,17 @@ function onDragOver(event: DragEvent) {
     </template>
 
     <!-- Tag Name / Value -->
-    <template #default>
-      <v-slide-x-transition>
-        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :space="tag.space" class="align-center" />
-      </v-slide-x-transition>
-      <v-slide-x-transition>
-        <NuLabel v-if="showName" :tag="tag" />
-      </v-slide-x-transition>
+    <template #default v-if="showLabel">
+      <v-tooltip location="top start" :open-delay="Number(settings.get('toolTipDelay'))">
+        <template #activator="{ props }">
+          <v-slide-x-transition>
+            <NuSpace v-if="showSpace && settings.has('space') && tag.space" :tag="tag" :space="tag.space"
+              class="align-center" v-bind="props" />
+            <NuLabel v-if="showLabel && tag.label" :tag="tag" :label="label ?? tag.label" />
+          </v-slide-x-transition>
+        </template>
+        {{ tag.space }}
+      </v-tooltip>
     </template>
 
   </v-chip>

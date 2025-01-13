@@ -1,6 +1,6 @@
 // src/directives/tagBehavior.ts
 import type { Directive, DirectiveBinding } from 'vue'
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 
 const tagBehavior: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {

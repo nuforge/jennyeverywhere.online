@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/v1/ValTag'
 import NuTag from '@/components/nu/v1/NuTag.vue'
 import { hslToHex, } from '@/objects/color/Colors'
 import { namedColors } from '@/objects/color/ColorNames' // Use a library or write custom functions

@@ -5,7 +5,7 @@ const AGENT_LABEL = 'jenny_everywhere'
 import { ref, computed } from 'vue'
 import commonStopWords from '@/assets/words/stopwords.common.json'
 import HTMLTags from '@/assets/words/html.tags.json'
-import Tag from '@/objects/nu/v1/NuTag';
+import Tag from '@/objects/nu/v1/ValTag';
 import NuTag from '@/components/nu/v1/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 

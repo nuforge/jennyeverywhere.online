@@ -18,7 +18,7 @@ const generateTags = (): void => {
 
 const wordMap = new Map()
 
-const wordIndex = IconsJSON.map((icon) => {
+IconsJSON.map((icon) => {
   const splitWords = icon.name.toString().split('-')
 
   splitWords.concat()//, ...icon.aliases?.toString().split('-') ?? undefined
@@ -38,7 +38,6 @@ watch(currentTag, (newTag) => {
     const iconSearch = newTag.name.toLowerCase()
 
     if (wordMap.has(iconSearch)) {
-      console.log(iconSearch, `mdi-${wordMap.get(iconSearch)}`)
       const newLabel = new Label(newTag)
       newLabel.setIcon(`mdi-${wordMap.get(iconSearch)}`).setColor(inator.themecolor(false))
       manyLabels.value.push(newLabel)
@@ -54,13 +53,9 @@ watch(currentTag, (newTag) => {
 <template>
   <div>
     <v-btn @click="generateTags()">Generate Tags</v-btn>
-    <v-chip-group column multiple>
-      <NuTag v-for="tag in manyTags" :key="tag.id" :value="tag.name" :tag="(tag as Label)" :label="tag.seed.toString()"
-        @click.right="console.log(tag)" color="primary" variant="text" />
-    </v-chip-group>
-    <v-chip-group column multiple>
+    <v-chip-group column multiple variant="plain">
       <NuTag v-for="tag in manyLabels" :key="tag.id" :value="tag.name" :tag="(tag as Label)"
-        :label="tag.seed.toString()" @click.right="console.log(tag)" :color="tag.color" :icon="tag.icon" />
+        @click.right="console.log(tag)" :color="tag.color" :icon="tag.icon" variant="text" />
     </v-chip-group>
 
   </div>

@@ -29,6 +29,15 @@ watch(
     :rail="persona.rail" flat disable-resize-watcher disable-route-watcher :mobile="true" sticky elevation="0"
     class="bg-transparent scroll-container ">
     <v-card :class="[' mt-16', !persona.rail ? 'pb-2' : 'justify-center']" :flat="persona.rail">
+
+      <v-card-actions class="bg-background">
+        <v-icon @click="persona.rail = !persona.rail" :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"
+          variant="plain"></v-icon>
+        <v-spacer />
+        <v-icon v-if="!persona.rail" @click=" persona.permanent = !persona.permanent"
+          :icon="persona.permanent ? 'mdi-pin' : 'mdi-pin-outline'" variant="plain" />
+
+      </v-card-actions>
       <v-row class="bg-background align-center justify-center  my-2">
         <v-divider class="mb-2" />
         <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)"
@@ -65,14 +74,6 @@ watch(
 
 
 
-      <v-card-actions class="bg-background">
-        <v-icon @click="persona.rail = !persona.rail" :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"
-          variant="plain"></v-icon>
-        <v-spacer />
-        <v-icon v-if="!persona.rail" @click=" persona.permanent = !persona.permanent"
-          :icon="persona.permanent ? 'mdi-pin' : 'mdi-pin-outline'" variant="plain" />
-
-      </v-card-actions>
     </v-card>
   </v-navigation-drawer>
 </template>

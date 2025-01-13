@@ -218,7 +218,6 @@ class Inator {
   } // Generate 5 random labels
 
   tag = (count: number = 1) => {
-    console.log('tag', this.iconWord(count).toString())
     return new NuTag(this.iconWord(count).toString())
   } // Generate
 

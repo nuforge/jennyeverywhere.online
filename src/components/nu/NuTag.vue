@@ -18,7 +18,7 @@ import SettingsManager from '@/objects/SettingsManager';
 const settings = ref(
   new SettingsManager({
     icon: true,
-    name: true,
+    label: true,
     badge: false,
     space: false,
     tooltip: true,
@@ -29,7 +29,7 @@ const settings = ref(
 
 const defaultNoColor = 'white'
 
-const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('name'))
+const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
 const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space && settings.value.get('space'))
 
 const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
@@ -37,8 +37,8 @@ const showColor = computed(() => styles.checkGlobal('colors') && props.colors &&
 
 //const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 
-const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
-const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.name)
+//const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
+//const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.label)
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 
 const variant = computed(() => {
@@ -88,7 +88,7 @@ const props = defineProps
     }
 
   })
-const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-name'])
+const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 function onCloseTag(event: Event) {
   emit('close', event, props.tag)
@@ -139,39 +139,32 @@ function onDragOver(event: DragEvent) {
 </script>
 
 <template>
-  <v-chip label class="overflow-visible" :text="tag.name" :color="colorStyle" :variant="variant" :icon="icon"
-    :value="tag.seed" :id="`nu_${tag.id}`" :closable="props.closable" @click:close="onCloseTag"
-    @click.right.exact.prevent="onRightClick" @click="onClick" @dblclick="onDoubleClick" @dragstart="onDragStart"
-    @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
+  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag.seed" :id="`nu_${tag.id}`"
+    :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
+    @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
     <!-- Tag Icon / Space -->
 
     <template #prepend v-if="icon">
       <v-fab-transition>
         <div v-if="showIcon && settings.has('icon')">
-          <v-tooltip location="top start" :open-delay="Number(settings.get('toolTipDelay'))">
+          <v-tooltip location="bottom start" :open-delay="Number(settings.get('toolTipDelay'))">
             <template #activator="{ props }">
               <NuIcon :icon="icon" :color="variantColorStyle" @click="onClickIcon" @right-click="onRightClickIcon"
                 @double-click="onDblClickIcon" :start="prependIcon ? true : false" v-bind="props" />
             </template>
-            {{ iconTooltip }}
+            <v-label class="ga-1"><v-icon :icon="icon"></v-icon>{{ icon }}</v-label>
           </v-tooltip>
         </div>
       </v-fab-transition>
     </template>
 
     <!-- Tag Name / Value -->
-    <template #default v-if="showLabel">
-      <v-tooltip location="top start" :open-delay="Number(settings.get('toolTipDelay'))">
-        <template #activator="{ props }">
-          <v-slide-x-transition>
-            <NuSpace v-if="showSpace && settings.has('space') && tag.space" :tag="tag" :space="tag.space"
-              class="align-center" v-bind="props" />
-            <NuLabel v-if="showLabel && tag.label" :tag="tag" :label="label ?? tag.label" />
-          </v-slide-x-transition>
-        </template>
-        {{ tag.space }}
-      </v-tooltip>
-    </template>
+    <v-fab-transition>
+      <template #default v-if="showLabel">
+        <NuSpace v-if="showSpace && tag.space" :tag="tag" :space="tag.space" class="align-center" />
+        <NuLabel v-if="showLabel && tag.label" :tag="tag" :label="label" />
+      </template>
+    </v-fab-transition>
 
   </v-chip>
 </template>

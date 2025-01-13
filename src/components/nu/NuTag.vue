@@ -29,11 +29,15 @@ const settings = ref(
 
 const defaultNoColor = 'white'
 
+const label = computed(() => props.label ?? props.tag?.label ?? '')
+const tag = computed(() => props.tag ?? new Tag(label.value.toString()))
+
 const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
-const showSpace = computed(() => styles.checkGlobal('spaces') && props.tag.space && settings.value.get('space'))
+const showSpace = computed(() => styles.checkGlobal('spaces') && tag.value?.space && settings.value.get('space'))
 
 const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
 const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && (props.color && !styles.filterColors.includes(props.color)))
+
 
 //const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 
@@ -55,7 +59,6 @@ const props = defineProps
   ({
     tag: {
       type: Tag,
-      required: true,
     },
     label: {
       type: String,
@@ -91,24 +94,24 @@ const props = defineProps
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 function onCloseTag(event: Event) {
-  emit('close', event, props.tag)
+  emit('close', event, tag.value)
 }
 
 function onClick(event: Event) {
-  emit('click-tag', event, props.tag)
+  emit('click-tag', event, tag.value)
 }
 
 function onDoubleClick(event: Event) {
-  emit('double-click', event, props.tag)
+  emit('double-click', event, tag.value)
 }
 
 function onRightClick(event: Event) {
-  emit('right-click', event, props.tag)
+  emit('right-click', event, tag.value)
 }
 
 // ICON CLICKS
 function onClickIcon(event: Event) {
-  emit('click-icon', event, props.tag)
+  emit('click-icon', event, tag.value)
 }
 
 function onRightClickIcon(event: Event, tag: Tag) {
@@ -121,25 +124,25 @@ function onDblClickIcon(event: Event, tag: Tag) {
 
 // DRAG EVENTS
 function onDragStart(event: DragEvent) {
-  dragManager.dragStart(event, 'tag', props.tag.toString())
-  emit('drag-start', event, props.tag)
+  //dragManager.dragStart(event, 'tag', tag.value.name)
+  emit('drag-start', event, tag.value)
 }
 
 function onDragEnd(event: DragEvent) {
   dragManager.dragEnd(event)
-  emit('drag-end', event, props.tag)
+  emit('drag-end', event, tag.value)
 }
 
 function onDragOver(event: DragEvent) {
   dragManager.dragOver(event)
-  emit('drag-over', event, props.tag)
+  emit('drag-over', event, tag.value)
 }
 
 
 </script>
 
 <template>
-  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag.seed" :id="`nu_${tag.id}`"
+  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.seed" :id="`nu_${tag?.id}`"
     :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
     @dblclick="onDoubleClick" @dragstart="onDragStart" @dragend="onDragEnd" @dragover="onDragOver" :draggable="true">
     <!-- Tag Icon / Space -->
@@ -161,8 +164,8 @@ function onDragOver(event: DragEvent) {
     <!-- Tag Name / Value -->
     <v-fab-transition>
       <template #default v-if="showLabel">
-        <NuSpace v-if="showSpace && tag.space" :tag="tag" :space="tag.space" class="align-center" />
-        <NuLabel v-if="showLabel && tag.label" :tag="tag" :label="label" />
+        <NuSpace v-if="showSpace && tag?.space" :tag="tag" :space="tag.space" class="align-center" />
+        <NuLabel v-if="showLabel && label" :tag="tag" :label="label" />
       </template>
     </v-fab-transition>
 

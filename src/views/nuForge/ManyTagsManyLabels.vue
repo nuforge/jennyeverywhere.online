@@ -52,16 +52,11 @@ watch(currentTag, (newTag) => {
 
 <template>
   <div>
-    <NuTag label="draggish" color="primary" icon="mdi-drag" variant="text" v-draggish="`yes`" />
-    <NuTag label="draggable" color="secondary" icon="mdi-drag-horizontal" variant="text" v-draggable="`yes`" />
-    <v-divider class="ma-2" />
-    <NuTag label="droppish" color="warning" icon="mdi-tray" variant="text" v-droppish />
-    <NuTag label="droppable" color="success" icon="mdi-tray-remove" variant="text" v-droppable />
-    <v-divider class="ma-2" />
+    <NuTag label="Yes" color="red" icon="mdi-home" variant="text" :v-draggable="true" />
     <v-btn @click="generateTags()">Generate Tags</v-btn>
     <v-chip-group column multiple variant="plain">
       <NuTag v-for="tag in manyLabels" :key="tag.id" :value="tag.name" :tag="(tag as Label)"
-        @click.right="console.log(tag)" :color="tag.color" :icon="tag.icon" variant="text" v-draggable="tag" />
+        @click.right="console.log(tag)" :color="tag.color" :icon="tag.icon" variant="text" :v-draggable="true" />
     </v-chip-group>
 
   </div>

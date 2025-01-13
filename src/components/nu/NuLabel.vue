@@ -3,14 +3,13 @@
 const props = defineProps({
   tag: {
     type: Object,
-    required: true,
   },
   label: {
     type: String,
   },
 })
 
-const nameLabel = props.label ?? props.tag.name
+const nameLabel = props.label ?? props.tag?.name
 
 </script>
 

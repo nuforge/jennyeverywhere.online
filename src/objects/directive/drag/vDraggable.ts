@@ -9,6 +9,7 @@ export const vDraggable = {
     el.draggable = true
 
     el.addEventListener('dragstart', () => {
+      console.log('vDraggable.onDragStart', binding.value)
       if (binding.value) onDragStart(binding.value)
     })
 

@@ -31,6 +31,7 @@ class DragManager implements DragManagerInterface {
   }
 
   dragStart(event: DragEvent, type: string, data: string) {
+    //console.log('dragStart', type, data)
     this.writeDataTransfer(event, type, data)
     this.setDragImage(event)
   }

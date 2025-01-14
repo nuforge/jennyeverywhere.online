@@ -1,5 +1,5 @@
 import markdownit from 'markdown-it'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Label'
 
 class MarkdownManager {
   protected _md = markdownit({
@@ -141,9 +141,9 @@ class MarkdownManager {
 
     if (target.tagName === 'A' || target.tagName === 'I') {
       const newTag = new Tag(
-        target.getAttribute('tag') || undefined,
-        target.getAttribute('color') || undefined,
-        target.getAttribute('icon') || undefined,
+        target.getAttribute('tag') || '',
+        target.getAttribute('color') || '',
+        target.getAttribute('icon') || '',
       )
       return newTag
     }
@@ -183,9 +183,9 @@ class MarkdownManager {
     const custom = Array.from(doc.querySelectorAll('custom-tag')).map(
       (custom) =>
         new Tag(
-          custom.getAttribute('tag') || undefined,
-          custom.getAttribute('color') || undefined,
-          custom.getAttribute('icon') || undefined,
+          custom.getAttribute('tag') || '',
+          custom.getAttribute('color') || '',
+          custom.getAttribute('icon') || '',
         ),
     )
 

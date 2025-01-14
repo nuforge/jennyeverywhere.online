@@ -4,7 +4,7 @@ import img from '@/assets/stories/gallery/001.png'
 import story from '@/assets/stories/story.json'
 import Label from '@/objects/nu/Label'
 import Tag from '@/objects/nu/Tag'
-import NuTag from '@/components/nu/v1/NuTag.vue'
+import NuTag from '@/components/nu/NuTag.vue'
 
 
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
@@ -24,10 +24,10 @@ tagMap.value.push(new Label('flamethrower', 'red', 'mdi-fire'))
 tagMap.value.push(new Label('jetpack', 'warning', 'mdi-rocket-launch'))
 tagMap.value.push(new Label('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
 
-const selected = computed(() => {
+const selected = computed<Tag[]>(() => {
   return tagMap.value.filter((tag) => {
-    return Array.isArray(selection.value) && selection.value.includes(tag) ? tag : false;
-  });
+    return Array.isArray(selection.value) && selection.value.some((selectedTag) => selectedTag.toString() === tag.name);
+  }).map((label) => label.tag as Tag);
 });
 
 </script>
@@ -39,7 +39,8 @@ const selected = computed(() => {
       <v-col cols="6" md="8" sm="12">
         <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
         <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tagMap" :key="tag.label" :tag="tag.tag as Tag" :value="tag.label" />
+          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :icon="tag.icon" :color="tag.color"
+            :label="tag.name" :tag="(tag.tag as Tag)" />
         </v-chip-group>
       </v-col>
       <v-col cols="auto" md="4" sm="12">

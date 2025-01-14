@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
+import Label from '@/objects/nu/Label'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 
@@ -95,7 +96,8 @@ function onRightClick(event: MouseEvent) {
 <template>
   <div id="markdown-renderer" class="markdown-body" @click.right.exact.prevent="onRightClick" @click="onClick">
     <!-- Use the renderContent method to parse and render as Vue components -->
-    <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags)" :contenteditable="editable"></div>
+    <div v-show="text" v-html="markdowninator.textToMarkdown(text, props.tags as Label[])" :contenteditable="editable">
+    </div>
     <!--v-btn @dragstart="onDragStart" @drop="onDrop" @dragover="onDragOver" @dragend="onDragEnd" :draggable="true"
       variant="plain">Drag
       Me</v-btn -->

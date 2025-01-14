@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Tag from '@/objects/nu/v1/ValTag'
 
-import ChatManager from '@/objects/ChatManager'
+import ChatManager from '@/objects/chat/ChatManager'
 const chatManager = new ChatManager()
 
 const useChatStore = defineStore('chat', () => {

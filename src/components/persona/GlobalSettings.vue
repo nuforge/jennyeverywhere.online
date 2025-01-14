@@ -2,22 +2,22 @@
 import { ref, computed } from 'vue';
 import TagCardStyles from '@/components/tags/TagCardStyles.vue';
 import useStyleStore from '@/stores/styles'
-import usePersonaStore from '@/stores/persona'
+import useThemeStore from '@/stores/theme'
 import CustomColorPicker from '@/components/color/CustomColorPicker.vue'
 import Tag from '@/objects/nu/v1/ValTag'
 
 const styles = useStyleStore()
-const persona = usePersonaStore()
+const theme = useThemeStore()
 
 import Inator from '@/objects/Inator'
 const inator = new Inator()
 
 const mergedColors = computed(() => {
-  return inator.colorTags().concat(persona.customColors.tags as Tag[])
+  return inator.colorTags().concat(theme.customColors.tags as Tag[])
 })
 
 const addCustomColor = (color: string) => {
-  persona.addCustomColor(color, color)
+  theme.addCustomColor(color, color)
 }
 const dialog = ref(false)
 
@@ -26,7 +26,7 @@ const dialog = ref(false)
 <template>
   <v-sheet flat class="bg-transparent">
     <v-card-text class="d-flex justify-space-between">
-      <v-label>Current Theme:</v-label> "{{ persona.theme.name }}"
+      <v-label>Current Theme:</v-label> "{{ theme.theme.name }}"
       <v-btn to="/theme" block prepend-icon="mdi-information" color="info" variant="plain" size="small" />
     </v-card-text>
     <v-divider class=" my-3"></v-divider>
@@ -65,7 +65,7 @@ const dialog = ref(false)
     <v-label>Active Colors</v-label>
     <v-btn-toggle density="comfortable" v-model="styles.filterThemeColors" multiple divided
       class=" d-flex flex-wrap h-auto justify-space-between">
-      <v-tooltip bottom v-for="color in persona.themeTags" :key="color.name">
+      <v-tooltip bottom v-for="color in theme.themeTags" :key="color.name">
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-circle-opacity" :value="color.color" v-bind="props" size="medium" :ripple="false">
             <v-icon :color="styles.filterColors.includes(color.color) ? 'disabled' : color.color"></v-icon>
@@ -107,14 +107,14 @@ const dialog = ref(false)
 
     <v-label>Change Color Theme</v-label>
     <v-item-group class="d-flex justify-space-between" style="cursor:copy">
-      <v-badge v-for="color in persona.themeTags" :key="color.name" :color="color.color" dot location="bottom end">
+      <v-badge v-for="color in theme.themeTags" :key="color.name" :color="color.color" dot location="bottom end">
         <v-item>
           <v-tooltip location="bottom">
             <template v-slot:activator="{ props }">
-              <v-icon :color="`disabled`" v-bind="props" icon="mdi-eyedropper" @click="persona.pickColor(color.color)"
+              <v-icon :color="`disabled`" v-bind="props" icon="mdi-eyedropper" @click="theme.pickColor(color.color)"
                 :disabled="styles.filterColors.includes(color.color)" />
             </template>
-            {{ color.name }} : {{ color.color ? persona.myTheme.colors[color.color] : 'undefined' }}
+            {{ color.name }} : {{ color.color ? theme.myTheme.colors[color.color] : 'undefined' }}
 
           </v-tooltip>
         </v-item>

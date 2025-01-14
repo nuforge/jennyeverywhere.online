@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import LogoThemed from '@/components/persona/LogoThemed.vue'
-import usePersonaStore from '@/stores/persona';
 import { ref, computed, watch } from 'vue';
-const persona = usePersonaStore()
+import useThemeStore from '@/stores/theme';
+const theme = useThemeStore()
 
-const currentFocusColor = ref(persona.focus)
+const currentFocusColor = ref(theme.focus)
 
-const jennyColor = computed(() => persona.getThemeHexByName(persona.focus.color) || `#161616`)
-const everyColor = computed(() => persona.getThemeHexByName('primary') || `#323232`)
-const whereColor = computed(() => persona.getThemeHexByName('accent') || `#888888`)
+const jennyColor = computed(() => theme.getThemeHexByName('surface') || `#161616`) //
+const everyColor = computed(() => theme.getThemeHexByName('primary') || `#323232`)
+const whereColor = computed(() => theme.getThemeHexByName('text') || `#888888`)
 
-watch(() => persona.focus, (newVal) => {
+watch(() => theme.focus, (newVal) => {
   currentFocusColor.value = newVal
 })
 

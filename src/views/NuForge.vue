@@ -3,6 +3,7 @@ import useChatStore from '@/stores/chat';
 const chat = useChatStore();
 
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import LocalStorageManager from '@/utils/LocalStorageManager';
 
 //createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
 
@@ -13,6 +14,21 @@ const submitForm = async (event: Event) => {
   chat.sendGPTMessage()
 }
 
+const localStore = new LocalStorageManager('tehe')
+
+
+const SaveToLocal = () => {
+  localStore.storeItem('chat', chat.chatSent)
+  localStore.storeItem('summary', chat.chatSummary)
+  localStore.storeItem('response', chat.streamResponse)
+}
+
+const loadLocal = () => {
+  chat.chatSent = localStore.retrieveItem('chat')?.toString() ?? ''
+  chat.chatSummary = localStore.retrieveItem('summary')?.toString() ?? ''
+  chat.streamResponse = localStore.retrieveItem('response')?.toString() ?? ''
+}
+
 </script>
 
 <template>
@@ -20,6 +36,8 @@ const submitForm = async (event: Event) => {
     <v-col>
       <v-row>
         <v-col>
+          <v-btn @click="SaveToLocal"> Save </v-btn>
+          <v-btn @click="loadLocal"> Load </v-btn>
           <v-textarea v-model="chat.userInput" auto-grow :rows="1" :label="`${chat.chatGreeting}`" density="compact"
             @keydown.enter="submitForm" bg-color="background" variant="solo-filled" counter>
             <template #prepend-inner>{{ chat.chatEmoji }}

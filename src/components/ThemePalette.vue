@@ -9,13 +9,14 @@
 import { ref, defineProps, computed, watch } from 'vue';
 import EvTrayCard from '@/components/tags/EvTrayCard.vue';
 
-import usePersonaStore from '@/stores/persona';
-const persona = usePersonaStore()
+import useThemeStore from '@/stores/theme';
+const theme = useThemeStore()
+
 const selection = ref<string[]>([])
 
 
 const filtered = computed(() => {
-  return persona.themeTags.filter(tag => props.filter?.includes(tag.label)) || []
+  return theme.themeTags.filter(tag => props.filter?.includes(tag.label)) || []
 })
 
 const props = defineProps({

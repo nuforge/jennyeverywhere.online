@@ -89,7 +89,7 @@ const props = defineProps
     }
 
   })
-const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
+const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'drop', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
 function onCloseTag(event: Event) {
   emit('close', event, tag.value)
@@ -120,29 +120,30 @@ function onDblClickIcon(event: Event, tag: Tag) {
   emit('double-click-icon', event, tag)
 }
 
-// // DRAG EVENTS
-// function onDragStart(event: DragEvent) {
-//   dragManager.dragStart(event, 'tag', tag.value.name)
-//   emit('drag-start', event, tag.value)
-// }
+// DRAG EVENTS
+function onDragStart(event: DragEvent) {
+  emit('drag-start', event, tag.value)
+}
 
-// function onDragEnd(event: DragEvent) {
-//   dragManager.dragEnd(event)
-//   emit('drag-end', event, tag.value)
-// }
+function onDragEnd(event: DragEvent) {
+  emit('drag-end', event, tag.value)
+}
 
-// function onDragOver(event: DragEvent) {
-//   dragManager.dragOver(event)
-//   emit('drag-over', event, tag.value)
-// }
+function onDragOver(event: DragEvent) {
+  emit('drag-over', event, tag.value)
+}
 
+function onDrop(event: DragEvent) {
+  emit('drop', event, tag.value)
+}
 
 </script>
 
 <template>
-  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.seed" :id="`nu_${tag?.id}`"
+  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.seed" :id="tag?.id"
     :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
-    @dblclick="onDoubleClick" v-draggable="tag" v-droppable>
+    @dblclick="onDoubleClick" @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop"
+    v-draggable="tag" v-droppable="console.log">
     <!-- Tag Icon / Space -->
 
     <template #prepend v-if="icon">

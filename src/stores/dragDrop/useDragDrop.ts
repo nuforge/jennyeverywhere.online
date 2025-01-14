@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
 interface DragState {
   activeTags: Tag[] // Tags currently being dragged
@@ -27,7 +27,6 @@ export function useDragDrop() {
   }
 
   function onDrop(targetId: string, callback: (tags: Tag[]) => void) {
-    console.log('onDrop', targetId, dragState.value)
     if (dragState.value.isDragging && targetId) {
       dragState.value.dropTargetId = targetId
       callback(dragState.value.activeTags as Tag[])

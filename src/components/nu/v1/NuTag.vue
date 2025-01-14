@@ -14,8 +14,8 @@ import NuBadge from '@/components/nu/NuBadge.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
 
-import DragManager from '@/objects/drag/DragManager';
-const drag = new DragManager();
+import DragDataHandler from '@/objects/drag/DragManager';
+const drag = new DragDataHandler();
 
 import SettingsManager from '@/objects/SettingsManager';
 

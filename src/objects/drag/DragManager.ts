@@ -1,7 +1,7 @@
 import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png'
-import type { DragManager as DragManagerInterface } from './DragManagerInterface'
+import type { DragManager as DragDataHandlerInterface } from './DragManagerInterface'
 
-class DragManager implements DragManagerInterface {
+class DragDataHandler implements DragDataHandlerInterface {
   private _dragImage: HTMLImageElement | null = null
 
   constructor() {
@@ -55,4 +55,4 @@ class DragManager implements DragManagerInterface {
   }
 }
 
-export default DragManager
+export default DragDataHandler

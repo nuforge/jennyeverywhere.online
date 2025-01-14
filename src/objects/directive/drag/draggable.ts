@@ -1,9 +1,10 @@
 import type { Directive } from 'vue'
 import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
-import DragManager from '@/objects/drag/DragManager'
+import DragDataHandler from '@/objects/drag/DragManager'
+import Tag from '@/objects/nu/Tag'
 
 const { onDragStart, onDragEnd } = useDragDrop()
-const dragManager = new DragManager()
+const dragManager = new DragDataHandler()
 
 export const draggable: Directive = {
   mounted(el, binding) {
@@ -12,15 +13,19 @@ export const draggable: Directive = {
     el.addEventListener('dragstart', (event: DragEvent) => {
       //console.log('draggable', binding.value)
       if (!event.dataTransfer) return
-      console.log(binding.value)
-      if (binding.value) onDragStart(binding.value)
       el.classList.add('dragging')
-      dragManager.dragStart(event, 'generic', binding.value)
+
+      //console.log(binding.value)
+      if (binding.value) onDragStart(binding.value)
+
+      if (binding.value instanceof Tag) {
+        dragManager.dragStart(event, 'text/plain', binding.value.seed as string)
+      }
     })
 
     el.addEventListener('dragend', (event: DragEvent) => {
-      onDragEnd()
       el.classList.remove('dragging')
+      onDragEnd()
       dragManager.dragEnd(event)
     })
   },

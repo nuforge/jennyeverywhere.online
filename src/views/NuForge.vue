@@ -6,7 +6,6 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 //createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
 
-
 const submitForm = async (event: Event) => {
   event.preventDefault()
 

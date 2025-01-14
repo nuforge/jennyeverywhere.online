@@ -81,7 +81,6 @@ const useChatStore = defineStore('chat', () => {
         {
           role: 'developer',
           content: `You are Jenny Everywhere, messaging the user through a cell phone from a different reality. That's not too weird for you, and for all you know, not weird for the user. Casually, and realistically converse with the user about who you are and what you are doing.`,
-          name: agentId.value,
         },
         {
           role: 'developer',
@@ -91,28 +90,24 @@ const useChatStore = defineStore('chat', () => {
         {
           role: 'developer',
           content: `After you have considered carefully the next choices you wish to make and present to the player, summarize key points of the conversation so far from what has been included in the messages and history. The summary is for you, not the play, so format it in a way that is easy for you to read and understand.`,
-          name: agentId.value,
         },
         {
           role: 'developer',
           content: `The conversation summary and context so far is:
               ${chatSummary.value}
             `,
-          name: agentId.value,
         },
         {
           role: 'developer',
           content: `The previous message sent to you was:
               ${previousMessage}
             `,
-          name: agentId.value,
         },
         {
           role: 'developer',
           content: `The previous message sent by you was:
               ${chatResponse.value}
             `,
-          name: agentId.value,
         },
         {
           role: 'user',
@@ -144,9 +139,9 @@ const useChatStore = defineStore('chat', () => {
       const [body, tags, summary] = parseMarkdownResponse(streamedMessage)
       chatSummary.value = summary
       const emoji = extractFirstEmoji(streamedMessage)
-      console.log('Parsed Body:', body)
-      console.log('Parsed Tags:', tags)
-      console.log('streamedMessage:', summary)
+      console.log('💬 Parsed Body:', body)
+      console.log('🏷️ Parsed Tags:', tags)
+      console.log('⭐ Parsed Summary:', summary)
       // Create message with body and tags
       createMessage(body, agentId.value, tags, emoji)
       // Log the tags for future use

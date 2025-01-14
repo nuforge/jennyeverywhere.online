@@ -14,7 +14,7 @@ import NuBadge from '@/components/nu/NuBadge.vue';
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
 
-import DragDataHandler from '@/objects/drag/DragManager';
+import DragDataHandler from '@/objects/drag/DragDataHandler';
 const drag = new DragDataHandler();
 
 import SettingsManager from '@/objects/SettingsManager';
@@ -212,7 +212,7 @@ onMounted(() => {
     <!-- Tag Label / Value -->
     <template #default>
       <v-slide-x-transition>
-        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :space="tag.space" class="align-center" />
+        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :tag="tag" :space="tag.space" class="align-center" />
       </v-slide-x-transition>
       <v-slide-x-transition>
         <NuLabel v-if="showLabel && props.tag" :tag="props.tag" />

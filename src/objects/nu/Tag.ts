@@ -14,14 +14,14 @@ class Tag {
   protected _name: string
   protected _space?: string
 
-  constructor(seed: string) {
+  constructor(seed?: string) {
     //, color?: string, symbol?: string
-    this._seed = Tag.cleanstring(seed)
+    this._seed = Tag.CleanString(seed)
 
     const { space, name } = Tag.parseString(this._seed)
 
-    this._name = name ? Tag.cleanstring(name) : this._seed
-    this._space = space ? Tag.cleanstring(space) : undefined
+    this._name = name ? Tag.CleanString(name) : this._seed
+    this._space = space ? Tag.CleanString(space) : undefined
     this._tag = this
     return this
   }
@@ -50,7 +50,7 @@ class Tag {
     return Object.assign(object, this)
   }
 
-  static cleanstring = (text: string) => {
+  static CleanString = (text?: string) => {
     return text !== undefined ? text.toString().trim() : ''
   }
 
@@ -60,7 +60,7 @@ class Tag {
 
   static parseString(input: string): { space?: string; name: string } {
     // Normalize the string: lowercase and replace spaces with hyphens
-    const normalized = Tag.cleanstring(input)
+    const normalized = Tag.CleanString(input)
 
     // Initialize result
     const result: { space?: string; name: string } = { name: '' }

@@ -1,10 +1,10 @@
 import type { Directive } from 'vue'
 import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
-import DragDataHandler from '@/objects/drag/DragManager'
+import DragDataHandler from '@/objects/drag/DragDataHandler'
 import Tag from '@/objects/nu/Tag'
 
 const { onDragStart, onDragEnd } = useDragDrop()
-const dragManager = new DragDataHandler()
+const dragDataHandler = new DragDataHandler()
 
 export const draggable: Directive = {
   mounted(el, binding) {
@@ -19,14 +19,14 @@ export const draggable: Directive = {
       if (binding.value) onDragStart(binding.value)
 
       if (binding.value instanceof Tag) {
-        dragManager.dragStart(event, 'text/plain', binding.value.seed as string)
+        dragDataHandler.dragStart(event, 'text/plain', binding.value.seed as string)
       }
     })
 
     el.addEventListener('dragend', (event: DragEvent) => {
       el.classList.remove('dragging')
       onDragEnd()
-      dragManager.dragEnd(event)
+      dragDataHandler.dragEnd(event)
     })
   },
   unmounted(el: HTMLElement) {

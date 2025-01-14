@@ -1,18 +1,15 @@
 import { describe, it, expect } from 'vitest'
-import Tag from '@/objects/nu/v1/NuTag'
+import Tag from '@/objects/nu/Tag'
 
 describe('Tag', () => {
   it('should create a Tag instance with default values', () => {
     const tag = new Tag()
     expect(tag).toBeInstanceOf(Tag)
-    expect(tag.name).toBe(tag.type)
-    expect(tag.color).toBe('accent')
-    expect(tag.icon).toBe('mdi-tag-outline')
   })
 
   it('should clean value correctly', () => {
-    expect(Tag.cleanValue('  test  ')).toBe('test')
-    expect(Tag.cleanValue(undefined)).toBe('')
+    expect(Tag.CleanString('  test  ')).toBe('test')
+    expect(Tag.CleanString(undefined)).toBe('')
   })
 
   it('should normalize tag name correctly', () => {
@@ -40,11 +37,10 @@ describe('Tag', () => {
   })
 
   it('should extract scoped keywords correctly', () => {
-    const input = 'space:label.value'
-    const { space, label, value } = Tag.extractScopedKeywords(input)
+    const input = 'space:name'
+    const [space, name] = Tag.extractScopedKeywords(input)
     expect(space).toEqual(['space'])
-    expect(label).toEqual(['label'])
-    expect(value).toEqual(['value'])
+    expect(name).toEqual(['name'])
   })
 
   it('should convert to string correctly', () => {
@@ -54,7 +50,7 @@ describe('Tag', () => {
 
   it('should reconstruct string correctly', () => {
     const tag = new Tag('space:label.value')
-    const result = tag.reconstructString({ space: 'space', name: 'label', value: 'value' })
+    const result = tag.reconstructString({ space: 'space', name: 'label' })
     expect(result).toBe('space:label.value')
   })
 
@@ -70,13 +66,11 @@ describe('Tag', () => {
     const tag = new Tag()
     tag.name = 'newName'
     expect(tag.name).toBe('newName')
-    tag.color = 'newColor'
-    expect(tag.color).toBe('newColor')
-    tag.icon = 'newIcon'
-    expect(tag.icon).toBe('newIcon')
-    tag.value = 'newValue'
-    expect(tag.value).toBe('newValue')
-    tag.namespace = 'newNamespace'
-    expect(tag.namespace).toBe('newNamespace')
+    expect(tag.label).toBe('newName')
+    tag.space = 'newSpace'
+    expect(tag.space).toBe('newSpace')
+    tag.seed = 'newSeed'
+    expect(tag.seed).toBe('newSeed')
+    expect(tag.tag).toBeInstanceOf(Tag)
   })
 })

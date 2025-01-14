@@ -1,14 +1,14 @@
 import type { Directive } from 'vue'
 import { useDragDrop } from '@/stores/dragDrop/useDragDrop'
-import DragDataHandler from '@/objects/drag/DragManager'
+import DragDataHandler from '@/objects/drag/DragDataHandler'
 
 const { onDrop, dragState } = useDragDrop()
-const dragManager = new DragDataHandler()
+const dragDataHandler = new DragDataHandler()
 
 export const droppable: Directive = {
   mounted(el, binding) {
     el.addEventListener('dragover', (event: DragEvent) => {
-      dragManager.dragOver(event)
+      dragDataHandler.dragOver(event)
       el.classList.add('drag-over')
     })
 

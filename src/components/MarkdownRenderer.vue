@@ -5,8 +5,8 @@ import Label from '@/objects/nu/Label'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
 
-// import DragManager from '@/objects/DragManager';
-// const drag = new DragManager()
+// import DragDataHandler from '@/objects/DragDataHandler';
+// const drag = new DragDataHandler()
 
 const emit = defineEmits(['click', 'ctrl-click', 'right-click', 'click-tag', 'click-body', 'click-icon', 'click-anchor', 'click-paragraph', 'create-tag'])
 

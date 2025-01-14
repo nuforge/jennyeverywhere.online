@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import story from '@/assets/stories/story.json'
-import Label from '@/objects/nu/Label'
 import Tag from '@/objects/nu/Tag'
 import NuTag from '@/components/nu/NuTag.vue'
 
@@ -14,15 +13,21 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 //import MarkdownManager from '@/objects/MarkdownManager';
 //const markdowninator = new MarkdownManager()
-const tagMap = ref<Label[]>([])
+const tagMap = ref<Tag[]>([])
 
 const selection = ref<Tag[]>([])
 
-tagMap.value.push(new Label('Jenny Everywhere').setColor('primary').setIcon('mdi-account-circle'))
-tagMap.value.push(new Label('green portal', 'green', 'mdi-orbit'))
-tagMap.value.push(new Label('flamethrower', 'red', 'mdi-fire'))
-tagMap.value.push(new Label('jetpack', 'warning', 'mdi-rocket-launch'))
-tagMap.value.push(new Label('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
+tagMap.value.push(new Tag('Jenny Everywhere'))
+tagMap.value.push(new Tag('green portal'))
+tagMap.value.push(new Tag('flamethrower'))
+tagMap.value.push(new Tag('jetpack'))
+tagMap.value.push(new Tag('dude with a mohawk'))
+
+// tagMap.value.push(new Tag('Jenny Everywhere'))
+// tagMap.value.push(new Tag('green portal', 'green', 'mdi-orbit'))
+// tagMap.value.push(new Tag('flamethrower', 'red', 'mdi-fire'))
+// tagMap.value.push(new Tag('jetpack', 'warning', 'mdi-rocket-launch'))
+// tagMap.value.push(new Tag('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
 
 const selected = computed<Tag[]>(() => {
   return tagMap.value.filter((tag) => {
@@ -39,8 +44,7 @@ const selected = computed<Tag[]>(() => {
       <v-col cols="6" md="8" sm="12">
         <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
         <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :icon="tag.icon" :color="tag.color"
-            :label="tag.name" :tag="(tag.tag as Tag)" />
+          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :label="tag.name" :tag="(tag.tag as Tag)" />
         </v-chip-group>
       </v-col>
       <v-col cols="auto" md="4" sm="12">

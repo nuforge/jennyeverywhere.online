@@ -20,15 +20,19 @@ interface Message {
 }
 
 const jennyEverywhere = defineStore('jenny_everywhere', () => {
+  const messages = ref<Message[]>([])
   const userId = ref(uuidv4())
   const agentId = ref('jenny_everywhere')
   const greeting = ref(`New reality... who 'dis ?`)
-  const emoji = ref(`🤔`)
-  const messages = ref<Message[]>([])
-
   const chatSummary = ref(
     'summary so far: the app you are using is new and you are making contact with users for the first time. Excited, hopeful, and ready to talk about your adventures.',
   )
+  const emoji = ref(`🤔`)
+
+  const settingStream = true // NOT REF
+  const chatGPTmodel = ref('gpt-4o-mini')
+  const settingTemperature = ref(0.7)
+
   const isLoading = ref(false)
   const errorMessage = ref('')
 
@@ -37,8 +41,8 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
   const snackbar = ref(false)
   const timeout = ref('3000') // -1 for no timeout
 
-  const streamResponse = ref('')
   const chatSent = ref('')
+  const streamResponse = ref('')
   const chatResponse = ref('')
 
   const chatTags = ref<Tag[]>([])
@@ -61,7 +65,7 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
     const formattedTags = tags.length > 0 ? tags.map((tag) => `[${tag}]`).join(', ') : ''
     const stream = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: chatGPTmodel.value,
       messages: [
         {
           role: prompts[0].role as 'system' | 'user' | 'assistant',
@@ -87,8 +91,8 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
           name: userId.value,
         },
       ],
-      stream: true,
-      temperature: 0.7,
+      stream: settingStream,
+      temperature: settingTemperature.value,
     })
 
     let streamedMessage = ''
@@ -196,6 +200,8 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     chatSent,
     chatTags,
     chatTagSelection,
+    settingTemperature,
+    chatGPTmodel,
     sendGPTMessage,
     hideChat,
     displayChat,

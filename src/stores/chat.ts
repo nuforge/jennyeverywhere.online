@@ -1,6 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
+import Tag from '@/objects/nu/v1/ValTag'
+import Inator from '@/objects/Inator'
+
+const inator = new Inator()
 
 import OpenAI from 'openai'
 
@@ -9,33 +13,53 @@ interface Message {
   text: string
   sender: string
   timestamp: string
+  emoji?: string
+  tags?: Tag[]
 }
 
 const useChatStore = defineStore('chat', () => {
-  const userId = ref(uuidv4().toString())
-
-  const greeting = ref(`New reality... who 'dis ?`)
-  const emoji = ref(`🤔`)
-
-  const recipientId = ref('jenny_everywhere')
-  const model = ref('gpt-4o-mini')
-
-  const userInput = ref('')
-
-  const messages = ref<Message[]>([])
-
-  const chatSent = ref('')
-  const chatResponse = ref('')
-
-  const isLoading = ref(false)
-  const errorMessage = ref('')
-
-  const snackbar = ref(false)
-  const timeout = ref('-1') // -1 for no timeout
+  const models = ['gpt-4o-mini', 'gpt-4o']
+  const roles = ['developer', 'user', 'assistant']
 
   // OpenAI API settings
   const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
   const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true })
+
+  const messages = ref<Message[]>([])
+
+  // Chat Content
+  const userInput = ref('')
+  const userId = ref(uuidv4())
+
+  const agentId = ref('agent')
+
+  // Memory
+  const chatTags = ref<Tag[]>([])
+  const chatTagSelection = ref<string[]>([])
+
+  const chatEmoji = ref('🙂')
+  const chatGreeting = ref('Hello! I am a chatbot. How can I help you today?')
+
+  const chatSent = ref('')
+  const chatResponse = ref('')
+  const chatSummary = ref('')
+  const streamResponse = ref('')
+
+  // Chat settings
+  const settingStream = true // NOT REF
+  const chatGPTmodel = ref('gpt-4o-mini')
+  const settingTemperature = ref(0.7)
+
+  const clearOnSubmit = ref(false)
+
+  // CHat State
+  const isLoading = ref(false)
+  const errorMessage = ref('')
+
+  const imageLoading = ref(false)
+  const imageUrls = ref<string[]>([])
+
+  // Chat Data
 
   const bodyValid = computed(() => {
     return userInput.value.trim().length > 0
@@ -43,81 +67,150 @@ const useChatStore = defineStore('chat', () => {
 
   const sendGPTMessage = async () => {
     if (!userInput.value.trim()) return
-    isLoading.value = false
-    console.log('sendGPTMessage userInput.value', userInput.value)
-    chatSent.value = userInput.value
-    clearUserInput()
+    isLoading.value = true
 
-    createMessage(chatSent.value, userId.value) // Add user message to chat
+    const previousMessage = chatSent.value
+    chatSent.value = userInput.value
+    if (clearOnSubmit.value) clearUserInput()
+
+    createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
+    //const formattedTags = tags.length > 0 ? tags.map((tag) => `[${tag}]`).join(', ') : ''
     const stream = await openai.chat.completions.create({
-      model: model.value,
+      model: chatGPTmodel.value,
       messages: [
         {
-          role: 'system',
-          content: [
-            {
-              type: 'text',
-              text: `You are Jenny Everywhere, a multidimensional explorer. You are adventurous, witty, and brave. Everyone is trapped in a time loop and you are trying to help us find a way out. You've been doing this for a long time... use markup language to format with bold, italics, and surround important keyword or phrases with square brackets [word].`,
-            },
-          ],
-          name: recipientId.value,
+          role: 'developer',
+          content: `You are Jenny Everywhere, messaging the user through a cell phone from a different reality. That's not too weird for you, and for all you know, not weird for the user. Casually, and realistically converse with the user about who you are and what you are doing.`,
+          name: agentId.value,
         },
-        { role: 'user', content: chatSent.value, name: userId.value },
+        {
+          role: 'developer',
+          content:
+            "Each response should follow these guidelines: - Incorporate a meta-textual summary of past events to maintain continuity between messages. - Keep the conversation relevant and interactive and driving toward a story telling experience. - 3-6 tags are sent with messages to relay intention and memory between you and user. [name:value] or [value] format - Build a short narrative scenes using the user's input and your previous summary. - Keep responses short, and engaging, like an SMS text message between acquaintances. - The Markdown structure should always look like this example (without <> symbols): \n\n## Body\n\n <an emoji>, <message content>\n\n## Tags\n\n[<keyword>], [<keyword>], [<keyword>:<value>], [<keyword>], ...etc \n\n## Summary\n\n<summary content>\n\n",
+        },
+        {
+          role: 'developer',
+          content: `After you have considered carefully the next choices you wish to make and present to the player, summarize key points of the conversation so far from what has been included in the messages and history. The summary is for you, not the play, so format it in a way that is easy for you to read and understand.`,
+          name: agentId.value,
+        },
+        {
+          role: 'developer',
+          content: `The conversation summary and context so far is:
+              ${chatSummary.value}
+            `,
+          name: agentId.value,
+        },
+        {
+          role: 'developer',
+          content: `The previous message sent to you was:
+              ${previousMessage}
+            `,
+          name: agentId.value,
+        },
+        {
+          role: 'developer',
+          content: `The previous message sent by you was:
+              ${chatResponse.value}
+            `,
+          name: agentId.value,
+        },
+        {
+          role: 'user',
+          content: chatSent.value,
+          name: userId.value,
+        },
       ],
-      stream: true,
+      stream: settingStream,
+      temperature: settingTemperature.value,
     })
 
     let streamedMessage = ''
     chatResponse.value = '' // Reset chat response for the new stream
+    chatSent.value = userInput.value
 
     try {
+      // Check if stream is iterable and handle each chunk
       for await (const chunk of stream) {
-        const partialContent = chunk.choices[0]?.delta?.content || ''
+        const partialContent = chunk.choices[0]?.delta?.content || '' // Use `delta?.content` directly for each chunk
         streamedMessage += partialContent
-        chatResponse.value += partialContent
-        console.log(' for await', chatResponse.value)
+        streamResponse.value = streamedMessage
       }
     } catch (error) {
       console.error(error)
       errorMessage.value = 'An error occurred while contacting ChatGPT.'
     } finally {
-      createMessage(streamedMessage, recipientId.value)
+      chatResponse.value += streamedMessage
+      // Extract tags and body content from the streamed response
+      const [body, tags, summary] = parseMarkdownResponse(streamedMessage)
+      chatSummary.value = summary
+      const emoji = extractFirstEmoji(streamedMessage)
+      console.log('Parsed Body:', body)
+      console.log('Parsed Tags:', tags)
+      console.log('streamedMessage:', summary)
+      // Create message with body and tags
+      createMessage(body, agentId.value, tags, emoji)
+      // Log the tags for future use
       isLoading.value = false
-      console.log('finally', chatResponse.value)
     }
   }
 
-  const getMessages = () => {
-    return messages.value
+  // Function to extract body and tags from markdown response
+  function parseMarkdownResponse(response: string): [string, string[], string] {
+    const bodyMatch = response.match(/## Body\n\n(.*?)\n\n## Tags\n\n(.*?)\n\n## Summary\n\n(.*)/s)
+
+    if (!bodyMatch) return [response, [], '']
+
+    const body = bodyMatch[1].trim()
+    const tags = bodyMatch[2].split(',').map((tag) => tag.trim().replace('[', '').replace(']', ''))
+    const summary = bodyMatch[3].trim()
+
+    return [body, tags, summary]
   }
 
-  const createMessage = (body: string, sender?: string, timestamp?: string) => {
+  const generateImage = async (prompt: string) => {
+    try {
+      imageLoading.value = true
+      const response = await openai.images.generate({
+        model: 'dall-e-3',
+        prompt: prompt,
+      })
+      console.log('Generated Image URL:', response.data)
+      imageUrls.value.push(response.data[0].url?.toString() || '')
+      imageLoading.value = false
+      return response.data
+    } catch (error) {
+      console.error('Error generating image:', error)
+      errorMessage.value = 'An error occurred while generating the image.'
+      imageLoading.value = false
+      return null
+    }
+  }
+
+  const createMessage = (
+    body: string,
+    sender?: string,
+    tags?: string[],
+    timestamp?: string,
+    emoji?: string,
+  ) => {
+    const tagObjects = (tags || []).map(
+      (tag) => new Tag(tag, inator.themecolor(false), inator.icon()),
+    )
+    chatTags.value = tagObjects
     messages.value.push({
       id: messages.value.length,
       text: body,
       sender: sender || 'bot',
       timestamp: timestamp || new Date().toLocaleTimeString(),
+      emoji: emoji,
+      tags: tagObjects,
     })
   }
 
-  const addMessageToChat = (message: Message) => {
-    messages.value.push(message)
-  }
-
-  const toggleChat = () => {
-    snackbar.value = !snackbar.value
-  }
-
-  const displayChat = () => {
-    return (snackbar.value = true)
-  }
-
-  const hideChat = () => {
-    snackbar.value = false
-  }
-
-  const isChatVisible = () => {
-    return snackbar.value
+  const extractFirstEmoji = (text: string) => {
+    const emojiRegex = /\p{Emoji}/u
+    const match = text.match(emojiRegex)
+    return match ? match[0] : chatEmoji.value
   }
 
   const clearUserInput = () => {
@@ -125,24 +218,30 @@ const useChatStore = defineStore('chat', () => {
   }
 
   return {
-    snackbar,
-    timeout,
-    greeting,
-    emoji,
+    models,
+    roles,
     userInput,
+    chatSummary,
+    clearOnSubmit,
     chatResponse,
     isLoading,
     errorMessage,
     messages,
     bodyValid,
-    getMessages,
-    createMessage,
-    addMessageToChat,
+    streamResponse,
+    chatGreeting,
+    chatEmoji,
+    chatSent,
+    chatTags,
+    chatTagSelection,
+    settingTemperature,
+    chatGPTmodel,
+    imageUrls,
+    imageLoading,
     sendGPTMessage,
-    hideChat,
-    displayChat,
-    toggleChat,
-    isChatVisible,
+    clearUserInput,
+    extractFirstEmoji,
+    generateImage,
   }
 })
 

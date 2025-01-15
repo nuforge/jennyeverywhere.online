@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useTimelineStore } from '@/stores/timelines'
+import useTimelineStore from '@/stores/timelines'
 
 const timeline = useTimelineStore()
 

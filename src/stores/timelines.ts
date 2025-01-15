@@ -4,7 +4,7 @@ import Tag from '@/objects/nu/v1/ValTag'
 import Log from '@/objects/Log'
 import Timeline from '@/objects/Timeline'
 
-export const useTimelineStore = defineStore('timeline', () => {
+const useTimelineStore = defineStore('timeline', () => {
   const timeline = ref<Timeline>(new Timeline('tum'))
 
   type TimelineDirection = 'horizontal' | 'vertical'
@@ -52,3 +52,5 @@ export const useTimelineStore = defineStore('timeline', () => {
     addDiceRoll,
   }
 })
+
+export default useTimelineStore

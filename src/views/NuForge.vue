@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-import { useTimelineStore } from '@/stores/timelines';
+import useTimelineStore from '@/stores/timelines';
 const timeline = useTimelineStore();
 
 import useChatStore from '@/stores/chat/nuchat.ts';
 const chat = useChatStore();
-
 
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import LocalStorageManager from '@/utils/LocalStorageManager';

@@ -3,7 +3,7 @@ import { onMounted, computed } from 'vue';
 import type Tag from '@/objects/nu/v1/ValTag';
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
-import { useTimelineStore } from '@/stores/timelines'
+import useTimelineStore from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import useStateStore from '@/stores/state'
 const state = useStateStore()

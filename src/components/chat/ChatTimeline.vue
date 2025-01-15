@@ -5,7 +5,7 @@ import NuTag from '@/components/nu/v1/NuTag.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TimelineStyles from '@/components/timeline/TimelineStyles.vue';
 
-import { useTimelineStore } from '@/stores/timelines';
+import useTimelineStore from '@/stores/timelines';
 const timeline = useTimelineStore();
 
 import jennyEverywhere from '@/stores/jenny-everywhere';

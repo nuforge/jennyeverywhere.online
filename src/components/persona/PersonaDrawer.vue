@@ -6,6 +6,8 @@ import Tag from '@/objects/nu/v1/ValTag';
 import NuTag from '@/components/nu/v1/NuTag.vue';
 import usePersonaStore from '@/stores/persona';
 const persona = usePersonaStore()
+import useThemeStore from '@/stores/theme';
+const theme = useThemeStore()
 
 import { useMemoryStore } from '@/stores/memory';
 const memory = useMemoryStore()
@@ -25,26 +27,26 @@ watch(
 </script>
 
 <template>
-  <v-navigation-drawer :permanent="persona.permanent" v-model="persona.drawer" width="300" :scrim="!state.dragging"
-    :rail="persona.rail" flat disable-resize-watcher disable-route-watcher :mobile="true" sticky elevation="0"
+  <v-navigation-drawer :permanent="theme.permanent" v-model="theme.drawer" width="300" :scrim="!state.dragging"
+    :rail="theme.rail" flat disable-resize-watcher disable-route-watcher :mobile="true" sticky elevation="0"
     class="bg-transparent scroll-container ">
-    <v-card :class="[' mt-16', !persona.rail ? 'pb-2' : 'justify-center']" :flat="persona.rail">
+    <v-card :class="[' mt-16', !theme.rail ? 'pb-2' : 'justify-center']" :flat="theme.rail">
 
       <v-card-actions class="bg-background">
-        <v-icon @click="persona.rail = !persona.rail" :icon="persona.rail ? `mdi-chevron-left` : `mdi-chevron-right`"
+        <v-icon @click="theme.rail = !theme.rail" :icon="theme.rail ? `mdi-chevron-left` : `mdi-chevron-right`"
           variant="plain"></v-icon>
         <v-spacer />
-        <v-icon v-if="!persona.rail" @click=" persona.permanent = !persona.permanent"
-          :icon="persona.permanent ? 'mdi-pin' : 'mdi-pin-outline'" variant="plain" />
+        <v-icon v-if="!theme.rail" @click=" theme.permanent = !theme.permanent"
+          :icon="theme.permanent ? 'mdi-pin' : 'mdi-pin-outline'" variant="plain" />
 
       </v-card-actions>
       <v-row class="bg-background align-center justify-center  my-2">
         <v-divider class="mb-2" />
         <NuTag :tag="(persona.focus as Tag)" variant="text" @click="persona.focusOn(persona.focus as Tag)"
-          :labels="!persona.rail" /><v-divider class="mt-2" />
+          :labels="!theme.rail" /><v-divider class="mt-2" />
       </v-row>
       <v-card-text>
-        <v-expansion-panels v-model="persona.menuSelection" collapse-icon="mdi-chevron-up" selected-class="bg-primary"
+        <v-expansion-panels v-model="theme.menuSelection" collapse-icon="mdi-chevron-up" selected-class="bg-primary"
           multiple static flat>
 
           <ExpansionPanel title="Focus" icon="mdi-image-filter-center-focus" component="SystemTags" value="system"
@@ -56,7 +58,7 @@ watch(
 
           <v-expansion-panel value="history" :key="'history'">
             <v-expansion-panel-title expand-icon="mdi-history">
-              <v-label v-if="!persona.rail">History</v-label>
+              <v-label v-if="!theme.rail">History</v-label>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="bg-background">
 

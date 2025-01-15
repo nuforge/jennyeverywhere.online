@@ -29,6 +29,18 @@ class LocalStorageManager {
     localStorage.setItem(this.storageKey, JSON.stringify(data))
   }
 
+  // Check if a key exists in localStorage
+  hasItem(key: string): boolean {
+    const data = this.retrieveAllItems()
+    return key in data
+  }
+
+  // Check if localStorage is empty
+  isEmpty(): boolean {
+    const data = this.retrieveAllItems()
+    return Object.keys(data).length === 0
+  }
+
   // Retrieve all items from localStorage
   retrieveAllItems(): Record<string, string> {
     const data = localStorage.getItem(this.storageKey)

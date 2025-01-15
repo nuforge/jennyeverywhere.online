@@ -71,9 +71,9 @@ const useChatStore = defineStore('chat', () => {
 
     const previousMessage = chatSent.value
     chatSent.value = userInput.value
+    createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
     if (clearOnSubmit.value) clearUserInput()
 
-    createMessage(chatSent.value, userId.value, chatTagSelection.value) // Ad
     //const formattedTags = tags.length > 0 ? tags.map((tag) => `[${tag}]`).join(', ') : ''
     const stream = await openai.chat.completions.create({
       model: chatGPTmodel.value,
@@ -121,7 +121,6 @@ const useChatStore = defineStore('chat', () => {
 
     let streamedMessage = ''
     chatResponse.value = '' // Reset chat response for the new stream
-    chatSent.value = userInput.value
 
     try {
       // Check if stream is iterable and handle each chunk

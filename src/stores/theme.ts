@@ -1,8 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-// 'myCustomTheme'
-
 import { useTheme } from 'vuetify'
 import Tag from '@/objects/nu/v1/ValTag'
 import Legend from '@/objects/tags/Legend'

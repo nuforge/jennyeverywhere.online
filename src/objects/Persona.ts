@@ -1,14 +1,11 @@
 import Tag from '@/objects/nu/v1/ValTag'
 import Legend from '@/objects/tags/Legend'
 
-class Persona {
-  protected _id: string
-  protected _name: string
+class Persona extends Tag {
   protected _attributes: Legend = new Legend()
 
   constructor(name: string) {
-    this._id = name.toString().toLowerCase().replace(/\s/g, '-')
-    this._name = name
+    super(name)
   }
 
   get id() {

@@ -13,7 +13,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-avatar :image="showAvatar ? persona.avatar : undefined" rounded="0" v-if="persona.avatar"
+  <v-avatar :image="showAvatar ? persona.avatar : undefined" class="rounded-lg" v-if="persona.avatar"
     :icon="!showAvatar ? persona.focus.icon : undefined" size="x-large">
   </v-avatar>
 </template>

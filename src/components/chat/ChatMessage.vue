@@ -21,9 +21,9 @@ const inator = new Inator()
 const props = defineProps<{
   message: {
     id: number;
-    text: string;
+    content: string;
     sender: string;
-    timestamp: string;
+    timestamp: Date;
   };
 }>();
 

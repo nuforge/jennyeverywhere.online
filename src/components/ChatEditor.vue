@@ -65,8 +65,9 @@ const chatMessages = computed(() => chat.previousMessages)
         <v-col>
           <v-label>Chat Message</v-label>
           <v-textarea v-model="userInput" auto-grow :rows="3" :label="chat.chatGreeting" density="compact"
-            @keydown.enter="submitForm" bg-color="background" variant="solo-filled" counter>
-            <template #prepend>{{ chat.chatEmoji }}
+            @keydown.enter="submitForm" bg-color="background" variant="solo-filled" counter
+            prepend-icon="mdi-chat-outline">
+            <template #prepend-inner>{{ chat.chatEmoji }}
             </template>
             <template #append-inner>
               <v-btn v-if="!chat.isLoading" @click="submitForm" :disabled="!validBody" icon="mdi-send" flat

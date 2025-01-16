@@ -40,7 +40,7 @@ const usePersonaStore = defineStore('persona', () => {
 
   async function randomAvatar() {
     //const rndAvatar = Math.floor(Math.random() * 33)
-    await import(`@/assets/images/avatars/jenny-everywhere-avatar.png`)
+    await import(`@/assets/images/chatgpt/ee6ea922-3198-4bfb-8c11-c3171bc3f26b.webp`)
       .then((result) => (avatar.value = result.default))
       .catch((error) => console.error(error))
   }

@@ -12,7 +12,7 @@ const useChatStore = defineStore('chat', () => {
   const chatTags = ref<Tag[]>([])
   const chatTagSelection = ref<string[]>([])
   const chatGreeting = ref('Hello!')
-  const chatEmoji = ref('💬')
+  const chatEmoji = ref('✌️')
   const chatSent = ref('')
   const chatResponse = ref('')
   const chatSummary = ref('')
@@ -116,6 +116,7 @@ const useChatStore = defineStore('chat', () => {
   }
 
   return {
+    baseMessages,
     chatTags,
     chatTagSelection,
     chatGreeting,

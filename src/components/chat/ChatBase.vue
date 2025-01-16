@@ -4,25 +4,20 @@ import ChatMessages from '@/components/chat/ChatMessages.vue'
 import ChatInputBar from '@/components/chat//ChatInputBar.vue'
 import ChatLoading from '@/components/chat//ChatLoading.vue'
 
-import useChatStore from '@/stores/chat';
+import type ChatMsg from '@/types/ChatMsg'
+import useChatStore from '@/stores/chat/nuchat';
 const chat = useChatStore();
 
-interface Message {
-  id: number;
-  text: string;
-  sender: string;
-  timestamp: string;
-}
 
-const messages = ref<Message[]>([])
+const messages = ref<ChatMsg[]>([])
 
 const handleSend = (message: string) => {
   // Add the new message to the messages array
   messages.value.push({
     id: Date.now(),
-    text: message,
+    content: message,
     sender: 'user',
-    timestamp: new Date().toISOString(),
+    timestamp: new Date(),
   })
 }
 

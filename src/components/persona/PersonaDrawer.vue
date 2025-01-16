@@ -9,8 +9,6 @@ const persona = usePersonaStore()
 import useThemeStore from '@/stores/theme';
 const theme = useThemeStore()
 
-import { useMemoryStore } from '@/stores/memory';
-const memory = useMemoryStore()
 
 import useStateStore from '@/stores/state';
 const state = useStateStore()
@@ -56,21 +54,6 @@ watch(
           <ExpansionPanel title="Global Styles" icon="mdi-palette-swatch" component="GlobalSettings" value="global"
             panelKey="global" />
 
-          <v-expansion-panel value="history" :key="'history'">
-            <v-expansion-panel-title expand-icon="mdi-history">
-              <v-label v-if="!theme.rail">History</v-label>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text class="bg-background">
-
-
-              <v-list lines="one" density="compact">
-                <NuTag v-for="tag in memory.getMemories(10, 'score')" :key="tag.id" :tag="tag" elevation="2"
-                  :labels="false" @click="persona.focusOn(tag)" variant="plain" />
-              </v-list>
-
-
-            </v-expansion-panel-text>
-          </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
 

@@ -22,7 +22,16 @@ const validBody = computed(() => {
 const submitForm = async (event: Event) => {
   event.preventDefault()
   //chat.generateImage(chat.userInput)
-  chat.sendGPTMessage(userInput.value)
+
+  await chat.sendGPTMessage(userInput.value).
+    then((response) => {
+      localStorage.storeItem('tags', response?.tags.join(',') || '')
+
+      SaveToLocal()
+    })
+  if (chat.clearOnSubmit) {
+    userInput.value = ''
+  }
 }
 
 const localStorage = new LocalStorageManager('nuForgeMemory')

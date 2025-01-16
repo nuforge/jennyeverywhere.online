@@ -13,9 +13,12 @@ dbManager.getAllItems().then(items => {
 const tagInput = ref('')
 const valueInput = ref('')
 
-const validTag = computed(() => tagInput.value.trim().length > 0)
+const isEmpty = computed(() => localDatabaseObject.value.length === 0)
 
+const validTag = computed(() => tagInput.value.trim().length > 0)
 const searchTag = computed(() => tagInput.value.toLowerCase())
+
+
 const SaveToLocal = async () => {
 
   const item: Item = { tag: tagInput.value, value: valueInput.value };
@@ -31,6 +34,7 @@ const RemoveLocal = async () => {
 
 }
 const clearLocal = async () => {
+  await dbManager.emptyStore();
   localDatabaseObject.value = await dbManager.getAllItems();
 
 }
@@ -54,26 +58,23 @@ const clearInput = () => {
 
 <template>
   <v-card>
-    <v-card-title>IndexedDB Manager</v-card-title>
-    <v-card-actions class="align-center">
-      <v-text-field v-model="tagInput" density="compact" label="tag" prepend-inner-icon="mdi-tag"
-        @keydown.enter="submitForm"></v-text-field>
-      <v-text-field v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-tray"
-        @keydown.enter="submitForm"></v-text-field>
-    </v-card-actions>
+    <v-card-title>IndexedDB</v-card-title>
+    <v-text-field v-model="tagInput" density="compact" label="store" prepend-inner-icon="mdi-tray-arrow-down"
+      @keydown.enter="submitForm"></v-text-field>
+    <v-textarea v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-label"
+      @keydown.enter="submitForm" clearable rows="1" auto-grow />
     <v-card-actions class="align-center">
       <v-btn @click="SaveToLocal" color="primary" icon="mdi-tray-plus" :disabled="!validTag"></v-btn>
-      <v-btn @click="RemoveLocal" color="primary" icon="mdi-tray-minus" :disabled="!validTag"></v-btn>
+      <v-btn @click="RemoveLocal" color="warning" icon="mdi-tray-minus" :disabled="!validTag || isEmpty"></v-btn>
       <v-divider></v-divider>
-      <v-btn @click="clearLocal" color="primary" icon="mdi-close"></v-btn>
+      <v-btn @click="clearLocal" color="warning" icon="mdi-trash-can-outline" :disabled="isEmpty"></v-btn>
     </v-card-actions>
     <div>
-      <v-divider><v-label>local Storage</v-label></v-divider>
+      <v-divider><v-label>IndexedDB</v-label></v-divider>
       <div v-for="(item, index) in localDatabaseObject" :key="index">
-        {{ item.tag }}: <v-label>{{ item.value }}</v-label><br />
+        <v-label>{{ item.tag }}</v-label> {{ item.value }}<br />
         <v-label>{{ item.id }}</v-label>
       </div>
-      <v-divider><v-label>Raw</v-label></v-divider>
     </div>
   </v-card>
 </template>

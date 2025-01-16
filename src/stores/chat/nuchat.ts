@@ -60,7 +60,7 @@ const useChatStore = defineStore('chat', () => {
     },
   ])
 
-  function sendGPTMessage(userInput?: string) {
+  async function sendGPTMessage(userInput?: string) {
     const messageToSend = userInput || chatSent.value
     if (!messageToSend.trim()) return
 
@@ -78,33 +78,35 @@ const useChatStore = defineStore('chat', () => {
     previousMessages.value.push(newMsg)
     const formattedMessage = formatChatToChatGPT(newMsg)
 
-    chatGPTMessage(baseMessages.value.concat(formattedMessage))
+    return await chatGPTMessage(baseMessages.value.concat(formattedMessage))
   }
 
-  function chatGPTMessage(messagePayload: ChatGPTMsg[]) {
-    chatManager
-      .sendMessageToChatGPT(messagePayload)
-      .then((response) => {
-        chatResponse.value = response.body
-        chatSummary.value = response.summary
-        chatTags.value = response.tags
-        isLoading.value = false
+  async function chatGPTMessage(
+    messagePayload: ChatGPTMsg[],
+  ): Promise<{ response: string; tags: Tag[]; summary: string }> {
+    try {
+      const response = await chatManager.sendMessageToChatGPT(messagePayload)
+      chatResponse.value = response.body
+      chatSummary.value = response.summary
+      chatTags.value = response.tags
+      isLoading.value = false
 
-        const replyMsg = {
-          id: previousMessages.value.length,
-          content: response.body,
-          sender: 'system',
-          timestamp: new Date(),
-          emoji: extractEmoji(response.body),
-        } as ChatMsg
+      const replyMsg = {
+        id: previousMessages.value.length,
+        content: response.body,
+        sender: 'system',
+        timestamp: new Date(),
+        emoji: extractEmoji(response.body),
+      } as ChatMsg
 
-        previousMessages.value.push(replyMsg)
-      })
-      .catch((error) => {
-        errorMessage.value = 'An error occurred while contacting ChatGPT.'
-        console.error(error)
-        isLoading.value = false
-      })
+      previousMessages.value.push(replyMsg)
+      return { response: response.body, tags: response.tags, summary: response.summary }
+    } catch (error) {
+      errorMessage.value = 'An error occurred while contacting ChatGPT.'
+      console.error(error)
+      isLoading.value = false
+      return { response: '', tags: [], summary: '' }
+    }
   }
 
   function extractEmoji(text: string) {

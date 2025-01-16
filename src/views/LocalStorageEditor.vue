@@ -54,25 +54,24 @@ watch(searchValue, () => {
 
 <template>
   <v-card>
-    <v-card-title>Local Storage Manager</v-card-title>
-    <v-card-actions class="align-center">
-      <v-text-field v-model="tagInput" density="compact" label="tag" prepend-inner-icon="mdi-tag"
-        @keydown.enter="submitForm"></v-text-field>
-      <v-text-field v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-tray"
-        @keydown.enter="submitForm"></v-text-field>
-    </v-card-actions>
+    <v-card-title>localStorage</v-card-title>
+    <v-text-field v-model="tagInput" density="compact" label="tag" prepend-inner-icon="mdi-tag"
+      @keydown.enter="submitForm" clearable></v-text-field>
+    <v-textarea v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-tray"
+      @keydown.enter="submitForm" clearable rows="1" auto-grow></v-textarea>
     <v-card-actions class="align-center">
       <v-btn @click="SaveToLocal" color="primary" icon="mdi-tray-plus" :disabled="!validTag"></v-btn>
-      <v-btn @click="RemoveLocal" color="primary" icon="mdi-tray-minus" :disabled="!validTag || !hasValue"></v-btn>
+      <v-btn @click="RemoveLocal" color="warning" icon="mdi-tray-minus"
+        :disabled="!validTag || localStorage.isEmpty()"></v-btn>
       <v-divider></v-divider>
-      <v-btn @click="clearLocal" color="primary" icon="mdi-close"></v-btn>
+      <v-btn @click="clearLocal" color="warning" icon="mdi-trash-can-outline"
+        :disabled="localStorage.isEmpty()"></v-btn>
     </v-card-actions>
     <div>
-      <v-divider><v-label>local Storage</v-label></v-divider>
+      <v-divider><v-label>localStorage</v-label></v-divider>
       <div v-for="(item, index) in localObject" :key="index">
-        {{ index }}: <v-label>{{ item }}</v-label>
+        <v-label>{{ index }}</v-label> {{ item }}
       </div>
-      <v-divider><v-label>Raw</v-label></v-divider>
     </div>
   </v-card>
 

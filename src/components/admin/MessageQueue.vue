@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import type ChatGPTMsg from '@/types/ChatGPTMsg'
+
 import ChatManager from '@/objects/chat/ChatManager'
 const chatManager = new ChatManager()
+
+import useChatStore from '@/stores/chat/nuchat.ts';
+const chat = useChatStore();
 
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
@@ -16,23 +19,6 @@ const dragIndex = ref(-1)
 const dropIndex = ref(-1)
 
 
-
-const baseMessages = ref<ChatGPTMsg[]>([
-  {
-    role: 'developer',
-    content: `You are Jenny Everywhere, messaging the user through a cell phone from a different reality. That's not too weird for you, and for all you know, not weird for the user. Casually, and realistically converse with the user about who you are and what you are doing.`,
-  },
-  {
-    role: 'developer',
-    content: `The previous message sent by you was:`,
-  },
-  {
-    role: 'user',
-    content: 'Hello? Who is this?',
-    name: 'user',
-  },
-])
-
 const icons: Record<string, string> = {
   developer: 'mdi-code-block-tags',
   user: 'mdi-comment-account',
@@ -42,8 +28,8 @@ const icons: Record<string, string> = {
   bot: 'mdi-robot-outline',
 }
 
-const queueSelection = ref([baseMessages.value.length - 1])
-const selectedMessage = ref(baseMessages.value[queueSelection.value[0]])
+const queueSelection = ref([chat.baseMessages.length - 1])
+const selectedMessage = ref(chat.baseMessages[queueSelection.value[0]])
 
 const selectedRole = ref(selectedMessage.value.role)
 const customRole = ref(selectedRole.value)
@@ -52,11 +38,11 @@ const messageName = ref(selectedMessage.value.name)
 
 
 const colors: Record<string, string> = {
-  developer: 'warning',
+  developer: 'success',
   user: 'primary',
   assistant: 'secondary',
   system: 'black', // DEPRECATED
-  tool: 'accent',
+  tool: 'warning',
   bot: 'error',
 }
 
@@ -76,15 +62,15 @@ const clearMessagForm = () => {
 
 const editMessageByIndex = (index: number, event: Event) => {
   console.log('editMessageByIndex', index, event)
-  selectedRole.value = baseMessages.value[index]?.role || ''
-  messageContent.value = baseMessages.value[index]?.content || ''
-  messageName.value = baseMessages.value[index]?.name || ''
+  selectedRole.value = chat.baseMessages[index]?.role || ''
+  messageContent.value = chat.baseMessages[index]?.content || ''
+  messageName.value = chat.baseMessages[index]?.name || ''
 }
 
 const addMessage = () => {
   if (!validMessage.value) return
   const roletoGPT = selectedRole.value as 'developer' | 'user' | 'assistant' | 'system' | 'tool'
-  baseMessages.value.push({ role: roletoGPT, content: messageContent.value })
+  chat.baseMessages.push({ role: roletoGPT, content: messageContent.value })
   clearMessagForm()
 }
 
@@ -92,12 +78,12 @@ const editMessage = () => {
   if (!validMessage.value) return
   const roletoGPT = selectedRole.value as 'developer' | 'user' | 'assistant' | 'system' | 'tool'
   queueSelection.value.forEach((index: number) => {
-    baseMessages.value[index] = { role: roletoGPT, content: messageContent.value }
+    chat.baseMessages[index] = { role: roletoGPT, content: messageContent.value }
   })
 }
 const removeMessages = () => {
   queueSelection.value.forEach((index: number) => {
-    baseMessages.value.splice(index, 1)
+    chat.baseMessages.splice(index, 1)
   })
 }
 
@@ -120,8 +106,8 @@ const onDrop = (index: number, event: DragEvent) => {
 
 
   if (draggedIndex !== droppedIndex) {
-    const movedItem = baseMessages.value.splice(draggedIndex, 1)[0]
-    baseMessages.value.splice(droppedIndex, 0, movedItem)
+    const movedItem = chat.baseMessages.splice(draggedIndex, 1)[0]
+    chat.baseMessages.splice(droppedIndex, 0, movedItem)
 
   }
 
@@ -152,11 +138,7 @@ watch(customRole, () => {
   <v-container>
     <v-row>
       <v-col>
-        <v-card class="bg-background">
-          <v-card-actions>
-            <v-btn @click="addMessage" icon="mdi-plus" color="primary" :disabled="!validMessage" />
-            <v-spacer />
-          </v-card-actions>
+        <v-card class="bg-background" flat>
 
           <v-card-actions class="align-start px-0">
 
@@ -164,14 +146,15 @@ watch(customRole, () => {
               <v-btn v-for="role in chatManager.roles" :key="role" :icon="icons[role]" :value="role"
                 :color="colors[role]" />
             </v-btn-toggle>
-            <v-text-field density="compact" label="Role" v-model="customRole" clearable
-              :prepend-inner-icon="icons[selectedRole]" variant="plain" @keydown.exact.enter.ctrl="submitMessageForm" />
+            <v-text-field density="compact" label="Role" v-model="customRole" clearable variant="plain"
+              @keydown.exact.enter.ctrl="submitMessageForm" readonly />
 
           </v-card-actions>
 
           <v-card-text>
             <v-textarea v-model="messageContent" label="Content" density="compact" rows="2" auto-grow clearable
-              prepend-inner-icon="mdi-message-text-outline" @keydown.exact.enter.ctrl="submitMessageForm" />
+              prepend-inner-icon="mdi-message-text-outline" @keydown.exact.enter.ctrl="submitMessageForm"
+              variant="solo" />
             <v-textarea v-model="messageName" density="compact" label="name  (optional)" variant="plain" rows="1"
               auto-grow clearable />
 
@@ -179,8 +162,9 @@ watch(customRole, () => {
         </v-card>
       </v-col>
       <v-col>
-        <v-card class="bg-background">
+        <v-card class="bg-background" flat>
           <v-card-actions>
+            <v-btn @click="addMessage" icon="mdi-plus" color="primary" :disabled="!validMessage" />
             <v-btn @click="editMessage" icon="mdi-pencil" :disabled="noSelection" />
             <v-spacer />
             <v-btn size="small"
@@ -196,8 +180,8 @@ watch(customRole, () => {
           <v-card-text>
             <v-list lines="three" class="bg-transparent" select-strategy="single-independent"
               v-model:selected="queueSelection" variant="plain" density="compact" multiple="true">
-              <v-list-item v-for="(message, index) in baseMessages" :key="`msg-${index}`" :value="index" class="pa-0 "
-                @dragover="onDragOver(index, $event)" @drop="onDrop(index, $event)"
+              <v-list-item v-for="(message, index) in chat.baseMessages" :key="`msg-${index}`" :value="index"
+                class="pa-0 " @dragover="onDragOver(index, $event)" @drop="onDrop(index, $event)"
                 @click.right.prevent="editMessageByIndex(index, $event)" rounded>
                 <template #prepend="{ isSelected }">
                   <v-tooltip>

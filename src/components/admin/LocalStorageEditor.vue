@@ -67,12 +67,12 @@ watch(searchValue, () => {
       <v-btn @click="clearLocal" color="warning" icon="mdi-trash-can-outline"
         :disabled="localStorage.isEmpty()"></v-btn>
     </v-card-actions>
-    <div>
+    <v-card-text>
       <v-divider><v-label>localStorage</v-label></v-divider>
       <div v-for="(item, index) in localObject" :key="index">
         <v-label>{{ index }}</v-label> {{ item }}
       </div>
-    </div>
+    </v-card-text>
   </v-card>
 
 </template>

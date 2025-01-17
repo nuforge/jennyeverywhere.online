@@ -11,6 +11,7 @@ import LocalStorageManager from '@/utils/LocalStorageManager';
 
 const userInput = ref('')
 const chatTemperature = ref(0.7)
+const advancedControls = ref(false)
 
 const localStorage = new LocalStorageManager('nuForgeMemory')
 const localButtons = ref(localStorage.isEmpty())
@@ -23,7 +24,7 @@ const submitForm = async (event: Event) => {
   event.preventDefault()
   //chat.generateImage(chat.userInput)
 
-  await chat.sendGPTMessage(userInput.value).
+  chat.sendGPTMessage(userInput.value).
     then((response) => {
       localStorage.storeItem('tags', response?.tags.join(',') || '')
 
@@ -51,17 +52,17 @@ const SaveToLocal = () => {
           <v-label>Chat Message</v-label>
           <v-textarea v-model="userInput" auto-grow :rows="3" :label="chat.chatGreeting" density="compact"
             @keydown.enter="submitForm" bg-color="background" variant="solo-filled" counter
-            prepend-icon="mdi-chat-outline">
+            prepend-icon="mdi-message-text">
             <template #prepend-inner>{{ chat.chatEmoji }}
             </template>
             <template #append-inner>
-              <v-btn v-if="!chat.isLoading" @click="submitForm" :disabled="!validBody" icon="mdi-send" flat
-                size="medium" variant="plain" />
+              <v-btn v-if="!chat.isLoading" @click="submitForm" :disabled="!validBody"
+                :icon="!validBody ? 'mdi-arrow-left-thin' : 'mdi-send'" flat size="medium" variant="plain" />
               <v-progress-circular v-else indeterminate color="warning" size="18" />
             </template>
           </v-textarea>
         </v-col>
-        <v-col>
+        <v-col v-if="advancedControls">
           <v-label>Temperature:</v-label> {{ chatTemperature }}
           <v-slider v-model="chatTemperature" min="0.00" max="2.00" step="0.01" prepend-icon="mdi-thermometer"
             disabled />

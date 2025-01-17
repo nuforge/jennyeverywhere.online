@@ -69,12 +69,12 @@ const clearInput = () => {
       <v-divider></v-divider>
       <v-btn @click="clearLocal" color="warning" icon="mdi-trash-can-outline" :disabled="isEmpty"></v-btn>
     </v-card-actions>
-    <div>
+    <v-card-text>
       <v-divider><v-label>IndexedDB</v-label></v-divider>
       <div v-for="(item, index) in localDatabaseObject" :key="index">
         <v-label>{{ item.tag }}</v-label> {{ item.value }}<br />
         <v-label>{{ item.id }}</v-label>
       </div>
-    </div>
+    </v-card-text>
   </v-card>
 </template>

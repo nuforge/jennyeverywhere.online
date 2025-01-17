@@ -49,7 +49,7 @@ const useChatStore = defineStore('chat', () => {
     },
     {
       role: 'developer',
-      content: `The previous message sent by you was:
+      content: `previous message sent by you was:
           ${chatResponse.value}
         `,
     },

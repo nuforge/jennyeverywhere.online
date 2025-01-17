@@ -6,19 +6,17 @@
 </template>
 
 <script setup lang="ts">
-import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import useStateStore from '@/stores/state'
 import Tag from '@/objects/nu/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
 import EvTrayCard from '@/components/tray/TrayCard.vue'
 
-const tags = useTagStore()
 const story = useStoryStore()
 const state = useStateStore()
 
 const tagMerge = computed(() => {
-  const mergedTags = [...tags.tags, ...story.tags] as Tag[]
+  const mergedTags = [...story.tags] as Tag[]
 
   const uniqueTags = mergedTags.filter(
     (tag, index, self) => self.findIndex(t => t.name === tag.label) === index
@@ -59,10 +57,8 @@ function openAddTagDialog() {
       text = selection.toString();
     }
   }
-  console.log('openAddTagDialog', text)
-  tags.tempTag(text);
+  console.log('openAddTagDialog:', text)
   state.add = true
-  return tags.tempTag.name
 }
 
 

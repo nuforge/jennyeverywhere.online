@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import useStateStore from '@/stores/state'
-import useTagStore from '@/stores/tags'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
 import Tag from '@/objects/nu/Tag';
@@ -10,7 +9,6 @@ const state = useStateStore()
 const admin = ref(true)
 const panels = ref([0, 1])
 
-const tags = useTagStore()
 
 const text = ref('')
 const color = ref('#FFFFFF')
@@ -28,15 +26,9 @@ const tempTag = ref(computed(() => {
 }))
 
 function addTag() {
-  tags.addLabel(text.value, color.value, icon.value)
-  text.value = ''
+  console.log('addTag DOES NOTHING FIX ME', text.value, color.value, icon.value)
 }
 
-
-onMounted(() => {
-  text.value = tags.pasteTag().name
-  tags.clipboardEmpty()
-})
 </script>
 
 

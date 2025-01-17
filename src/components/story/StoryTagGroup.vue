@@ -1,14 +1,10 @@
 <template>
-  <tag-group :tags="taglist" noLabel noValue v-model="tags.selection" />
+  <tag-group :tags="story.tags" noLabel noValue />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import TagGroup from '@/components/tags/v1/TagGroup.vue';
 import useStoryStore from '@/stores/story';
-import useTagStore from '@/stores/tags'
-const tags = useTagStore()
 const story = useStoryStore()
 
-const taglist = computed(() => [...tags.tags, ...story.tags]);
 </script>

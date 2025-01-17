@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
 import type Tag from '@/objects/nu/Tag';
-import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import useTimelineStore from '@/stores/timelines'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
@@ -12,7 +11,6 @@ import Log from '@/objects/Log';
 import EvTrayCard from '@/components/tray/TrayCard.vue';
 
 const story = useStoryStore()
-const tags = useTagStore()
 const timeline = useTimelineStore()
 const events = computed(() => { return [...timeline.events, StoryEvent.value] })
 
@@ -24,11 +22,6 @@ const StoryEvent = computed(() => {
   return event
 })
 
-function handleCtrlClick(tag: Tag) {
-
-  console.log('handleCtrlClick', tag)
-  tags.addTag(tag)
-}
 
 onMounted(() => {
 
@@ -76,8 +69,7 @@ onMounted(() => {
 
         </template>
         <template v-slot:opposite>
-          <EvTrayCard :body="event.body" :tags="(event.tags as Tag[])" @ctrl-click="handleCtrlClick" variant="plain"
-            :name="event.name" />
+          <EvTrayCard :body="event.body" :tags="(event.tags as Tag[])" variant="plain" :name="event.name" />
         </template>
 
       </v-timeline-item>

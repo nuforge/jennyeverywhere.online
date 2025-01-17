@@ -3,6 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
 
+const DEFAULT_COLOR = 'accent'
+const DEFAULT_ICON = 'mdi-circle-small'
+
 type TagAttributes = {
   id: string
   [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
@@ -31,13 +34,6 @@ class Tag<T extends TagAttributes = { id: string }> {
     this._attributes = initialAttributes
     return this
   }
-  // TEMP TO FIND STRAY CALLS
-  get color() {
-    return this.getAttribute('color')?.toString() ?? 'yellow'
-  }
-  get icon() {
-    return this.getAttribute('icon')?.toString() ?? 'mdi-arrow-right'
-  }
   // Method to add or update attributes, returns a new Tag with updated attributes
   add<K extends string, V extends string | number>(key: K, value: V): Tag<T & Record<K, V>> {
     return new Tag(this.name, { ...this._attributes, [key]: value } as T & Record<K, V>)
@@ -51,6 +47,13 @@ class Tag<T extends TagAttributes = { id: string }> {
     return this._attributes
   }
 
+  // TEMP COLOR & ICON TO FIND STRAY CALLS
+  get color() {
+    return this.getAttribute('color')?.toString() ?? DEFAULT_COLOR
+  }
+  get icon() {
+    return this.getAttribute('icon')?.toString() ?? DEFAULT_ICON
+  }
   set color(color: string) {
     this.add('color', color)
   }

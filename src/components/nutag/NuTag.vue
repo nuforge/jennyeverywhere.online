@@ -32,16 +32,7 @@ const tag = computed(() => props.tag ?? new Tag(label.value.toString()))
 
 const displayIcon = computed(() => props.icon ?? tag.value?.icon)
 const displayColor = computed(() => {
-  if (props.color && !styles.filterColors.includes(props.color)) {
-    console.log('props.color', props.color, tag.value?.color)
-    return props.color;
-  } else if (tag.value?.color && !styles.filterColors.includes(tag.value?.color)) {
-    console.log('tag.value?.color', props.color, tag.value?.color)
-    return tag.value.color;
-  } else {
-    console.log('defaultNoColor', defaultNoColor)
-    return defaultNoColor;
-  }
+  return props.color ?? tag.value?.color ?? defaultNoColor
 })
 
 //const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))

@@ -1,10 +1,3 @@
-<template>
-  <v-sheet flat class="bg-transparent">
-    <EvTrayCard :body="story.raw" :name="story.title" :tags="tagMerge" class="story-body"
-      @right-click="openAddTagDialog()" @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
-  </v-sheet>
-</template>
-
 <script setup lang="ts">
 import useStoryStore from '@/stores/story'
 import useStateStore from '@/stores/state'
@@ -61,5 +54,11 @@ function openAddTagDialog() {
   state.add = true
 }
 
-
 </script>
+
+<template>
+  <v-sheet flat class="bg-transparent">
+    <EvTrayCard :body="story.raw" :name="story.title" :tags="tagMerge" class="story-body"
+      @right-click="openAddTagDialog()" @dragstart="onDragStart" @click-tag="clickTag" @click-icon="clickIcon" />
+  </v-sheet>
+</template>

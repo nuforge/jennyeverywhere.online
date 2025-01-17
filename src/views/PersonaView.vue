@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
+import image from '@/assets/images/characters/jenny-everywhere.png'
+import type Tag from '@/objects/nu/Tag';
+import EvTrayCard from '@/components/tray/TrayCard.vue';
+
+const character = ref(JennyEverywhere)
+</script>
+
 <template>
   <v-container>
     <v-row>
@@ -11,15 +21,3 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
-import image from '@/assets/images/characters/jenny-everywhere.png'
-import type Tag from '@/objects/nu/Tag';
-import EvTrayCard from '@/components/tray/TrayCard.vue';
-
-const character = ref(JennyEverywhere)
-
-
-</script>

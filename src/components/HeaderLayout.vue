@@ -17,7 +17,7 @@ watch(() => theme.focus, (newVal) => {
 </script>
 
 <template>
-  <v-app-bar elevation="0" class="bg-transparent" app scroll-behavior="fade-image">
+  <v-app-bar elevation="0" class="bg-background" app scroll-behavior="fade">
     <router-link to="/">
       <LogoThemed :jenny="jennyColor" :every="everyColor" :where="whereColor" />
     </router-link>

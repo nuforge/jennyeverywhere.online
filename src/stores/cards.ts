@@ -90,7 +90,9 @@ const useCardStore = defineStore('cards', () => {
         const newIcon = `mdi-cards-${suit}`
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
-        const tag = new Tag(`${suit}:${rank}.${rank}`, colorList[suit], append)
+        const tag = new Tag(`${suit}:${rank}.${rank}`)
+          .add('color', colorList[suit])
+          .add('icon', append)
         deck.push(tag)
       }
     }
@@ -109,7 +111,9 @@ const useCardStore = defineStore('cards', () => {
             : `mdi-chess-pawn`
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
-        const tag = new Tag(`${suit}:${rank}.${rank}`, colorList[suit], append)
+        const tag = new Tag(`${suit}:${rank}.${rank}`)
+          .add('color', colorList[suit])
+          .add('icon', append)
         deck.push(tag)
       }
     }

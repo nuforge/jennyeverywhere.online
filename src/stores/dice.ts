@@ -49,7 +49,9 @@ const useDiceStore = defineStore('dice', () => {
 
   function getTag() {
     const diecolor = colors.value[faces.value.indexOf(die.value.faces)]
-    return new Tag(`${getType()}:${getString(2)}`, diecolor, `mdi-dice-${getType()}`)
+    return new Tag(`${getType()}:${getString(2)}`)
+      .add('color', diecolor)
+      .add('icon', `mdi-dice-${getType()}`)
   }
 
   function getIcon(): string {

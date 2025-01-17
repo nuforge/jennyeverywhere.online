@@ -7,11 +7,11 @@ const DEFAULT_COLOR = 'accent'
 const DEFAULT_ICON = 'mdi-circle-small'
 
 type TagAttributes = {
-  id: string
+  seed?: string
   [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
 }
 
-class Tag<T extends TagAttributes = { id: string }> {
+class Tag<T extends TagAttributes = { seed?: string }> {
   // System Attributes
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()

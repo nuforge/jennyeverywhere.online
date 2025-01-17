@@ -83,7 +83,7 @@ const useTagStore = defineStore('tags', () => {
 
   function listToTags(list: string[], color?: string, icon?: string) {
     return list.map((item) => {
-      tag: new Tag(item, color, icon)
+      tag: new Tag(item).add('color', color ?? '').add('icon', icon ?? '')
     })
   }
 

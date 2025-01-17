@@ -21,11 +21,15 @@ const useStoryStore = defineStore('story', () => {
   const markdown = computed(() => markitdown(raw.value))
   const HTML = ref(raw.value)
 
-  tagMap.value.addTag(new Tag('Jenny Everywhere', 'primary', 'mdi-account-circle'))
-  tagMap.value.addTag(new Tag('green portal', 'green', 'mdi-orbit'))
-  tagMap.value.addTag(new Tag('flamethrower', 'red', 'mdi-fire'))
-  tagMap.value.addTag(new Tag('jetpack', 'warning', 'mdi-rocket-launch'))
-  tagMap.value.addTag(new Tag('dude with a mohawk', 'text', 'mdi-account-circle-outline'))
+  tagMap.value.addTag(
+    new Tag('Jenny Everywhere').add('color', 'primary').add('icon', 'mdi-account-circle'),
+  )
+  tagMap.value.addTag(new Tag('green portal').add('color', 'green').add('icon', 'mdi-orbit'))
+  tagMap.value.addTag(new Tag('flamethrower').add('color', 'red').add('icon', 'mdi-fire'))
+  tagMap.value.addTag(new Tag('jetpack').add('color', 'warning').add('icon', 'mdi-rocket-launch'))
+  tagMap.value.addTag(
+    new Tag('dude with a mohawk').add('color', 'text').add('icon', 'mdi-account-circle-outline'),
+  )
 
   const md = markdownit({
     html: true,

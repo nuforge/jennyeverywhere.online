@@ -15,7 +15,9 @@ class NuCard extends NuTag {
   // name, value, default ->
   // Name Color Icon
   constructor(value: Name, face?: Value, symbol?: Space) {
-    super(value?.toString(), face?.toString(), symbol?.toString())
+    super(value?.toString())
+    this.add('color', face?.toString() || 'text')
+    this.add('icon', symbol?.toString() || 'mdi-cards')
     this.rank = value
     this.suit = symbol
     return this

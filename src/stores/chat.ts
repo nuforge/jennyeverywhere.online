@@ -188,8 +188,8 @@ const useChatStore = defineStore('chat', () => {
     timestamp?: Date,
     emoji?: string,
   ) => {
-    const tagObjects = (tags || []).map(
-      (tag) => new Tag(tag, inator.themecolor(false), inator.icon()),
+    const tagObjects = (tags || []).map((tag) =>
+      new Tag(tag).add('color', inator.themecolor(false)).add('icon', inator.icon()),
     )
     chatTags.value = tagObjects
     messages.value.push({

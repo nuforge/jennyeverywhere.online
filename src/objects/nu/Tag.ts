@@ -20,7 +20,6 @@ class Tag<T extends TagAttributes = { id: string }> {
   protected _name: string
   protected _space?: string
 
-  // oldColor?: string, oldIcon?: string TEMP TO FIND STRAY CALLS
   constructor(seed?: string, initialAttributes: T = {} as T) {
     this._seed = Tag.CleanString(seed)
 
@@ -34,7 +33,7 @@ class Tag<T extends TagAttributes = { id: string }> {
   }
   // TEMP TO FIND STRAY CALLS
   get color() {
-    return this.getAttribute('color')?.toString() ?? 'accent'
+    return this.getAttribute('color')?.toString() ?? 'yellow'
   }
   get icon() {
     return this.getAttribute('icon')?.toString() ?? 'mdi-arrow-right'
@@ -53,11 +52,11 @@ class Tag<T extends TagAttributes = { id: string }> {
   }
 
   set color(color: string) {
-    console.log('color set: ', color)
+    this.add('color', color)
   }
 
   set icon(icon: string) {
-    console.log('icon set: ', icon)
+    this.add('icon', icon)
   }
 
   setName(name: string) {

@@ -50,6 +50,6 @@ const actions = {
 
 
 const tags = [...Object.entries(votes), ...Object.entries(actions)].map(([name, item]) => {
-  return new Tag(`action:${name}`, item.color, item.icon)
+  return new Tag(`action:${name}`).add('color', item.color).add('icon', item.icon)
 })
 </script>

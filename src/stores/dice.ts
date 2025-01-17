@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Dice from '@/objects/game/Dice'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
 const useDiceStore = defineStore('dice', () => {
   const faces = ref([4, 6, 8, 10, 12, 20])
@@ -44,7 +44,7 @@ const useDiceStore = defineStore('dice', () => {
     return die.value.value.toString().padStart(pad, '0')
   }
   function getResults() {
-    return die.value.value
+    return Number(die.value.value)
   }
 
   function getTag() {

@@ -1,5 +1,6 @@
 import './assets/main.css'
 import './CustomTag' // Path to your custom element definition
+import NuTag from '@/components/nutag/NuTag.vue'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -24,6 +25,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
+app.component('NuTag', NuTag)
 app.directive('tag', tagBehavior)
 app.directive('droppable', droppable)
 app.directive('draggable', draggable)

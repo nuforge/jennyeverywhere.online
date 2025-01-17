@@ -1,4 +1,4 @@
-import NuTag from '@/objects/nu/v1/ValTag'
+import NuTag from '@/objects/nu/Tag'
 import type { Value, Name, Space } from '@/objects/nu/v1/ValTag'
 
 // NuCard class

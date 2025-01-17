@@ -2,8 +2,7 @@
 import { ref, nextTick, watch } from 'vue';
 import jennyEverywhere from '@/stores/jenny-everywhere';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import NuTag from '@/components/nu/v1/NuTag.vue';
-import Tag from '@/objects/nu/v1/ValTag';
+import Tag from '@/objects/nu/Tag';
 const jenny = jennyEverywhere()
 
 const messages = ref(jenny.messages)

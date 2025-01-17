@@ -5,18 +5,16 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 import HeaderLayout from '@/components/HeaderLayout.vue';
-import DiceFab from '@/components/fabs/DiceFab.vue';
+import DiceFab from '@/components/fab/DiceFab.vue';
 import BottomNavigationLayout from '@/components/BottomNavigationBar.vue';
 import PersonaDrawer from '@/components/persona/PersonaDrawer.vue';
-import TagAddDialog from '@/components/tags/TagAddDialog.vue';
 import EventAddDialog from '@/components/timeline/EventAddDialog.vue';
 import ChatSnackbar from '@/components/chat/ChatSnackbar.vue';
-import DiceSnackbar from '@/components/snackbars/DiceSnackbar.vue';
-import TagSnackbar from '@/components/tags/TagSnackbar.vue';
-import UndoSnackbar from '@/components/snackbars/UndoSnackbar.vue';
+import DiceSnackbar from '@/components/snackbar/DiceSnackbar.vue';
+import UndoSnackbar from '@/components/snackbar/UndoSnackbar.vue';
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
-import AvatarFab from './components/fabs/AvatarFab.vue';
+import AvatarFab from './components/fab/AvatarFab.vue';
 
 const state = useStateStore()
 const persona = usePersonaStore()
@@ -61,12 +59,10 @@ onUnmounted(() => {
       </v-container>
 
       <EventAddDialog />
-      <TagAddDialog />
 
       <ChatSnackbar />
 
       <DiceSnackbar />
-      <TagSnackbar location="bottom" />
       <UndoSnackbar />
 
       <v-footer class="bg-background align-end opacity-20"><v-spacer /> &copy; 2025 @<router-link

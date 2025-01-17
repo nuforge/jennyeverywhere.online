@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { ref, defineEmits, defineProps } from 'vue';
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
 

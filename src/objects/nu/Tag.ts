@@ -3,19 +3,25 @@ import { v4 as uuidv4 } from 'uuid'
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
 
-class Tag {
+type TagAttributes = {
+  id: string
+  [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
+}
+
+class Tag<T extends TagAttributes = { id: string }> {
   // System Attributes
   protected _id = uuidv4() // Unique ID
   protected _stamp: Date = new Date()
   protected _seed?: object | string | number | boolean = this.constructor.name
   protected _tag: Tag
+  protected _attributes: T
 
   // string Attributes
   protected _name: string
   protected _space?: string
 
-  constructor(seed?: string) {
-    //, color?: string, symbol?: string
+  // oldColor?: string, oldIcon?: string TEMP TO FIND STRAY CALLS
+  constructor(seed?: string, initialAttributes: T = {} as T) {
     this._seed = Tag.CleanString(seed)
 
     const { space, name } = Tag.parseString(this._seed)
@@ -23,7 +29,35 @@ class Tag {
     this._name = name ? Tag.CleanString(name) : this._seed
     this._space = space ? Tag.CleanString(space) : undefined
     this._tag = this
+    this._attributes = initialAttributes
     return this
+  }
+  // TEMP TO FIND STRAY CALLS
+  get color() {
+    return this.getAttribute('color')?.toString() ?? 'accent'
+  }
+  get icon() {
+    return this.getAttribute('icon')?.toString() ?? 'mdi-arrow-right'
+  }
+  // Method to add or update attributes, returns a new Tag with updated attributes
+  add<K extends string, V extends string | number>(key: K, value: V): Tag<T & Record<K, V>> {
+    return new Tag(this.name, { ...this._attributes, [key]: value } as T & Record<K, V>)
+  }
+  // Method to get a specific attribute
+  getAttribute<K extends keyof T>(key: K): T[K] {
+    return this._attributes[key]
+  }
+  // Getter for all attributes
+  get allAttributes(): T {
+    return this._attributes
+  }
+
+  set color(color: string) {
+    console.log('color set: ', color)
+  }
+
+  set icon(icon: string) {
+    console.log('icon set: ', icon)
   }
 
   setName(name: string) {

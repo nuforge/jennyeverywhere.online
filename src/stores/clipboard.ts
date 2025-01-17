@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
 const useClipboardStore = defineStore('clipboard', () => {
   const dragging = ref(false)

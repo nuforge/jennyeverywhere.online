@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import Tag from '@/objects/nu/v1/ValTag';
+import Tag from '@/objects/nu/Tag';
 import TagItem from "./TagItem.vue";
 
 defineProps<{

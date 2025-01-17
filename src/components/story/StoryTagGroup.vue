@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import TagGroup from '@/components/tags/TagGroup.vue';
+import TagGroup from '@/components/tags/v1/TagGroup.vue';
 import useStoryStore from '@/stores/story';
 import useTagStore from '@/stores/tags'
 const tags = useTagStore()

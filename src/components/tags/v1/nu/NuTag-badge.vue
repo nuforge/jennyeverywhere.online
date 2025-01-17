@@ -3,13 +3,13 @@ import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
 const dragImage = ref<HTMLImageElement | null>(null);
 
 import { ref, computed, defineProps, onMounted } from 'vue';
-import Tag from '@/objects/nu/v1/ValTag';
+import Tag from '@/objects/nu/Tag';
 import type TagInterface from '@/objects/nu/TagInterface';
 
-import NuIcon from '@/components/nu/NuIcon.vue';
-import NuLabel from '@/components/nu/NuLabel.vue';
-import NuSpace from '@/components/nu/NuSpace.vue';
-import NuBadge from '@/components/nu/NuBadge.vue';
+import NuIcon from '@/components/nutag/NuIcon.vue';
+import NuLabel from '@/components/nutag/NuLabel.vue';
+import NuSpace from '@/components/nutag/NuSpace.vue';
+import NuBadge from '@/components/nutag/NuBadge.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
@@ -212,7 +212,8 @@ onMounted(() => {
     <!-- Tag Label / Value -->
     <template #default>
       <v-slide-x-transition>
-        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :tag="tag" :space="tag.space" class="align-center" />
+        <NuSpace v-if="showSpace && settings.has('space') && tag.space" :tag="tag" :space="tag.space"
+          class="align-center" />
       </v-slide-x-transition>
       <v-slide-x-transition>
         <NuLabel v-if="showLabel && props.tag" :tag="props.tag" />

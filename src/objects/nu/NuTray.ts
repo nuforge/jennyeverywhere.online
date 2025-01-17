@@ -1,5 +1,5 @@
-import Tag from '@/objects/nu/v1/ValTag'
-import Legend from '@/objects/tags/Legend'
+import Tag from '@/objects/nu/Tag'
+import Legend from '@/objects/tag/Legend'
 import SettingsManager from '@/objects/SettingsManager'
 type SettingValue = string | number | boolean // Shared by Map and Record
 
@@ -21,14 +21,14 @@ class TagTray extends Tag {
   })
 
   constructor(tags?: Tag[] | Legend) {
-    super('Tray', 'accent', 'mdi-tray')
+    super('Tray')
     if (tags) {
       this._legend.addTags(tags as Tag[])
     }
     return this
   }
 
-  set(key: string, value: SettingValue): void {
+  setSetting(key: string, value: SettingValue): void {
     this._settings.setSetting(key, value)
   }
 

@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 import Inator from '@/objects/Inator'
 
 const inator = new Inator()
@@ -10,9 +10,9 @@ import OpenAI from 'openai'
 
 interface Message {
   id: number
-  text: string
+  content: string
   sender: string
-  timestamp: string
+  timestamp: Date
   emoji?: string
   tags?: Tag[]
 }
@@ -141,8 +141,9 @@ const useChatStore = defineStore('chat', () => {
       console.log('💬 Parsed Body:', body)
       console.log('🏷️ Parsed Tags:', tags)
       console.log('⭐ Parsed Summary:', summary)
+      console.log(`${emoji} Parsed emoji:`, emoji)
       // Create message with body and tags
-      createMessage(body, agentId.value, tags, emoji)
+      createMessage(body, agentId.value, tags)
       // Log the tags for future use
       isLoading.value = false
     }
@@ -184,7 +185,7 @@ const useChatStore = defineStore('chat', () => {
     body: string,
     sender?: string,
     tags?: string[],
-    timestamp?: string,
+    timestamp?: Date,
     emoji?: string,
   ) => {
     const tagObjects = (tags || []).map(
@@ -193,9 +194,9 @@ const useChatStore = defineStore('chat', () => {
     chatTags.value = tagObjects
     messages.value.push({
       id: messages.value.length,
-      text: body,
+      content: body,
       sender: sender || 'bot',
-      timestamp: timestamp || new Date().toLocaleTimeString(),
+      timestamp: timestamp || new Date(),
       emoji: emoji,
       tags: tagObjects,
     })

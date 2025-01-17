@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
-import Legend from '@/objects/tags/Legend'
-import Tag from '@/objects/nu/v1/ValTag'
+import Legend from '@/objects/tag/Legend'
+import Tag from '@/objects/nu/Tag'
 import story from '@/assets/stories/story.json'
 
 export interface Story {

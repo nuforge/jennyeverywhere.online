@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import Tag from '@/objects/nu/v1/ValTag';
+import Tag from '@/objects/nu/Tag';
 
 defineProps
   ({

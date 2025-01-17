@@ -1,3 +1,87 @@
+<script setup lang="ts">
+
+import { ref, computed, onMounted } from 'vue';
+import useStateStore from '@/stores/state'
+import useTimelineStore from '@/stores/timelines'
+
+
+import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
+import ColorPicker from '@/components/form/ColorPicker.vue';
+const state = useStateStore()
+const timeline = useTimelineStore()
+
+import Tag from '@/objects/nu/Tag';
+import Log from '@/objects/Log';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import EvTagTray from '@/components/tray/TagTray.vue';
+import { default as tagTray } from '@/objects/tag/TagTray';
+
+const panels = ref([0, 1])
+const admin = ref(true)
+const eventTags = ref<Tag[]>([])
+
+const evTags = ref(new tagTray([]))
+
+
+const event = ref()
+
+const systemTags = computed(() => {
+  const tags = []
+  const tag = new Tag(`${event.value.title}`)
+  tags.push(new Tag(`name:${tag.label}`))   // Name
+  tags.push(new Tag(`title:${tag.label}`))   // Name
+  tags.push(new Tag(`id:${tag.id}`)) // ID
+  tags.push(new Tag(`timestamp:${Date.now()}`)) // Timestamp
+  tags.push(new Tag(`event`)) // Event
+  tags.push(new Tag(`icon:${event.value.icon}`)) // Icon
+  tags.push(new Tag(`color:${event.value.color}`)) // Color
+  evTags.value.copy(tags as Tag[])
+  return tags as Tag[]
+})
+
+function removeTag(tag: Tag) {
+  evTags.value.map.deleteTag(tag)
+}
+
+
+function saveEvent() {
+  // Save the event
+  timeline.addLog(event.value, evTags.value.tags as Tag[])
+  state.eventClose()
+}
+
+function cancelEvent() {
+  // Cancel the event
+  state.event = false
+}
+
+onMounted(() => {
+
+  event.value = new Log('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
+
+  if (event.value.name !== '') {
+    const tag = new Tag(`${event.value.title}`)
+    evTags.value.copy(new Tag(`${tag.label}`))
+    eventTags.value.push(new Tag(`${tag.label}`))
+  }
+  eventTags.value.push(new Tag(`Federation`))
+  eventTags.value.push(new Tag(`planet:Earth`))
+  eventTags.value.push(new Tag(`species:Borg`))
+  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`))
+  eventTags.value.push(new Tag(`borg:Locutus`))
+  eventTags.value.push(new Tag(`borg:assimilate`))
+  eventTags.value.push(new Tag(`stardate:44002.3`)) // Timestamp
+  eventTags.value.push(new Tag(`battle`))
+  eventTags.value.push(new Tag(`invasion`))
+  eventTags.value.push(new Tag(`starship`))
+
+  evTags.value.copy(eventTags.value as Tag[])
+})
+
+
+</script>
+
+
 <template>
   <v-dialog v-model="state.event" scrim="#000000">
     <form @submit.prevent="saveEvent">
@@ -33,7 +117,7 @@
           <v-expansion-panels multiple variant="accordion" v-model="panels">
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <VTagItem dense label="Public Tags" icon="mdi-tag" />
+                <NuTag dense label="Public Tags" icon="mdi-tag" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
                 <EvTagTray :tags="(evTags.tags as Tag[])" noLabel @close="removeTag"></EvTagTray>
@@ -41,7 +125,7 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <VTagItem dense label="Description" icon="mdi-text-box-outline" />
+                <NuTag dense label="Description" icon="mdi-text-box-outline" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
                 <MarkdownRenderer :text="event.body" :tags="(evTags.tags as Tag[])" />
@@ -49,7 +133,7 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-title static>
-                <VTagItem dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
+                <NuTag dense label="System Tags" icon="mdi-tag-hidden" color="disabled" />
               </v-expansion-panel-title>
               <v-expansion-panel-text class="bg-background ">
                 <EvTagTray :tags="systemTags" noLabel></EvTagTray>
@@ -62,87 +146,3 @@
     </form>
   </v-dialog>
 </template>
-
-<script setup lang="ts">
-
-import { ref, computed, onMounted } from 'vue';
-import useStateStore from '@/stores/state'
-import useTimelineStore from '@/stores/timelines'
-
-import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
-import ColorPicker from '@/components/form/ColorPicker.vue';
-const state = useStateStore()
-const timeline = useTimelineStore()
-
-import Tag from '@/objects/nu/v1/ValTag';
-import Log from '@/objects/Log';
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import EvTagTray from '@/components/tags/EvTagTray.vue';
-import { default as tagTray } from '@/objects/tags/TagTray';
-
-const panels = ref([0, 1])
-const admin = ref(true)
-const eventTags = ref<Tag[]>([])
-
-const evTags = ref(new tagTray([]))
-
-
-const event = ref()
-
-const systemTags = computed(() => {
-  const tags = []
-  const tag = new Tag(`${event.value.title}`)
-  tags.push(new Tag(`name:${tag.label}`, 'system', `mdi-label-variant-outline`))   // Name
-  tags.push(new Tag(`title:${tag.label}`, 'system', `mdi-label-variant-outline`))   // Name
-  tags.push(new Tag(`id:${tag.id}`, 'system', `mdi-identifier`)) // ID
-  tags.push(new Tag(`timestamp:${Date.now()}`, 'system', `mdi-calendar-clock`)) // Timestamp
-  tags.push(new Tag(`event`, 'system', 'mdi-calendar-outline')) // Event
-  tags.push(new Tag(`icon:${event.value.icon}`, 'system', `${event.value.icon}`)) // Icon
-  tags.push(new Tag(`color:${event.value.color}`, event.value.color, `$color`)) // Color
-  evTags.value.copy(tags as Tag[])
-  return tags as Tag[]
-})
-
-function removeTag(tag: Tag) {
-  evTags.value.map.deleteTag(tag)
-}
-
-
-function saveEvent() {
-  // Save the event
-  timeline.addLog(event.value, evTags.value.tags as Tag[])
-  state.eventClose()
-}
-
-function cancelEvent() {
-  // Cancel the event
-  state.event = false
-}
-
-onMounted(() => {
-
-  event.value = new Log('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
-
-  if (event.value.name !== '') {
-    const tag = new Tag(`${event.value.title}`)
-    tag.icon = event.value.icon
-    tag.color = event.value.color
-    evTags.value.copy(new Tag(`${tag.label}`, tag.color, tag.icon))
-    eventTags.value.push(new Tag(`${tag.label}`, tag.color, tag.icon))
-  }
-  eventTags.value.push(new Tag(`Federation`, `primary`, `mdi-account-group`))
-  eventTags.value.push(new Tag(`planet:Earth`, `primary`, `mdi-earth`))
-  eventTags.value.push(new Tag(`species:Borg`, `green`, `mdi-account-group`))
-  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`, `primary`, `mdi-account`))
-  eventTags.value.push(new Tag(`borg:Locutus`, `green`, `mdi-account`))
-  eventTags.value.push(new Tag(`borg:assimilate`, `green`, `mdi-memory`))
-  eventTags.value.push(new Tag(`stardate:44002.3`, 'info', `mdi-web-clock`)) // Timestamp
-  eventTags.value.push(new Tag(`battle`, `warning`, `mdi-sword`))
-  eventTags.value.push(new Tag(`invasion`))
-  eventTags.value.push(new Tag(`starship`))
-
-  evTags.value.copy(eventTags.value as Tag[])
-})
-
-
-</script>

@@ -3,9 +3,9 @@
 import { ref, computed, defineProps } from 'vue';
 import Tag from '@/objects/nu/Tag';
 
-import NuIcon from '@/components/nu/NuIcon.vue';
-import NuLabel from '@/components/nu/NuLabel.vue';
-import NuSpace from '@/components/nu/NuSpace.vue';
+import NuIcon from '@/components/nutag/NuIcon.vue';
+import NuLabel from '@/components/nutag/NuLabel.vue';
+import NuSpace from '@/components/nutag/NuSpace.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
@@ -30,18 +30,30 @@ const defaultNoColor = 'white'
 const label = computed(() => props.label ?? props.tag?.label ?? '')
 const tag = computed(() => props.tag ?? new Tag(label.value.toString()))
 
-const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
-const showSpace = computed(() => styles.checkGlobal('spaces') && tag.value?.space && settings.value.get('space'))
-
-const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
-const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && (props.color && !styles.filterColors.includes(props.color)))
-
+const displayIcon = computed(() => props.icon ?? tag.value?.icon)
+const displayColor = computed(() => {
+  if (props.color && !styles.filterColors.includes(props.color)) {
+    console.log('props.color', props.color, tag.value?.color)
+    return props.color;
+  } else if (tag.value?.color && !styles.filterColors.includes(tag.value?.color)) {
+    console.log('tag.value?.color', props.color, tag.value?.color)
+    return tag.value.color;
+  } else {
+    console.log('defaultNoColor', defaultNoColor)
+    return defaultNoColor;
+  }
+})
 
 //const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
-
 //const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
 //const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.label)
+const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
+const showSpace = computed(() => styles.checkGlobal('spaces') && tag.value?.space && settings.value.get('space'))
+const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
+const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && (displayColor.value && !styles.filterColors.includes(displayColor.value)))
+
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
+
 
 const variant = computed(() => {
   if (showLabel.value && styles.get('variants')) {
@@ -50,7 +62,7 @@ const variant = computed(() => {
   return undefined;
 });
 
-const colorStyle = computed(() => !showColor.value ? defaultNoColor : props.color)
+const colorStyle = computed(() => !showColor.value ? defaultNoColor : props.color ? props.color : tag.value?.color ?? defaultNoColor)
 const variantColorStyle = computed(() => variant.value === 'flat' || variant.value === 'elevated' ? 'text' : colorStyle.value)
 
 const props = defineProps
@@ -89,11 +101,16 @@ const props = defineProps
     }
 
   })
+
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'drop', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
+
+// CLOSE EVENT
 
 function onCloseTag(event: Event) {
   emit('close', event, tag.value)
 }
+
+// CLICKS
 
 function onClick(event: Event) {
   emit('click-tag', event, tag.value)
@@ -146,20 +163,20 @@ function onDrop(event: DragEvent) {
     v-draggable="tag" v-droppable="console.log">
     <!-- Tag Icon / Space -->
 
-    <template #prepend v-if="icon">
+    <template #prepend v-if="displayIcon">
       <v-fab-transition>
         <div v-if="showIcon && settings.has('icon')">
           <v-tooltip location="bottom start" :open-delay="Number(settings.get('toolTipDelay'))">
             <template #activator="{ props }">
-              <NuIcon :icon="icon" :color="variantColorStyle" @click="onClickIcon" @right-click="onRightClickIcon"
-                @double-click="onDblClickIcon" :start="prependIcon ? true : false" v-bind="props" />
+              <NuIcon :icon="displayIcon" :color="variantColorStyle" @click="onClickIcon"
+                @right-click="onRightClickIcon" @double-click="onDblClickIcon" :start="prependIcon ? true : false"
+                v-bind="props" />
             </template>
-            <v-label class="ga-1"><v-icon :icon="icon"></v-icon>{{ icon }}</v-label>
+            <v-label class="ga-1"><v-icon :icon="displayIcon"></v-icon>{{ displayIcon }}</v-label>
           </v-tooltip>
         </div>
       </v-fab-transition>
     </template>
-
     <!-- Tag Name / Value -->
     <v-fab-transition>
       <template #default v-if="showLabel">

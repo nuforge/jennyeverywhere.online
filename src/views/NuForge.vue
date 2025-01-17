@@ -7,6 +7,9 @@ import ChatTimeline from '@/components/admin/ChatTimeline.vue';
 import MessageQueue from '@/components/admin/MessageQueue.vue';
 import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
 
+import Tag from '@/objects/nu/Tag';
+import NuTag from '@/components/nutag/NuTag.vue';
+
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
 const showMessageQueue = ref(false)
@@ -15,10 +18,12 @@ const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
 const showBrowserMemory = ref(false)
 
-
+const newTag = new Tag('yes').add(`color`, 'primary').add(`icon`, 'mdi-message-processing')
 </script>
 
 <template>
+  <NuTag :tag="newTag" />
+  <v-divider class="my-4" />
   <v-btn-group multiple variant="plain">
     <v-btn @click="showMessageQueue = !showMessageQueue" size="small"
       :icon="showMessageQueue ? `mdi-forum` : `mdi-forum-outline`" flat color="warning" />

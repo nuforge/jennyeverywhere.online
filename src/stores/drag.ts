@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
 interface DragState {
   activeTags: Tag[] // Tags currently being dragged

@@ -1,5 +1,5 @@
-import Tag from '@/objects/nu/v1/ValTag'
-import Legend from '@/objects/tags/Legend'
+import Tag from '@/objects/nu/Tag'
+import Legend from '@/objects/tag/Legend'
 import SettingsManager from '@/objects/SettingsManager'
 type SettingValue = string | number | boolean // Shared by Map and Record
 import { v4 as uuidv4 } from 'uuid'

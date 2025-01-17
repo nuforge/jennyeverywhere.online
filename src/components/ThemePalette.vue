@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, computed, watch } from 'vue';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+import EvTrayCard from '@/components/tray/TrayCard.vue';
 
 import useThemeStore from '@/stores/theme';
 const theme = useThemeStore()

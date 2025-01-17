@@ -5,13 +5,11 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { aliases as mdAliases, md } from 'vuetify/iconsets/md'
 import { aliases as fontAwesomeAliases, fa } from 'vuetify/iconsets/fa'
 
-import VTagItem from './components/tags/VTagItem.vue'
-import TagFab from '@/components/fabs/TagFab.vue'
-import EvTagTray from '@/components/tags/EvTagTray.vue'
-import EvTrayCard from '@/components/tags/EvTrayCard.vue'
+import EvTagTray from '@/components/tray/TagTray.vue'
+import EvTrayCard from '@/components/tray/TrayCard.vue'
 
-import DiceFab from '@/components/fabs/DiceFab.vue'
-import AvatarFab from '@/components/fabs/AvatarFab.vue'
+import DiceFab from '@/components/fab/DiceFab.vue'
+import AvatarFab from '@/components/fab/AvatarFab.vue'
 
 import myCustomTheme from '@/themes/myCustomTheme'
 
@@ -293,8 +291,6 @@ export const vuetify = createVuetify({
   components: {
     EvTagTray,
     EvTrayCard,
-    VTagItem,
-    TagFab,
     DiceFab,
     AvatarFab,
     VApp,

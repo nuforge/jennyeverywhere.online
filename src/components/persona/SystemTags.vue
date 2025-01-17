@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Tag from '@/objects/nu/v1/ValTag';
-import NuTag from '@/components/nu/v1/NuTag.vue';
+import Tag from '@/objects/nu/Tag';
 
 import usePersonaStore from '@/stores/persona'
 const persona = usePersonaStore()

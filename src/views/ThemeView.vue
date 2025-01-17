@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import Tag from '@/objects/nu/v1/ValTag';
-import NuTag from '@/components/nu/v1/NuTag.vue';
+import Tag from '@/objects/nu/Tag';
 
-import usePersonaStore from '@/stores/persona';
-const persona = usePersonaStore()
+import useThemeStore from '@/stores/theme';
+const theme = useThemeStore()
 
 const customColors = {
   primary: { description: 'common and pleasing. subtle but constant reminders an attention. easy to scan', icon: 'mdi-palette' },
@@ -28,7 +27,7 @@ const convolutedVariableDeclaration = { custom: customColors, feedback: feedback
 
 <template>
   <v-container>
-    <h1>Persona Theme</h1>
+    <h1>Theme Theme</h1>
     <v-item-group>
       <v-row>
         <v-col cols="12" sm="6" v-for="(section, index) in convolutedVariableDeclaration" :key="index">
@@ -51,7 +50,7 @@ const convolutedVariableDeclaration = { custom: customColors, feedback: feedback
                 </template>
 
                 <template #append>
-                  <NuTag :tag="new Tag(`${id}:${persona.myTheme.colors[id]}`, id, 'mdi-circle-opacity')" :value="2" />
+                  <NuTag :tag="new Tag(`${id}:${theme.myTheme.colors[id]}`)" :value="2" />
                 </template>
               </v-list-item>
             </v-item>

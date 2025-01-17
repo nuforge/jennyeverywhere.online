@@ -58,12 +58,6 @@ const router = createRouter({
       component: () => import('../views/NuForge.vue'),
     },
     {
-      path: '/nuforge/:page',
-      name: 'nuforge-page',
-      component: () => import('../views/nuForge/MixedSignals.vue'), // Parent component to render child views
-      props: true, // Pass the `page` param as a prop to the component
-    },
-    {
       path: '/tag/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/NotFoundView.vue'),

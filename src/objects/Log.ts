@@ -1,6 +1,6 @@
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 import { format } from 'date-fns'
-import Legend from './tags/Legend'
+import Legend from './tag/Legend'
 
 class Log extends Tag {
   // Extends tag?
@@ -17,9 +17,7 @@ class Log extends Tag {
     this._title = name
     this._date = date
     this._body = body
-    this.icon = 'mdi-calendar'
-    this.color = 'text'
-    this.addTag(new Tag(`stardate:${this.date}`, 'blue', 'mdi-web-clock'))
+    this.addTag(new Tag(`stardate:${this.date}`))
     return this
   }
 
@@ -51,11 +49,10 @@ class Log extends Tag {
     this._body = newDescription
   }
 
-  createTag(tagName: string, tagColor: string, tagIcon: string) {
+  createTag(tagName: string, color: string = `accent`, icon: string = `mdi-circle-small`) {
     const tag = new Tag(tagName)
-    tag.color = tagColor
-    tag.icon = tagIcon
     this.addTag(tag)
+    console.log('tag: ', tagName, color, icon) // TEMP TO CATCH STRAY CALLS
     return this
   }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import type Tag from '@/objects/nu/v1/ValTag';
+import type Tag from '@/objects/nu/Tag';
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import useTimelineStore from '@/stores/timelines'
@@ -9,7 +9,7 @@ import useStateStore from '@/stores/state'
 const state = useStateStore()
 import TimelineStyles from './TimelineStyles.vue';
 import Log from '@/objects/Log';
-import EvTrayCard from '@/components/tags/EvTrayCard.vue';
+import EvTrayCard from '@/components/tray/TrayCard.vue';
 
 const story = useStoryStore()
 const tags = useTagStore()

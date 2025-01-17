@@ -2,8 +2,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 // 'myCustomTheme'
-import Tag from '@/objects/nu/v1/ValTag'
-import Legend from '@/objects/tags/Legend'
+import Tag from '@/objects/nu/Tag'
+import Legend from '@/objects/tag/Legend'
 
 // Create a new store for different categories of sheets: attributes, image, description, actions
 export interface Persona {
@@ -18,7 +18,7 @@ const usePersonaStore = defineStore('persona', () => {
 
   const lastKey = ref('')
 
-  const focus = ref(new Tag('mythological bird:Phoenix', 'warning', 'mdi-fire'))
+  const focus = ref(new Tag('mythological bird:Phoenix'))
   const attention = ref(new Legend())
   const memory = ref(new Legend())
   // Default to maintaining focus or no?

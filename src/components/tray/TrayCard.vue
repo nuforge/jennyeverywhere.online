@@ -6,17 +6,20 @@ const dragImage = ref<HTMLImageElement | null>(null);
 import useStateStore from '@/stores/state'
 import useClipboardStore from '@/stores/clipboard';
 
-import Tag from '@/objects/nu/v1/ValTag'
-import TagTray from '@/objects/tags/TagTray'
-import EvTagGroup from '@/components/tags/EvTagGroup.vue'
+import Tag from '@/objects/nu/Tag'
+import TagTray from '@/objects/tag/TagTray'
+import EvTagGroup from '@/components/tags/TagGroup.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import EmptyTagTray from '@/components/tags/EmptyTagTray.vue';
+import EmptyTagTray from '@/components/tray/EmptyTagTray.vue';
 import usePersonaStore from '@/stores/persona';
+import useThemeStore from '@/stores/theme';
+const theme = useThemeStore()
 
 
 import useStyleStore from '@/stores/styles';
-import TraySystemBar from '../tray/TraySystemBar.vue';
 const styles = useStyleStore()
+
+import TraySystemBar from '../tray/TraySystemBar.vue';
 
 const persona = usePersonaStore()
 const state = useStateStore()
@@ -97,7 +100,7 @@ watch(() => selection.value, (newVal) => {
 const onCreateTag = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', event, tag)
   persona.focusOn(tag)
-  persona.openDrawer()
+  theme.openDrawer()
 
 }
 
@@ -116,7 +119,7 @@ const onClickTag = (event: MouseEvent, tag: Tag) => {
 const onDoubleClick = (event: MouseEvent, tag: Tag) => {
   //console.log('onClickTag:Tag', tag)
   if (tag) persona.focusOn(tag)
-  persona.openDrawer()
+  theme.openDrawer()
   emit('double-click-tag', event, tag)
 
 }
@@ -246,18 +249,18 @@ onMounted(() => {
         <v-card-text v-if="!minimized">
 
           <v-fade-transition>
-            <EvTagGroup v-model="selection" :multiple="multiple"
-              v-if="mergedTags.length > 0 && tray.tray && styles.trays" :tags="mergedTags" :labels="tray.labels"
-              :colors="tray.colors" :closable="tray.closable" :icons="tray.icons" @drop="onDragDrop"
-              @drag-over="preventDefault" @drag-start="onDragStart" @drag-end="onDragEnd" @right-click="onRightClick"
-              @click-tag="onClickTag" @double-click="onDoubleClick" @click-icon="onClickIcon" />
+            <EvTagGroup v-model="selection" :multiple="multiple" v-if="mergedTags.length > 0 && tray.tray"
+              :tags="mergedTags" :labels="tray.labels" :colors="tray.colors" :closable="tray.closable"
+              :icons="tray.icons" @drop="onDragDrop" @drag-over="preventDefault" @drag-start="onDragStart"
+              @drag-end="onDragEnd" @right-click="onRightClick" @click-tag="onClickTag" @double-click="onDoubleClick"
+              @click-icon="onClickIcon" />
           </v-fade-transition>
           <v-fade-transition>
             <EmptyTagTray @dragover="preventDefault" @drop="onDragDrop" @drag-end="onDragEnd"
               v-if="mergedTags.length === 0 && showManager" />
           </v-fade-transition>
           <v-fade-transition>
-            <v-container v-if="tray.logs && body && styles.logs">
+            <v-container v-if="tray.logs && body">
               <MarkdownRenderer v-if="tray.bodys" :text="body" :tags="selectedTags"
                 :class="selectedTags.length === 0 ? 'text-body' : 'on-surface'" @right-click="onRightClick"
                 @click-body="onClickBody" @create-tag="onCreateTag" @click-tag="onClickTag" />

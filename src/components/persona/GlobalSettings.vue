@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import TagCardStyles from '@/components/tags/TagCardStyles.vue';
+import TagCardStyles from '@/components/tags/editors/TagCardStyles.vue';
 import useStyleStore from '@/stores/styles'
 import useThemeStore from '@/stores/theme'
 import CustomColorPicker from '@/components/color/CustomColorPicker.vue'
-import Tag from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
 const styles = useStyleStore()
 const theme = useThemeStore()

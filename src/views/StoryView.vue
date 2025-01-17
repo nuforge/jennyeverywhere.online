@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
 import story from '@/assets/stories/story.json'
 import Tag from '@/objects/nu/Tag'
-import NuTag from '@/components/nu/NuTag.vue'
 
 
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))

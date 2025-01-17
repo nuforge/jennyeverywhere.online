@@ -9,9 +9,9 @@
 import useTagStore from '@/stores/tags'
 import useStoryStore from '@/stores/story'
 import useStateStore from '@/stores/state'
-import Tag from '@/objects/nu/v1/ValTag' // Adjust the import path as necessary
+import Tag from '@/objects/nu/Tag' // Adjust the import path as necessary
 import { computed } from 'vue'
-import EvTrayCard from '@/components/tags/EvTrayCard.vue'
+import EvTrayCard from '@/components/tray/TrayCard.vue'
 
 const tags = useTagStore()
 const story = useStoryStore()

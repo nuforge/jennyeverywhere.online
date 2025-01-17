@@ -1,117 +1,91 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, ref, computed } from 'vue'
-import imgSrc from '@/assets/images/jenny-everywhere-icon-blue.png';
-const dragImage = ref<HTMLImageElement | null>(null);
-const styles = useStyleStore()
+import { ref, watch, defineProps, defineEmits } from 'vue';
+import Tag from '@/objects/nu/Tag'
 
-const showClosable = computed(() => props.closable || styles.closable)
-const noIcon = computed(() => props.noIcon || styles.icons)
-const noLabel = computed(() => props.noLabel || styles.labels)
-const noColor = computed(() => props.noColor || styles.colors)
 
-import useStateStore from '@/stores/state';
-import useStyleStore from '@/stores/styles';
+const selection = ref<string[]>([])
 
-import useClipboardStore from '@/stores/clipboard'
-import Tag from '@/objects/nu/v1/ValTag'
-
-const state = useStateStore()
-const clipboard = useClipboardStore()
-
-const emit = defineEmits(['click', 'close', 'ctrl-click', 'dragstart', 'dragend'])
-
-function manageCtrlClick(tag: Tag) {
-  emit('ctrl-click', tag)
-}
-
-const onTagClosed = (tag: Tag) => {
-  emit('close', tag)
-}
-
-const onDragStart = (event: DragEvent, tag: Tag) => {
-  emit('dragstart', tag)
-  console.log('TagGroup.dragStart', tag)
-  if (!event.dataTransfer) return
-  writeDataTransfer(event, 'tag', tag.id)
-  event.dataTransfer.clearData();
-  clipboard.copy(tag)
-  state.dragStart()
-  event.dataTransfer.effectAllowed = "move";
-}
-
-const onDragend = (event: DragEvent, tag: Tag) => {
-  clipboard.clear()
-  // console.log('drag.End')
-  state.dragEnd()
-  emit('dragend', tag)
-}
-
-const writeDataTransfer = (event: DragEvent, type: string, data: string) => {
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  event.dataTransfer.setData(type, data);
-
-  if (dragImage.value) {
-    event.dataTransfer?.setDragImage(dragImage.value, 10, 10);
-  } else {
-    console.warn('Drag image not ready!');
-  }
-  if (!event.dataTransfer) return
-  event.dataTransfer.clearData();
-  event.dataTransfer?.setData('text/plain', 'tag');
-}
-
+// EMIT AND PROPS
 const props = defineProps({
   tags: {
-    type: Array, // Runtime validation as an array
-    required: true,
+    type: Array as () => Tag[]
+  }, // Initial selected tags
+  modelValue: {
+    type: Array as () => string[],
+    default: () => []
   },
-
-  noLabel: {
-    type: Boolean,
-    default: false
+  colors: {
+    type: [Boolean, String],
+    default: true
   },
-  noValue: {
-    type: Boolean,
-    default: false
+  labels: {
+    type: [Boolean, String],
+    default: true
   },
-  noIcon: {
-    type: Boolean,
-    default: false
-  },
-  noColor: {
-    type: Boolean,
-    default: false
+  icons: {
+    type: [Boolean, String],
+    default: true
   },
   closable: {
     type: Boolean,
     default: false
   },
-  tooltip: {
-    type: Boolean,
-    default: false
-  },
 })
-// MOUNTED
 
-onMounted(() => {
-  // Preload the image
-  const img = new Image();
-  img.src = imgSrc;
+const emit = defineEmits(['update:modelValue', 'click-tag', 'ctrl-click', 'right-click', 'double-click', 'drag-start', 'drag-end', 'drag-drop', 'close'])
 
-  img.onload = () => {
-    dragImage.value = img;
-  };
+// TAGS & CLICKS
+function onClose(tag: Tag) {
+  emit('close', tag)
+}
+
+function onClickTag(event: MouseEvent, tag: Tag) {
+  emit('click-tag', event, tag)
+}
+
+function onCtrlClick(event: MouseEvent, tag: Tag) {
+  emit('ctrl-click', event, tag)
+}
+
+function onRightClick(event: MouseEvent, tag: Tag) {
+  emit('right-click', event, tag)
+}
+
+function onDoubleClick(event: MouseEvent, tag: Tag) {
+  emit('double-click', event, tag)
+}
+
+// DRAG
+// DRAG START
+const onDragStart = (event: DragEvent, tag: Tag) => {
+  event.dataTransfer?.setData('text/plain', tag.id);
+  emit('drag-start', event, tag)
+}
+
+// DRAG END
+const onDragEnd = () => {
+  emit('drag-end')
+}
+
+// DRAG OVER
+const preventDefault = (event: Event) => event.preventDefault()
+
+watch(() => props.modelValue, (newVal) => {
+  selection.value = newVal
+});
+watch(() => selection.value, (newVal) => {
+  emit('update:modelValue', newVal)
 });
 
 </script>
 
 <template>
-  <v-chip-group draggable column multiple>
-    <VTagItem v-for="tag in (tags as Tag[])" :key="tag.id" draggable tooltip :value="tag.id" :icon="tag.icon"
-      :label="tag.label" :color="tag.color" :space="tag.space" :closable="showClosable" @click="emit('click', tag)"
-      :noColor="noColor" :noIcon="noIcon" :noLabel="noLabel" @close="onTagClosed(tag)"
-      @click.ctrl.exact="manageCtrlClick(tag)" @dragstart="onDragStart($event, tag)" @dragend="onDragend($event, tag)">
-    </VTagItem>
-  </v-chip-group>
+  <v-fade-transition>
+    <v-chip-group column multiple @dragend="onDragEnd" @dragover="preventDefault" v-model="selection"
+      class="d-flex flex-column px-2 mx-auto justify-center">
+      <NuTag v-for="tag in tags" :tag="tag" :key="tag.id" @close="onClose(tag)" @dragstart="onDragStart($event, tag)"
+        @ctrl-click="onCtrlClick($event, tag)" @right-click="onRightClick($event, tag)"
+        @click-tag="onClickTag($event, tag)" @double-click="onDoubleClick($event, tag)" />
+    </v-chip-group>
+  </v-fade-transition>
 </template>

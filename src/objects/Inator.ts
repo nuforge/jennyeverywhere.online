@@ -1,6 +1,6 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
-import ValTag from '@/objects/nu/v1/ValTag'
+//import NuTag from '@/objects/nu/v1/NuTag'
 import NuTag from '@/objects/nu/Tag'
 import Label from '@/objects/nu/Label'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
@@ -39,10 +39,12 @@ class Inator {
   }
 
   keywordTags(keyword: string) {
-    const keywords = ValTag.extractKeywords(keyword)
+    const keywords = NuTag.extractKeywords(keyword)
     const individualTags = keywords.individual.map((keyword) => {
       console.log('best color', this.bestColor(keyword))
-      const tg = new ValTag(keyword, this.bestColor(keyword) || '', this.bestIcon(keyword) || '')
+      const tg = new NuTag(keyword)
+        .add('color', this.bestColor(keyword) || '')
+        .add('icon', this.bestIcon(keyword) || '')
 
       return tg
     })
@@ -127,10 +129,10 @@ class Inator {
     return array
   }
 
-  bodyToTags = (body: string): ValTag[] => {
+  bodyToTags = (body: string): NuTag[] => {
     const words = body.split(' ')
     const tags = words.map((word) => {
-      return new ValTag(word, this.themecolor(), this.icon())
+      return new NuTag(word).add('color', this.themecolor()).add('icon', this.icon())
     })
     return tags
   }
@@ -187,15 +189,15 @@ class Inator {
     return Array.isArray(sentences) ? sentences.join(' ') : sentences
   } // Generate  random sentences
 
-  ntag = (space?: string): ValTag => {
+  ntag = (space?: string): NuTag => {
     const theme = this.themecolor(false)
     const seed = space ? `${space}:${this.word()}` : this.word()
-    const tag = new ValTag(`${seed}`, theme, this.icon() as string)
+    const tag = new NuTag(`${seed}`).add('color', theme).add('icon', this.icon() as string)
     return tag
   } // Generate 5 random tags
 
-  ntags = (count: number = 1, space?: string): ValTag[] => {
-    const tags = [] as ValTag[]
+  ntags = (count: number = 1, space?: string): NuTag[] => {
+    const tags = [] as NuTag[]
     for (let i = 0; i < count; i++) {
       tags.push(this.ntag(space))
     }
@@ -270,12 +272,12 @@ class Inator {
     return randomIcons
   } // Generate 5 random icons
 
-  iconTag = (): ValTag => {
+  iconTag = (): NuTag => {
     const icon = this.randomArrayValue(IconsJSON)
-    return new ValTag(`${icon.name}`, `mdi-${icon.name}`)
+    return new NuTag(`${icon.name}`).add('color', `mdi-${icon.name}`)
   }
 
-  iconTags = (count: number = 1): ValTag[] => {
+  iconTags = (count: number = 1): NuTag[] => {
     const formatName = (name: string) => {
       return name
         .replace(/-/g, ' ') // Replace hyphens with spaces
@@ -285,14 +287,16 @@ class Inator {
 
     const getColor = () => this.themecolor()
 
-    const icons = IconsJSON.map(
-      (icon) => new ValTag(formatName(icon.name), getColor(), `mdi-${icon.name}`),
+    const icons = IconsJSON.map((icon) =>
+      new NuTag(formatName(icon.name)).add('color', getColor()).add('icon', `mdi-${icon.name}`),
     )
     return this.shuffleArray(icons).slice(0, count)
   }
 
-  colorTags = (): ValTag[] => {
-    return this.colors().map((color) => new ValTag(`color:${color}`, color, 'mdi-circle-opacity'))
+  colorTags = (): NuTag[] => {
+    return this.colors().map((color) =>
+      new NuTag(`color:${color}`).add('color', color).add('icon', 'mdi-circle-opacity'),
+    )
   }
 
   allcolors = () => {

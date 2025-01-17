@@ -227,7 +227,6 @@ export const vuetify = createVuetify({
       class: 'bg-surface pb-16',
     },
     VTooltip: {
-      location: 'top',
       contentClass: 'bg-background ma-2 pa-3',
     },
     VBottomNavigation: {},
@@ -261,7 +260,6 @@ export const vuetify = createVuetify({
       },
     },
     VCardText: {
-      class: 'ma-0 pb-0 px-0',
       VBtnToggle: {
         color: 'text',
         density: 'compact',

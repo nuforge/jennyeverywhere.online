@@ -17,7 +17,7 @@ class Log extends Tag {
     this._title = name
     this._date = date
     this._body = body
-    this.addTag(new Tag(`stardate:${this.date}`))
+    this.addTag(new Tag(`stardate:${this.date}`).add('color', 'blue').add('icon', 'mdi-web-clock'))
     return this
   }
 
@@ -50,7 +50,7 @@ class Log extends Tag {
   }
 
   createTag(tagName: string, color: string = `accent`, icon: string = `mdi-circle-small`) {
-    const tag = new Tag(tagName)
+    const tag = new Tag(tagName).add('color', color).add('icon', icon)
     this.addTag(tag)
     console.log('tag: ', tagName, color, icon) // TEMP TO CATCH STRAY CALLS
     return this

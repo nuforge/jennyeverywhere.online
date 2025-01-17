@@ -31,9 +31,9 @@ class Persona extends Tag {
 
   addLabel(newName: string, newColor?: string, newIcon?: string) {
     const newTag = new Tag(newName)
-    newTag.icon = newIcon ? newIcon : 'mdi-label'
-    newTag.color = newColor ? newColor : 'text'
-    return this._attributes.setTag(newTag.id, newTag) //, newColor, newIcon )
+      .add('color', newColor ?? 'text')
+      .add('icon', newIcon ?? 'mdi-label')
+    return this._attributes.setTag(newTag.id, newTag)
   }
 
   addAttribute(newName: string, newColor?: string, newIcon?: string) {

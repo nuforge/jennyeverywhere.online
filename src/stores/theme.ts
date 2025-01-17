@@ -24,7 +24,6 @@ const useThemeStore = defineStore('theme', () => {
 
   const theme = useTheme()
   const lastKey = ref('')
-  // new Tag(`color:${color}`, color, 'mdi-circle-opacity'))
   const customColors = ref(new Legend())
 
   const myTheme = ref(theme.global.current.value)
@@ -48,7 +47,7 @@ const useThemeStore = defineStore('theme', () => {
   }
 
   function addCustomColor(name: string, hex: string) {
-    const cTag = new Tag(hex, name, 'mdi-circle-opacity')
+    const cTag = new Tag(hex).add('color', name).add('icon', 'mdi-circle-opacity')
     customColors.value.addTag(cTag)
   }
 
@@ -95,7 +94,7 @@ const useThemeStore = defineStore('theme', () => {
     Object.entries(myTheme.value.colors)
       .filter(([name]) => themeBase.includes(name))
       .map(([name]) => {
-        const tagToAdd = new Tag(name, name, 'mdi-circle-opacity')
+        const tagToAdd = new Tag(name).add('color', name).add('icon', 'mdi-circle-opacity')
         legend.addTag(tagToAdd)
       })
     return legend

@@ -9,7 +9,8 @@ import Tag from '@/objects/nu/Tag';
       <v-col>
         <h2>Hot Keys</h2>
 
-        <NuTag :tag="new Tag('toggle:tag drawer', 'text', 'mdi-keyboard-outline')" :value="'t'" />
+        <NuTag :tag="new Tag('toggle:tag drawer').add('color', 'text').add('icon', 'mdi-keyboard-outline')"
+          :value="'t'" />
         <v-list>
           <v-list-item title="t" subtitle="Toggle 'Tag Drawer'">
             <template #title>

@@ -50,7 +50,9 @@ const convolutedVariableDeclaration = { custom: customColors, feedback: feedback
                 </template>
 
                 <template #append>
-                  <NuTag :tag="new Tag(`${id}:${theme.myTheme.colors[id]}`)" :value="2" />
+                  <NuTag
+                    :tag="new Tag(`${id}:${theme.myTheme.colors[id]}`).add('color', id).add('icon', color['icon'] ?? 'mdi-circle-opacity')"
+                    :value="2" />
                 </template>
               </v-list-item>
             </v-item>

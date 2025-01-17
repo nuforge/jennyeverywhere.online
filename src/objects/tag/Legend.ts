@@ -82,14 +82,14 @@ class Legend extends Tag {
     return this.createTag(note)
   }
   createTag(newName: string, newColor?: string, newIcon?: string): Tag {
-    const tag = new Tag(newName, newColor, newIcon)
+    const tag = new Tag(newName).add('color', newColor ?? '').add('icon', newIcon ?? '')
     this.setTag(tag.id, tag)
     return tag
   }
 
   createTags(newTags: string[], newColor?: string, newIcon?: string): Tag[] {
     return newTags.map((tag) => {
-      const newTag = new Tag(tag, newColor, newIcon)
+      const newTag = new Tag(tag).add('color', newColor ?? '').add('icon', newIcon ?? '')
       this.setTag(newTag.id, newTag)
       return newTag
     })

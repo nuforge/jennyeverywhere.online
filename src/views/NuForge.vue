@@ -18,7 +18,7 @@ const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
 const showBrowserMemory = ref(false)
 
-const newTag = new Tag('yes').add(`color`, 'primary').add(`icon`, 'mdi-message-processing')
+const newTag = new Tag('yes').add('color', 'primary').add('icon', 'mdi-message-processing')
 </script>
 
 <template>

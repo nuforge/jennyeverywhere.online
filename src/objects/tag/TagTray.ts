@@ -39,13 +39,13 @@ class TagTray {
     if (typeof tags === 'string') {
       this._tag = new Tag(tags)
     } else if (tags instanceof Legend) {
-      this._tag = new Tag('Legend', 'info', 'mdi-map-legend')
+      this._tag = new Tag('Legend').add('color', 'info').add('icon', 'mdi-map-legend')
       this._legend = tags
     } else if (Array.isArray(tags)) {
-      this._tag = new Tag('list', 'accent', 'mdi-list-box-outline')
+      this._tag = new Tag('list').add('color', 'accent').add('icon', 'mdi-list-box-outline')
       this._legend.addTags(tags)
     } else {
-      this._tag = new Tag('default', 'default', 'mdi-tray')
+      this._tag = new Tag('default').add('color', 'default').add('icon', 'mdi-tray')
     }
     return this
   }

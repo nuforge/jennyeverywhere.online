@@ -31,7 +31,7 @@ const selection = ref([''])
 const filters = ref([...commonStopWords, ...HTMLTags])
 
 const wordData = computed(() => markdowninator.cleanAndCountWords(props.message.content, 5, filters.value))
-const wordTags = computed(() => wordData.value.map((item) => new Tag(item.word, inator.color(), inator.icon())) as Tag[])
+const wordTags = computed(() => wordData.value.map((item) => new Tag(item.word).add('color', inator.color()).add('icon', inator.icon())) as Tag[])
 
 const isUser = computed(() => props.message.sender === USER_LABEL)
 const isAgent = computed(() => props.message.sender === AGENT_LABEL)

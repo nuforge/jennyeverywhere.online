@@ -6,6 +6,7 @@ import Tag from '@/objects/nu/Tag';
 import NuIcon from '@/components/nutag/NuIcon.vue';
 import NuLabel from '@/components/nutag/NuLabel.vue';
 import NuSpace from '@/components/nutag/NuSpace.vue';
+import NuBadge from '@/components/nutag/NuBadge.vue';
 
 import useStyleStore from '@/stores/styles';
 const styles = useStyleStore();
@@ -17,7 +18,7 @@ const settings = ref(
   new SettingsManager({
     icon: true,
     label: true,
-    badge: false,
+    badge: true,
     space: false,
     tooltip: true,
     color: true,
@@ -35,13 +36,13 @@ const displayColor = computed(() => {
   return props.color ?? tag.value?.color ?? defaultNoColor
 })
 
-//const showBadge = computed(() => styles.checkGlobal('values') && props.values && settings.value.get('badge'))
 //const showTooltip = computed(() => styles.checkGlobal('tooltips') && settings.value.get('tooltip'))
 //const iconTooltip = computed(() => (showTooltip.value && !showSpace.value && props.tag.space) ? props.tag.space : props.tag.label)
 const showLabel = computed(() => styles.checkGlobal('labels') && props.labels && settings.value.get('label'))
 const showSpace = computed(() => styles.checkGlobal('spaces') && tag.value?.space && settings.value.get('space'))
 const showIcon = computed(() => styles.checkGlobal('icons') && props.icons && settings.value.get('icon'))
 const showColor = computed(() => styles.checkGlobal('colors') && props.colors && settings.value.get('color') && (displayColor.value && !styles.filterColors.includes(displayColor.value)))
+const showBadge = computed(() => styles.checkGlobal('badges') && props.badges && settings.value.get('badge'))
 
 const prependIcon = computed(() => showIcon.value && (showLabel.value || showSpace.value))
 
@@ -70,9 +71,16 @@ const props = defineProps
     icon: {
       type: String,
     },
+    badge: {
+      type: String,
+    },
     labels: {
       type: Boolean,
       default: true,
+    },
+    badges: {
+      type: Boolean,
+      default: false,
     },
     icons: {
       type: Boolean,
@@ -176,5 +184,11 @@ function onDrop(event: DragEvent) {
       </template>
     </v-fab-transition>
 
+    <!-- Tag Name / Value -->
+    <v-fab-transition>
+      <template #default v-if="showBadge">
+        <NuBadge v-if="showBadge" attach="parent" :content="tag.getAttribute(`symbol`)" />
+      </template>
+    </v-fab-transition>
   </v-chip>
 </template>

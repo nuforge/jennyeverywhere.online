@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:logs', 'update:values', 'update:spaces'])
+const emit = defineEmits(['update:tray', 'update:labels', 'update:icons', 'update:colors', 'update:logs', 'update:badges', 'update:spaces'])
 defineProps({
   tray: {
     type: Boolean,
@@ -22,7 +22,7 @@ defineProps({
     type: Boolean,
     required: true
   },
-  values: {
+  badges: {
     type: Boolean,
     required: true
   },
@@ -48,8 +48,8 @@ defineProps({
   <v-btn @click="emit('update:spaces', !spaces)" :icon="!spaces ? `mdi-tray-remove` : `mdi-tray-full`"
     :color="spaces ? `text` : `disabled`">
   </v-btn>
-  <v-btn @click="emit('update:values', !values)"
-    :icon="!values ? `mdi-checkbox-blank-badge-outline` : `mdi-checkbox-blank-badge`"
+  <v-btn @click="emit('update:badges', !badges)"
+    :icon="!badges ? `mdi-checkbox-blank-badge-outline` : `mdi-checkbox-blank-badge`"
     :color="logs ? `text` : `disabled`">
   </v-btn>
   <v-divider vertical />

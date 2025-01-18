@@ -28,7 +28,7 @@ const useStyleStore = defineStore('styles', () => {
       labels: true,
       colors: true,
       icons: true,
-      values: false,
+      badges: true,
       closable: false,
       logs: true,
       bodys: true,

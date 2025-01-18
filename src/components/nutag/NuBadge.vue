@@ -3,7 +3,6 @@ import { ref } from 'vue';
 
 const emit = defineEmits(['click', 'right-click'])
 
-
 function toggleFloat() {
   float.value = !float.value
 }
@@ -16,7 +15,6 @@ function onClickBadge() {
   emit('click')
 }
 
-
 function onRightClickBadge() {
   toggleFloat()
   show.value = float.value
@@ -25,9 +23,6 @@ function onRightClickBadge() {
 
 const show = ref(false)
 const float = ref(true)
-
-
-
 </script>
 
 <template>

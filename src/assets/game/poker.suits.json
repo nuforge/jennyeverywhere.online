@@ -1,0 +1,30 @@
+{
+  "spade": {
+    "name": "spade",
+    "symbol": "♠",
+    "color": "primary",
+    "solid": true,
+    "icon": "mdi-cards-spade"
+  },
+  "club": {
+    "name": "club",
+    "symbol": "♣",
+    "color": "success",
+    "solid": true,
+    "icon": "mdi-cards-club"
+  },
+  "heart": {
+    "name": "heart",
+    "symbol": "♥",
+    "color": "error",
+    "solid": false,
+    "icon": "mdi-cards-heart"
+  },
+  "diamond": {
+    "name": "diamond",
+    "symbol": "♦",
+    "color": "warning",
+    "solid": false,
+    "icon": "mdi-cards-diamond"
+  }
+}

@@ -51,13 +51,13 @@ const dialog = ref(false)
     <v-btn-toggle density="comfortable">
       <TagCardStyles :tray="styles.settings.get('trays')" :labels="styles.settings.get('labels')"
         :icons="styles.settings.get('icons')" :colors="styles.settings.get('colors')"
-        :values="styles.settings.get('values')" :logs="styles.settings.get('logs')"
+        :badges="styles.settings.get('badges')" :logs="styles.settings.get('logs')"
         :spaces="styles.settings.get('spaces')" @update:labels="(value: boolean) => { styles.set('labels', value) }"
         @update:icons="(value: boolean) => { styles.set('icons', value) }"
         @update:colors="(value: boolean) => { styles.set('colors', value) }"
         @update:logs="(value: boolean) => { styles.set('logs', value) }"
         @update:tray="(value: boolean) => { styles.set('trays', value) }"
-        @update:values="(value: boolean) => { styles.set('values', value) }"
+        @update:badges="(value: boolean) => { styles.set('badges', value) }"
         @update:spaces="(value: boolean) => { styles.set('spaces', value) }" />
     </v-btn-toggle>
 

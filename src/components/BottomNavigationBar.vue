@@ -12,5 +12,7 @@
     </v-btn>
     <v-btn value="character" icon="mdi-account-circle" to="/character">
     </v-btn>
+    <v-btn value="playingcards" icon="mdi-cards" to="/playingcards">
+    </v-btn>
   </v-bottom-navigation>
 </template>

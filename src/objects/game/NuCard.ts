@@ -1,7 +1,6 @@
 import Tag from '@/objects/nu/Tag'
 
 type Value = boolean | number | string | Tag | undefined
-type Name = string
 type Space = string | undefined
 // NuCard class
 
@@ -11,15 +10,15 @@ type Space = string | undefined
 class NuCard extends Tag {
   protected _face: Value
   protected _value: Value = true
-
   protected _back: Value = 'card.back'
 
   // name, value, default ->
   // Name Color Icon
-  constructor(value: Name, face?: Value, symbol?: Space) {
+  constructor(value: Value, face?: Value, symbol?: Space) {
     super(value?.toString())
     this.add('color', face?.toString() || 'text')
     this.add('icon', symbol?.toString() || 'mdi-cards')
+    //this.add('value', value)
     this.rank = value
     this.suit = symbol
     return this
@@ -32,6 +31,10 @@ class NuCard extends Tag {
   }
   protected question(question?: boolean, answer?: boolean) {
     return question && answer ? question : false
+  }
+
+  has(check: string): boolean {
+    return this.rank === check || this.suit === check
   }
 
   get rank(): Value {

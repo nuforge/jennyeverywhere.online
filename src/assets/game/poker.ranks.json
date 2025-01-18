@@ -1,0 +1,86 @@
+{
+  "ace": {
+    "name": "ace",
+    "symbol": "A",
+    "value": 1,
+    "icon": "mdi-chess-pawn"
+  },
+  "two": {
+    "name": "two",
+    "symbol": "2",
+    "value": 2,
+    "icon": "mdi-numeric-2-circle"
+  },
+  "three": {
+    "name": "three",
+    "symbol": "3",
+    "value": 3,
+    "icon": "mdi-numeric-3-circle"
+  },
+  "four": {
+    "name": "four",
+    "symbol": "4",
+    "value": 4,
+    "icon": "mdi-numeric-4-circle"
+  },
+  "five": {
+    "name": "five",
+    "symbol": "5",
+    "value": 5,
+    "icon": "mdi-numeric-5-circle"
+  },
+  "six": {
+    "name": "six",
+    "symbol": "6",
+    "value": 6,
+    "icon": "mdi-numeric-6-circle"
+  },
+  "seven": {
+    "name": "seven",
+    "symbol": "7",
+    "value": 7,
+    "icon": "mdi-numeric-7-circle"
+  },
+  "eight": {
+    "name": "eight",
+    "symbol": "8",
+    "value": 8,
+    "icon": "mdi-numeric-8-circle"
+  },
+  "nine": {
+    "name": "nine",
+    "symbol": "9",
+    "value": 9,
+    "icon": "mdi-numeric-9-circle"
+  },
+  "ten": {
+    "name": "ten",
+    "symbol": "10",
+    "value": 10,
+    "icon": "mdi-chess-rook"
+  },
+  "jack": {
+    "name": "jack",
+    "symbol": "J",
+    "value": 11,
+    "icon": "mdi-chess-knight"
+  },
+  "queen": {
+    "name": "queen",
+    "symbol": "Q",
+    "value": 12,
+    "icon": "mdi-chess-queen"
+  },
+  "king": {
+    "name": "king",
+    "symbol": "K",
+    "value": 13,
+    "icon": "mdi-chess-king"
+  },
+  "joker": {
+    "name": "joker",
+    "symbol": "J",
+    "value": 0,
+    "icon": "mdi-star"
+  }
+}

@@ -1,12 +1,14 @@
-import NuTag from '@/objects/nu/Tag'
-import type { Value, Name, Space } from '@/objects/nu/v1/ValTag'
+import Tag from '@/objects/nu/Tag'
 
+type Value = boolean | number | string | Tag | undefined
+type Name = string
+type Space = string | undefined
 // NuCard class
 
 //const NAMESPACE_SPLIT_CHAR = ' of '
 //const TAG_WHITESPACE_REPLACER = '-'
 
-class NuCard extends NuTag {
+class NuCard extends Tag {
   protected _face: Value
   protected _value: Value = true
 

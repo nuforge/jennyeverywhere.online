@@ -3,9 +3,6 @@ import { v4 as uuidv4 } from 'uuid'
 const NAMESPACE_SPLIT_CHAR = ':'
 const TAG_WHITESPACE_REPLACER = '-'
 
-const DEFAULT_COLOR = 'accent'
-const DEFAULT_ICON = 'mdi-circle-small'
-
 type TagAttributes = {
   seed?: string
   [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
@@ -49,10 +46,10 @@ class Tag<T extends TagAttributes = { seed?: string }> {
 
   // TEMP COLOR & ICON TO FIND STRAY CALLS
   get color() {
-    return this.getAttribute('color')?.toString() ?? DEFAULT_COLOR
+    return this.getAttribute('color')?.toString() ?? ''
   }
   get icon() {
-    return this.getAttribute('icon')?.toString() ?? DEFAULT_ICON
+    return this.getAttribute('icon')?.toString() ?? ''
   }
   set color(color: string) {
     this.add('color', color)

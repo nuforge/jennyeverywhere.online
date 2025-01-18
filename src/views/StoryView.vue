@@ -43,7 +43,8 @@ const selected = computed<Tag[]>(() => {
       <v-col cols="6" md="8" sm="12">
         <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
         <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :label="tag.name" :tag="(tag.tag as Tag)" />
+          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :label="tag.name" :tag="(tag.tag as Tag)"
+            variant="text" />
         </v-chip-group>
       </v-col>
       <v-col cols="auto" md="4" sm="12">

@@ -244,6 +244,7 @@ export default class TagDb {
     const result: Tag[] = []
 
     while (stack.length > 0) {
+      console.log('Stack:', stack.length)
       const tagId = stack.pop()!
       if (!visited.has(tagId)) {
         visited.add(tagId)
@@ -252,6 +253,7 @@ export default class TagDb {
           result.push(tag)
           const connectedTags = await this.findConnectedTags(tagId)
           for (const connectedTag of connectedTags) {
+            console.log('connectedTag:', connectedTag.id)
             if (!visited.has(connectedTag.id)) {
               stack.push(connectedTag.id)
             }

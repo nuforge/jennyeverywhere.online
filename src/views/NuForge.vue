@@ -50,6 +50,8 @@ onMounted(async () => {
     { id: 'captain', from: 'person:picard', to: 'ship:enterprise', type: 'COMMANDS' },
     { id: 'enterprise', from: 'person:picard', to: 'role:captain', type: 'HAS_ROLE' },
     { id: 'affiliation:sisko', from: 'person:sisko', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'affiliation:enterpise', from: 'ship:enterprise', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'affiliation:defiant', from: 'ship:defiant', to: 'organization:starfleet', type: 'MEMBER_OF' },
   ]
   try {
     await tagDatabase.setupDatabase('nuForgeDB');
@@ -63,9 +65,7 @@ onMounted(async () => {
 });
 
 const searchBySpace = ref('person');
-const searchByConnection = ref('person:picard');
-
-
+const searchByConnection = ref('organization:starfleet');
 
 function searchTags() {
   console.log('searchTags triggered');
@@ -93,14 +93,16 @@ function searchTags() {
     <v-btn @click="showBrowserMemory = !showBrowserMemory" size="small"
       :icon="showBrowserMemory ? `mdi-brain` : `mdi-egg-off-outline`" flat color="accent" />
   </v-btn-group>
+
   <v-card>
     <v-card-title>Tags in IndexedDB</v-card-title>
-    <v-text-field v-model="searchBySpace" density="compact" label="searchBySpace" clearable></v-text-field>
-    <v-text-field v-model="searchByConnection" density="compact" label="searchByConnection" clearable></v-text-field>
+    <v-text-field v-model="searchBySpace" density="compact" label="searchBySpace" clearable
+      @keydown.enter="searchTags" />
+    <v-text-field v-model="searchByConnection" density="compact" label="searchByConnection" clearable
+      @keydown.enter="searchTags" />
     <v-btn @click="searchTags" color="primary" icon="mdi-magnify" />
     <v-card-text>
-      <NuTag v-for="(tag, index) in dbTags" :key="index" :space="tag.space" :label="`${tag.space}:${tag.name}`"
-        size="small" />
+      <NuTag v-for="(tag, index) in dbTags" :key="index" :space="tag.space" :label="`${tag.name}`" size="small" />
     </v-card-text>
   </v-card>
 

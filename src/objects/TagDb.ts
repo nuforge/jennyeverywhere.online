@@ -114,39 +114,47 @@ export default class TagDb {
     const tagsStore = tx.objectStore('Tags')
 
     const connectedTags: Tag[] = []
+    const processedEdges = new Set<string>() // To avoid processing duplicate edges
     const fromIndex = edgesStore.index('from')
     const toIndex = edgesStore.index('to')
 
-    return new Promise((resolve, reject) => {
-      const processCursor = async (cursor: IDBCursorWithValue | null, index: IDBIndex) => {
-        if (cursor) {
-          const edge = cursor.value as Edge
-          const connectedTagId = index === fromIndex ? edge.to : edge.from
-          try {
-            const connectedTag = await new Promise<Tag>((resolve, reject) => {
-              const request = tagsStore.get(connectedTagId)
-              request.onsuccess = () => resolve(request.result)
-              request.onerror = () => reject(request.error)
-            })
-            connectedTags.push(connectedTag)
-          } catch (error) {
-            reject(error)
+    const processCursor = async (index: IDBIndex, query: IDBValidKey) => {
+      return new Promise<void>((resolve, reject) => {
+        const request = index.openCursor(query)
+        request.onsuccess = async (event) => {
+          const cursor = (event.target as IDBRequest).result
+          if (cursor) {
+            const edge = cursor.value as Edge
+            const edgeKey = `${edge.from}-${edge.to}-${edge.type}`
+            if (!processedEdges.has(edgeKey)) {
+              processedEdges.add(edgeKey)
+              const connectedTagId = index === fromIndex ? edge.to : edge.from
+              console.log(`Processing edge: ${JSON.stringify(edge)}`)
+
+              try {
+                const connectedTag = await new Promise<Tag>((resolve, reject) => {
+                  const request = tagsStore.get(connectedTagId)
+                  request.onsuccess = () => resolve(request.result)
+                  request.onerror = () => reject(request.error)
+                })
+                console.log(`Found connected tag: ${JSON.stringify(connectedTag)}`)
+                connectedTags.push(connectedTag)
+              } catch (error) {
+                reject(error)
+              }
+            }
+            cursor.continue() // Advance the cursor to the next item
+          } else {
+            resolve() // Resolve the promise when the cursor is done
           }
-          cursor.continue() // Advance the cursor to the next item
-        } else {
-          resolve(connectedTags) // Resolve the promise when the cursor is done
         }
-      }
+        request.onerror = (event) => reject((event.target as IDBRequest).error)
+      })
+    }
 
-      const fromRequest = fromIndex.openCursor(tagId)
-      fromRequest.onsuccess = (event) =>
-        processCursor((event.target as IDBRequest).result, fromIndex)
-      fromRequest.onerror = (event) => reject((event.target as IDBRequest).error)
+    await Promise.all([processCursor(fromIndex, tagId), processCursor(toIndex, tagId)])
 
-      const toRequest = toIndex.openCursor(tagId)
-      toRequest.onsuccess = (event) => processCursor((event.target as IDBRequest).result, toIndex)
-      toRequest.onerror = (event) => reject((event.target as IDBRequest).error)
-    })
+    return connectedTags
   }
 
   async findTagsBySpace(space: string): Promise<Tag[]> {

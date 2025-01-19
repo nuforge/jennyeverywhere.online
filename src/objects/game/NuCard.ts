@@ -7,20 +7,19 @@ type Space = string | undefined
 //const NAMESPACE_SPLIT_CHAR = ' of '
 //const TAG_WHITESPACE_REPLACER = '-'
 
-class NuCard extends Tag {
+type TagAttributes = {
+  seed?: string
+  [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
+}
+class NuCard<T extends TagAttributes = { seed?: string }> extends Tag {
   protected _face: Value
-  protected _value: Value = true
   protected _back: Value = 'card.back'
 
   // name, value, default ->
   // Name Color Icon
-  constructor(value: Value, face?: Value, symbol?: Space) {
-    super(value?.toString())
-    this.add('color', face?.toString() || 'text')
-    this.add('icon', symbol?.toString() || 'mdi-cards')
+  constructor(value: Value, initialAttributes: T = {} as T) {
+    super(value?.toString(), initialAttributes)
     //this.add('value', value)
-    this.rank = value
-    this.suit = symbol
     return this
   }
   protected ask(question?: boolean, answer?: boolean): boolean {
@@ -38,11 +37,11 @@ class NuCard extends Tag {
   }
 
   get rank(): Value {
-    return this._value
+    return this._name
   }
 
   set rank(value: Value) {
-    this._value = value
+    this._name = value?.toString() ?? ''
   }
 
   get suit(): Space {
@@ -54,7 +53,7 @@ class NuCard extends Tag {
   }
 
   get face(): Value {
-    return this._space
+    return this._face ?? this._space
   }
 
   set face(value: Value) {

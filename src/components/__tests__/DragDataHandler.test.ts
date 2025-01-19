@@ -8,6 +8,16 @@ describe('DragDataHandler', () => {
   beforeEach(() => {
     dragDataHandler = new DragDataHandler()
     event = new DragEvent('dragstart')
+    Object.defineProperty(event, 'dataTransfer', {
+      value: {
+        setDragImage: vi.fn(),
+        setData: vi.fn(),
+        getData: vi.fn().mockReturnValue(''),
+        clearData: vi.fn(),
+        effectAllowed: '',
+      },
+      writable: true,
+    })
   })
 
   it('should set drag image', () => {
@@ -17,38 +27,45 @@ describe('DragDataHandler', () => {
 
   it('should write data to dataTransfer', () => {
     dragDataHandler.writeDataTransfer(event, 'text/plain', 'test')
-    expect(event.dataTransfer?.getData('text/plain')).toBe('test')
+    expect(event.dataTransfer?.setData).toHaveBeenCalledWith('text/plain', 'test')
+    expect(event.dataTransfer?.effectAllowed).toBe('move')
   })
 
   it('should clear data from dataTransfer', () => {
     dragDataHandler.writeDataTransfer(event, 'text/plain', 'test')
     dragDataHandler.clearDataTransfer(event)
-    expect(event.dataTransfer?.getData('text/plain')).toBe('')
+    expect(event.dataTransfer?.clearData).toHaveBeenCalled()
   })
 
   it('should handle drag start', () => {
     dragDataHandler.dragStart(event, 'text/plain', 'test')
-    expect(event.dataTransfer?.getData('text/plain')).toBe('test')
+    expect(event.dataTransfer?.setData).toHaveBeenCalledWith('text/plain', 'test')
     expect(event.dataTransfer?.setDragImage).toHaveBeenCalled()
   })
 
   it('should handle drag end', () => {
-    dragDataHandler.dragStart(event, 'text/plain', 'test')
     dragDataHandler.dragEnd(event)
-    expect(event.dataTransfer?.getData('text/plain')).toBe('')
+    expect(event.dataTransfer?.clearData).toHaveBeenCalled()
   })
 
-  it('should handle drag over', () => {
+  it('should prevent default on drag over', () => {
     const preventDefault = vi.fn()
     event.preventDefault = preventDefault
     dragDataHandler.dragOver(event)
     expect(preventDefault).toHaveBeenCalled()
   })
 
-  it('should handle drop', () => {
+  it('should handle drop event and execute callback', () => {
     const callback = vi.fn()
-    dragDataHandler.writeDataTransfer(event, 'text/plain', 'test')
+    Object.defineProperty(event, 'dataTransfer', {
+      value: {
+        getData: vi.fn().mockReturnValue('test'),
+        clearData: vi.fn(),
+      },
+      writable: true,
+    })
     dragDataHandler.drop(event, callback)
     expect(callback).toHaveBeenCalledWith('test')
+    expect(event.dataTransfer?.clearData).toHaveBeenCalled()
   })
 })

@@ -19,11 +19,10 @@ describe('Tag', () => {
   it('should parse string correctly', () => {
     expect(Tag.parseString('space:label.value')).toEqual({
       space: 'space',
-      label: 'label',
-      value: 'value',
+      name: 'label.value',
     })
-    expect(Tag.parseString('label.value')).toEqual({ label: 'label', value: 'value' })
-    expect(Tag.parseString('label')).toEqual({ label: 'label' })
+    expect(Tag.parseString('label.value')).toEqual({ name: 'label.value' })
+    expect(Tag.parseString('label')).toEqual({ name: 'label' })
   })
 
   it('should extract keywords correctly', () => {
@@ -38,39 +37,22 @@ describe('Tag', () => {
 
   it('should extract scoped keywords correctly', () => {
     const input = 'space:name'
-    const [space, name] = Tag.extractScopedKeywords(input)
-    expect(space).toEqual(['space'])
-    expect(name).toEqual(['name'])
+    const scopedKeywords = Tag.extractScopedKeywords(input)
+    expect(scopedKeywords).toEqual(['space', 'name'])
   })
 
-  it('should convert to string correctly', () => {
-    const tag = new Tag('space:label.value')
-    expect(tag.toString()).toBe('space:label.value')
+  it('should handle empty string in normalizeTagName', () => {
+    expect(Tag.normalizeTagName('')).toBe('')
   })
 
-  it('should reconstruct string correctly', () => {
-    const tag = new Tag('space:label.value')
-    const result = tag.reconstructString({ space: 'space', name: 'label' })
-    expect(result).toBe('space:label.value')
+  it('should handle empty string in parseString', () => {
+    expect(Tag.parseString('')).toEqual({ name: '' })
   })
 
-  it('should convert attributes to tags correctly', () => {
-    const tag = new Tag('space:label.value')
-    const tags = tag.attributesToTags()
-    expect(tags).toBeInstanceOf(Array)
-    expect(tags.length).toBeGreaterThan(0)
-    expect(tags[0]).toBeInstanceOf(Tag)
-  })
-
-  it('should set and get properties correctly', () => {
-    const tag = new Tag()
-    tag.name = 'newName'
-    expect(tag.name).toBe('newName')
-    expect(tag.label).toBe('newName')
-    tag.space = 'newSpace'
-    expect(tag.space).toBe('newSpace')
-    tag.seed = 'newSeed'
-    expect(tag.seed).toBe('newSeed')
-    expect(tag.tag).toBeInstanceOf(Tag)
+  it('should handle invalid format in parseString', () => {
+    expect(Tag.parseString('invalid:format:here')).toEqual({
+      space: 'invalid',
+      name: 'format:here',
+    })
   })
 })

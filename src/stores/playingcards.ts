@@ -1,85 +1,67 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import NuCard from '@/objects/game/NuCard'
-import Tag from '@/objects/nu/Tag'
-import ranks from '@/assets/game/poker.ranks.json'
-import suits from '@/assets/game/poker.suits.json'
+import CardLibrary from '@/objects/game/CardLibrary'
 
-const useCardStore = defineStore('cards', () => {
-  const card = ref<NuCard>(new NuCard('0'))
-  const deck = ref<Tag[]>([])
-  const defaultTimeout = 4000
-  const timeout = ref(defaultTimeout)
-  const snackbar = ref(false)
+export const useCardStore = defineStore('cards', () => {
+  const deck = ref<CardLibrary>(new CardLibrary())
+  const hand = ref<CardLibrary>(new CardLibrary())
+  const discardPile = ref<NuCard[]>([])
+  const topCard = computed(() => deck.value.top)
 
-  const pokerRanks = ranks
-  const pokerSuits = suits
-
-  function resetDeck() {
-    deck.value.splice(0, deck.value.length)
-    createDeck()
+  function shuffle() {
+    deck.value.shuffle()
   }
 
-  function createDeck() {
-    Object.values(pokerSuits).forEach((suit) => {
-      Object.values(pokerRanks).forEach((rank) => {
-        const card = new NuCard(`${suit.name}:${rank.name}`)
-          .add('color', suit.color)
-          .add('icon', suit.icon)
-          .add('symbol', `${rank.symbol}${suit.symbol}`)
-        deck.value.push(card)
-      })
-    })
+  function cut(index = Math.floor(deck.value.length / 2)) {
+    const top = deck.value.draw(index)
+    deck.value.add(top)
   }
 
-  function shuffleDeck() {
-    deck.value = deck.value.sort(() => Math.random() - 0.5)
+  function draw(count = 1) {
+    const cards = deck.value.draw(count)
+    hand.value.add(cards)
+    console.log(hand.value.library)
+    return cards
   }
 
-  function clearCard() {
-    card.value = new NuCard(0)
+  function reset() {
+    deck.value.reset()
+    hand.value.empty()
+    discardPile.value = []
   }
 
-  function revealCard() {
-    return card.value
+  function discard(card: NuCard) {
+    discardPile.value.push(card)
   }
 
-  function drawCard(dCount: number = 1) {
-    clearCard()
-    console.warn('drawCard. count set to only return 1:', dCount)
-    return card.value
+  function peek(index = 0) {
+    return deck.value.peek(index)
   }
 
-  function cardList() {
-    return [1, 2, 3]
+  function isFaceCard(card: NuCard) {
+    const rank = card.rank?.toString().toLowerCase()
+    return ['jack', 'queen', 'king'].includes(rank || '')
   }
 
-  function toString(pad: number = 1) {
-    return card.value.toString().padStart(pad, '0')
-  }
-  function getResults() {
-    return card.value
-  }
-
-  function getFaces() {
-    return card.value
+  function getSuit(card: NuCard) {
+    return card.suit
   }
 
   return {
     deck,
-    card,
-    timeout,
-    snackbar,
-    cardList,
-    drawCard,
-    getResults,
-    revealCard,
-    toString,
-    getFaces,
-    clearCard,
-    createDeck,
-    resetDeck,
-    shuffleDeck,
+    hand,
+    discardPile,
+    shuffle,
+    topCard,
+    reset,
+    top,
+    draw,
+    discard,
+    peek,
+    cut,
+    isFaceCard,
+    getSuit,
   }
 })
 

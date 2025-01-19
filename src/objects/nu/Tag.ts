@@ -22,7 +22,6 @@ class Tag<T extends TagAttributes = { seed?: string }> {
 
   constructor(seed?: string, initialAttributes: T = {} as T) {
     this._seed = Tag.CleanString(seed)
-
     const { space, name } = Tag.parseString(this._seed)
 
     this._name = name ? Tag.CleanString(name) : this._seed

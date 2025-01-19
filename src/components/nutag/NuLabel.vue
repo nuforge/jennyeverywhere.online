@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 
 const props = defineProps({
   tag: {
@@ -9,17 +10,16 @@ const props = defineProps({
   },
 })
 
-const nameLabel = props.label ?? props.tag?.name
-
+const displayLabel = computed(() => props.label ?? props.tag?.label)
 </script>
 
 <template>
   <span class="mx-2 text-no-wrap">
     <v-tooltip location="top start" :open-delay="900">
       <template #activator="{ props }">
-        <span v-bind="props"> {{ nameLabel }} </span>
+        <span v-bind="props"> {{ displayLabel }} </span>
       </template>
-      {{ nameLabel }}
+      {{ displayLabel }}
     </v-tooltip>
   </span>
 </template>

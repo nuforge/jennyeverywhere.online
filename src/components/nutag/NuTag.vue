@@ -28,9 +28,10 @@ const settings = ref(
 
 const defaultNoColor = 'white'
 
-const label = computed(() => props.label ?? props.tag?.label ?? '')
-const tag = computed(() => props.tag ?? new Tag(label.value.toString()))
+const tag = computed(() => props.tag ?? new Tag(displayLabel.value.toString()))
 
+const displaySpace = computed(() => props.label ?? props.tag?.space ?? '')
+const displayLabel = computed(() => props.label ?? props.tag?.label ?? '')
 const displayIcon = computed(() => props.icon ?? tag.value?.icon)
 const displayColor = computed(() => {
   return props.color ?? tag.value?.color ?? defaultNoColor
@@ -161,7 +162,6 @@ function onDrop(event: DragEvent) {
     @dblclick="onDoubleClick" @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop"
     v-draggable="tag" v-droppable="console.log">
     <!-- Tag Icon / Space -->
-
     <template #prepend v-if="displayIcon">
       <v-fab-transition>
         <div v-if="showIcon && settings.has('icon')">
@@ -179,15 +179,14 @@ function onDrop(event: DragEvent) {
     <!-- Tag Name / Value -->
     <v-fab-transition>
       <template #default v-if="showLabel">
-        <NuSpace v-if="showSpace && tag?.space" :tag="tag" :space="tag.space" class="align-center" />
-        <NuLabel v-if="showLabel && label" :tag="tag" :label="label" />
+        <NuSpace v-if="showSpace && displaySpace" :tag="tag" :space="displaySpace" class="align-center" />
+        <NuLabel v-if="showLabel && displayLabel" :tag="tag" :label="displayLabel" />
       </template>
     </v-fab-transition>
-
     <!-- Tag Name / Value -->
     <v-fab-transition>
       <template #default v-if="showBadge">
-        <NuBadge v-if="showBadge" attach="parent" :content="tag.getAttribute(`symbol`)" />
+        <NuBadge v-if="showBadge" attach="parent" :content="tag.name" />
       </template>
     </v-fab-transition>
   </v-chip>

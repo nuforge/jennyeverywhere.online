@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import IndexedDBManager from '@/utils/IndexedDBManager';
 import type { Tag } from '@/types/Tag';
 
-const dbManager = new IndexedDBManager('nuForgeDB', 'Tags'); // Ensure the store name matches the one used in TagDb
+const dbManager = new IndexedDBManager('nuForgeMemory', 'Tags'); // Ensure the store name matches the one used in TagDb
 
 const localDatabaseObject = ref<Tag[]>([]);
 

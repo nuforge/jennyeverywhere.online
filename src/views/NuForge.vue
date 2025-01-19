@@ -29,37 +29,6 @@ const showBrowserMemory = ref(true)
 
 const dbTags = computed(() => tags.value.map(tag => new Tag(tag?.id)));
 
-onMounted(async () => {
-  const newTags = [
-    { id: 'person:picard', space: 'person', name: 'Jean-Luc Picard' },
-    { id: 'organization:starfleet', space: 'organization', name: 'Starfleet' },
-    { id: 'ship:enterprise', space: 'ship', name: 'USS Enterprise' },
-    { id: 'role:captain', space: 'role', name: 'Captain' },
-    { id: 'tag:unrelated', space: 'tag', name: 'Random Tag' },
-    { id: 'person:sisko', space: 'person', name: 'Benjamin Sisko' },
-    { id: 'station:ds9', space: 'station', name: 'Deep Space Nine' },
-    { id: 'ship:defiant', space: 'ship', name: 'USS Defiant' },
-    { id: 'role:commander', space: 'role', name: 'Commander' },
-  ]
-
-  const newEdges = [
-    { id: 'affiliation:picard', from: 'person:picard', to: 'organization:starfleet', type: 'MEMBER_OF' },
-    { id: 'captain', from: 'person:picard', to: 'ship:enterprise', type: 'COMMANDS' },
-    { id: 'enterprise', from: 'person:picard', to: 'role:captain', type: 'HAS_ROLE' },
-    { id: 'affiliation:sisko', from: 'person:sisko', to: 'organization:starfleet', type: 'MEMBER_OF' },
-    { id: 'affiliation:enterpise', from: 'ship:enterprise', to: 'organization:starfleet', type: 'MEMBER_OF' },
-    { id: 'affiliation:defiant', from: 'ship:defiant', to: 'organization:starfleet', type: 'MEMBER_OF' },
-  ]
-  try {
-    await tagDatabase.setupDatabase('nuForgeDB');
-    await tagDatabase.addTags(newTags);
-    await tagDatabase.addEdges(newEdges);
-    tags.value = await tagDatabase.getAllTags() as Tag[];
-  } catch (error) {
-    console.error('Error reading from database:', error);
-  }
-
-});
 
 const searchBySpace = ref('person');
 const searchByConnection = ref('organization:starfleet');
@@ -97,7 +66,7 @@ function searchTags() {
 
 function resetDatabase() {
   console.log('resetDatabase triggered');
-  tagDatabase.resetDatabase().then(() => {
+  tagDatabase.resetDatabase('nuForgeDB').then(() => {
     console.log('Database reset');
     tags.value = [];
   }).catch((error) => {
@@ -105,6 +74,37 @@ function resetDatabase() {
   });
 }
 
+onMounted(async () => {
+  const newTags = [
+    { id: 'person:picard', space: 'person', name: 'Jean-Luc Picard' },
+    { id: 'organization:starfleet', space: 'organization', name: 'Starfleet' },
+    { id: 'ship:enterprise', space: 'ship', name: 'USS Enterprise' },
+    { id: 'role:captain', space: 'role', name: 'Captain' },
+    { id: 'tag:unrelated', space: 'tag', name: 'Random Tag' },
+    { id: 'person:sisko', space: 'person', name: 'Benjamin Sisko' },
+    { id: 'station:ds9', space: 'station', name: 'Deep Space Nine' },
+    { id: 'ship:defiant', space: 'ship', name: 'USS Defiant' },
+    { id: 'role:commander', space: 'role', name: 'Commander' },
+  ]
+
+  const newEdges = [
+    { id: 'affiliation:picard', from: 'person:picard', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'captain', from: 'person:picard', to: 'ship:enterprise', type: 'COMMANDS' },
+    { id: 'enterprise', from: 'person:picard', to: 'role:captain', type: 'HAS_ROLE' },
+    { id: 'affiliation:sisko', from: 'person:sisko', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'affiliation:enterpise', from: 'ship:enterprise', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'affiliation:defiant', from: 'ship:defiant', to: 'organization:starfleet', type: 'MEMBER_OF' },
+  ]
+  try {
+    await tagDatabase.setupDatabase('nuForgeDB');
+    await tagDatabase.addTags(newTags);
+    await tagDatabase.addEdges(newEdges);
+    tags.value = await tagDatabase.getAllTags() as Tag[];
+  } catch (error) {
+    console.error('Error reading from database:', error);
+  }
+
+});
 </script>
 
 <template>

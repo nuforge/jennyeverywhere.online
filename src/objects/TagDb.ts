@@ -26,6 +26,7 @@ export default class TagDb {
           const tagStore = db.createObjectStore('Tags', { keyPath: 'id' })
           tagStore.createIndex('space', 'space', { unique: false })
           tagStore.createIndex('name', 'name', { unique: false })
+          console.log("Created 'space' index in Tags store")
         }
         if (!db.objectStoreNames.contains('Edges')) {
           const edgeStore = db.createObjectStore('Edges', { keyPath: 'id' })

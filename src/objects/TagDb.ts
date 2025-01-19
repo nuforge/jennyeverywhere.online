@@ -78,6 +78,27 @@ export default class TagDb {
     await this.setupDatabase(dbName)
   }
 
+  parseTag(input: string): Tag {
+    const [rawSpace, rawName] = input.includes(':')
+      ? input.split(':', 2) // Split into space and name
+      : ['misc', input] // Default to "misc" space
+
+    const space = rawSpace.trim().toLowerCase() // Normalize space
+    const name = rawName.trim() // Keep original name for display
+    const id = `${space}:${name.replace(/ /g, '-').toLowerCase()}` // Generate ID
+
+    return { id, space, name }
+  }
+
+  async addTag(input: string): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized')
+    const tag = this.parseTag(input)
+
+    const tx = this.db.transaction('Tags', 'readwrite')
+    await tx.objectStore('Tags').put(tag)
+    console.log('Tag stored:', tag)
+  }
+
   async addTags(tags: Tag[] = []): Promise<void> {
     if (!this.db) throw new Error('Database not initialized')
     const tx = this.db.transaction('Tags', 'readwrite')
@@ -86,6 +107,17 @@ export default class TagDb {
       store.put(tag) // Use put instead of add
     }
     await tx.oncomplete
+  }
+  async addEdge(fromInput: string, toInput: string, type: string): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized')
+    const from = this.parseTag(fromInput).id
+    const to = this.parseTag(toInput).id
+
+    const edge = { from, to, type }
+
+    const tx = this.db.transaction('Edges', 'readwrite')
+    await tx.objectStore('Edges').add(edge)
+    console.log('Edge created:', edge)
   }
 
   async addEdges(edges: Edge[] = []): Promise<void> {

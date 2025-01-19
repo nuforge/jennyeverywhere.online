@@ -1,0 +1,86 @@
+{
+  "innocent": {
+    "name": "Innocent",
+    "description": "The Innocent is often a child or child-like character who is pure of heart and sees the world in a positive light. They are often naive and trusting, but they are also brave and willing to stand up for what they believe in. The Innocent is often the hero of the story, and they are usually the one who saves the day in the end.",
+    "color": "teal",
+    "icon": "mdi-account-child",
+    "symbol": "In"
+  },
+  "sage": {
+    "name": "Sage",
+    "description": "The Sage is a wise and knowledgeable character who is often a mentor or guide to the other characters. They are usually older and more experienced than the other characters, and they have a deep understanding of the world and its workings. The Sage is often the one who provides the heroes with the information and advice they need to succeed in their quest.",
+    "color": "blue",
+    "icon": "mdi-account-tie",
+    "symbol": "Sg"
+  },
+  "explorer": {
+    "name": "Explorer",
+    "description": "The Explorer is a character who is always seeking out new experiences and adventures. They are curious and adventurous, and they are always looking for new places to explore and new things to discover. The Explorer is often the one who leads the other characters on their journey, and they are usually the one who finds the way to the treasure or the secret that the heroes are seeking.",
+    "color": "green",
+    "icon": "mdi-map-search",
+    "symbol": "Ex"
+  },
+  "rebel": {
+    "name": "Rebel",
+    "description": "The Rebel is a character who is always questioning authority and challenging the status quo. They are independent and free-spirited, and they are not afraid to speak their mind or stand up for what they believe in. The Rebel is often the one who leads the other characters in a revolt or rebellion against the powers that be, and they are usually the one who brings about change in the world.",
+    "color": "yellow",
+    "icon": "mdi-account-cowboy-hat",
+    "symbol": "Rb"
+  },
+  "magician": {
+    "name": "Magician",
+    "description": "The Magician is a character who has magical powers or abilities that set them apart from the other characters. They are often mysterious and enigmatic, and they have a deep understanding of the mystical forces that govern the world. The Magician is often the one who uses their powers to help the other characters on their quest, and they are usually the one who uncovers the secrets and mysteries that the heroes are seeking.",
+    "color": "orange",
+    "icon": "mdi-hat-wizard",
+    "symbol": "Mg"
+  },
+  "hero": {
+    "name": "Hero",
+    "description": "The Hero is a character who is brave and noble, and who is willing to risk everything to save the day. They are often the main character of the story, and they are usually the one who defeats the villain and saves the world. The Hero is often the one who embodies the values of courage, honor, and self-sacrifice, and they are usually the one who inspires the other characters to be their best selves.",
+    "color": "red",
+    "icon": "mdi-account-star",
+    "symbol": "He"
+  },
+  "lover": {
+    "name": "Lover",
+    "description": "The Lover is a character who is passionate and romantic, and who is always seeking out love and connection with others. They are often the one who falls in love with the hero or the villain, and who is willing to do anything to be with them. The Lover is often the one who brings the other characters together and helps them to overcome their differences, and they are usually the one who shows that love is the most powerful force in the world.",
+    "color": "pink",
+    "icon": "mdi-heart",
+    "symbol": "Lv"
+  },
+  "jester": {
+    "name": "Jester",
+    "description": "The Jester is a character who is always making jokes and playing pranks on the other characters. They are often the comic relief of the story, and they are usually the one who lightens the mood and brings a sense of fun and playfulness to the adventure. The Jester is often the one who helps the other characters to see the lighter side of life, and they are usually the one who reminds them not to take themselves too seriously.",
+    "color": "magenta",
+    "icon": "mdi-jester-hat",
+    "symbol": "Js"
+  },
+  "everyman": {
+    "name": "Everyman",
+    "description": "The Everyman is a character who is ordinary and unremarkable, and who is often caught up in extraordinary events beyond their control. They are usually the one who is swept along by the other characters on their quest, and who is forced to confront their own limitations and fears. The Everyman is often the one who represents the audience or reader, and who helps them to see themselves in the story and to empathize with the other characters.",
+    "color": "purple",
+    "icon": "mdi-account",
+    "symbol": "Ev"
+  },
+  "caregiver": {
+    "name": "Caregiver",
+    "description": "The Caregiver is a character who is nurturing and compassionate, and who is always looking out for the well-being of others. They are often the one who takes care of the other characters when they are sick or injured, and who provides them with emotional support and guidance. The Caregiver is often the one who helps the other characters to heal and grow, and who shows them that they are not alone in the world.",
+    "color": "brown",
+    "icon": "mdi-account-heart",
+    "symbol": "Cg"
+  },
+  "ruler": {
+    "name": "Ruler",
+    "description": "The Ruler is a character who is powerful and authoritative, and who is often the leader of a kingdom or empire. They are usually the one who sets the rules and makes the decisions that govern the other characters, and who is responsible for maintaining order and justice in the world. The Ruler is often the one who inspires the other characters to follow their example and to be their best selves.",
+    "color": "deep-purple",
+    "icon": "mdi-crown",
+    "symbol": "Ru"
+  },
+  "creator": {
+    "name": "Creator",
+    "description": "The Creator is a character who is imaginative and inventive, and who is always coming up with new ideas and creations. They are often the one who builds the gadgets and gizmos that the other characters use on their quest, and who comes up with the plans and strategies that help them to succeed. The Creator is often the one who inspires the other characters to think outside the box and to see the world in a new way.",
+    "color": "indigo",
+    "icon": "mdi-account-star",
+    "symbol": "Cr"
+  }
+}

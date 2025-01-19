@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue'
 import IndexedDBEditor from '@/components/admin/IndexedDBEditor.vue';
 import ChatEditor from '@/components/admin/ChatEditor.vue';
 import ChatMemory from '@/components/admin/ChatMemory.vue';
@@ -7,13 +7,52 @@ import ChatTimeline from '@/components/admin/ChatTimeline.vue';
 import MessageQueue from '@/components/admin/MessageQueue.vue';
 import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
 
+
+import TagDB from '@/objects/TagDb';
+import type { Tag } from '@/objects/TagDb'; // Import with braces
+
+const tagDatabase = new TagDB();
+const tags = ref<Tag[]>([]);
+
+
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
 const showMessageQueue = ref(false)
-const showChatEditor = ref(true)
+const showChatEditor = ref(false)
 const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
-const showBrowserMemory = ref(false)
+const showBrowserMemory = ref(true)
+
+/// TA
+// onMounted(async () => {
+//   console.log('tagDatabase:', tagDatabase);
+//   await tagDatabase.setupDatabase('nuForgeDB');
+
+
+onMounted(async () => {
+  const newTags = [
+    { id: 'person:jean-luc-picard', space: 'person', name: 'Jean-Luc Picard' },
+    { id: 'organization:starfleet', space: 'organization', name: 'Starfleet' },
+    { id: 'ship:uss-enterprise', space: 'ship', name: 'USS Enterprise' },
+    { id: 'role:captain', space: 'role', name: 'Captain' },
+    { id: 'tag:unrelated', space: 'tag', name: 'Random Tag' },
+  ]
+
+  const newEdges = [
+    { id: 'affiliation', from: 'person:jean-luc-picard', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'captain', from: 'person:jean-luc-picard', to: 'ship:uss-enterprise', type: 'COMMANDS' },
+    { id: 'uss-enterprise', from: 'person:jean-luc-picard', to: 'role:captain', type: 'HAS_ROLE' },
+  ]
+  try {
+    await tagDatabase.setupDatabase('nuForgeDB');
+    await tagDatabase.addTags(newTags);
+    await tagDatabase.addEdges(newEdges);
+    tags.value = await tagDatabase.getAllTags();
+    console.log('Tags:', tags.value);
+  } catch (error) {
+    console.error('Error reading from database:', error);
+  }
+});
 
 </script>
 
@@ -32,6 +71,14 @@ const showBrowserMemory = ref(false)
       :icon="showBrowserMemory ? `mdi-brain` : `mdi-egg-off-outline`" flat color="accent" />
   </v-btn-group>
 
+  <v-card>
+    <v-card-title>Tags in IndexedDB</v-card-title>
+    <v-card-text>
+      <div v-for="(tag, index) in tags" :key="index">
+        <v-label>{{ tag.id }}</v-label> {{ tag.name }}<br />
+      </div>
+    </v-card-text>
+  </v-card>
 
   <v-expand-transition>
     <v-row v-if="showMessageQueue">

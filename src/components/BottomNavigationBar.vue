@@ -10,7 +10,7 @@
     </v-btn>
     <v-btn value="nuforge" icon="mdi-brain" to="/nuforge">
     </v-btn>
-    <v-btn value="character" icon="mdi-account-circle" to="/character">
+    <v-btn value="persona" icon="mdi-account-circle" to="/persona">
     </v-btn>
     <v-btn value="playingcards" icon="mdi-cards" to="/playingcards">
     </v-btn>

@@ -1,376 +1,382 @@
 {
   "tags": [
     {
-      "name": "Character Name",
-      "value": "Jenny",
-      "icon": "$persona-name",
+      "space": "Name",
+      "name": "Jenny",
+      "icon": "mdi-account",
       "color": "primary",
-      "space": "sta:character"
+      "parent": "sta:character"
     },
     {
-      "name": "Department",
-      "value": "Engineering",
+      "space": "Department",
+      "name": "Engineering",
       "icon": "mdi-account-box-outline",
       "color": "warning",
-      "space": "sta:character"
+      "parent": "sta:character"
     },
     {
-      "name": "Rank",
-      "value": "Chief Petty Officer",
+      "space": "Rank",
+      "name": "Chief Petty Officer",
       "icon": "mdi-account-box-outline",
       "color": null,
-      "space": "sta:character"
+      "parent": "sta:character"
     },
     {
-      "name": "Pronouns",
-      "value": "She/her",
+      "space": "Pronouns",
+      "name": "She/her",
       "icon": "mdi-account-box-outline",
       "color": null,
-      "space": "sta:character"
+      "parent": "sta:character"
     },
     {
-      "name": "Control",
-      "value": 8,
+      "space": "Control",
+      "name": 8,
       "icon": "$sta-control",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Fitness",
-      "value": 7,
+      "space": "Fitness",
+      "name": 7,
       "icon": "$sta-fitness",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Daring",
-      "value": 11,
+      "space": "Daring",
+      "name": 11,
       "icon": "$sta-daring",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Presence",
-      "value": 10,
+      "space": "Presence",
+      "name": 10,
       "icon": "$sta-presence",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Insight",
-      "value": 11,
+      "space": "Insight",
+      "name": 11,
       "icon": "$sta-insight",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Reason",
-      "value": 9,
+      "space": "Reason",
+      "name": 9,
       "icon": "$sta-reason",
       "color": "teal",
-      "space": "sta:attribute"
+      "parent": "sta:attribute"
     },
     {
-      "name": "Command",
-      "value": 2,
+      "space": "Command",
+      "name": 2,
       "icon": "$sta-command",
       "color": "red",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Conn",
-      "value": 5,
+      "space": "Conn",
+      "name": 5,
       "icon": "$sta-conn",
       "color": "red",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Security",
-      "value": 1,
+      "space": "Security",
+      "name": 1,
       "icon": "$sta-security",
       "color": "warning",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Engineering",
-      "value": 4,
+      "space": "Engineering",
+      "name": 4,
       "icon": "$sta-engineering",
       "color": "warning",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Medicine",
-      "value": 1,
+      "space": "Medicine",
+      "name": 1,
       "icon": "$sta-medicine",
       "color": "teal",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Science",
-      "value": 3,
+      "space": "Science",
+      "name": 3,
       "icon": "$sta-science",
       "color": "blue",
-      "space": "sta:department"
+      "parent": "sta:department"
     },
     {
-      "name": "Species",
-      "value": "Hologram",
+      "space": "Species",
+      "name": "Hologram",
       "icon": "$sta-species",
       "color": "accent",
-      "space": "sta:trait"
+      "parent": "sta:trait"
     },
     {
-      "name": "Trait",
-      "value": "Starfleet Officer",
+      "space": "Trait",
+      "name": "Starfleet Officer",
       "icon": "$sta-trait",
       "color": "accent",
-      "space": "sta:trait"
+      "parent": "sta:trait"
     },
     {
+      "space": "Talent",
       "name": "Gut Feeling",
-      "value": null,
       "icon": "$sta-talent",
       "color": "grey",
-      "space": "sta:talent"
+      "parent": "sta:talent"
     },
     {
+      "space": "Talent",
       "name": "Precision Maneuvering",
-      "value": null,
       "icon": "$sta-talent",
       "color": "grey",
-      "space": "sta:talent"
+      "parent": "sta:talent"
     },
     {
+      "space": "Talent",
       "name": "Mental Repository",
-      "value": null,
       "icon": "$sta-talent",
       "color": "grey",
-      "space": "sta:talent"
+      "parent": "sta:talent"
     },
     {
+      "space": "Value",
       "name": "Mark Your Exits",
-      "value": null,
       "icon": "$sta-value",
       "color": "grey",
-      "space": "sta:value"
+      "parent": "sta:value"
     },
     {
+      "space": "Value",
       "name": "No Stupid Questions",
-      "value": null,
       "icon": "$sta-value",
       "color": "grey",
-      "space": "sta:value"
+      "parent": "sta:value"
     },
     {
+      "space": "Value",
       "name": "Yeah... I got this",
-      "value": null,
       "icon": "$sta-value",
       "color": "grey",
-      "space": "sta:value"
+      "parent": "sta:value"
     },
     {
+      "space": "Focus",
       "name": "Wormhole Navigation",
-      "value": null,
       "icon": "$sta-focus",
       "color": "grey",
-      "space": "sta:focus"
+      "parent": "sta:focus"
     },
     {
+      "space": "Focus",
       "name": "Wormhole Physics",
-      "value": null,
       "icon": "$sta-focus",
       "color": "grey",
-      "space": "sta:focus"
+      "parent": "sta:focus"
     },
     {
+      "space": "Focus",
       "name": "Helm Operations",
-      "value": null,
       "icon": "$sta-focus",
       "color": "grey",
-      "space": "sta:focus"
+      "parent": "sta:focus"
     },
     {
+      "space": "Focus",
       "name": "Quantum Mechanics",
-      "value": null,
       "icon": "$sta-focus",
       "color": "grey",
-      "space": "sta:focus"
+      "parent": "sta:focus"
     },
     {
+      "space": "Focus",
       "name": "Ship Recognition",
-      "value": null,
       "icon": "$sta-focus",
       "color": "grey",
-      "space": "sta:focus"
+      "parent": "sta:focus"
     },
     {
-      "name": "Card Name",
-      "value": "Jenny Everywhere",
+      "space": "Name",
+      "name": "Jenny Everywhere",
       "icon": "$persona-name",
       "color": "primary",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Card Type",
-      "value": "Personnel",
+      "space": "Type",
+      "name": "Personnel",
       "icon": "mdi-cards-outline",
       "color": "accent",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Affiliation",
-      "value": "Federation",
+      "space": "Affiliation",
+      "name": "Federation",
       "icon": "mdi-web",
       "color": "primary",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Property",
-      "value": "Star Trek Everywhere",
+      "space": "Property",
+      "name": "Star Trek Everywhere",
       "icon": "mdi-label-variant-outline",
       "color": "accent",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Classification",
-      "value": "Engineer",
+      "space": "Classification",
+      "name": "Engineer",
       "icon": "mdi-badge-account-outline",
       "color": "warning",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Expansion",
-      "value": "JennyEverywhere.online",
+      "space": "Expansion",
+      "name": "JennyEverywhere.online",
       "icon": "mdi-link-box-outline",
       "color": "accent",
-      "space": "stccg:card"
+      "parent": "stccg:card"
     },
     {
-      "name": "Integrity",
-      "value": 9,
+      "space": "Integrity",
+      "name": 9,
       "icon": "mdi-numeric-9-box",
       "color": "blue",
-      "space": "stccg:attribute"
+      "parent": "stccg:attribute"
     },
     {
-      "name": "Cunning",
-      "value": 7,
+      "space": "Cunning",
+      "name": 7,
       "icon": "mdi-numeric-7-box",
       "color": "green",
-      "space": "stccg:attribute"
+      "parent": "stccg:attribute"
     },
     {
-      "name": "Strength",
-      "value": 2,
+      "space": "Strength",
+      "name": 2,
       "icon": "mdi-numeric-2-box",
       "color": "red",
-      "space": "stccg:attribute"
+      "parent": "stccg:attribute"
     },
     {
+      "space": "Skill",
       "name": "NAVIGATION",
-      "value": null,
       "icon": "mdi-circle-medium",
       "color": "accent",
-      "space": "stccg:skill"
+      "parent": "stccg:skill"
     },
     {
+      "space": "Skill",
       "name": "Engineer x2",
-      "value": null,
       "icon": "mdi-circle-medium",
       "color": "accent",
-      "space": "stccg:skill"
+      "parent": "stccg:skill"
     },
     {
+      "space": "Skill",
       "name": "Wormhole",
-      "value": null,
       "icon": "mdi-triangle-small-down",
       "color": "accent",
-      "space": "stccg:skill"
+      "parent": "stccg:skill"
     },
     {
+      "space": "Icon",
       "name": "Staff",
-      "value": null,
       "icon": "mdi-star-four-points-outline",
       "color": null,
-      "space": "stccg:icon"
+      "parent": "stccg:icon"
     },
     {
+      "space": "Icon",
       "name": "Holographic",
-      "value": null,
       "icon": "mdi-atom",
       "color": "info",
-      "space": "stccg:icon"
+      "parent": "stccg:icon"
     },
     {
+      "space": "Icon",
       "name": "Alternate Reality",
-      "value": null,
       "icon": "mdi-all-inclusive-box",
       "color": "red",
-      "space": "stccg:icon"
+      "parent": "stccg:icon"
     },
     {
-      "name": "Name",
-      "value": "Jenny, the Shifter",
+      "space": "Name",
+      "name": "Jenny, the Shifter",
       "icon": "$persona-name",
       "color": "primary",
-      "space": "mtg:card"
+      "parent": "mtg:card"
     },
     {
-      "name": "Casting Cost",
-      "value": 3,
+      "space": "Casting Cost",
+      "name": 3,
       "icon": "mdi-numeric-3-circle",
       "color": "accent",
-      "space": "mtg:card"
+      "parent": "mtg:card"
     },
     {
-      "name": "Card Color",
-      "value": "Colorless",
+      "space": "Color",
+      "name": "Colorless",
       "icon": "mdi-circle",
       "color": "accent",
-      "space": "mtg:card"
+      "parent": "mtg:card"
     },
     {
+      "space": "Type",
       "name": "Legendary",
-      "value": null,
       "icon": "mdi-label",
       "color": "warning",
-      "space": "mtg:type"
+      "parent": "mtg:type"
     },
     {
+      "space": "Type",
       "name": "Artifact",
-      "value": null,
       "icon": "mdi-label",
       "color": "grey",
-      "space": "mtg:type"
+      "parent": "mtg:type"
     },
-    { "name": "Creature", "value": null, "icon": "mdi-label", "color": null, "space": "mtg:type" },
     {
-      "name": "Creature Type",
-      "value": "Illusion",
+      "space": "Type",
+      "name": "Creature",
+      "icon": "mdi-label",
+      "color": null,
+      "parent": "mtg:type"
+    },
+    {
+      "space": "Creature Type",
+      "name": "Illusion",
       "icon": "mdi-label-outline",
       "color": "info",
-      "space": "mtg:type"
+      "parent": "mtg:type"
     },
     {
+      "space": "Ability",
       "name": "Indestructible",
-      "value": null,
       "icon": "mdi-star-four-points-outline",
       "color": "warning",
-      "space": "mtg:ability"
+      "parent": "mtg:ability"
     },
     {
-      "name": "Power",
-      "value": 0,
+      "space": "Power",
+      "name": 0,
       "icon": "mdi-sword",
       "color": "warning",
-      "space": "mtg:pt"
+      "parent": "mtg:pt"
     },
     {
-      "name": "Toughness",
-      "value": 1,
+      "space": "Toughness",
+      "name": 1,
       "icon": "mdi-shield",
       "color": "warning",
-      "space": "mtg:pt"
+      "parent": "mtg:pt"
     }
   ]
 }

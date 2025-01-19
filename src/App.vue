@@ -15,6 +15,7 @@ import UndoSnackbar from '@/components/snackbar/UndoSnackbar.vue';
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
 import AvatarFab from './components/fab/AvatarFab.vue';
+import { RouterView } from 'vue-router';
 
 const state = useStateStore()
 const persona = usePersonaStore()
@@ -52,11 +53,15 @@ onUnmounted(() => {
       <PersonaDrawer location="left" />
 
       <HeaderLayout />
+      <Suspense>
       <v-container>
         <v-main>
           <RouterView />
         </v-main>
       </v-container>
+      <template #fallback>suspense loading...
+      </template>
+    </Suspense>
 
       <EventAddDialog />
 

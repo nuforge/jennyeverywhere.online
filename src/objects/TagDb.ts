@@ -1,4 +1,4 @@
-const DEFAULT_DATABASE_NAME = 'nuForgeDB' // Ensure this matches the name used in IndexedDBManager
+const DEFAULT_DATABASE_NAME = 'nuForgeDB'
 
 export interface Tag {
   id: string
@@ -18,7 +18,7 @@ export default class TagDb {
 
   async setupDatabase(dbName: string = DEFAULT_DATABASE_NAME): Promise<void> {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(dbName, 2) // Ensure version is 2
+      const request = indexedDB.open(dbName, 1)
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result
@@ -42,6 +42,25 @@ export default class TagDb {
       request.onerror = (event) => {
         reject((event.target as IDBOpenDBRequest).error)
       }
+    })
+  }
+  async processCursor<T>(
+    index: IDBIndex,
+    space: string,
+    callback: (tag: T) => void,
+  ): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const cursorRequest = index.openCursor(IDBKeyRange.only(space))
+      cursorRequest.onsuccess = (event) => {
+        const cursor = (event.target as IDBRequest)?.result
+        if (cursor) {
+          callback(cursor.value)
+          cursor.continue()
+        } else {
+          resolve()
+        }
+      }
+      cursorRequest.onerror = () => reject(new Error('Cursor error'))
     })
   }
 
@@ -78,17 +97,6 @@ export default class TagDb {
     await tx.oncomplete
   }
 
-  private async openCursor(
-    index: IDBIndex,
-    query?: IDBKeyRange | IDBValidKey,
-  ): Promise<IDBCursorWithValue | null> {
-    return new Promise((resolve, reject) => {
-      const request = index.openCursor(query)
-      request.onsuccess = () => resolve(request.result)
-      request.onerror = () => reject(request.error)
-    })
-  }
-
   async getAllTags(): Promise<Tag[]> {
     return new Promise((resolve, reject) => {
       if (!this.db) throw new Error('Database not initialized')
@@ -118,41 +126,29 @@ export default class TagDb {
     const fromIndex = edgesStore.index('from')
     const toIndex = edgesStore.index('to')
 
-    const processCursor = async (index: IDBIndex, query: IDBValidKey) => {
-      return new Promise<void>((resolve, reject) => {
-        const request = index.openCursor(query)
-        request.onsuccess = async (event) => {
-          const cursor = (event.target as IDBRequest).result
-          if (cursor) {
-            const edge = cursor.value as Edge
-            const edgeKey = `${edge.from}-${edge.to}-${edge.type}`
-            if (!processedEdges.has(edgeKey)) {
-              processedEdges.add(edgeKey)
-              const connectedTagId = index === fromIndex ? edge.to : edge.from
-              console.log(`Processing edge: ${JSON.stringify(edge)}`)
+    const processEdge = async (edge: Edge) => {
+      const edgeKey = `${edge.from}-${edge.to}-${edge.type}`
+      if (!processedEdges.has(edgeKey)) {
+        processedEdges.add(edgeKey)
+        const connectedTagId = edge.from === tagId ? edge.to : edge.from
 
-              try {
-                const connectedTag = await new Promise<Tag>((resolve, reject) => {
-                  const request = tagsStore.get(connectedTagId)
-                  request.onsuccess = () => resolve(request.result)
-                  request.onerror = () => reject(request.error)
-                })
-                console.log(`Found connected tag: ${JSON.stringify(connectedTag)}`)
-                connectedTags.push(connectedTag)
-              } catch (error) {
-                reject(error)
-              }
-            }
-            cursor.continue() // Advance the cursor to the next item
-          } else {
-            resolve() // Resolve the promise when the cursor is done
-          }
+        try {
+          const connectedTag = await new Promise<Tag>((resolve, reject) => {
+            const request = tagsStore.get(connectedTagId)
+            request.onsuccess = () => resolve(request.result)
+            request.onerror = () => reject(request.error)
+          })
+          connectedTags.push(connectedTag)
+        } catch (error) {
+          throw error
         }
-        request.onerror = (event) => reject((event.target as IDBRequest).error)
-      })
+      }
     }
 
-    await Promise.all([processCursor(fromIndex, tagId), processCursor(toIndex, tagId)])
+    await Promise.all([
+      this.processCursor<Edge>(fromIndex, tagId, processEdge),
+      this.processCursor<Edge>(toIndex, tagId, processEdge),
+    ])
 
     return connectedTags
   }
@@ -166,23 +162,15 @@ export default class TagDb {
 
     const results: Tag[] = []
 
-    return new Promise((resolve, reject) => {
-      const request = index.openCursor(space)
+    try {
+      await this.processCursor<Tag>(index, space, (tag) => {
+        results.push(tag)
+      })
+    } catch (error) {
+      console.error('Error processing cursor in findTagsBySpace:', error)
+    }
 
-      request.onsuccess = (event) => {
-        const cursor = (event.target as IDBRequest).result
-        if (cursor) {
-          results.push(cursor.value as Tag)
-          cursor.continue() // Advance the cursor to the next item
-        } else {
-          resolve(results) // Resolve the promise when the cursor is done
-        }
-      }
-
-      request.onerror = (event) => {
-        reject((event.target as IDBRequest).error)
-      }
-    })
+    return results
   }
 
   async removeTagAndEdges(tagId: string): Promise<void> {
@@ -226,13 +214,17 @@ export default class TagDb {
       const tagId = stack.pop()!
       if (!visited.has(tagId)) {
         visited.add(tagId)
-        const tag = await this.getTagById(tagId)
-        if (tag) {
+        try {
+          const tag = await this.getTagById(tagId)
           result.push(tag)
           const connectedTags = await this.findConnectedTags(tagId)
           for (const connectedTag of connectedTags) {
-            stack.push(connectedTag.id)
+            if (!visited.has(connectedTag.id)) {
+              stack.push(connectedTag.id)
+            }
           }
+        } catch (error) {
+          console.error('Error processing tag or connected tags:', error)
         }
       }
     }
@@ -243,6 +235,7 @@ export default class TagDb {
   private async getTagById(tagId: string): Promise<Tag> {
     if (!this.db) throw new Error('Database not initialized')
 
+    console.log(`Getting tag with id: ${tagId}`)
     const tx = this.db.transaction('Tags', 'readonly')
     const store = tx.objectStore('Tags')
     return new Promise<Tag>((resolve, reject) => {

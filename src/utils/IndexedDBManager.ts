@@ -28,7 +28,7 @@ class IndexedDBManager {
     if (this._db) return this._db
 
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this._dbName, 2) // Ensure version is 2
+      const request = indexedDB.open(this._dbName, 1)
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result

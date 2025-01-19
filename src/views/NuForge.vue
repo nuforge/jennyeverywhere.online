@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import IndexedDBEditor from '@/components/admin/IndexedDBEditor.vue';
+import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
 import ChatEditor from '@/components/admin/ChatEditor.vue';
 import ChatMemory from '@/components/admin/ChatMemory.vue';
 import ChatTimeline from '@/components/admin/ChatTimeline.vue';
 import MessageQueue from '@/components/admin/MessageQueue.vue';
 
-
-import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
-import TagDB from '@/objects/TagDb';
+import TagDb from '@/objects/TagDb';
 import Tag from '@/objects/nu/Tag';
 import NuTag from '@/components/nutag/NuTag.vue';
-import type { Tag as TagDb } from '@/objects/TagDb'; // Import with braces
 
-const tagDatabase = new TagDB();
-const tags = ref<TagDb[]>([]);
-
+const tagDatabase = new TagDb();
+const tags = ref<Tag[]>([]);
 
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
@@ -30,7 +27,7 @@ const showBrowserMemory = ref(true)
 //   console.log('tagDatabase:', tagDatabase);
 //   await tagDatabase.setupDatabase('nuForgeDB');
 
-const dbTags = computed(() => tags.value.map(tag => new Tag(tag.id)));
+const dbTags = computed(() => tags.value.map(tag => new Tag(tag?.id)));
 
 onMounted(async () => {
   const newTags = [
@@ -57,7 +54,7 @@ onMounted(async () => {
     await tagDatabase.setupDatabase('nuForgeDB');
     await tagDatabase.addTags(newTags);
     await tagDatabase.addEdges(newEdges);
-    tags.value = await tagDatabase.getAllTags();
+    tags.value = await tagDatabase.getAllTags() as Tag[];
   } catch (error) {
     console.error('Error reading from database:', error);
   }
@@ -66,14 +63,45 @@ onMounted(async () => {
 
 const searchBySpace = ref('person');
 const searchByConnection = ref('organization:starfleet');
+const searchByDepth = ref('person:picard');
+
+function searchSpace() {
+  console.log('searchSpace triggered');
+  tagDatabase.findTagsBySpace(searchBySpace.value).then((result) => {
+    console.log('searchSpace:', result);
+    tags.value = result as Tag[];
+  }).catch((error) => {
+    console.error('Error finding tags:', error);
+  });
+}
+
+function depthSearch() {
+  console.log('depthSearch triggered');
+  tagDatabase.depthFirstSearch(searchByDepth.value).then((result) => {
+    console.log('depthSearch:', result);
+    tags.value = result as Tag[];
+  }).catch((error) => {
+    console.error('Error finding tags:', error);
+  });
+}
 
 function searchTags() {
   console.log('searchTags triggered');
   tagDatabase.findConnectedTags(searchByConnection.value).then((result) => {
     console.log('searchTags:', result);
-    tags.value = result;
+    tags.value = result as Tag[];
   }).catch((error) => {
     console.error('Error finding connected tags:', error);
+  });
+}
+
+function resetDatabase() {
+  console.log('resetDatabase triggered');
+  tagDatabase.resetDatabase().then(() => {
+    console.log('Database reset');
+    tags.value = [];
+  }).catch((error) => {
+    console.error('Error resetting database:', error);
   });
 }
 
@@ -96,11 +124,31 @@ function searchTags() {
 
   <v-card>
     <v-card-title>Tags in IndexedDB</v-card-title>
-    <v-text-field v-model="searchBySpace" density="compact" label="searchBySpace" clearable
-      @keydown.enter="searchTags" />
-    <v-text-field v-model="searchByConnection" density="compact" label="searchByConnection" clearable
-      @keydown.enter="searchTags" />
-    <v-btn @click="searchTags" color="primary" icon="mdi-magnify" />
+    <v-card-actions>
+      <v-text-field v-model="searchBySpace" density="compact" label="searchBySpace" clearable
+        @keydown.enter="searchSpace">
+        <template #prepend>
+          <v-icon icon="mdi-magnify" @click="searchSpace"></v-icon>
+        </template>
+      </v-text-field>
+    </v-card-actions>
+    <v-card-actions>
+      <v-text-field v-model="searchByConnection" density="compact" label="searchByConnection" clearable
+        @keydown.enter="searchTags">
+        <template #prepend>
+          <v-icon icon="mdi-magnify" @click="searchTags"></v-icon>
+        </template>
+      </v-text-field>
+    </v-card-actions>
+    <v-card-actions>
+      <v-text-field v-model="searchByDepth" density="compact" label="depthSearch" clearable
+        @keydown.enter="depthSearch">
+        <template #prepend>
+          <v-icon icon="mdi-magnify" @click="depthSearch"></v-icon>
+        </template>
+      </v-text-field>
+      <v-btn @click="resetDatabase">Reset Database</v-btn>
+    </v-card-actions>
     <v-card-text>
       <NuTag v-for="(tag, index) in dbTags" :key="index" :space="tag.space" :label="`${tag.name}`" size="small" />
     </v-card-text>

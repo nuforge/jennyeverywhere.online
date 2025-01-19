@@ -34,11 +34,14 @@ export default class TagDb {
         }
       }
 
-      request.onsuccess = () => {
-        this.db = request.result
+      request.onsuccess = (event) => {
+        this.db = (event.target as IDBOpenDBRequest).result
         resolve()
       }
-      request.onerror = () => reject(request.error)
+
+      request.onerror = (event) => {
+        reject((event.target as IDBOpenDBRequest).error)
+      }
     })
   }
 
@@ -60,12 +63,7 @@ export default class TagDb {
     const tx = this.db.transaction('Tags', 'readwrite')
     const store = tx.objectStore('Tags')
     for (const tag of tags) {
-      const request = store.put(tag)
-      request.onerror = (event) => {
-        if ((event.target as IDBRequest).error?.name === 'ConstraintError') {
-          console.error(`ConstraintError: Key '${tag.id}' already exists in the object store.`)
-        }
-      }
+      store.put(tag) // Use put instead of add
     }
     await tx.oncomplete
   }
@@ -75,12 +73,7 @@ export default class TagDb {
     const tx = this.db.transaction('Edges', 'readwrite')
     const store = tx.objectStore('Edges')
     for (const edge of edges) {
-      const request = store.put(edge)
-      request.onerror = (event) => {
-        if ((event.target as IDBRequest).error?.name === 'ConstraintError') {
-          console.error(`ConstraintError: Key '${edge.id}' already exists in the object store.`)
-        }
-      }
+      store.put(edge) // Use put instead of add
     }
     await tx.oncomplete
   }
@@ -114,7 +107,6 @@ export default class TagDb {
   }
 
   async findConnectedTags(tagId: string): Promise<Tag[]> {
-    console.log('findConnectedTags', tagId)
     if (!this.db) throw new Error('Database not initialized')
 
     const tx = this.db.transaction(['Edges', 'Tags'], 'readonly')
@@ -122,22 +114,39 @@ export default class TagDb {
     const tagsStore = tx.objectStore('Tags')
 
     const connectedTags: Tag[] = []
-    const index = edgesStore.index('from')
+    const fromIndex = edgesStore.index('from')
+    const toIndex = edgesStore.index('to')
 
-    let cursor = await this.openCursor(index, tagId)
+    return new Promise((resolve, reject) => {
+      const processCursor = async (cursor: IDBCursorWithValue | null, index: IDBIndex) => {
+        if (cursor) {
+          const edge = cursor.value as Edge
+          const connectedTagId = index === fromIndex ? edge.to : edge.from
+          try {
+            const connectedTag = await new Promise<Tag>((resolve, reject) => {
+              const request = tagsStore.get(connectedTagId)
+              request.onsuccess = () => resolve(request.result)
+              request.onerror = () => reject(request.error)
+            })
+            connectedTags.push(connectedTag)
+          } catch (error) {
+            reject(error)
+          }
+          cursor.continue() // Advance the cursor to the next item
+        } else {
+          resolve(connectedTags) // Resolve the promise when the cursor is done
+        }
+      }
 
-    while (cursor) {
-      const edge = cursor.value as Edge
-      const connectedTag = await new Promise<Tag>((resolve, reject) => {
-        const request = tagsStore.get(edge.to)
-        request.onsuccess = () => resolve(request.result)
-        request.onerror = () => reject(request.error)
-      })
-      connectedTags.push(connectedTag)
-      cursor = await this.openCursor(index, tagId)
-    }
+      const fromRequest = fromIndex.openCursor(tagId)
+      fromRequest.onsuccess = (event) =>
+        processCursor((event.target as IDBRequest).result, fromIndex)
+      fromRequest.onerror = (event) => reject((event.target as IDBRequest).error)
 
-    return connectedTags
+      const toRequest = toIndex.openCursor(tagId)
+      toRequest.onsuccess = (event) => processCursor((event.target as IDBRequest).result, toIndex)
+      toRequest.onerror = (event) => reject((event.target as IDBRequest).error)
+    })
   }
 
   async findTagsBySpace(space: string): Promise<Tag[]> {
@@ -148,14 +157,24 @@ export default class TagDb {
     const index = store.index('space')
 
     const results: Tag[] = []
-    let cursor = await this.openCursor(index, space)
 
-    while (cursor) {
-      results.push(cursor.value as Tag)
-      cursor = await this.openCursor(index, space)
-    }
+    return new Promise((resolve, reject) => {
+      const request = index.openCursor(space)
 
-    return results
+      request.onsuccess = (event) => {
+        const cursor = (event.target as IDBRequest).result
+        if (cursor) {
+          results.push(cursor.value as Tag)
+          cursor.continue() // Advance the cursor to the next item
+        } else {
+          resolve(results) // Resolve the promise when the cursor is done
+        }
+      }
+
+      request.onerror = (event) => {
+        reject((event.target as IDBRequest).error)
+      }
+    })
   }
 
   async removeTagAndEdges(tagId: string): Promise<void> {
@@ -168,18 +187,24 @@ export default class TagDb {
     await tagsStore.delete(tagId)
 
     const index = edgesStore.index('from')
-    let cursor = await this.openCursor(index, tagId)
 
-    while (cursor) {
-      await edgesStore.delete(cursor.primaryKey)
-      cursor = await this.openCursor(index, tagId)
-    }
+    return new Promise((resolve, reject) => {
+      const request = index.openCursor(tagId)
 
-    await new Promise((resolve, reject) => {
-      tx.oncomplete = resolve
-      tx.onerror = reject
+      request.onsuccess = (event) => {
+        const cursor = (event.target as IDBRequest).result
+        if (cursor) {
+          edgesStore.delete(cursor.primaryKey)
+          cursor.continue() // Advance the cursor to the next item
+        } else {
+          resolve()
+        }
+      }
+
+      request.onerror = (event) => {
+        reject((event.target as IDBRequest).error)
+      }
     })
-    console.log(`Item and related edges with id ${tagId} removed.`)
   }
 
   async depthFirstSearch(startTagId: string): Promise<Tag[]> {

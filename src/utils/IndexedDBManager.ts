@@ -1,4 +1,4 @@
-import type { Item } from '@/types/Item'
+import type { Tag } from '@/types/Tag'
 import { v4 as uuidv4 } from 'uuid'
 
 class IndexedDBManager {
@@ -58,7 +58,7 @@ class IndexedDBManager {
     })
   }
 
-  async addItem(item: Item): Promise<string> {
+  async addItem(item: Tag): Promise<string> {
     const db = await this.openDB()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(this._storeName, 'readwrite')
@@ -77,7 +77,7 @@ class IndexedDBManager {
     })
   }
 
-  async getItem(id: string): Promise<Item | undefined> {
+  async getItem(id: string): Promise<Tag | undefined> {
     const db = await this.openDB()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(this._storeName, 'readonly')
@@ -85,7 +85,7 @@ class IndexedDBManager {
       const request = store.get(id)
 
       request.onsuccess = (event) => {
-        resolve((event.target as IDBRequest).result as Item)
+        resolve((event.target as IDBRequest).result as Tag)
       }
 
       request.onerror = (event) => {
@@ -94,7 +94,7 @@ class IndexedDBManager {
     })
   }
 
-  async getAllItems(): Promise<Item[]> {
+  async getAllItems(): Promise<Tag[]> {
     const db = await this.openDB()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(this._storeName, 'readonly')
@@ -102,7 +102,7 @@ class IndexedDBManager {
       const request = store.getAll()
 
       request.onsuccess = (event) => {
-        resolve((event.target as IDBRequest).result as Item[])
+        resolve((event.target as IDBRequest).result as Tag[])
       }
 
       request.onerror = (event) => {
@@ -111,7 +111,7 @@ class IndexedDBManager {
     })
   }
 
-  async updateItem(item: Item): Promise<void> {
+  async updateItem(item: Tag): Promise<void> {
     const db = await this.openDB()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(this._storeName, 'readwrite')

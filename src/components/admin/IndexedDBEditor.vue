@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import IndexedDBManager from '@/utils/IndexedDBManager';
-import type { Item } from '@/types/Item';
+import type { Tag } from '@/types/Tag';
 
 const dbManager = new IndexedDBManager('nuForgeDB', 'Tags'); // Ensure the store name matches the one used in TagDb
 
-const localDatabaseObject = ref<Item[]>([]);
+const localDatabaseObject = ref<Tag[]>([]);
 
 onMounted(async () => {
   localDatabaseObject.value = await dbManager.getAllItems();
@@ -20,7 +20,7 @@ const validTag = computed(() => storeInput.value.trim().length > 0)
 const searchTag = computed(() => storeInput.value.toLowerCase())
 
 const SaveToLocal = async () => { //id, space, name
-  const item: Item = { id: storeInput.value, tag: 'person', value: valueInput.value };
+  const item: Tag = { id: `${storeInput.value}:${valueInput.value}`, space: storeInput.value, name: valueInput.value };
   await dbManager.addItem(item);
   localDatabaseObject.value = await dbManager.getAllItems();
 }
@@ -63,8 +63,9 @@ const clearInput = () => {
     <v-card-text>
       <v-divider><v-label>IndexedDB</v-label></v-divider>
       <div v-for="(item, index) in localDatabaseObject" :key="index">
-        <v-label>{{ item.id }}</v-label> {{ item.value }}<br />
+        <v-label>{{ item.id }}</v-label> {{ item.name }} {{ item.space }}<br />
       </div>
+
     </v-card-text>
   </v-card>
 </template>

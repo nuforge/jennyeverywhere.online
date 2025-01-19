@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+
 import LocalStorageManager from '@/utils/LocalStorageManager';
 const localStorage = new LocalStorageManager('nuForgeMemory')
 
-// localStorage.storeItem('chat', chat.chatSent)
-// chat.chatSent = localStorage.retrieveItem('chat')?.toString() ?? ''
-// localStorage.clearAllItems()
-
-//const chatMessages = computed(() => chat.previousMessages)
 const localObject = ref(localStorage.retrieveAllItems())
 
 const tagInput = ref('')

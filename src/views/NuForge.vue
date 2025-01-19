@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import IndexedDBEditor from '@/components/admin/IndexedDBEditor.vue';
 import ChatEditor from '@/components/admin/ChatEditor.vue';
 import ChatMemory from '@/components/admin/ChatMemory.vue';
 import ChatTimeline from '@/components/admin/ChatTimeline.vue';
 import MessageQueue from '@/components/admin/MessageQueue.vue';
+
+
 import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
-
-
 import TagDB from '@/objects/TagDb';
-import type { Tag } from '@/objects/TagDb'; // Import with braces
+import Tag from '@/objects/nu/Tag';
+import NuTag from '@/components/nutag/NuTag.vue';
+import type { Tag as TagDb } from '@/objects/TagDb'; // Import with braces
 
 const tagDatabase = new TagDB();
-const tags = ref<Tag[]>([]);
+const tags = ref<TagDb[]>([]);
 
 
 // import useChatStore from '@/stores/chat/nuchat';
@@ -28,31 +30,52 @@ const showBrowserMemory = ref(true)
 //   console.log('tagDatabase:', tagDatabase);
 //   await tagDatabase.setupDatabase('nuForgeDB');
 
+const dbTags = computed(() => tags.value.map(tag => new Tag(tag.id)));
 
 onMounted(async () => {
   const newTags = [
-    { id: 'person:jean-luc-picard', space: 'person', name: 'Jean-Luc Picard' },
+    { id: 'person:picard', space: 'person', name: 'Jean-Luc Picard' },
     { id: 'organization:starfleet', space: 'organization', name: 'Starfleet' },
-    { id: 'ship:uss-enterprise', space: 'ship', name: 'USS Enterprise' },
+    { id: 'ship:enterprise', space: 'ship', name: 'USS Enterprise' },
     { id: 'role:captain', space: 'role', name: 'Captain' },
     { id: 'tag:unrelated', space: 'tag', name: 'Random Tag' },
+    { id: 'person:sisko', space: 'person', name: 'Benjamin Sisko' },
+    { id: 'station:ds9', space: 'station', name: 'Deep Space Nine' },
+    { id: 'ship:defiant', space: 'ship', name: 'USS Defiant' },
+    { id: 'role:commander', space: 'role', name: 'Commander' },
   ]
 
   const newEdges = [
-    { id: 'affiliation', from: 'person:jean-luc-picard', to: 'organization:starfleet', type: 'MEMBER_OF' },
-    { id: 'captain', from: 'person:jean-luc-picard', to: 'ship:uss-enterprise', type: 'COMMANDS' },
-    { id: 'uss-enterprise', from: 'person:jean-luc-picard', to: 'role:captain', type: 'HAS_ROLE' },
+    { id: 'affiliation:picard', from: 'person:picard', to: 'organization:starfleet', type: 'MEMBER_OF' },
+    { id: 'captain', from: 'person:picard', to: 'ship:enterprise', type: 'COMMANDS' },
+    { id: 'enterprise', from: 'person:picard', to: 'role:captain', type: 'HAS_ROLE' },
+    { id: 'affiliation:sisko', from: 'person:sisko', to: 'organization:starfleet', type: 'MEMBER_OF' },
   ]
   try {
     await tagDatabase.setupDatabase('nuForgeDB');
     await tagDatabase.addTags(newTags);
     await tagDatabase.addEdges(newEdges);
     tags.value = await tagDatabase.getAllTags();
-    console.log('Tags:', tags.value);
   } catch (error) {
     console.error('Error reading from database:', error);
   }
+
 });
+
+const searchBySpace = ref('person');
+const searchByConnection = ref('person:picard');
+
+
+
+function searchTags() {
+  console.log('searchTags triggered');
+  tagDatabase.findConnectedTags(searchByConnection.value).then((result) => {
+    console.log('searchTags:', result);
+    tags.value = result;
+  }).catch((error) => {
+    console.error('Error finding connected tags:', error);
+  });
+}
 
 </script>
 
@@ -70,15 +93,18 @@ onMounted(async () => {
     <v-btn @click="showBrowserMemory = !showBrowserMemory" size="small"
       :icon="showBrowserMemory ? `mdi-brain` : `mdi-egg-off-outline`" flat color="accent" />
   </v-btn-group>
-
   <v-card>
     <v-card-title>Tags in IndexedDB</v-card-title>
+    <v-text-field v-model="searchBySpace" density="compact" label="searchBySpace" clearable></v-text-field>
+    <v-text-field v-model="searchByConnection" density="compact" label="searchByConnection" clearable></v-text-field>
+    <v-btn @click="searchTags" color="primary" icon="mdi-magnify" />
     <v-card-text>
-      <div v-for="(tag, index) in tags" :key="index">
-        <v-label>{{ tag.id }}</v-label> {{ tag.name }}<br />
-      </div>
+      <NuTag v-for="(tag, index) in dbTags" :key="index" :space="tag.space" :label="`${tag.space}:${tag.name}`"
+        size="small" />
     </v-card-text>
   </v-card>
+
+  <v-divider class="my-4" />
 
   <v-expand-transition>
     <v-row v-if="showMessageQueue">

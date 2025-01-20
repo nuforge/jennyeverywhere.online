@@ -1,0 +1,11 @@
+[
+  { "id": "person:jean-luc-picard", "name": "Jean-Luc Picard" },
+  { "id": "organization:starfleet", "name": "Starfleet" },
+  { "id": "ship:uss-enterprise", "name": "USS Enterprise" },
+  { "id": "role:captain", "name": "Captain" },
+  { "id": "person:benjamin-sisko", "name": "Benjamin Sisko" },
+  { "id": "station:ds9", "name": "Deep Space Nine" },
+  { "id": "deep-space-nine", "name": "Deep Space Nine" },
+  { "id": "ship:defiant", "name": "USS Defiant" },
+  { "id": "role:commander", "name": "Commander" }
+]

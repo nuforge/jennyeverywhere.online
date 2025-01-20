@@ -1,0 +1,28 @@
+[
+  {
+    "id": "affiliation:picard",
+    "from": "person:picard",
+    "to": "organization:starfleet",
+    "type": "MEMBER_OF"
+  },
+  { "id": "captain", "from": "person:picard", "to": "ship:enterprise", "type": "COMMANDS" },
+  { "id": "enterprise", "from": "person:picard", "to": "role:captain", "type": "HAS_ROLE" },
+  {
+    "id": "affiliation:sisko",
+    "from": "person:sisko",
+    "to": "organization:starfleet",
+    "type": "MEMBER_OF"
+  },
+  {
+    "id": "affiliation:enterpise",
+    "from": "ship:enterprise",
+    "to": "organization:starfleet",
+    "type": "MEMBER_OF"
+  },
+  {
+    "id": "affiliation:defiant",
+    "from": "ship:defiant",
+    "to": "organization:starfleet",
+    "type": "MEMBER_OF"
+  }
+]

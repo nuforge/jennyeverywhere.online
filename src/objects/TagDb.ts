@@ -1,10 +1,5 @@
 const DEFAULT_DATABASE_NAME = 'nuForgeDB'
-
-export interface Tag {
-  id: string
-  space: string
-  name: string
-}
+import Tag from '@/objects/nu/Tag'
 
 interface Edge {
   id: string
@@ -26,7 +21,6 @@ export default class TagDb {
           const tagStore = db.createObjectStore('Tags', { keyPath: 'id' })
           tagStore.createIndex('space', 'space', { unique: false })
           tagStore.createIndex('name', 'name', { unique: false })
-          console.log("Created 'space' index in Tags store")
         }
         if (!db.objectStoreNames.contains('Edges')) {
           const edgeStore = db.createObjectStore('Edges', { keyPath: 'id' })
@@ -78,18 +72,6 @@ export default class TagDb {
     await this.setupDatabase(dbName)
   }
 
-  parseTag(input: string): Tag {
-    const [rawSpace, rawName] = input.includes(':')
-      ? input.split(':', 2) // Split into space and name
-      : ['misc', input] // Default to "misc" space
-
-    const space = rawSpace.trim().toLowerCase() // Normalize space
-    const name = rawName.trim() // Keep original name for display
-    const id = `${space}:${name.replace(/ /g, '-').toLowerCase()}` // Generate ID
-
-    return { id, space, name }
-  }
-
   async addTag(input: string): Promise<void> {
     if (!this.db) throw new Error('Database not initialized')
     const tag = this.parseTag(input)
@@ -108,6 +90,7 @@ export default class TagDb {
     }
     await tx.oncomplete
   }
+
   async addEdge(fromInput: string, toInput: string, type: string): Promise<void> {
     if (!this.db) throw new Error('Database not initialized')
     const from = this.parseTag(fromInput).id
@@ -149,6 +132,7 @@ export default class TagDb {
 
   async findConnectedTags(tagId: string): Promise<Tag[]> {
     if (!this.db) throw new Error('Database not initialized')
+    console.log(`Finding connected tags for tag with id: ${tagId}`)
 
     const tx = this.db.transaction(['Edges', 'Tags'], 'readonly')
     const edgesStore = tx.objectStore('Edges')
@@ -184,6 +168,80 @@ export default class TagDb {
     ])
 
     return connectedTags
+  }
+
+  async depthFirstSearchWithMetrics(
+    startTagId: string,
+  ): Promise<{ tags: Tag[]; metrics: { depthMap: Record<string, number> } }> {
+    if (!this.db) throw new Error('Database not initialized')
+
+    interface StackItem {
+      id: string
+      depth: number
+    }
+
+    const visited = new Set<string>()
+    const stack: StackItem[] = [{ id: startTagId, depth: 0 }]
+    const tags: Tag[] = []
+    const metrics: { depthMap: Record<string, number> } = { depthMap: {} } // Only tracking depth
+
+    while (stack.length > 0) {
+      const current = stack.pop()
+      if (!current) continue
+
+      const { id: tagId, depth } = current
+      if (!visited.has(tagId)) {
+        visited.add(tagId)
+        metrics.depthMap[tagId] = depth // Track depth
+
+        try {
+          const tag = await this.getTagById(tagId)
+          tags.push(tag)
+          const connectedTags = await this.findConnectedTags(tagId)
+
+          for (const connectedTag of connectedTags) {
+            if (!visited.has(connectedTag.id)) {
+              stack.push({ id: connectedTag.id, depth: depth + 1 })
+            }
+          }
+        } catch (error) {
+          console.error('Error processing tag or connected tags:', error)
+        }
+      }
+    }
+
+    return { tags, metrics }
+  }
+
+  async depthFirstSearch(startTagId: string): Promise<Tag[]> {
+    if (!this.db) throw new Error('Database not initialized')
+
+    const visited = new Set<string>()
+    const stack = [startTagId]
+    const result: Tag[] = []
+
+    while (stack.length > 0) {
+      console.log('Stack:', stack.length)
+      const tagId = stack.pop()!
+      if (!visited.has(tagId)) {
+        visited.add(tagId)
+        try {
+          const tag = await this.getTagById(tagId)
+          result.push(tag)
+          const connectedTags = await this.findConnectedTags(tagId)
+          for (const connectedTag of connectedTags) {
+            console.log('connectedTag:', connectedTag.id)
+            if (!visited.has(connectedTag.id)) {
+              stack.push(connectedTag.id)
+            }
+          }
+        } catch (error) {
+          console.error('Error processing tag or connected tags:', error)
+        }
+      }
+    }
+
+    return result
   }
 
   async findTagsBySpace(space: string): Promise<Tag[]> {
@@ -236,37 +294,6 @@ export default class TagDb {
     })
   }
 
-  async depthFirstSearch(startTagId: string): Promise<Tag[]> {
-    if (!this.db) throw new Error('Database not initialized')
-
-    const visited = new Set<string>()
-    const stack = [startTagId]
-    const result: Tag[] = []
-
-    while (stack.length > 0) {
-      console.log('Stack:', stack.length)
-      const tagId = stack.pop()!
-      if (!visited.has(tagId)) {
-        visited.add(tagId)
-        try {
-          const tag = await this.getTagById(tagId)
-          result.push(tag)
-          const connectedTags = await this.findConnectedTags(tagId)
-          for (const connectedTag of connectedTags) {
-            console.log('connectedTag:', connectedTag.id)
-            if (!visited.has(connectedTag.id)) {
-              stack.push(connectedTag.id)
-            }
-          }
-        } catch (error) {
-          console.error('Error processing tag or connected tags:', error)
-        }
-      }
-    }
-
-    return result
-  }
-
   private async getTagById(tagId: string): Promise<Tag> {
     if (!this.db) throw new Error('Database not initialized')
 
@@ -278,5 +305,16 @@ export default class TagDb {
       request.onsuccess = () => resolve(request.result)
       request.onerror = () => reject(request.error)
     })
+  }
+
+  parseTag(input: string): Tag {
+    const [rawSpace, rawName] = input.includes(':')
+      ? input.split(':', 2) // Split into space and name
+      : ['misc', input] // Default to "misc" space
+
+    const space = rawSpace.trim().toLowerCase() // Normalize space
+    const name = rawName.trim() // Keep original name for display
+    const id = `${space}:${name.replace(/ /g, '-').toLowerCase()}` // Generate ID
+    return new Tag(id)
   }
 }

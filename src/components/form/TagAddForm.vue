@@ -31,7 +31,7 @@ const icon = ref('mdi-tag')
 
 function submitForm() {
   console.log('submitForm', text.value, color.value, icon.value)
-  emit('create-tag', new Tag(text.value).add('color', color.value).add('icon', icon.value))
+  emit('create-tag', new Tag(text.value).attribute('color', color.value).attribute('icon', icon.value))
 }
 
 defineProps({

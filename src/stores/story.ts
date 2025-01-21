@@ -22,13 +22,23 @@ const useStoryStore = defineStore('story', () => {
   const HTML = ref(raw.value)
 
   tagMap.value.addTag(
-    new Tag('Jenny Everywhere').add('color', 'primary').add('icon', 'mdi-account-circle'),
+    new Tag('Jenny Everywhere')
+      .attribute('color', 'primary')
+      .attribute('icon', 'mdi-account-circle'),
   )
-  tagMap.value.addTag(new Tag('green portal').add('color', 'green').add('icon', 'mdi-orbit'))
-  tagMap.value.addTag(new Tag('flamethrower').add('color', 'red').add('icon', 'mdi-fire'))
-  tagMap.value.addTag(new Tag('jetpack').add('color', 'warning').add('icon', 'mdi-rocket-launch'))
   tagMap.value.addTag(
-    new Tag('dude with a mohawk').add('color', 'text').add('icon', 'mdi-account-circle-outline'),
+    new Tag('green portal').attribute('color', 'green').attribute('icon', 'mdi-orbit'),
+  )
+  tagMap.value.addTag(
+    new Tag('flamethrower').attribute('color', 'red').attribute('icon', 'mdi-fire'),
+  )
+  tagMap.value.addTag(
+    new Tag('jetpack').attribute('color', 'warning').attribute('icon', 'mdi-rocket-launch'),
+  )
+  tagMap.value.addTag(
+    new Tag('dude with a mohawk')
+      .attribute('color', 'text')
+      .attribute('icon', 'mdi-account-circle-outline'),
   )
 
   const md = markdownit({

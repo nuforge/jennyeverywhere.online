@@ -19,7 +19,11 @@ class Event extends Tag {
     this._body = body
     this.icon = 'mdi-calendar'
     this.color = 'text'
-    this.addTag(new Tag(`stardate:${this.date}`).add('color', 'blue').add('icon', 'mdi-web-clock'))
+    this.addTag(
+      new Tag(`stardate:${this.date}`)
+        .attribute('color', 'blue')
+        .attribute('icon', 'mdi-web-clock'),
+    )
     return this
   }
 
@@ -52,7 +56,7 @@ class Event extends Tag {
   }
 
   createTag(tagName: string, tagColor: string, tagIcon: string) {
-    const tag = new Tag(tagName).add('color', tagColor).add('icon', tagIcon)
+    const tag = new Tag(tagName).attribute('color', tagColor).attribute('icon', tagIcon)
     this.addTag(tag)
     return this
   }

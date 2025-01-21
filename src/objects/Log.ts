@@ -17,7 +17,11 @@ class Log extends Tag {
     this._title = name
     this._date = date
     this._body = body
-    this.addTag(new Tag(`stardate:${this.date}`).add('color', 'blue').add('icon', 'mdi-web-clock'))
+    this.addTag(
+      new Tag(`stardate:${this.date}`)
+        .attribute('color', 'blue')
+        .attribute('icon', 'mdi-web-clock'),
+    )
     return this
   }
 
@@ -50,7 +54,7 @@ class Log extends Tag {
   }
 
   createTag(tagName: string, color: string = `accent`, icon: string = `mdi-circle-small`) {
-    const tag = new Tag(tagName).add('color', color).add('icon', icon)
+    const tag = new Tag(tagName).attribute('color', color).attribute('icon', icon)
     this.addTag(tag)
     return this
   }

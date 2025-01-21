@@ -157,7 +157,7 @@ function onDrop(event: DragEvent) {
 </script>
 
 <template>
-  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.seed" :id="tag?.id"
+  <v-chip label class="overflow-visible" :color="colorStyle" :variant="variant" :value="tag?.name" :id="tag?.id"
     :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
     @dblclick="onDoubleClick" @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop"
     v-draggable="tag" v-droppable="console.log">

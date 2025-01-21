@@ -8,8 +8,17 @@ import ChatTimeline from '@/components/admin/ChatTimeline.vue';
 import MessageQueue from '@/components/admin/MessageQueue.vue';
 import TagSearch from '@/components/TagSearch.vue';
 
+import NuTag from '@/components/nutag/NuTag.vue';
+
+import TagFactory from '@/objects/nu/TagFactory';
+
+
+const newTag = ref(TagFactory.create('tag').add('color:red').add('icon:mdi-tag'))
+console.log('newTag.value', newTag.value); // "namespace"
+//TagFactory.saveToLocalStorage(newTag.value);
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
+const showTagFactory = ref(true)
 const showTagSearch = ref(false)
 const showMessageQueue = ref(false)
 const showChatEditor = ref(false)
@@ -17,11 +26,29 @@ const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
 const showBrowserMemory = ref(true)
 
+// const tag = new Tag('captain:picard', { color: 'red' });
+//const captainFactory = new TagFactory('captain', { icon: 'mdi-account' });
+
+// console.log('seed', tag.seed);  // "namespace:value"
+// console.log('space', tag.space); // "namespace"
+// console.log('name', tag.name);  // "value"
+
+// tag.attribute('icon', 'star');
+// console.log('icon', tag.getAttribute('icon')); // "star"
+// console.log('color', tag.getAttribute('color')); // "star"
+
+// // Changing seed updates space and name automatically
+// tag.seed = 'new-space:new-value';
+// console.log("new-space", tag.space); // "new-space"
+// console.log("new-value", tag.name);  // "new-value"
+
 </script>
 
 <template>
   <v-divider class="my-4" />
   <v-btn-group multiple variant="plain">
+    <v-btn @click="showTagFactory = !showTagFactory" size="small" :icon="showTagFactory ? `mdi-factory` : `mdi-factory`"
+      flat color="info" />
     <v-btn @click="showTagSearch = !showTagSearch" size="small"
       :icon="showTagSearch ? `mdi-tag-search` : `mdi-tag-search-outline`" flat color="warning" />
     <v-btn @click="showMessageQueue = !showMessageQueue" size="small"
@@ -35,6 +62,17 @@ const showBrowserMemory = ref(true)
     <v-btn @click="showBrowserMemory = !showBrowserMemory" size="small"
       :icon="showBrowserMemory ? `mdi-brain` : `mdi-egg-off-outline`" flat color="accent" />
   </v-btn-group>
+
+  <v-expand-transition>
+    <v-row v-if="showTagFactory">
+      <v-col cols="12">
+        {{ newTag }}
+        <h2><v-icon icon="mdi-factory" size="x-small" color="info" /> Tag Factory</h2>
+        <v-text-field v-model="newTag.seed" label="seed" />
+        <NuTag :tag="newTag" />
+      </v-col>
+    </v-row>
+  </v-expand-transition>
 
   <TagSearch v-if="showTagSearch" />
 

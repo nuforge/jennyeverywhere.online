@@ -1,80 +1,77 @@
-import { v4 as uuidv4 } from 'uuid'
+import StringUtils from '@/utils/StringUtils'
+import { NAMESPACE_SPLIT_CHAR } from '@/utils/StringUtils'
 
-const NAMESPACE_SPLIT_CHAR = ':'
-const TAG_WHITESPACE_REPLACER = '-'
+export type TagValue = Tag | string | number | boolean | undefined | null
+export type TagAttributes = Record<string, TagValue>
 
-type TagAttributes = {
-  seed?: string
-  [key: string]: string | number | boolean | Tag | unknown | undefined // Allow flexibility for additional attributes
-}
-
-class Tag<T extends TagAttributes = { seed?: string }> {
+class Tag {
   // System Attributes
-  protected _id = uuidv4() // Unique ID
+  protected readonly _id: string // Unique ID
   protected _stamp: Date = new Date()
-  protected _seed?: object | string | number | boolean = this.constructor.name
-  protected _tag: Tag
-  protected _attributes: T
 
-  // string Attributes
-  protected _name: string
-  protected _space?: string
+  // Tag Attributes
+  protected _attributes: TagAttributes
 
-  constructor(seed?: string, initialAttributes: T = {} as T) {
-    this._seed = Tag.CleanString(seed)
-    const { space, name } = Tag.parseString(this._seed)
+  constructor(seed: string, attributes: TagAttributes = {}) {
+    this._id = crypto.randomUUID()
+    this._attributes = attributes
+    this.setSeed(seed)
+  }
 
-    this._name = name ? Tag.CleanString(name) : this._seed
-    this._space = space ? Tag.CleanString(space) : undefined
-    this._tag = this
-    this._attributes = initialAttributes
+  add(seed: string): Tag {
+    // Parse the string in the format 'name:space'
+    const { space, name } = StringUtils.parseString(seed)
+    console.log('add', seed, space, name)
+
+    const key = space ?? seed
+
+    // Now handle space and name without manually checking separately
+    if (!(key in this._attributes)) {
+      this._attributes[key] = name // Add new attribute if not already set
+    }
     return this
   }
-  // Method to add or update attributes, returns a new Tag with updated attributes
-  add<K extends string, V extends string | number>(key: K, value: V): Tag<T & Record<K, V>> {
-    return new Tag(this.name, { ...this._attributes, [key]: value } as T & Record<K, V>)
-  }
-  // Method to get a specific attribute
-  getAttribute<K extends keyof T>(key: K): T[K] {
+
+  attribute(key: string, value?: TagValue): Tag | TagValue {
+    if (value !== undefined) {
+      // Set the value for the attribute (if provided)
+      this._attributes[key] = value
+      return this // Return the instance to allow method chaining
+    }
+    // Otherwise, just return the value (getter behavior)
     return this._attributes[key]
   }
+
+  hasAttribute(key: string): boolean {
+    return key in this._attributes
+  }
   // Getter for all attributes
-  get allAttributes(): T {
+  get allAttributes() {
     return this._attributes
   }
 
-  // TEMP COLOR & ICON TO FIND STRAY CALLS
-  get color() {
-    return this.getAttribute('color')?.toString() ?? ''
-  }
-  get icon() {
-    return this.getAttribute('icon')?.toString() ?? ''
-  }
-  set color(color: string) {
-    this.add('color', color)
+  // Serialize the tag for storage or transfer
+  serialize(): string {
+    return JSON.stringify({
+      id: this._id,
+      attributes: this._attributes,
+    })
   }
 
-  set icon(icon: string) {
-    this.add('icon', icon)
-  }
-
-  setName(name: string) {
-    this._name = name
-    return this
-  }
-
-  setSpace(space: string) {
-    this._space = space
-    return this
-  }
-
-  setStamp(stamp: Date) {
-    this._stamp = stamp
-    return this
+  static deserialize(json: string): Tag {
+    const { space, name, attributes } = JSON.parse(json)
+    const tag = new Tag(`${space ? space + NAMESPACE_SPLIT_CHAR : ''}${name}`)
+    // tag._id = id // Preserve original ID
+    Object.entries(attributes).forEach(([key, value]) => {
+      tag.attribute(key, value as TagValue)
+    })
+    return tag
   }
 
   setSeed(seed: object | string | number | boolean) {
-    this._seed = seed
+    const { space, name } = StringUtils.parseString(seed as string)
+    this.attribute('space', space)
+    this.attribute('name', name)
     return this
   }
 
@@ -82,154 +79,71 @@ class Tag<T extends TagAttributes = { seed?: string }> {
     return Object.assign(object, this)
   }
 
-  static CleanString = (text?: string) => {
-    return text !== undefined ? text.toString().trim() : ''
-  }
-
   static normalizeTagName = (name: string | number) => {
-    return name.toString().trim().toLowerCase().replace(/\s/g, TAG_WHITESPACE_REPLACER)
+    return StringUtils.normalizeTagName(String(name))
   }
 
   static parseString(input: string): { space?: string; name: string } {
-    // Normalize the string: lowercase and replace spaces with hyphens
-    const normalized = Tag.CleanString(input)
-
-    // Initialize result
-    const result: { space?: string; name: string } = { name: '' }
-
-    // Split into space and the rest
-    const [space, name] = normalized.split(NAMESPACE_SPLIT_CHAR) // ':' is the namespace separator
-    if (name !== undefined) {
-      result.space = space
-      result.name = name
-    } else {
-      // If neither colon nor period exists, the whole string is the name
-      result.name = normalized
-    }
-    return result
+    return StringUtils.parseString(input)
   }
 
   static extractKeywords(input: string): { individual: string[]; grouped: string[] } {
-    const normalized = input.trim().toLowerCase().replace(/\s+/g, ' ') // Normalize spacing and case
-    const words = normalized.match(/\w+/g) || [] // Match individual words/numbers
-
-    const individual = Array.from(new Set(words)) // Unique individual words
-    const grouped = new Set<string>()
-
-    // Generate grouped keywords (adjacent word pairs)
-    for (let i = 0; i < words.length; i++) {
-      for (let j = i + 1; j <= words.length; j++) {
-        const phrase = words.slice(i, j).join(' ')
-        if (phrase.split(' ').length > 1) grouped.add(phrase)
-      }
-    }
-
-    return {
-      individual,
-      grouped: Array.from(grouped),
-    }
-  }
-
-  static extractScopedKeywords(input: string): string[] {
-    const normalized = input.trim().toLowerCase().replace(/\s+/g, ' ') // Normalize spacing and case
-    return normalized.split(':')
+    return StringUtils.extractKeywords(input)
   }
 
   static extractPhrases(input: string): string[] {
-    const words = input.match(/\w+/g) || []
-    const phrases = new Set<string>()
-
-    for (let i = 0; i < words.length; i++) {
-      for (let j = i + 1; j <= words.length; j++) {
-        const phrase = words.slice(i, j).join(' ')
-        phrases.add(phrase)
-      }
-    }
-
-    return Array.from(phrases)
+    return StringUtils.extractPhrases(input)
   }
-
-  toString() {
-    return this.reconstructString({ space: this._space, name: this._name })
-  }
-
-  reconstructString = ({ space, name }: { space?: string; name: string }): string => {
-    return space ? `${space}:${name}` : name
+  static extractScopedKeywords(input: string): string[] {
+    return StringUtils.extractScopedKeywords(input)
   }
 
   attributesToTags = () => {
     const attributes = {
       id: this._id,
-      space: this._space,
-      name: this._name,
-      seed: this._seed,
-      date: this.stamp.toLocaleDateString(),
-      time: this.stamp.toLocaleTimeString(),
+      stamp: this._stamp,
     }
 
-    return Object.entries(attributes)
-      .map(([key, value]) => {
-        if (value) {
-          return new Tag(`${key}:${value}`)
-        }
-        return undefined
-      })
-      .filter((tag): tag is Tag => tag !== undefined)
+    return [
+      attributes,
+      ...Object.entries(this._attributes)
+        .map(([key, value]) => {
+          if (value) {
+            return new Tag(`${key}:${value}`)
+          }
+          return undefined
+        })
+        .filter((tag): tag is Tag => tag !== undefined),
+    ]
   }
 
-  set(name: string, space: string) {
-    this._name = name
-    this._space = space
-    return this
+  set seed(seed: string) {
+    this.setSeed(seed)
   }
 
-  get label() {
-    return this._name
-  }
-
-  get name() {
-    return this._name
-  }
-
-  set name(value: string) {
-    this._name = value
-  }
-
-  get id() {
+  get id(): string {
     return this._id
   }
 
-  get seed() {
-    return this._seed ?? ''
+  get name(): string {
+    return String(this.attribute('name'))
   }
 
-  get tag() {
-    return this as Tag
+  set name(name: string) {
+    this.attribute('name', name)
   }
 
-  set seed(value: object | string | number | boolean) {
-    this._seed = value
+  get space(): string {
+    return String(this.attribute('space'))
   }
-
-  get space(): string | undefined {
-    return this._space
+  get label(): string {
+    return String(this.attribute('label') ?? this.name)
   }
-
-  set space(value: string | undefined) {
-    this._space = value
+  get icon() {
+    return String(this.attribute('icon'))
   }
-
-  get stamp(): Date {
-    return this._stamp
-  }
-
-  set stamp(value: Date) {
-    this._stamp = value
-  }
-  static clone(tag: Tag): Tag {
-    const newTag = new Tag(tag._seed as string)
-    Object.assign(newTag, tag)
-    return newTag
+  get color() {
+    return String(this.attribute('color'))
   }
 }
 

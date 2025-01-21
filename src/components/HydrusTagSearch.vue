@@ -62,8 +62,8 @@ onMounted(async () => {
       </v-card-actions>
       <v-list density="compact" nav return-object slim class="bg-background rounded pa-0 ma-1 ">
         <v-list-item v-for="tag in search.searchResults" :key="tag.name" class="ma-0 pa-0" :min-height="0"
-          @dblclick="addToSearch(tag.id)">
-          <NuTag :label="tag.id" size="small" variant="text" class="d-flex flex-block" />
+          @dblclick="addToSearch(tag.name)">
+          <NuTag :label="tag.name" size="small" variant="text" class="d-flex flex-block" />
         </v-list-item>
       </v-list>
 

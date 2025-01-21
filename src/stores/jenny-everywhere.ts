@@ -146,7 +146,7 @@ const jennyEverywhere = defineStore('jenny_everywhere', () => {
     emoji?: string,
   ) => {
     const tagObjects = (tags || []).map((tag) =>
-      new Tag(tag).add('color', inator.themecolor(false)).add('icon', inator.icon()),
+      new Tag(tag).attribute('color', inator.themecolor(false)).attribute('icon', inator.icon()),
     )
     chatTags.value = tagObjects
     messages.value.push({

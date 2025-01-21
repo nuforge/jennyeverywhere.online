@@ -91,8 +91,8 @@ const useCardStore = defineStore('cards', () => {
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
         const tag = new Tag(`${suit}:${rank}.${rank}`)
-          .add('color', colorList[suit])
-          .add('icon', append)
+          .attribute('color', colorList[suit])
+          .attribute('icon', append)
         deck.push(tag)
       }
     }
@@ -112,8 +112,8 @@ const useCardStore = defineStore('cards', () => {
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
         const tag = new Tag(`${suit}:${rank}.${rank}`)
-          .add('color', colorList[suit])
-          .add('icon', append)
+          .attribute('color', colorList[suit])
+          .attribute('icon', append)
         deck.push(tag)
       }
     }

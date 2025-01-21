@@ -141,8 +141,8 @@ class MarkdownManager {
 
     if (target.tagName === 'A' || target.tagName === 'I') {
       const newTag = new Tag(target.getAttribute('tag') || '')
-        .add('color', target.getAttribute('color') || '')
-        .add('icon', target.getAttribute('icon') || '')
+        .attribute('color', target.getAttribute('color') || '')
+        .attribute('icon', target.getAttribute('icon') || '')
       return newTag
     }
 
@@ -180,8 +180,8 @@ class MarkdownManager {
 
     const custom = Array.from(doc.querySelectorAll('custom-tag')).map((custom) =>
       new Tag(custom.getAttribute('tag') || '')
-        .add('color', custom.getAttribute('color') || '')
-        .add('icon', custom.getAttribute('icon') || ''),
+        .attribute('color', custom.getAttribute('color') || '')
+        .attribute('icon', custom.getAttribute('icon') || ''),
     )
 
     // Return both lists

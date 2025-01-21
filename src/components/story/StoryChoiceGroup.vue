@@ -22,7 +22,7 @@ const updateSelection = (value: number) => {
   story.tagMap.clearTags()
   if (selection.value === undefined) return
   story.choices[selection.value].tags.forEach((tag) => {
-    story.tagMap.addTag(new Tag(`${tag}`).add('color', choice.color).add('icon', choice.icon))
+    story.tagMap.addTag(new Tag(`${tag}`).attribute('color', choice.color).attribute('icon', choice.icon))
   })
 }
 </script>

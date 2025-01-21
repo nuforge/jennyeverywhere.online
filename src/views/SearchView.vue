@@ -16,7 +16,8 @@ const addStarTrek = async () => {
   <v-container>
     <v-row>
       <v-col sm="5">
-        <v-card flat>
+        <HydrusTagSearch />
+        <v-card flat class="bg-transparent">
           <v-card-actions>
             <v-btn-group class="d-flex flex-wrap" multiple variant="plain">
               <v-btn text="Init StarTrek" size="x-small" @click="addStarTrek" />
@@ -25,7 +26,6 @@ const addStarTrek = async () => {
             </v-btn-group>
           </v-card-actions>
         </v-card>
-        <HydrusTagSearch />
       </v-col>
       <v-col sm="7" cols="auto">
         <h2><v-icon icon="mdi-tag-search" size="x-small" color="warning" /> Tag Search</h2>

@@ -22,7 +22,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-container class="d-flex flex-column ga-2">
+  <v-container class="d-flex flex-column ga-2 pa-0">
     <v-card flat>
       <v-card-actions>
         <v-btn-group class="d-flex flex-wrap" multiple variant="plain">
@@ -38,22 +38,22 @@ onMounted(async () => {
       <v-card-title>
         <v-label>search</v-label>
       </v-card-title>
-      <v-list density="compact" nav return-object slim class="bg-background rounded pa-0 ">
+      <v-list density="compact" nav return-object slim class="bg-background rounded pa-0 ma-1 ">
         <v-list-item v-for="tag in search.searchTerms" :key="tag" class="ma-0 pa-0" :min-height="0"
           @dblclick="removeTagFromSearch(tag)">
           <NuTag :label="tag" size="small" variant="text" class="d-flex flex-block" />
         </v-list-item>
         <v-list-item>
-          <v-text-field v-model="newTag" label="new term" density="compact" @keydown.enter="addToSearch(newTag)" />
+          <v-text-field v-model="newTag" label="add term" density="compact" @keydown.enter="addToSearch(newTag)"
+            variant="plain" prepend-icon="mdi-plus" />
         </v-list-item>
       </v-list>
-
     </v-card>
     <v-card>
       <v-card-title>
         <v-label>selection tags</v-label>
       </v-card-title>
-      <v-card-actions>
+      <v-card-actions class="bg-bac">
         <v-btn-group class="d-flex flex-wrap" multiple variant="plain">
           <v-btn text="Sort: count" size="x-small" />
           <v-btn text="most first" size="x-small" />

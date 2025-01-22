@@ -9,6 +9,7 @@ import MessageQueue from '@/components/admin/MessageQueue.vue';
 import TagSearch from '@/components/TagSearch.vue';
 
 import NuTag from '@/components/nutag/NuTag.vue';
+import Tag from '@/objects/nu/Tag';
 
 import TagFactory from '@/objects/nu/TagFactory';
 
@@ -69,7 +70,7 @@ const showBrowserMemory = ref(true)
         {{ newTag }}
         <h2><v-icon icon="mdi-factory" size="x-small" color="info" /> Tag Factory</h2>
         <v-text-field v-model="newTag.seed" label="seed" />
-        <NuTag :tag="newTag" />
+        <NuTag :tag="newTag as Tag" />
       </v-col>
     </v-row>
   </v-expand-transition>

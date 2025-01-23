@@ -1,0 +1,110 @@
+{
+  "aries": {
+    "name": "Aries",
+    "gloss": "Ram",
+    "color": "red",
+    "icon": "mdi-zodiac-aries",
+    "symbol": "♈︎︎",
+    "element": "fire",
+    "status": "cardinal"
+  },
+  "taurus": {
+    "name": "Taurus",
+    "gloss": "Bull",
+    "color": "green",
+    "icon": "mdi-zodiac-taurus",
+    "symbol": "♉︎︎",
+    "element": "earth",
+    "status": "fixed"
+  },
+  "gemini": {
+    "name": "Gemini",
+    "gloss": "Twins",
+    "color": "yellow",
+    "icon": "mdi-zodiac-gemini",
+    "symbol": "♊︎︎",
+    "element": "air",
+    "status": "mutable"
+  },
+  "cancer": {
+    "name": "Cancer",
+    "gloss": "Crab",
+    "color": "orange",
+    "icon": "mdi-zodiac-cancer",
+    "symbol": "♋︎︎",
+    "element": "water",
+    "status": "cardinal"
+  },
+  "leo": {
+    "name": "Leo",
+    "gloss": "Lion",
+    "color": "pink",
+    "icon": "mdi-zodiac-leo",
+    "symbol": "♌︎︎",
+    "element": "fire",
+    "status": "fixed"
+  },
+  "virgo": {
+    "name": "Virgo",
+    "gloss": "Maiden",
+    "color": "magenta",
+    "icon": "mdi-zodiac-virgo",
+    "symbol": "♍︎︎",
+    "element": "earth",
+    "status": "mutable"
+  },
+  "libra": {
+    "name": "Libra",
+    "gloss": "Scales",
+    "color": "purple",
+    "icon": "mdi-zodiac-libra",
+    "symbol": "♎︎︎",
+    "element": "air",
+    "status": "cardinal"
+  },
+  "scorpio": {
+    "name": "Scorpio",
+    "gloss": "Scorpion",
+    "color": "brown",
+    "icon": "mdi-zodiac-scorpio",
+    "symbol": "♏︎︎",
+    "element": "water",
+    "status": "fixed"
+  },
+  "sagittarius": {
+    "name": "Sagittarius",
+    "gloss": "Archer",
+    "color": "red",
+    "icon": "mdi-zodiac-sagittarius",
+    "symbol": "♐︎︎",
+    "element": "fire",
+    "status": "mutable"
+  },
+  "capricorn": {
+    "name": "Capricorn",
+    "gloss": "Goat",
+    "color": "green",
+    "icon": "mdi-zodiac-capricorn",
+    "symbol": "♑︎︎",
+    "element": "earth",
+    "status": "cardinal"
+  },
+  "aquarius": {
+    "name": "Aquarius",
+    "gloss": "Water Bearer",
+    "color": "yellow",
+    "icon": "mdi-zodiac-aquarius",
+    "symbol": "♒︎︎",
+    "element": "air",
+    "status": "fixed"
+  },
+  "pisces": {
+    "name": "Pisces",
+    "gloss": "Fish",
+    "color": "orange",
+    "icon": "mdi-zodiac-pisces",
+    "symbol": "♓︎︎",
+    "element": "water",
+    "status": "mutable"
+  }
+}

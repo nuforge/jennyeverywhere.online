@@ -2,6 +2,7 @@ import Tag from '@/objects/nu/Tag'
 import type { TagAttributes } from '@/objects/nu/Tag'
 import StringUtils from '@/utils/StringUtils'
 import { NAMESPACE_SPLIT_CHAR } from '@/utils/StringUtils'
+import Inator from '@/objects/Inator'
 
 export default class TagFactory {
   private static _namespace: string = ''
@@ -18,7 +19,14 @@ export default class TagFactory {
   }
   // Create a new Tag
   static create(name: string, attributes: TagAttributes = {}): Tag {
+    const inator = new Inator()
     const seed = this._namespace ? `${this._namespace}${NAMESPACE_SPLIT_CHAR}${name}` : name
+    if (attributes.color === undefined) {
+      attributes.color = inator.bestColor(seed)
+    }
+    if (attributes.icon === undefined) {
+      attributes.icon = inator.bestIcon(seed)
+    }
     return new Tag(seed, attributes)
   }
 

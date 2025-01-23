@@ -67,10 +67,9 @@ const showBrowserMemory = ref(true)
   <v-expand-transition>
     <v-row v-if="showTagFactory">
       <v-col cols="12">
-        {{ newTag }}
         <h2><v-icon icon="mdi-factory" size="x-small" color="info" /> Tag Factory</h2>
         <v-text-field v-model="newTag.seed" label="seed" />
-        <NuTag :tag="newTag as Tag" />
+        <NuTag :tag="(newTag as Tag)" />
       </v-col>
     </v-row>
   </v-expand-transition>

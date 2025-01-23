@@ -5,6 +5,11 @@
 p {
   margin-bottom: 0.5rem;
 }
+a {
+  color: var(--st-c-link);
+  text-decoration: none;
+  transition: color 0.3s;
+}
 
 custom-tag {
   color: var(--st-c-link);

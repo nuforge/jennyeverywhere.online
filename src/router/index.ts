@@ -26,6 +26,22 @@ const router = createRouter({
       alias: ['/jenny-everywhere', '/newbie', '/persona'],
     },
     {
+      path: '/archetypes',
+      name: 'archetypes',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ArchetypeView.vue'),
+    },
+    {
+      path: '/archetype/:archetype',
+      name: 'archetype',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ArchetypeView.vue'),
+    },
+    {
       path: '/timeline',
       name: 'timeline',
       // route level code-splitting

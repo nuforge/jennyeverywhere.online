@@ -21,7 +21,6 @@ class Tag {
   add(seed: string): Tag {
     // Parse the string in the format 'name:space'
     const { space, name } = StringUtils.parseString(seed)
-    console.log('add', seed, space, name)
 
     const key = space ?? seed
 
@@ -32,14 +31,14 @@ class Tag {
     return this
   }
 
-  attribute(key: string, value?: TagValue): Tag | TagValue {
+  attribute(key: string, value?: TagValue): Tag | TagValue | undefined {
     if (value !== undefined) {
       // Set the value for the attribute (if provided)
       this._attributes[key] = value
       return this // Return the instance to allow method chaining
     }
     // Otherwise, just return the value (getter behavior)
-    return this._attributes[key]
+    return this._attributes[key] || undefined
   }
 
   hasAttribute(key: string): boolean {

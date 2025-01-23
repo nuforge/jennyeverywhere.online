@@ -1,7 +1,7 @@
 import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
 //import NuTag from '@/objects/nu/v1/NuTag'
-import NuTag from '@/objects/nu/Tag'
+import Tag from '@/objects/nu/Tag'
 import Label from '@/objects/nu/Label'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
@@ -22,6 +22,16 @@ class Inator {
     return this
   }
 
+  bestIcon(word: string) {
+    const iconPotentials = this.checkIcons(word)
+    return iconPotentials.length > 0 ? iconPotentials[0] : this.lastValidMatch
+  }
+  bestColor(word: string) {
+    const ColorPotentials = this.checkColors(word)
+
+    return ColorPotentials.length > 0 ? ColorPotentials[0] : this.color()
+  }
+
   colors = () => {
     return basicColors
   }
@@ -39,26 +49,15 @@ class Inator {
   }
 
   keywordTags(keyword: string) {
-    const keywords = NuTag.extractKeywords(keyword)
+    const keywords = Tag.extractKeywords(keyword)
     const individualTags = keywords.individual.map((keyword) => {
       console.log('best color', this.bestColor(keyword))
-      const tg = new NuTag(keyword)
-        .attribute('color', this.bestColor(keyword) || '')
-        .attribute('icon', this.bestIcon(keyword) || '')
-
+      const tg = new Tag(keyword)
+        .add(`color:${this.bestColor(keyword)}`)
+        .add(`icon:${this.bestIcon(keyword)}`)
       return tg
     })
     return individualTags
-  }
-
-  bestIcon(word: string) {
-    const iconPotentials = this.checkIcons(word)
-    return iconPotentials.length > 0 ? iconPotentials[0] : this.lastValidMatch
-  }
-  bestColor(word: string) {
-    const ColorPotentials = this.checkColors(word)
-
-    return ColorPotentials.length > 0 ? ColorPotentials[0] : this.color()
   }
 
   checkIcons(word: string) {
@@ -129,10 +128,10 @@ class Inator {
     return array
   }
 
-  bodyToTags = (body: string): NuTag[] => {
+  bodyToTags = (body: string): Tag[] => {
     const words = body.split(' ')
     const tags = words.map((word) => {
-      return new NuTag(word).attribute('color', this.themecolor()).attribute('icon', this.icon())
+      return new Tag(word).add(`color:${this.themecolor()}`).add(`icon:${this.icon()}`)
     })
     return tags
   }
@@ -189,17 +188,15 @@ class Inator {
     return Array.isArray(sentences) ? sentences.join(' ') : sentences
   } // Generate  random sentences
 
-  ntag = (space?: string): NuTag => {
+  ntag = (space?: string): Tag => {
     const theme = this.themecolor(false)
     const seed = space ? `${space}:${this.word()}` : this.word()
-    const tag = new NuTag(`${seed}`)
-      .attribute('color', theme)
-      .attribute('icon', this.icon() as string)
+    const tag = new Tag(`${seed}`).add(`color:${theme}`).add(`icon:${this.icon()}`)
     return tag
   } // Generate 5 random tags
 
-  ntags = (count: number = 1, space?: string): NuTag[] => {
-    const tags = [] as NuTag[]
+  ntags = (count: number = 1, space?: string): Tag[] => {
+    const tags = [] as Tag[]
     for (let i = 0; i < count; i++) {
       tags.push(this.ntag(space))
     }
@@ -222,11 +219,11 @@ class Inator {
   } // Generate 5 random labels
 
   tag = (count: number = 1) => {
-    return new NuTag(this.iconWord(count).toString())
+    return new Tag(this.iconWord(count).toString())
   } // Generate
 
-  tags = (count: number = 1): NuTag[] => {
-    const tags = [] as NuTag[]
+  tags = (count: number = 1): Tag[] => {
+    const tags = [] as Tag[]
     for (let i = 0; i < count; i++) {
       tags.push(this.tag())
     }
@@ -274,12 +271,12 @@ class Inator {
     return randomIcons
   } // Generate 5 random icons
 
-  iconTag = (): NuTag => {
+  iconTag = (): Tag => {
     const icon = this.randomArrayValue(IconsJSON)
-    return new NuTag(`${icon.name}`).attribute('color', `mdi-${icon.name}`)
+    return new Tag(`${icon.name}`).add(`icon:mdi-${icon.name}`)
   }
 
-  iconTags = (count: number = 1): NuTag[] => {
+  iconTags = (count: number = 1): Tag[] => {
     const formatName = (name: string) => {
       return name
         .replace(/-/g, ' ') // Replace hyphens with spaces
@@ -290,16 +287,14 @@ class Inator {
     const getColor = () => this.themecolor()
 
     const icons = IconsJSON.map((icon) =>
-      new NuTag(formatName(icon.name))
-        .attribute('color', getColor())
-        .attribute('icon', `mdi-${icon.name}`),
+      new Tag(formatName(icon.name)).add(`color:${getColor()}`).add(`icon:mdi-${icon.name}`),
     )
     return this.shuffleArray(icons).slice(0, count)
   }
 
-  colorTags = (): NuTag[] => {
+  colorTags = (): Tag[] => {
     return this.colors().map((color) =>
-      new NuTag(`color:${color}`).attribute('color', color).attribute('icon', 'mdi-circle-opacity'),
+      new Tag(`color:${color}`).add(`color:${color}`).add(`icon:mdi-circle-opacity`),
     )
   }
 

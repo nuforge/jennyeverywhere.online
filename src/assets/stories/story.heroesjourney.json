@@ -1,86 +1,93 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "title": "The Heroes Journey",
     "description": "The Heroes Journey is a framework that provides a structure for storytelling. It is a template that can be applied to any story, and it is a powerful tool for writers, filmmakers, and other storytellers. The Heroes Journey is based on the work of Joseph Campbell, who studied myths and legends from around the world and identified common elements that appear in all of them. These elements form the basis of the Heroes Journey, which is a universal pattern that can be found in stories from every culture and time period.",
-    "color": "red",
-    "icon": "mdi-account-star"
+    "color": "accent",
+    "icon": "mdi-account-reactivate"
+  },
+  {
+    "id": 1,
+    "title": "Ordinary World",
+    "description": " The Ordinary World is the first stage of the Heroes Journey. It is the world that the hero inhabits at the beginning of the story, and it is the place where they are most comfortable and familiar. The Ordinary World is a reflection of the heros everyday life, and it is a place of routine and predictability. The hero may be content in the Ordinary World, or they may be dissatisfied and yearning for something more. Either way, the Ordinary World is the starting point of the heros journey.",
+    "color": "primary",
+    "icon": "mdi-earth"
   },
   {
     "id": 2,
-    "title": "The Call to Adventure",
+    "title": "Call to Adventure",
     "description": "The Call to Adventure is the first stage of the Heroes Journey. It is the moment when the hero is called to leave their ordinary world and embark on a journey into the unknown. The Call to Adventure is usually issued by a mentor or guide, who provides the hero with the information and encouragement they need to begin their quest. The hero may be reluctant to accept the call at first, but they are eventually persuaded to take up the challenge and set out on their adventure.",
-    "color": "blue",
-    "icon": "mdi-account-tie"
+    "color": "warning",
+    "icon": "mdi-account-voice"
   },
   {
     "id": 3,
-    "title": "The Refusal of the Call",
+    "title": "Refusal of the Call",
     "description": "The Refusal of the Call is the second stage of the Heroes Journey. It is the moment when the hero hesitates to accept the call to adventure and considers turning back. The hero may be afraid of the unknown, or they may be reluctant to leave their comfortable life behind. They may also doubt their abilities and question whether they are up to the challenge. The Refusal of the Call is a natural response to the call to adventure, and it is a necessary step in the heros journey.",
-    "color": "green",
-    "icon": "mdi-map-search"
+    "color": "error",
+    "icon": "mdi-account-voice-off"
   },
   {
     "id": 4,
-    "title": "The Meeting with the Mentor",
+    "title": "Meeting with the Mentor",
     "description": "The Meeting with the Mentor is the third stage of the Heroes Journey. It is the moment when the hero encounters a wise and experienced character who provides them with guidance and advice. The mentor may be a teacher, a friend, or a supernatural being, but they are always someone who has the heros best interests at heart. The mentor helps the hero to overcome their doubts and fears, and gives them the tools they need to succeed on their quest.",
-    "color": "yellow",
-    "icon": "mdi-account-cowboy-hat"
+    "color": "secondary",
+    "icon": "mdi-account-multiple"
   },
   {
     "id": 5,
     "title": "Crossing the Threshold",
     "description": "Crossing the Threshold is the fourth stage of the Heroes Journey. It is the moment when the hero leaves their ordinary world behind and enters the special world of the adventure. The threshold may be a physical boundary, such as a door or a bridge, or it may be a psychological barrier, such as fear or doubt. Crossing the Threshold is a symbolic act that marks the heros transition from the known to the unknown, and it is a key moment in the heros journey.",
-    "color": "orange",
-    "icon": "mdi-hat-wizard"
+    "color": "warning",
+    "icon": "mdi-send"
   },
   {
     "id": 6,
     "title": "Tests, Allies, and Enemies",
     "description": "Tests, Allies, and Enemies is the fifth stage of the Heroes Journey. It is the moment when the hero faces a series of challenges and obstacles that test their courage, skill, and resolve. The hero may encounter allies who help them on their quest, or enemies who seek to thwart them. The hero must rely on their wits and their strength to overcome these challenges, and they must prove themselves worthy of the quest they have undertaken.",
-    "color": "pink",
-    "icon": "mdi-heart"
+    "color": "primary",
+    "icon": "mdi-account-group"
   },
   {
     "id": 7,
-    "title": "The Approach to the Inmost Cave",
+    "title": "Approach to the Inmost Cave",
     "description": "The Approach to the Inmost Cave is the sixth stage of the Heroes Journey. It is the moment when the hero prepares to face their greatest challenge. The inmost cave is a metaphor for the heros innermost fears and doubts, and it is the place where they must confront their own limitations and weaknesses. The hero must steel themselves for the ordeal ahead, and gather their courage and their strength for the final battle.",
-    "color": "magenta",
-    "icon": "mdi-jester-hat"
+    "color": "warning",
+    "icon": "mdi-compare"
   },
   {
     "id": 8,
     "title": "The Ordeal",
     "description": "The Ordeal is the seventh stage of the Heroes Journey. It is the moment when the hero faces their greatest challenge and is tested to their limits. The ordeal may be a physical battle, a mental trial, or a spiritual test, but it is always a moment of crisis and danger. The hero must draw on all of their skills and resources to survive the ordeal, and they must prove themselves worthy of the quest they have undertaken.",
-    "color": "purple",
-    "icon": "mdi-account"
+    "color": "warning",
+    "icon": "mdi-shield-alert"
   },
   {
     "id": 9,
     "title": "The Reward",
     "description": "The Reward is the eighth stage of the Heroes Journey. It is the moment when the hero reaps the benefits of their quest and receives a reward for their efforts. The reward may be a physical object, such as a treasure or a magical artifact, or it may be a spiritual gift, such as wisdom or enlightenment. The reward is a symbol of the heros growth and transformation, and it marks the end of the heros journey.",
-    "color": "brown",
+    "color": "success",
     "icon": "mdi-account-heart"
   },
   {
     "id": 10,
-    "title": "The Road Back",
+    "title": "Road Back",
     "description": "The Road Back is the ninth stage of the Heroes Journey. It is the moment when the hero begins their journey back to the ordinary world. The road back may be a physical journey, such as a return trip, or it may be a psychological journey, such as a process of self-discovery. The hero must confront the consequences of their quest, and come to terms with the changes that have taken place within them.",
-    "color": "teal",
-    "icon": "mdi-account-child"
+    "color": "accent",
+    "icon": "mdi-road-variant"
   },
   {
     "id": 11,
-    "title": "The Resurrection",
+    "title": "Resurrection",
     "description": "The Resurrection is the tenth stage of the Heroes Journey. It is the moment when the hero faces their final and most dangerous challenge. The resurrection is a symbolic act of death and rebirth, in which the hero must confront their own mortality and overcome their fear of death. The hero must be willing to sacrifice themselves for the greater good, and to undergo a transformation that will bring them back to life.",
-    "color": "primary",
-    "icon": "mdi-cards-spade"
+    "color": "white",
+    "icon": "mdi-reload"
   },
   {
     "id": 12,
-    "title": "The Return with the Elixir",
+    "title": "Return with the Elixir",
     "description": "The Return with the Elixir is the eleventh stage of the Heroes Journey. It is the moment when the hero returns to the ordinary world with the reward of their quest. The elixir is a symbol of the heros growth and transformation, and it is a gift that they bring back to their community. The hero may use the elixir to heal the sick, to inspire the disheartened, or to bring about positive change in the world.",
     "color": "success",
-    "icon": "mdi-cards-club"
+    "icon": "mdi-account-voice"
   }
 ]

@@ -27,7 +27,7 @@ Object.values(archtypes).map((archetype) => {
   archetypeTags.value.push(TagFactory.create(archetype.name, archetype))
 })
 Object.values(zodiac).map((sign) => {
-  console.log('sign', sign)
+  // console.log('sign', sign)
   zodiacTags.value.push(TagFactory.create(sign.name, sign))
 })
 

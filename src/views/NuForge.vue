@@ -15,7 +15,7 @@ import TagFactory from '@/objects/nu/TagFactory';
 
 
 const newTag = ref(TagFactory.create('tag').add('color:red').add('icon:mdi-tag'))
-console.log('newTag.value', newTag.value); // "namespace"
+// console.log('newTag.value', newTag.value); // "namespace"
 //TagFactory.saveToLocalStorage(newTag.value);
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();

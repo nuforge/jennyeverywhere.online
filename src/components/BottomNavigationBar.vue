@@ -5,9 +5,6 @@
 
     <v-btn value="home" icon="$home" to="/">
     </v-btn>
-    <!-- Chat -->
-    <v-btn value="chat" :icon="`mdi-chat`" to="chat">
-    </v-btn>
     <v-btn value="nuforge" icon="mdi-brain" to="/nuforge">
     </v-btn>
     <v-btn value="persona" icon="mdi-account-circle" to="/persona">

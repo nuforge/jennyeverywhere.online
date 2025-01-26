@@ -2,7 +2,7 @@ import { generate } from 'random-words'
 import { LoremIpsum } from 'lorem-ipsum'
 //import NuTag from '@/objects/nu/v1/NuTag'
 import Tag from '@/objects/nu/Tag'
-import Label from '@/objects/nu/Label'
+import TagFactory from './nu/TagFactory'
 import IconsJSON from '@/assets/icons/mdi-icons.json'
 import basicStopWords from '@/assets/words/stopwords.basic.json'
 import commonStopWords from '@/assets/words/stopwords.common.json'
@@ -131,7 +131,7 @@ class Inator {
   bodyToTags = (body: string): Tag[] => {
     const words = body.split(' ')
     const tags = words.map((word) => {
-      return new Tag(word).add(`color:${this.themecolor()}`).add(`icon:${this.icon()}`)
+      return TagFactory.create(word, { color: this.themecolor(), icon: this.icon() })
     })
     return tags
   }
@@ -191,7 +191,7 @@ class Inator {
   ntag = (space?: string): Tag => {
     const theme = this.themecolor(false)
     const seed = space ? `${space}:${this.word()}` : this.word()
-    const tag = new Tag(`${seed}`).add(`color:${theme}`).add(`icon:${this.icon()}`)
+    const tag = TagFactory.create(seed, { color: theme, icon: this.icon() })
     return tag
   } // Generate 5 random tags
 
@@ -202,21 +202,6 @@ class Inator {
     }
     return tags
   } // Generate 5 random tags
-
-  label = (count: number = 1): Label => {
-    const label = new Label(this.words(count).toString())
-    label.setColor(this.themecolor(false))
-    label.setIcon(this.icon())
-    return label
-  } // Generate 1 random label
-
-  labels = (count: number = 1): Label[] => {
-    const labels = [] as Label[]
-    for (let i = 0; i < count; i++) {
-      labels.push(this.label(count))
-    }
-    return labels
-  } // Generate 5 random labels
 
   tag = (count: number = 1) => {
     return new Tag(this.iconWord(count).toString())
@@ -273,7 +258,7 @@ class Inator {
 
   iconTag = (): Tag => {
     const icon = this.randomArrayValue(IconsJSON)
-    return new Tag(`${icon.name}`).add(`icon:mdi-${icon.name}`)
+    return TagFactory.create(icon.name, { color: this.themecolor(), icon: `mdi-${icon.name}` })
   }
 
   iconTags = (count: number = 1): Tag[] => {
@@ -294,7 +279,7 @@ class Inator {
 
   colorTags = (): Tag[] => {
     return this.colors().map((color) =>
-      new Tag(`color:${color}`).add(`color:${color}`).add(`icon:mdi-circle-opacity`),
+      TagFactory.create(color, { color: color, icon: 'mdi-circle-opacity' }),
     )
   }
 

@@ -1,6 +1,7 @@
 import Tag from '@/objects/nu/Tag'
 import { format } from 'date-fns'
 import Legend from './tag/Legend'
+import TagFactory from '@/objects/nu/TagFactory'
 
 class Log extends Tag {
   // Extends tag?
@@ -17,11 +18,7 @@ class Log extends Tag {
     this._title = name
     this._date = date
     this._body = body
-    this.addTag(
-      new Tag(`stardate:${this.date}`)
-        .attribute('color', 'blue')
-        .attribute('icon', 'mdi-web-clock'),
-    )
+    this.addTag(TagFactory.create('stardate', { color: 'blue', icon: 'mdi-web-clock' }))
     return this
   }
 
@@ -54,13 +51,13 @@ class Log extends Tag {
   }
 
   createTag(tagName: string, color: string = `accent`, icon: string = `mdi-circle-small`) {
-    const tag = new Tag(tagName).attribute('color', color).attribute('icon', icon)
+    const tag = TagFactory.create(tagName, { color, icon })
     this.addTag(tag)
     return this
   }
 
   newTag(tagName: string) {
-    this.addTag(new Tag(tagName))
+    this.addTag(TagFactory.create(tagName))
     return this
   }
   addTag(newTag: Tag) {

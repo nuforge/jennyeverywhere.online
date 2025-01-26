@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import Tag from '@/objects/nu/Tag'
 import Inator from '@/objects/Inator'
+import TagFactory from '@/objects/nu/TagFactory'
 
 const inator = new Inator()
 
@@ -189,7 +190,7 @@ const useChatStore = defineStore('chat', () => {
     emoji?: string,
   ) => {
     const tagObjects = (tags || []).map((tag) =>
-      new Tag(tag).attribute('color', inator.themecolor(false)).attribute('icon', inator.icon()),
+      TagFactory.create(tag, { color: inator.themecolor(false), icon: inator.icon() }),
     )
     chatTags.value = tagObjects
     messages.value.push({

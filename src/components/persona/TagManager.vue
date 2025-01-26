@@ -2,12 +2,13 @@
 import { ref } from 'vue'
 import Tag from '@/objects/nu/Tag'
 import usePersonaStore from '@/stores/persona'
+import TagFactory from '@/objects/nu/TagFactory'
 const persona = usePersonaStore()
 const tempTag = ref(new Tag(''))
 
 function submitForm() {
   //console.log('submitForm', tempTag.value)
-  persona.focusOn(new Tag(tempTag.value.name))
+  persona.focusOn(TagFactory.create(tempTag.value.name))
 }
 </script>
 

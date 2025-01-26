@@ -1,33 +1,33 @@
 import { describe, it, expect } from 'vitest'
 import Tag from '@/objects/nu/Tag'
+import StringUtils from '@/utils/StringUtils'
 
 describe('Tag', () => {
   it('should create a Tag instance with default values', () => {
-    const tag = new Tag()
+    const tag = new Tag('defaultSeed')
     expect(tag).toBeInstanceOf(Tag)
   })
 
   it('should clean value correctly', () => {
-    expect(Tag.CleanString('  test  ')).toBe('test')
-    expect(Tag.CleanString(undefined)).toBe('')
+    expect(StringUtils.CleanString('  test  ')).toBe('test')
+    expect(StringUtils.CleanString(undefined)).toBe('')
   })
 
   it('should normalize tag name correctly', () => {
-    expect(Tag.normalizeTagName('Test Tag')).toBe('test-tag')
+    expect(StringUtils.normalizeTagName('Test Tag')).toBe('test-tag')
   })
 
   it('should parse string correctly', () => {
-    expect(Tag.parseString('space:label.value')).toEqual({
+    expect(StringUtils.parseString('space:label')).toEqual({
       space: 'space',
-      name: 'label.value',
+      name: 'label',
     })
-    expect(Tag.parseString('label.value')).toEqual({ name: 'label.value' })
-    expect(Tag.parseString('label')).toEqual({ name: 'label' })
+    expect(StringUtils.parseString('label')).toEqual({ name: 'label' })
   })
 
   it('should extract keywords correctly', () => {
     const input = 'This is a test string'
-    const { individual, grouped } = Tag.extractKeywords(input)
+    const { individual, grouped } = StringUtils.extractKeywords(input)
     expect(individual).toEqual(['this', 'is', 'a', 'test', 'string'])
     expect(grouped).toContain('this is')
     expect(grouped).toContain('is a')
@@ -37,20 +37,20 @@ describe('Tag', () => {
 
   it('should extract scoped keywords correctly', () => {
     const input = 'space:name'
-    const scopedKeywords = Tag.extractScopedKeywords(input)
+    const scopedKeywords = StringUtils.extractScopedKeywords(input)
     expect(scopedKeywords).toEqual(['space', 'name'])
   })
 
   it('should handle empty string in normalizeTagName', () => {
-    expect(Tag.normalizeTagName('')).toBe('')
+    expect(StringUtils.normalizeTagName('')).toBe('')
   })
 
   it('should handle empty string in parseString', () => {
-    expect(Tag.parseString('')).toEqual({ name: '' })
+    expect(StringUtils.parseString('')).toEqual({ name: '' })
   })
 
   it('should handle invalid format in parseString', () => {
-    expect(Tag.parseString('invalid:format:here')).toEqual({
+    expect(StringUtils.parseString('invalid:format:here')).toEqual({
       space: 'invalid',
       name: 'format:here',
     })

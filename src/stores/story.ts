@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import markdownit from 'markdown-it'
 import Legend from '@/objects/tag/Legend'
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import story from '@/assets/stories/story.json'
 
 export interface Story {
@@ -22,23 +23,13 @@ const useStoryStore = defineStore('story', () => {
   const HTML = ref(raw.value)
 
   tagMap.value.addTag(
-    new Tag('Jenny Everywhere')
-      .attribute('color', 'primary')
-      .attribute('icon', 'mdi-account-circle'),
+    TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
   )
+  tagMap.value.addTag(TagFactory.create('green portal', { color: 'green', icon: 'mdi-orbit' }))
+  tagMap.value.addTag(TagFactory.create('flamethrower', { color: 'red', icon: 'mdi-fire' }))
+  tagMap.value.addTag(TagFactory.create('jetpack', { color: 'warning', icon: 'mdi-rocket-launch' }))
   tagMap.value.addTag(
-    new Tag('green portal').attribute('color', 'green').attribute('icon', 'mdi-orbit'),
-  )
-  tagMap.value.addTag(
-    new Tag('flamethrower').attribute('color', 'red').attribute('icon', 'mdi-fire'),
-  )
-  tagMap.value.addTag(
-    new Tag('jetpack').attribute('color', 'warning').attribute('icon', 'mdi-rocket-launch'),
-  )
-  tagMap.value.addTag(
-    new Tag('dude with a mohawk')
-      .attribute('color', 'text')
-      .attribute('icon', 'mdi-account-circle-outline'),
+    TagFactory.create('dude with a mohawk', { color: 'text', icon: 'mdi-account-circle-outline' }),
   )
 
   const md = markdownit({

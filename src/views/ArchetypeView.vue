@@ -78,7 +78,7 @@ function onRightClick(event: MouseEvent, tag: Tag) {
           @right-click="onRightClick" />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="profile">
       <v-col cols="12" md="4" sm="12" class="ga-2 d-flex flex-wrap">
         <NuTag v-for="attribute in Object.entries(profile)" :key="attribute[0]"
           :tag="TagFactory.create(`${attribute[0]}:${attribute[1]}`)" />

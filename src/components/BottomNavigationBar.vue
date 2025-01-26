@@ -16,5 +16,7 @@
     </v-btn>
     <v-btn value="playingcards" icon="mdi-cards" to="/playingcards">
     </v-btn>
+    <v-btn value="archetypes" icon="mdi-account-multiple" to="/archetype/innocent">
+    </v-btn>
   </v-bottom-navigation>
 </template>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import PersonaView from '@/views/PersonaView.vue'
 
 const router = createRouter({
   history: createWebHistory('/jennyeverywhere.online/'),
@@ -22,7 +23,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/PersonaView.vue'),
+      component: PersonaView,
       alias: ['/jenny-everywhere', '/newbie', '/persona'],
     },
     {

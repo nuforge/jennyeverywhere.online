@@ -140,9 +140,9 @@ class MarkdownManager {
     const target = event.target as HTMLElement
 
     if (target.tagName === 'A' || target.tagName === 'I') {
-      const newTag = new Tag(target.getAttribute('tag') || '')
-        .attribute('color', target.getAttribute('color') || '')
-        .attribute('icon', target.getAttribute('icon') || '')
+      const tag = target.getAttribute('tag') || ''
+      const color = target.getAttribute('color') || ''
+      const newTag = new Tag(tag).add(`color:${color}`).add(`icon:${target.getAttribute('icon')}`)
       return newTag
     }
 
@@ -180,8 +180,8 @@ class MarkdownManager {
 
     const custom = Array.from(doc.querySelectorAll('custom-tag')).map((custom) =>
       new Tag(custom.getAttribute('tag') || '')
-        .attribute('color', custom.getAttribute('color') || '')
-        .attribute('icon', custom.getAttribute('icon') || ''),
+        .add(`color:${custom.getAttribute('color')}`)
+        .add(`icon:${custom.getAttribute('icon')}`),
     )
 
     // Return both lists

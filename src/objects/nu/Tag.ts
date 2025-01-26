@@ -1,4 +1,5 @@
 import StringUtils from '@/utils/StringUtils'
+import TagFactory from '@/objects/nu/TagFactory'
 import { NAMESPACE_SPLIT_CHAR } from '@/utils/StringUtils'
 
 export type TagValue = Tag | string | number | boolean | undefined | null
@@ -10,11 +11,11 @@ class Tag {
   protected _stamp: Date = new Date()
 
   // Tag Attributes
-  protected _attributes: TagAttributes
+  protected _legend: TagAttributes
 
   constructor(seed: string, attributes: TagAttributes = {}) {
     this._id = crypto.randomUUID()
-    this._attributes = attributes
+    this._legend = attributes
     this.setSeed(seed)
   }
 
@@ -25,8 +26,8 @@ class Tag {
     const key = space ?? seed
 
     // Now handle space and name without manually checking separately
-    if (!(key in this._attributes)) {
-      this._attributes[key] = name // Add new attribute if not already set
+    if (!(key in this._legend)) {
+      this._legend[key] = name // Add new attribute if not already set
     }
     return this
   }
@@ -34,32 +35,32 @@ class Tag {
   attribute(key: string, value?: TagValue): Tag | TagValue | undefined {
     if (value !== undefined) {
       // Set the value for the attribute (if provided)
-      this._attributes[key] = value
+      this._legend[key] = value
       return this // Return the instance to allow method chaining
     }
     // Otherwise, just return the value (getter behavior)
-    return this._attributes[key] || undefined
+    return this._legend[key] || undefined
   }
 
   hasAttribute(key: string): boolean {
-    return key in this._attributes
+    return key in this._legend
   }
   // Getter for all attributes
   get allAttributes() {
-    return this._attributes
+    return this._legend
   }
 
   // Serialize the tag for storage or transfer
   serialize(): string {
     return JSON.stringify({
       id: this._id,
-      attributes: this._attributes,
+      attributes: this._legend,
     })
   }
 
   static deserialize(json: string): Tag {
     const { space, name, attributes } = JSON.parse(json)
-    const tag = new Tag(`${space ? space + NAMESPACE_SPLIT_CHAR : ''}${name}`)
+    const tag = TagFactory.create(`${space ? space + NAMESPACE_SPLIT_CHAR : ''}${name}`)
     // tag._id = id // Preserve original ID
     Object.entries(attributes).forEach(([key, value]) => {
       tag.attribute(key, value as TagValue)
@@ -105,10 +106,10 @@ class Tag {
 
     return [
       attributes,
-      ...Object.entries(this._attributes)
+      ...Object.entries(this._legend)
         .map(([key, value]) => {
           if (value) {
-            return new Tag(`${key}:${value}`)
+            return TagFactory.create(`${key}:${value}`)
           }
           return undefined
         })

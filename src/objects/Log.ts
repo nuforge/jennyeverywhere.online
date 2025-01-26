@@ -12,7 +12,6 @@ class Log extends Tag {
   protected _date?: Date // Description of Log
 
   // constructor
-
   constructor(name: string, body?: string, date?: Date) {
     super(name)
     this._title = name

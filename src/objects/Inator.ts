@@ -51,11 +51,10 @@ class Inator {
   keywordTags(keyword: string) {
     const keywords = Tag.extractKeywords(keyword)
     const individualTags = keywords.individual.map((keyword) => {
-      console.log('best color', this.bestColor(keyword))
-      const tg = new Tag(keyword)
-        .add(`color:${this.bestColor(keyword)}`)
-        .add(`icon:${this.bestIcon(keyword)}`)
-      return tg
+      return TagFactory.create(keyword, {
+        color: this.bestColor(keyword),
+        icon: this.bestIcon(keyword),
+      })
     })
     return individualTags
   }
@@ -204,7 +203,7 @@ class Inator {
   } // Generate 5 random tags
 
   tag = (count: number = 1) => {
-    return new Tag(this.iconWord(count).toString())
+    return TagFactory.create(this.iconWord(count).toString())
   } // Generate
 
   tags = (count: number = 1): Tag[] => {
@@ -272,7 +271,10 @@ class Inator {
     const getColor = () => this.themecolor()
 
     const icons = IconsJSON.map((icon) =>
-      new Tag(formatName(icon.name)).add(`color:${getColor()}`).add(`icon:mdi-${icon.name}`),
+      TagFactory.create(formatName(icon.name), {
+        color: getColor(),
+        icon: `icon:mdi-${icon.name}`,
+      }),
     )
     return this.shuffleArray(icons).slice(0, count)
   }

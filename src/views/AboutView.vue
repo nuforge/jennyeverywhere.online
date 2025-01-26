@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory'; // Import TagFactory
 
 </script>
 
@@ -9,7 +9,7 @@ import Tag from '@/objects/nu/Tag';
       <v-col>
         <h2>Hot Keys</h2>
 
-        <NuTag :tag="new Tag('toggle:tag drawer').attribute('color', 'text').attribute('icon', 'mdi-keyboard-outline')"
+        <NuTag :tag="TagFactory.create('toggle:tag drawer', { color: 'text', icon: 'mdi-keyboard-outline' })"
           :value="'t'" />
         <v-list>
           <v-list-item title="t" subtitle="Toggle 'Tag Drawer'">

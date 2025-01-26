@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import useStateStore from '@/stores/state'
 import TagAutocomplete from '@/components/form/TagAutocomplete.vue';
 import ColorPicker from '@/components/form/ColorPicker.vue';
-import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory';
 const state = useStateStore()
 
 const admin = ref(true)
@@ -15,7 +15,7 @@ const color = ref('#FFFFFF')
 const icon = ref('mdi-tag')
 
 const tempTag = ref(computed(() => {
-  const tag = new Tag(text.value)
+  const tag = TagFactory.create(text.value)
   return {
     id: tag.id,
     name: tag.label,

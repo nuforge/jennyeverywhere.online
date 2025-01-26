@@ -1,4 +1,5 @@
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import { computed } from 'vue'
 const TAG_WHITESPACE_REPLACER = '-'
 
@@ -51,9 +52,9 @@ class TagMap {
   addLabel = (newName: string, newColor: string, newIcon: string) => {
     const tag = Tag.normalizeTagName(newName)
     const existingTag = this.getTag(tag)
-    const newTag = existingTag ? existingTag : new Tag(newName)
-    newTag.icon = newIcon
-    newTag.color = newColor
+    const newTag = existingTag
+      ? existingTag
+      : TagFactory.create(newName, { color: newColor, icon: newIcon })
     return this.addTag(newTag)
   }
 
@@ -66,19 +67,16 @@ class TagMap {
   }
 
   createTag(newName: string, newColor: string, newIcon: string): Tag {
-    const newTag = new Tag(newName)
-    newTag.icon = newIcon
-    newTag.color = newColor
+    const newTag = TagFactory.create(newName, { color: newColor, icon: newIcon })
     this.setTag(newTag.id, newTag)
     return newTag
   }
 
   stringTag(newText: string = 'tag'): Tag {
-    const tag = new Tag(newText)
+    const tag = TagFactory.create(newText)
     const parent = tag.space ? this.getTag(tag.space) : undefined
     if (tag.space && parent) {
-      tag.icon = parent.icon
-      tag.color = parent.color
+      tag.add(`icon:${parent.icon}`).add(`color:${parent.color}`)
     }
     this.setTag(tag.id, tag)
     return tag

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Tag from '@/objects/nu/Tag'
 import usePersonaStore from '@/stores/persona'
 import TagFactory from '@/objects/nu/TagFactory'
 const persona = usePersonaStore()
-const tempTag = ref(new Tag(''))
+const tempTag = ref(TagFactory.create(''))
 
 function submitForm() {
   //console.log('submitForm', tempTag.value)

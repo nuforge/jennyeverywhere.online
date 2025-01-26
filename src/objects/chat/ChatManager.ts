@@ -1,5 +1,6 @@
 import OpenAI from 'openai'
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import type ChatGPTMsg from '@/types/ChatGPTMsg'
 
 const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY
@@ -41,7 +42,7 @@ export default class ChatManager {
     const body = bodyMatch[1].trim()
     const tags = bodyMatch[2]
       .split(',')
-      .map((tag) => new Tag(tag.trim().replace('[', '').replace(']', '')))
+      .map((tag) => TagFactory.create(tag.trim().replace('[', '').replace(']', '')))
     const summary = bodyMatch[3].trim()
 
     console.log('💬 Parsed Body:', body)

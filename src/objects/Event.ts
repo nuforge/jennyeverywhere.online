@@ -1,4 +1,5 @@
 import Tag from '@/objects/nu/Tag'
+import TagFactory from './nu/TagFactory'
 import { format } from 'date-fns'
 import Legend from './tag/Legend'
 
@@ -13,17 +14,11 @@ class Event extends Tag {
   // constructor
 
   constructor(name: string, body?: string, date?: Date) {
-    super(name)
+    super(name, { color: 'text', icon: 'mdi-calendar' })
     this._title = name
     this._date = date
     this._body = body
-    this.icon = 'mdi-calendar'
-    this.color = 'text'
-    this.addTag(
-      new Tag(`stardate:${this.date}`)
-        .attribute('color', 'blue')
-        .attribute('icon', 'mdi-web-clock'),
-    )
+    this.addTag(TagFactory.create('event', { color: 'blue', icon: 'mdi-web-clock' }))
     return this
   }
 
@@ -56,13 +51,13 @@ class Event extends Tag {
   }
 
   createTag(tagName: string, tagColor: string, tagIcon: string) {
-    const tag = new Tag(tagName).attribute('color', tagColor).attribute('icon', tagIcon)
+    const tag = TagFactory.create(tagName, { color: tagColor, icon: tagIcon })
     this.addTag(tag)
     return this
   }
 
   newTag(tagName: string) {
-    this.addTag(new Tag(tagName))
+    this.addTag(TagFactory.create(tagName))
     return this
   }
   addTag(newTag: Tag) {

@@ -1,4 +1,5 @@
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import Legend from '@/objects/tag/Legend'
 import SettingsManager from '@/objects/SettingsManager'
 type SettingValue = string | number | boolean // Shared by Map and Record
@@ -59,7 +60,7 @@ class TagTray extends Tag {
   }
 
   create(payload: string) {
-    this._legend.addTag(new Tag(payload))
+    this._legend.addTag(TagFactory.create(payload))
   }
 
   remove(payload: Tag | Tag[]) {
@@ -153,8 +154,8 @@ class TagTray extends Tag {
   }
 
   dropString = (payload: string) => {
-    console.log('dropString: ', payload, new Tag(payload))
-    this._legend.addTag(new Tag(payload))
+    console.log('dropString: ', payload, TagFactory.create(payload))
+    this._legend.addTag(TagFactory.create(payload))
     this._settings.setSetting('dragging', false)
   }
 

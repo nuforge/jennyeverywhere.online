@@ -1,39 +1,26 @@
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import Legend from '@/objects/tag/Legend'
 
 class Persona extends Tag {
-  protected _attributes: Legend = new Legend()
+  protected _legend: Legend = new Legend()
 
   constructor(name: string) {
     super(name)
   }
 
-  get id() {
-    return this._id
-  }
-
-  get name() {
-    return this._name
-  }
-
-  set name(value: string) {
-    this._name = value
-  }
-
   get attributes() {
-    return this._attributes.tags
+    return this._legend.tags
   }
 
   addTag(newTag: string | number) {
     const tag = new Tag(newTag.toString())
-    this._attributes.setTag(tag.id, tag)
+    this._legend.setTag(tag.id, tag)
   }
 
   addLabel(newName: string, newColor?: string, newIcon?: string) {
-    const newTag = new Tag(newName)
-      .attribute('color', newColor ?? 'text')
-      .attribute('icon', newIcon ?? 'mdi-label')
-    return this._attributes.setTag(newTag.id, newTag)
+    const newTag = TagFactory.create(newName, { color: newColor, icon: newIcon })
+    return this._legend.setTag(newTag.id, newTag)
   }
 
   addAttribute(newName: string, newColor?: string, newIcon?: string) {
@@ -41,15 +28,15 @@ class Persona extends Tag {
   }
 
   removeAttribute(namespace: string) {
-    return this._attributes.deleteTag(namespace)
+    return this._legend.deleteTag(namespace)
   }
 
   getAttribute(namespace: string) {
-    return this._attributes.getTag(namespace)
+    return this._legend.getTag(namespace)
   }
 
   getAttributes() {
-    return this._attributes
+    return this._legend
   }
 }
 

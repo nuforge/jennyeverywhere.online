@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import type TagInterface from '../TagInterface'
+import TagFactory from '@/objects/nu/TagFactory'
 
 const NAMESPACE_SPLIT_CHAR = ':'
 const VALUE_SPLIT_CHAR = '.'
@@ -183,7 +184,7 @@ class Tag implements TagInterface {
     return Object.entries(attributes)
       .map(([key, value]) => {
         if (value) {
-          return new Tag(`${key}:${value}`, DEFAULT_COLOR, icons[key as keyof typeof icons])
+          return TagFactory.create(`${key}:${value}`, { color: DEFAULT_COLOR, icon: icons[key] })
         }
         return undefined
       })

@@ -6,6 +6,7 @@ import { ref, computed } from 'vue'
 import commonStopWords from '@/assets/words/stopwords.common.json'
 import HTMLTags from '@/assets/words/html.tags.json'
 import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 import PersonaAvatar from '@/components/persona/PersonaAvatar.vue';
@@ -31,7 +32,7 @@ const selection = ref([''])
 const filters = ref([...commonStopWords, ...HTMLTags])
 
 const wordData = computed(() => markdowninator.cleanAndCountWords(props.message.content, 5, filters.value))
-const wordTags = computed(() => wordData.value.map((item) => new Tag(item.word).attribute('color', inator.color()).attribute('icon', inator.icon())) as Tag[])
+const wordTags = computed(() => wordData.value.map((item) => TagFactory.create(item.word, { count: item.count, color: inator.color(), icon: inator.icon() })))
 
 const isUser = computed(() => props.message.sender === USER_LABEL)
 const isAgent = computed(() => props.message.sender === AGENT_LABEL)

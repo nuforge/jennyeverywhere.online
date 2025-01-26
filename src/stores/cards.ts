@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import Card from '@/objects/game/Card'
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 
 // Poker Playing Card class
 class PokerPlayingCard extends Card {
@@ -90,9 +91,10 @@ const useCardStore = defineStore('cards', () => {
         const newIcon = `mdi-cards-${suit}`
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
-        const tag = new Tag(`${suit}:${rank}.${rank}`)
-          .attribute('color', colorList[suit])
-          .attribute('icon', append)
+        const tag = TagFactory.create(`${suit}:${rank}.${rank}`, {
+          color: colorList[suit],
+          icon: append,
+        })
         deck.push(tag)
       }
     }
@@ -111,9 +113,10 @@ const useCardStore = defineStore('cards', () => {
             : `mdi-chess-pawn`
         const append = solid ? `${newIcon}` : `${newIcon}` // FUTURE OUTLINE CHECK
         //console.log(append)
-        const tag = new Tag(`${suit}:${rank}.${rank}`)
-          .attribute('color', colorList[suit])
-          .attribute('icon', append)
+        const tag = TagFactory.create(`${suit}:${rank}.${rank}`, {
+          color: colorList[suit],
+          icon: append,
+        })
         deck.push(tag)
       }
     }

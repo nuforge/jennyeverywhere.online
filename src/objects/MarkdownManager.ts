@@ -1,5 +1,6 @@
 import markdownit from 'markdown-it'
-import Tag from '@/objects/nu/Label'
+import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 
 class MarkdownManager {
   protected _md = markdownit({
@@ -142,8 +143,7 @@ class MarkdownManager {
     if (target.tagName === 'A' || target.tagName === 'I') {
       const tag = target.getAttribute('tag') || ''
       const color = target.getAttribute('color') || ''
-      const newTag = new Tag(tag).add(`color:${color}`).add(`icon:${target.getAttribute('icon')}`)
-      return newTag
+      return TagFactory.create(tag, { color: color, icon: target.getAttribute('icon') })
     }
 
     if (target.tagName === 'P') {
@@ -151,8 +151,7 @@ class MarkdownManager {
       const selectedText = window.getSelection()?.toString().trim()
       if (selectedText && typeof selectedText === 'string') {
         console.log('P:', selectedText)
-        const newTag = new Tag(selectedText)
-
+        const newTag = TagFactory.create(selectedText)
         return newTag
       }
     }
@@ -179,9 +178,10 @@ class MarkdownManager {
     }))
 
     const custom = Array.from(doc.querySelectorAll('custom-tag')).map((custom) =>
-      new Tag(custom.getAttribute('tag') || '')
-        .add(`color:${custom.getAttribute('color')}`)
-        .add(`icon:${custom.getAttribute('icon')}`),
+      TagFactory.create(custom.getAttribute('tag') || '', {
+        color: custom.getAttribute('color') || '',
+        icon: custom.getAttribute('icon') || '',
+      }),
     )
 
     // Return both lists

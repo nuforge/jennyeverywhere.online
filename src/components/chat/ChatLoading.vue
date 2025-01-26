@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory';
 
-const loading = new Tag('...').attribute('color', 'grey').attribute('icon', '$loading');
+const loading = TagFactory.create('...', { color: 'grey', icon: 'mdi-loading' });
 </script>
 
 <template>

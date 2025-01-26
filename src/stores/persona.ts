@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 // 'myCustomTheme'
 import Tag from '@/objects/nu/Tag'
 import Legend from '@/objects/tag/Legend'
+import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 
 // Create a new store for different categories of sheets: attributes, image, description, actions
 export interface Persona {
@@ -18,7 +19,7 @@ const usePersonaStore = defineStore('persona', () => {
 
   const lastKey = ref('')
 
-  const focus = ref(new Tag('mythological bird:Phoenix'))
+  const focus = ref(TagFactory.create('mythological bird:Phoenix', {}))
   const attention = ref(new Legend())
   const memory = ref(new Legend())
   // Default to maintaining focus or no?
@@ -28,7 +29,7 @@ const usePersonaStore = defineStore('persona', () => {
     }
     if (!focus.value) {
       console.error('focus is undefined')
-      focus.value = new Tag() // Fallback to a new Tag if undefined
+      focus.value = TagFactory.create('', {}) // Fallback to a new Tag if undefined
     }
     //console.log('focusOn', tag)
     return (focus.value = tag) // This updates the `focus` ref correctly

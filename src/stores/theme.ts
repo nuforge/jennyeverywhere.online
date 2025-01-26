@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import { useTheme } from 'vuetify'
-import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 import Legend from '@/objects/tag/Legend'
 
 import { findByKey, namedColors } from '@/objects/color/ColorNames'
@@ -47,7 +47,7 @@ const useThemeStore = defineStore('theme', () => {
   }
 
   function addCustomColor(name: string, hex: string) {
-    const cTag = new Tag(hex).attribute('color', name).attribute('icon', 'mdi-circle-opacity')
+    const cTag = TagFactory.create(name, { color: hex, icon: 'mdi-circle-opacity' })
     customColors.value.addTag(cTag)
   }
 
@@ -94,9 +94,7 @@ const useThemeStore = defineStore('theme', () => {
     Object.entries(myTheme.value.colors)
       .filter(([name]) => themeBase.includes(name))
       .map(([name]) => {
-        const tagToAdd = new Tag(name)
-          .attribute('color', name)
-          .attribute('icon', 'mdi-circle-opacity')
+        const tagToAdd = TagFactory.create(name, { color: name, icon: 'mdi-circle-opacity' })
         legend.addTag(tagToAdd)
       })
     return legend

@@ -1,5 +1,6 @@
 const DEFAULT_DATABASE_NAME = 'nuForgeDB'
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 
 interface Edge {
   id: string
@@ -315,6 +316,6 @@ export default class TagDb {
     const space = rawSpace.trim().toLowerCase() // Normalize space
     const name = rawName.trim() // Keep original name for display
     const id = `${space}:${name.replace(/ /g, '-').toLowerCase()}` // Generate ID
-    return new Tag(id)
+    return TagFactory.create(id)
   }
 }

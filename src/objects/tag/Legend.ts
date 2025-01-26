@@ -1,4 +1,5 @@
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
 
 const TAG_WHITESPACE_REPLACER = '-'
 
@@ -6,7 +7,7 @@ class Legend extends Tag {
   protected _tags: Map<string, Tag> = new Map()
   protected _links: Record<string, Tag> = {}
 
-  constructor(name?: string) {
+  constructor(name: string = 'legend') {
     super(name)
     return this
   }
@@ -82,23 +83,21 @@ class Legend extends Tag {
     return this.createTag(note)
   }
   createTag(newName: string, newColor?: string, newIcon?: string): Tag {
-    const tag = new Tag(newName).attribute('color', newColor ?? '').attribute('icon', newIcon ?? '')
+    const tag = TagFactory.create(newName, { color: newColor, icon: newIcon })
     this.setTag(tag.id, tag)
     return tag
   }
 
   createTags(newTags: string[], newColor?: string, newIcon?: string): Tag[] {
     return newTags.map((tag) => {
-      const newTag = new Tag(tag)
-        .attribute('color', newColor ?? '')
-        .attribute('icon', newIcon ?? '')
+      const newTag = TagFactory.create(tag, { color: newColor, icon: newIcon })
       this.setTag(newTag.id, newTag)
       return newTag
     })
   }
 
   stringTag(newText: string = 'tag'): Tag {
-    const tag = new Tag(newText)
+    const tag = TagFactory.create(newText)
     // const parent = tag.space ? this.getTag(tag.space) : undefined
     // if (tag.space && parent) {
     //   tag.icon = parent.icon

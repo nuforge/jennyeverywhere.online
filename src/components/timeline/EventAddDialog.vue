@@ -15,6 +15,7 @@ import Log from '@/objects/Log';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import EvTagTray from '@/components/tray/TagTray.vue';
 import { default as tagTray } from '@/objects/tag/TagTray';
+import TagFactory from '@/objects/nu/TagFactory';
 
 const panels = ref([0, 1])
 const admin = ref(true)
@@ -27,14 +28,14 @@ const event = ref()
 
 const systemTags = computed(() => {
   const tags = []
-  const tag = new Tag(`${event.value.title}`)
-  tags.push(new Tag(`name:${tag.label}`))   // Name
-  tags.push(new Tag(`title:${tag.label}`))   // Name
-  tags.push(new Tag(`id:${tag.id}`)) // ID
-  tags.push(new Tag(`timestamp:${Date.now()}`)) // Timestamp
-  tags.push(new Tag(`event`)) // Event
-  tags.push(new Tag(`icon:${event.value.icon}`)) // Icon
-  tags.push(new Tag(`color:${event.value.color}`)) // Color
+  const tag = TagFactory.create(`${event.value.title}`)
+  tags.push(TagFactory.create(`name:${tag.label}`))   // Name
+  tags.push(TagFactory.create(`title:${tag.label}`))   // Name
+  tags.push(TagFactory.create(`id:${tag.id}`)) // ID
+  tags.push(TagFactory.create(`timestamp:${Date.now()}`)) // Timestamp
+  tags.push(TagFactory.create(`event`)) // Event
+  tags.push(TagFactory.create(`icon:${event.value.icon}`)) // Icon
+  tags.push(TagFactory.create(`color:${event.value.color}`)) // Color
   evTags.value.copy(tags as Tag[])
   return tags as Tag[]
 })
@@ -60,20 +61,20 @@ onMounted(() => {
   event.value = new Log('Battle of Wolf 359', '40+ Federation starships were destroyed defending Earth from a Borg invasion lead by Locutus, an assimilated Captain Jean-Luc Picard')
 
   if (event.value.name !== '') {
-    const tag = new Tag(`${event.value.title}`)
-    evTags.value.copy(new Tag(`${tag.label}`))
-    eventTags.value.push(new Tag(`${tag.label}`))
+    const tag = TagFactory.create(`${event.value.title}`)
+    evTags.value.copy(TagFactory.create(`${tag.label}`))
+    eventTags.value.push(TagFactory.create(`${tag.label}`))
   }
-  eventTags.value.push(new Tag(`Federation`))
-  eventTags.value.push(new Tag(`planet:Earth`))
-  eventTags.value.push(new Tag(`species:Borg`))
-  eventTags.value.push(new Tag(`captain:Jean-Luc Picard`))
-  eventTags.value.push(new Tag(`borg:Locutus`))
-  eventTags.value.push(new Tag(`borg:assimilate`))
-  eventTags.value.push(new Tag(`stardate:44002.3`)) // Timestamp
-  eventTags.value.push(new Tag(`battle`))
-  eventTags.value.push(new Tag(`invasion`))
-  eventTags.value.push(new Tag(`starship`))
+  eventTags.value.push(TagFactory.create(`Federation`))
+  eventTags.value.push(TagFactory.create(`planet:Earth`))
+  eventTags.value.push(TagFactory.create(`species:Borg`))
+  eventTags.value.push(TagFactory.create(`captain:Jean-Luc Picard`))
+  eventTags.value.push(TagFactory.create(`borg:Locutus`))
+  eventTags.value.push(TagFactory.create(`borg:assimilate`))
+  eventTags.value.push(TagFactory.create(`stardate:44002.3`)) // Timestamp
+  eventTags.value.push(TagFactory.create(`battle`))
+  eventTags.value.push(TagFactory.create(`invasion`))
+  eventTags.value.push(TagFactory.create(`starship`))
 
   evTags.value.copy(eventTags.value as Tag[])
 })

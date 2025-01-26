@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory'; // Import TagFactory
 
 import useThemeStore from '@/stores/theme';
 const theme = useThemeStore()
@@ -51,7 +51,7 @@ const convolutedVariableDeclaration = { custom: customColors, feedback: feedback
 
                 <template #append>
                   <NuTag
-                    :tag="new Tag(`${id}:${theme.myTheme.colors[id]}`).attribute('color', id).attribute('icon', color['icon'] ?? 'mdi-circle-opacity')"
+                    :tag="TagFactory.create(`${id}:${theme.myTheme.colors[id]}`, { color: id, icon: color['icon'] ?? 'mdi-circle-opacity' })"
                     :value="2" />
                 </template>
               </v-list-item>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory';
 
 
 const selected = ref<string>('');
@@ -30,7 +30,7 @@ const actions = {
 
 
 const tags = [...Object.entries(votes), ...Object.entries(actions)].map(([name, item]) => {
-  return new Tag(`action:${name}`).attribute('color', item.color).attribute('icon', item.icon)
+  return TagFactory.create(`action:${name}`,{color: item.color, icon: item.icon})
 })
 </script>
 

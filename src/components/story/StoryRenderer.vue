@@ -19,9 +19,6 @@ const tagMerge = computed(() => {
 })
 
 const clickTag = (tag: string) => {
-  // const newTag = new Tag(tag)
-  // tags.addTag(newTag)
-  // tags.triggerSnackbar(newTag)
   console.log('clickTag:', tag)
 }
 

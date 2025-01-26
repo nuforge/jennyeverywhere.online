@@ -2,6 +2,7 @@
 
 import { ref, computed, defineProps } from 'vue';
 import Tag from '@/objects/nu/Tag';
+import TagFactory from '@/objects/nu/TagFactory';
 
 import NuIcon from '@/components/nutag/NuIcon.vue';
 import NuLabel from '@/components/nutag/NuLabel.vue';
@@ -28,7 +29,7 @@ const settings = ref(
 
 const defaultNoColor = 'white'
 
-const tag = computed(() => props.tag ?? new Tag(displayLabel.value.toString()))
+const tag = computed(() => props.tag ?? TagFactory.create(displayLabel.value.toString()))
 
 const displaySpace = computed(() => props.label ?? props.tag?.space ?? '')
 const displayLabel = computed(() => props.label ?? props.tag?.label ?? '')

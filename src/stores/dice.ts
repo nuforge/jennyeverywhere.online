@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Dice from '@/objects/game/Dice'
-import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 
 const useDiceStore = defineStore('dice', () => {
   const faces = ref([4, 6, 8, 10, 12, 20])
@@ -49,9 +49,10 @@ const useDiceStore = defineStore('dice', () => {
 
   function getTag() {
     const diecolor = colors.value[faces.value.indexOf(die.value.faces)]
-    return new Tag(`${getType()}:${getString(2)}`)
-      .attribute('color', diecolor)
-      .attribute('icon', `mdi-dice-${getType()}`)
+    return TagFactory.create(`${getType()}:${getString(2)}`, {
+      color: diecolor,
+      icon: `mdi-dice-${getType()}`,
+    })
   }
 
   function getIcon(): string {

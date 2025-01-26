@@ -1,6 +1,7 @@
 import Tag from '@/objects/nu/Tag'
 import Legend from '@/objects/tag/Legend'
 import SettingsManager from '@/objects/SettingsManager'
+import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 type SettingValue = string | number | boolean // Shared by Map and Record
 import { v4 as uuidv4 } from 'uuid'
 
@@ -37,15 +38,15 @@ class TagTray {
 
   constructor(tags: Tag[] | Legend | undefined = undefined) {
     if (typeof tags === 'string') {
-      this._tag = new Tag(tags)
+      this._tag = TagFactory.create(tags)
     } else if (tags instanceof Legend) {
-      this._tag = new Tag('Legend').add('color:info').add('icon:mdi-map-legend')
+      this._tag = TagFactory.create('Legend', { color: 'info', icon: 'mdi-map-legend' })
       this._legend = tags
     } else if (Array.isArray(tags)) {
-      this._tag = new Tag('list').add('color:accent').add('icon:mdi-list-box-outline')
+      this._tag = TagFactory.create('list', { color: 'accent', icon: 'mdi-list-box-outline' })
       this._legend.addTags(tags)
     } else {
-      this._tag = new Tag('default').add('color:default').add('icon:mdi-tray')
+      this._tag = TagFactory.create('default', { color: 'default', icon: 'mdi-tray' })
     }
     return this
   }
@@ -86,7 +87,7 @@ class TagTray {
   }
 
   create(payload: string) {
-    this._legend.addTag(new Tag(payload))
+    this._legend.addTag(TagFactory.create(payload))
   }
   copy(copyValue: Tag | Tag[]) {
     if (Array.isArray(copyValue)) {
@@ -132,8 +133,8 @@ class TagTray {
   }
 
   dropString = (payload: string) => {
-    console.log('dropString: ', payload, new Tag(payload))
-    this._legend.addTag(new Tag(payload))
+    console.log('dropString: ', payload, TagFactory.create(payload))
+    this._legend.addTag(TagFactory.create(payload))
     this._dragging = false
   }
 

@@ -33,7 +33,7 @@ function onRightClick(event: MouseEvent, tag: Tag) {
 }
 
 const searchTags = computed<Tag[]>(() => {
-  const newTags = TagFactory.createBatch(search.searchTerms, { color: 'primary', icon: 'mdi-tag' })
+  const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
   //console.log('searchTags', search.searchTerms, newTags)
   return newTags as Tag[];
 })

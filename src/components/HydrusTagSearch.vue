@@ -26,7 +26,7 @@ const addToSearch = async (tag: Tag) => {
 }
 
 const searchTags = computed<Tag[]>(() => {
-  return TagFactory.createBatch(search.searchTerms, { color: 'primary', icon: 'mdi-tag' })
+  return TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
 })
 
 onMounted(async () => {

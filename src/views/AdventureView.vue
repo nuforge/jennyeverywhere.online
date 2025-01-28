@@ -16,7 +16,7 @@ const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`,
 
 const tags = ref<Tag[]>([TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' })]);
 
-function onClick(event: Event, tag: Tag) {
+function onClick(event: Event) {
   const target = event.target as HTMLElement | null;
   if (target && target.textContent) {
     const tag = tags.value.find(tag => tag.attribute('name') === target.textContent);
@@ -49,8 +49,6 @@ const searchTags = computed<Tag[]>(() => {
         <HydrusTagSearch v-model="(tags as Tag[])" />
       </v-col>
       <v-col>
-        <NuTag v-for="tag in searchTags" :key="tag.id" :tag="tag" /> <v-divider />
-        <NuTag v-for="tag in tags" :key="tag.id" :tag="tag" />
         <MarkdownRenderer :text="raw" id="md_container" :tags="(searchTags as Tag[])" @click-tag="onClick"
           @click="onClick" @right-click="onRightClick" />
       </v-col>

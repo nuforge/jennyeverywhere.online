@@ -81,10 +81,6 @@ const useStateStore = defineStore('state', () => {
     dragging.value = false
   }
 
-  function SPECIAL() {
-    persona.value = !persona.value
-  }
-
   const handleKeydown = (event: KeyboardEvent) => {
     // console.log(`keydown: ${event.key}`)
 
@@ -101,18 +97,6 @@ const useStateStore = defineStore('state', () => {
     if (event.ctrlKey && event.key === 'z') {
       undo.value = true
       router.push('/nuforge')
-    }
-    if (event.ctrlKey && event.code === 'Space') {
-      SPECIAL()
-      event.preventDefault()
-    }
-    if (event.key === 't' || (event.code === 'Space' && !event.ctrlKey)) {
-      drawerToggle()
-      event.preventDefault()
-    }
-    if (event.key === 'Escape') {
-      drawerClose()
-      details.value = false
     }
   }
 

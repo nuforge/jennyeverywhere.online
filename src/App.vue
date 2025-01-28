@@ -14,15 +14,18 @@ import DiceSnackbar from '@/components/snackbar/DiceSnackbar.vue';
 import UndoSnackbar from '@/components/snackbar/UndoSnackbar.vue';
 import useStateStore from '@/stores/state';
 import usePersonaStore from '@/stores/persona';
+import useThemeStore from '@/stores/theme';
 import AvatarFab from './components/fab/AvatarFab.vue';
 import { RouterView } from 'vue-router';
 
 const state = useStateStore()
 const persona = usePersonaStore()
+const theme = useThemeStore()
 
 const handleKeydown = (event: KeyboardEvent) => {
   state.handleKeydown(event);
   persona.handleKeydown(event);
+  theme.handleKeydown(event);
 };
 
 onMounted(() => {
@@ -54,14 +57,14 @@ onUnmounted(() => {
 
       <HeaderLayout />
       <Suspense>
-      <v-container>
-        <v-main>
-          <RouterView />
-        </v-main>
-      </v-container>
-      <template #fallback>suspense loading...
-      </template>
-    </Suspense>
+        <v-container>
+          <v-main>
+            <RouterView />
+          </v-main>
+        </v-container>
+        <template #fallback>suspense loading...
+        </template>
+      </Suspense>
 
       <EventAddDialog />
 

@@ -79,6 +79,9 @@ const usePersonaStore = defineStore('persona', () => {
       return
     }
     lastKey.value = event.key // Store the key that was pressed
+    if (event.key === 'f') {
+      display.value = true
+    }
   }
 
   return {

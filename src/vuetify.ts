@@ -91,6 +91,7 @@ import {
   VExpansionPanelText,
   VExpansionPanelTitle,
   VSlider,
+  VMenu,
 } from 'vuetify/components'
 import {
   VStepperVerticalActions,
@@ -373,5 +374,6 @@ export const vuetify = createVuetify({
     VExpansionPanelText,
     VExpansionPanelTitle,
     VSnackbarQueue,
+    VMenu,
   },
 })

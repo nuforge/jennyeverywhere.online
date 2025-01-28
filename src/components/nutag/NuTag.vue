@@ -14,6 +14,7 @@ const styles = useStyleStore();
 
 
 import SettingsManager from '@/objects/SettingsManager';
+import MenuTag from '../menu/MenuTag.vue';
 
 const settings = ref(
   new SettingsManager({
@@ -28,6 +29,7 @@ const settings = ref(
 )
 
 const defaultNoColor = 'white'
+const menuVisible = ref(false)
 
 const tag = computed(() => props.tag ?? TagFactory.create(displayLabel.value.toString()))
 
@@ -123,6 +125,7 @@ function onDoubleClick(event: Event) {
 
 function onRightClick(event: Event) {
   emit('right-click', event, tag.value)
+  menuVisible.value = true
 }
 
 // ICON CLICKS
@@ -162,6 +165,7 @@ function onDrop(event: DragEvent) {
     @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick" @dblclick="onDoubleClick"
     @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop" v-draggable="tag"
     v-droppable="console.log">
+    <MenuTag :menuVisible="menuVisible" @update:menuVisible="menuVisible = $event" />
     <!-- Tag Icon / Space -->
     <template #prepend v-if="displayIcon">
       <v-fab-transition>

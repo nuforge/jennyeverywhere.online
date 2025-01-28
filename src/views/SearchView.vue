@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
 import useSearchStore from '@/stores/search';
 const search = useSearchStore();
@@ -10,13 +11,15 @@ const addStarTrek = async () => {
   await search.addTags(stTags as Tag[])
   await search.addEdges(stEdges)
 }
+
+const TagList = ref<Tag[]>([])
 </script>
 
 <template>
   <v-container>
     <v-row>
       <v-col sm="5">
-        <HydrusTagSearch />
+        <HydrusTagSearch v-model="(TagList as Tag[])" />
         <v-card flat class="bg-transparent">
           <v-card-actions>
             <v-btn-group class="d-flex flex-wrap" multiple variant="plain">

@@ -5,7 +5,7 @@ import SettingsManager from '@/objects/SettingsManager'
 type SettingValue = string | number | boolean // Shared by Map and Record
 
 class TagTray extends Tag {
-  protected _legend = new Legend()
+  protected _attributes = new Legend()
   protected _order: string[] = []
   protected _selection = [] as Tag[]
   protected _settings = new SettingsManager({
@@ -24,7 +24,7 @@ class TagTray extends Tag {
   constructor(tags?: Tag[] | Legend) {
     super('Tray')
     if (tags) {
-      this._legend.addTags(tags as Tag[])
+      this._attributes.addTags(tags as Tag[])
     }
     return this
   }
@@ -50,31 +50,31 @@ class TagTray extends Tag {
 
   addTags(payload: Tag[]) {
     this._order.push(...payload.map((tag) => tag.name))
-    return this._legend.addTags(payload)
+    return this._attributes.addTags(payload)
   }
 
   // ChatGPT
   addTag(tag: Tag): void {
-    this._legend.addTag(tag)
+    this._attributes.addTag(tag)
     this._order.push(tag.name)
   }
 
   create(payload: string) {
-    this._legend.addTag(TagFactory.create(payload))
+    this._attributes.addTag(TagFactory.create(payload))
   }
 
   remove(payload: Tag | Tag[]) {
     if (Array.isArray(payload)) {
-      payload.forEach((tag) => this._legend.removeTag(tag))
+      payload.forEach((tag) => this._attributes.removeTag(tag))
     } else {
-      this._legend.removeTag(payload)
+      this._attributes.removeTag(payload)
     }
   }
 
   // ChatGPT
   removeTag(name: string): void {
-    if (this._legend.has(name)) {
-      this._legend.delete(name)
+    if (this._attributes.has(name)) {
+      this._attributes.delete(name)
       this._order = this._order.filter((tagName) => tagName !== name)
     } else {
       throw new Error(`Tag with name "${name}" does not exist.`)
@@ -108,11 +108,11 @@ class TagTray extends Tag {
   }
 
   getTag(name: string): Tag | undefined {
-    return this._legend.getTag(name)
+    return this._attributes.getTag(name)
   }
 
   getOrderedTags(): Tag[] {
-    return this._order.map((name) => this._legend.getTag(name)!)
+    return this._order.map((name) => this._attributes.getTag(name)!)
   }
   getTagIndex(name: string): number {
     return this._order.indexOf(name)
@@ -149,13 +149,13 @@ class TagTray extends Tag {
 
   // DRAG DROP
   dragDrop = (payload: Tag[]) => {
-    this._legend.addTags(payload)
+    this._attributes.addTags(payload)
     this._settings.setSetting('dragging', false)
   }
 
   dropString = (payload: string) => {
     console.log('dropString: ', payload, TagFactory.create(payload))
-    this._legend.addTag(TagFactory.create(payload))
+    this._attributes.addTag(TagFactory.create(payload))
     this._settings.setSetting('dragging', false)
   }
 
@@ -166,12 +166,12 @@ class TagTray extends Tag {
   }
 
   get selection() {
-    this._legend.tags.filter((tag) => this._selection.includes(tag))
+    this._attributes.tags.filter((tag) => this._selection.includes(tag))
     return this._selection
   }
 
   get tags() {
-    return this._legend.tags
+    return this._attributes.tags
   }
 
   // SETTERS
@@ -184,8 +184,8 @@ class TagTray extends Tag {
   }
 
   set tags(tags: Tag[]) {
-    this._legend.clearTags()
-    this._legend.addTags(tags)
+    this._attributes.clearTags()
+    this._attributes.addTags(tags)
   }
 }
 

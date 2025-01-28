@@ -133,7 +133,7 @@ export default class TagDb {
 
   async findConnectedTags(tagId: string): Promise<Tag[]> {
     if (!this.db) throw new Error('Database not initialized')
-    console.log(`Finding connected tags for tag with id: ${tagId}`)
+    //console.log(`Finding connected tags for tag with id: ${tagId}`)
 
     const tx = this.db.transaction(['Edges', 'Tags'], 'readonly')
     const edgesStore = tx.objectStore('Edges')
@@ -298,7 +298,7 @@ export default class TagDb {
   private async getTagById(tagId: string): Promise<Tag> {
     if (!this.db) throw new Error('Database not initialized')
 
-    console.log(`Getting tag with id: ${tagId}`)
+    // console.log(`Getting tag with id: ${tagId}`)
     const tx = this.db.transaction('Tags', 'readonly')
     const store = tx.objectStore('Tags')
     return new Promise<Tag>((resolve, reject) => {

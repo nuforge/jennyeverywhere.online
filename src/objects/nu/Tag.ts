@@ -11,11 +11,11 @@ class Tag {
   protected _stamp: Date = new Date()
 
   // Tag Attributes
-  protected _legend: TagAttributes
+  protected _attributes: TagAttributes
 
   constructor(seed: string, attributes: TagAttributes = {}) {
     this._id = crypto.randomUUID()
-    this._legend = attributes
+    this._attributes = attributes
     this.setSeed(seed)
   }
 
@@ -26,8 +26,8 @@ class Tag {
     const key = space ?? seed
 
     // Now handle space and name without manually checking separately
-    if (!(key in this._legend)) {
-      this._legend[key] = name // Add new attribute if not already set
+    if (!(key in this._attributes)) {
+      this._attributes[key] = name // Add new attribute if not already set
     }
     return this
   }
@@ -35,26 +35,26 @@ class Tag {
   attribute(key: string, value?: TagValue): Tag | TagValue | undefined {
     if (value !== undefined) {
       // Set the value for the attribute (if provided)
-      this._legend[key] = value
+      this._attributes[key] = value
       return this // Return the instance to allow method chaining
     }
     // Otherwise, just return the value (getter behavior)
-    return this._legend[key] || undefined
+    return this._attributes[key] || undefined
   }
 
   hasAttribute(key: string): boolean {
-    return key in this._legend
+    return key in this._attributes
   }
   // Getter for all attributes
   get allAttributes() {
-    return this._legend
+    return this._attributes
   }
 
   // Serialize the tag for storage or transfer
   serialize(): string {
     return JSON.stringify({
       id: this._id,
-      attributes: this._legend,
+      attributes: this._attributes,
     })
   }
 
@@ -106,7 +106,7 @@ class Tag {
 
     return [
       attributes,
-      ...Object.entries(this._legend)
+      ...Object.entries(this._attributes)
         .map(([key, value]) => {
           if (value) {
             return TagFactory.create(`${key}:${value}`)

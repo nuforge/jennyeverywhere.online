@@ -3,24 +3,24 @@ import TagFactory from '@/objects/nu/TagFactory'
 import Legend from '@/objects/tag/Legend'
 
 class Persona extends Tag {
-  protected _legend: Legend = new Legend()
+  protected _attributes: Legend = new Legend()
 
   constructor(name: string) {
     super(name)
   }
 
   get attributes() {
-    return this._legend.tags
+    return this._attributes.tags
   }
 
   addTag(newTag: string | number) {
     const tag = new Tag(newTag.toString())
-    this._legend.setTag(tag.id, tag)
+    this._attributes.setTag(tag.id, tag)
   }
 
   addLabel(newName: string, newColor?: string, newIcon?: string) {
     const newTag = TagFactory.create(newName, { color: newColor, icon: newIcon })
-    return this._legend.setTag(newTag.id, newTag)
+    return this._attributes.setTag(newTag.id, newTag)
   }
 
   addAttribute(newName: string, newColor?: string, newIcon?: string) {
@@ -28,15 +28,15 @@ class Persona extends Tag {
   }
 
   removeAttribute(namespace: string) {
-    return this._legend.deleteTag(namespace)
+    return this._attributes.deleteTag(namespace)
   }
 
   getAttribute(namespace: string) {
-    return this._legend.getTag(namespace)
+    return this._attributes.getTag(namespace)
   }
 
   getAttributes() {
-    return this._legend
+    return this._attributes
   }
 }
 

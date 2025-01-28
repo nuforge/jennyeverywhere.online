@@ -5,6 +5,16 @@ const router = createRouter({
   history: createWebHistory('/jennyeverywhere.online/'),
   routes: [
     {
+      path: '/adventure',
+      name: 'adventure',
+      component: () => import('../views/AdventureView.vue'),
+    },
+    {
+      path: '/tag/:tag',
+      name: 'tag',
+      component: () => import('@/views/TagView.vue'),
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import('../views/StoryView.vue'),

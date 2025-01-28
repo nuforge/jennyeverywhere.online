@@ -27,12 +27,16 @@ export default class TagFactory {
     if (attributes.icon === undefined) {
       attributes.icon = inator.bestIcon(seed)
     }
+    //console.log('Creating tag:', seed, attributes)
     return new Tag(seed, attributes)
   }
 
   // Batch create tags
   static createBatch(names: string[], attributes: TagAttributes = {}): Tag[] {
-    return names.map((name) => this.create(name, attributes))
+    const batch = names.map((name) => {
+      return TagFactory.create(name, attributes)
+    })
+    return batch
   }
 
   // Save a Tag to LocalStorage

@@ -147,10 +147,8 @@ class MarkdownManager {
     }
 
     if (target.tagName === 'P') {
-      console.log(target.tagName, window.getSelection())
       const selectedText = window.getSelection()?.toString().trim()
       if (selectedText && typeof selectedText === 'string') {
-        console.log('P:', selectedText)
         const newTag = TagFactory.create(selectedText)
         return newTag
       }

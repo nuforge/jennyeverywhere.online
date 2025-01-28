@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
-import TagFactory from '@/objects/nu/TagFactory'
 import Tag from '@/objects/nu/Tag'
 import MarkdownManager from '@/objects/MarkdownManager';
 const markdowninator = new MarkdownManager()
@@ -19,19 +18,19 @@ const props = defineProps({
   },
   tags: {
     type: Array as () => Tag[],
-    default: () => [TagFactory.create('defaultName')],
-  }
+    default: () => [],
+  },
 })
 
 function onClick(event: MouseEvent) {
-  //console.log('onClick')
   //router.push('/tags/ ')
   //getTagFromEvent(event)
-  emit('click', event)
+  const tag = markdowninator.getTagFromEvent(event)
+  emit('click', event, tag)
 }
 
 function onRightClick(event: MouseEvent) {
-  //console.log('onRightClick', event)
+  //console.log('onRightClick', event, tag)
   const tag = markdowninator.getTagFromEvent(event)
   emit('right-click', event, tag)
 }

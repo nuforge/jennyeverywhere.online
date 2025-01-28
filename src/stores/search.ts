@@ -18,6 +18,7 @@ const useSearchStore = defineStore('search', () => {
   function addtoSearch(tag: string) {
     searchTerms.value.push(tag)
   }
+
   function removeFromSearch(tag: string) {
     const index = searchTerms.value.indexOf(tag)
     if (index > -1) {

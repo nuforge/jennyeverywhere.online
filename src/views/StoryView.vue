@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import img from '@/assets/stories/gallery/001.png'
-import story from '@/assets/stories/story.json'
 import Tag from '@/objects/nu/Tag'
 import TagFactory from '@/objects/nu/TagFactory'
 
+import story from '@/assets/stories/story.json'
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 
 import StoryChoiceGroup from '@/components/story/StoryChoiceGroup.vue'
@@ -25,8 +25,14 @@ tagMap.value.push(TagFactory.create('dude with a mohawk', { color: 'text', icon:
 const selected = computed<Tag[]>(() => {
   return tagMap.value.filter((tag) => {
     return Array.isArray(selection.value) && selection.value.some((selectedTag) => selectedTag.toString() === tag.name);
-  }).map((label) => label as Tag);
+  }).map((tag) => tag as Tag);
 });
+
+const onRightClick = (event: MouseEvent, tag: Tag) => {
+  tagMap.value.push(tag)
+  selection.value.push(tag)
+  console.log('onRightClick', tag.name)
+}
 
 </script>
 
@@ -34,11 +40,10 @@ const selected = computed<Tag[]>(() => {
 <template>
   <v-container>
     <v-row>
-      <v-col cols="6" md="8" sm="12">
-        <MarkdownRenderer :text="raw" id="md_container" :tags="selected" />
+      <v-col md="8" sm="12">
+        <MarkdownRenderer :text="raw" id="md_container" :tags="selected" @right-click="onRightClick" />
         <v-chip-group v-model="selection" column multiple>
-          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :tag="(tag as Tag)"
-            variant="text" />
+          <NuTag v-for="tag in tagMap" :key="tag.name" :value="tag.name" :tag="tag" variant="text" />
         </v-chip-group>
       </v-col>
       <v-col cols="auto" md="4" sm="12">

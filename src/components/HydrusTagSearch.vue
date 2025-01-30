@@ -6,7 +6,11 @@ import SearchSortCollect from '@/components/search/SearchSortCollect.vue';
 
 import useSearchStore from '@/stores/search';
 import SelectionSort from '@/components/search/SelectionSort.vue';
+import NuTagList from './nutag/NuTagList.vue';
 const search = useSearchStore();
+
+const selection = ref(search.selectionManager)
+const selected = computed(() => Array.from(selection.value.state.selectedIndices))
 
 const newTag = ref('')
 
@@ -15,22 +19,31 @@ defineProps<{
 }>()
 
 
-const removeTagFromSearch = async (tag: string) => {
-  await search.removeFromSearch(tag)
-  search.depthSearchTags(tag)
+const onDoubleClickSearchTags = async (index: number, tag: Tag) => {
+  await removeTagFromSearch(tag)
 }
 
-const addToSearch = async (tag: Tag) => {
-  await search.addtoSearch(tag.name)
-  //search.depthSearchTags(tag.name)
+const removeTagFromSearch = async (tag: Tag) => {
+  await search.removeSearchTag(tag)
+  //search.depthSearchTags(tag)
 }
 
-const searchTags = computed<Tag[]>(() => {
-  return TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
-})
+const onDblClckSelection = async (index: number, tag: Tag) => {
+  //console.log('addToSearch', tag, event)
+  //TagFactory.create(newTag)
+  await addTagToSearch(tag)
+}
+
+const addTagToSearch = async (tag: Tag) => {
+  //console.log('addToSearch', tag, event)
+  //TagFactory.create(newTag)
+  await search.addSearchTag(tag)
+  newTag.value = ''
+}
 
 onMounted(async () => {
   await search.init()
+  search.createSearchTag('jenny')
 })
 
 
@@ -47,16 +60,10 @@ onMounted(async () => {
       <v-card-title>
         <v-label>search</v-label>
       </v-card-title>
-      <v-list density="compact" nav return-object slim class="bg-background rounded pa-0 ma-1 ">
-        <v-list-item v-for="tag in searchTags" :key="tag.name" class="ma-0 pa-0" :min-height="0"
-          @dblclick="removeTagFromSearch(tag.name)">
-          <NuTag :tag="tag" size="small" variant="tonal" class="d-flex flex-block" />
-        </v-list-item>
-        <v-list-item>
-          <v-text-field v-model="newTag" label="add term" density="compact"
-            @keydown.enter="addToSearch(TagFactory.create(newTag))" variant="plain" prepend-icon="mdi-plus" />
-        </v-list-item>
-      </v-list>
+      <NuTagList :tags="search.searchTags" v-model="selected" @double-click="onDoubleClickSearchTags" />
+      <v-text-field class="bg-background rounded pa-1 ma-1" v-model="newTag" label="add term" density="compact"
+        hide-details @keydown.enter="addTagToSearch(TagFactory.create(newTag))" variant="plain"
+        prepend-icon="mdi-plus" />
     </v-card>
     <v-card>
       <v-card-title>
@@ -65,13 +72,7 @@ onMounted(async () => {
       <v-card-actions class="bg-bac">
         <SelectionSort />
       </v-card-actions>
-      <v-list density="compact" nav return-object slim class="bg-background rounded pa-0 ma-1 " v-if="modelValue">
-        <v-list-item v-for="tag in modelValue" :key="tag.name" class="ma-0 pa-0" :min-height="0"
-          @dblclick="addToSearch(tag)">
-          <NuTag :tag="tag" size="small" variant="text" class="d-flex flex-block" />
-        </v-list-item>
-      </v-list>
-
+      <NuTagList :tags="modelValue" :overrideSelection="selected" @double-click="onDblClckSelection" />
     </v-card>
   </v-container>
 

@@ -2,6 +2,10 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import TagDb from '@/objects/TagDb'
 import Tag from '@/objects/nu/Tag'
+import TagFactory from '@/objects/nu/TagFactory'
+
+import SelectionManager from '@/utils/SelectionManager'
+
 interface Edge {
   id: string
   from: string
@@ -10,19 +14,39 @@ interface Edge {
 }
 
 const useSearchStore = defineStore('search', () => {
+  const selectionManager = new SelectionManager()
   const databaseName = 'nuForgeDB'
   const tagDatabase = new TagDb()
   const searchResults = ref<Tag[]>([])
-  const searchTerms = ref<string[]>([])
+  const searchTerms = ref<string[]>([]) // Deprecating
+  const searchTags = ref<Tag[]>([])
 
+  function addSearchTag(tag: Tag) {
+    searchTags.value.push(tag)
+  }
+
+  function removeSearchTag(tag: Tag) {
+    const index = searchTags.value.indexOf(tag)
+    console.log('Removing tag:', tag, 'at index:', index)
+    if (index > -1) {
+      searchTags.value.splice(index, 1)
+    }
+  }
+
+  function createSearchTag(tag: string, { color = 'text', icon = 'mdi-circle-small' } = {}) {
+    addSearchTag(TagFactory.create(tag, { color: color, icon: icon }))
+  }
+  // Deprecating
   function addtoSearch(tag: string) {
     searchTerms.value.push(tag)
+    searchTags.value.push(TagFactory.create(tag, { color: 'text', icon: 'mdi-circle-small' }))
   }
 
   function removeFromSearch(tag: string) {
     const index = searchTerms.value.indexOf(tag)
     if (index > -1) {
-      searchTerms.value.splice(index, 1)
+      searchTerms.value.splice(index, 1) // Deprecating
+      searchTags.value.splice(index, 1)
     }
   }
 
@@ -113,7 +137,14 @@ const useSearchStore = defineStore('search', () => {
     databaseName,
     searchResults,
     searchTerms,
+    searchTags,
+    selectionManager,
     init,
+
+    addSearchTag,
+    removeSearchTag,
+    createSearchTag,
+
     addTag,
     getAllTags,
     removeTag,

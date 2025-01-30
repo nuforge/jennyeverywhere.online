@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 import Tag from '@/objects/nu/Tag';
@@ -14,7 +14,13 @@ const search = useSearchStore();
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 
 
-const tags = ref<Tag[]>([TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' })]);
+const tags = ref<Tag[]>([
+  TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
+  TagFactory.create('jetpack', { color: 'warning', icon: 'mdi-rocket' }),
+  TagFactory.create('color:green', { color: 'green', icon: 'mdi-circle-opacity' }),
+
+  TagFactory.create('mystery:artifact', { color: 'accent', icon: 'mdi-help' }),
+]);
 
 function onClick(event: Event) {
   const target = event.target as HTMLElement | null;
@@ -32,11 +38,11 @@ function onRightClick(event: MouseEvent, tag: Tag) {
   // emit('right-click', event, tag)
 }
 
-const searchTags = computed<Tag[]>(() => {
-  const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
-  //console.log('searchTags', search.searchTerms, newTags)
-  return newTags as Tag[];
-})
+// const searchTags = computed<Tag[]>(() => {
+//   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
+//   //console.log('searchTags', search.searchTerms, newTags)
+//   return newTags as Tag[];
+// })
 // route.params.archetype
 </script>
 
@@ -49,7 +55,7 @@ const searchTags = computed<Tag[]>(() => {
         <HydrusTagSearch v-model="(tags as Tag[])" />
       </v-col>
       <v-col>
-        <MarkdownRenderer :text="raw" id="md_container" :tags="(searchTags as Tag[])" @click-tag="onClick"
+        <MarkdownRenderer :text="raw" id="md_container" :tags="(search.searchTags as Tag[])" @click-tag="onClick"
           @click="onClick" @right-click="onRightClick" />
       </v-col>
     </v-row>

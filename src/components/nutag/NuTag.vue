@@ -14,7 +14,7 @@ const styles = useStyleStore();
 
 
 import SettingsManager from '@/objects/SettingsManager';
-import MenuTag from '../menu/MenuTag.vue';
+import MenuTag from '@/components/menu/MenuTag.vue';
 
 const settings = ref(
   new SettingsManager({
@@ -107,6 +107,11 @@ const props = defineProps
 
 const emit = defineEmits(['close', 'click-tag', 'click', 'click-action', 'right-click', 'double-click', 'click-icon', 'right-click-icon', 'double-click-icon', 'drag-start', 'drag-end', 'drag-over', 'drop', 'expand-tag', 'compact-tag', 'expand-space', 'toggle-label'])
 
+// Force close
+function closeTag() {
+  isAlive.value = false
+}
+
 // CLOSE EVENT
 
 function onCloseTag(event: Event) {
@@ -157,15 +162,15 @@ function onDragOver(event: DragEvent) {
 function onDrop(event: DragEvent) {
   emit('drop', event, tag.value)
 }
-
+const isAlive = ref(true)
 </script>
 
 <template>
-  <v-chip label :color="colorStyle" :variant="variant" :value="tag?.name" :id="tag?.id" :closable="props.closable"
-    @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick" @dblclick="onDoubleClick"
-    @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop" v-draggable="tag"
-    v-droppable="console.log">
-    <MenuTag :menuVisible="menuVisible" @update:menuVisible="menuVisible = $event" />
+  <v-chip label v-model="isAlive" :color="colorStyle" :variant="variant" :value="tag?.name" :id="tag?.id"
+    :closable="props.closable" @click:close="onCloseTag" @click.right.exact.prevent="onRightClick" @click="onClick"
+    @dblclick="onDoubleClick" @drag-start="onDragStart" @drag-end="onDragEnd" @drag-over="onDragOver" @drop="onDrop"
+    v-draggable="tag" v-droppable="console.log">
+    <MenuTag :tag="tag" :menuVisible="menuVisible" @update:menuVisible="menuVisible = $event" @close="closeTag" />
     <!-- Tag Icon / Space -->
     <template #prepend v-if="displayIcon">
       <v-fab-transition>

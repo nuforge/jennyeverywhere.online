@@ -1,14 +1,3 @@
-<template>
-  <v-text-field density="compact" variant="outlined" v-model="inputValue" @input="updateValue">
-    <template #prepend-inner>
-      <v-icon icon="mdi-circle-opacity" :color="inputValue"></v-icon>
-    </template>
-    <template #append>
-      <ColorPickerDialog @apply-color="applyColorChoice" />
-    </template>
-  </v-text-field>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import ColorPickerDialog from '@/components/color/ColorPickerDialog.vue';
@@ -29,3 +18,14 @@ function updateValue() {
   emit('update:modelValue', inputValue.value);
 }
 </script>
+
+<template>
+  <v-text-field density="compact" variant="outlined" v-model="inputValue" @input="updateValue">
+    <template #prepend-inner>
+      <v-icon icon="mdi-circle-opacity" :color="inputValue"></v-icon>
+    </template>
+    <template #append>
+      <ColorPickerDialog @apply-color="applyColorChoice" />
+    </template>
+  </v-text-field>
+</template>

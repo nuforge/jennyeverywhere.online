@@ -9,8 +9,10 @@ import TagFactory from '@/objects/nu/TagFactory';
 import story from '@/assets/stories/story.json'
 import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
 import useSearchStore from '@/stores/search';
+import TagFactoryForm from '@/components/form/TagFactoryForm.vue';
 const search = useSearchStore();
 
+const showAddForm = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 
 
@@ -38,6 +40,8 @@ function onRightClick(event: MouseEvent, tag: Tag) {
   // emit('right-click', event, tag)
 }
 
+
+
 // const searchTags = computed<Tag[]>(() => {
 //   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
 //   //console.log('searchTags', search.searchTerms, newTags)
@@ -52,6 +56,7 @@ function onRightClick(event: MouseEvent, tag: Tag) {
 
     <v-row>
       <v-col cols="4">
+        <TagFactoryForm v-model="showAddForm" @create-tag="tags.push($event)" @close="console.log" />
         <HydrusTagSearch v-model="(tags as Tag[])" />
       </v-col>
       <v-col>

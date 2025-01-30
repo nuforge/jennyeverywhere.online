@@ -22,14 +22,15 @@ const useSearchStore = defineStore('search', () => {
   const searchTags = ref<Tag[]>([])
 
   function addSearchTag(tag: Tag) {
+    const index = searchTags.value.indexOf(tag)
+    if (index > -1) return removeSearchTag(tag)
     searchTags.value.push(tag)
   }
 
   function removeSearchTag(tag: Tag) {
     const index = searchTags.value.indexOf(tag)
-    console.log('Removing tag:', tag, 'at index:', index)
     if (index > -1) {
-      searchTags.value.splice(index, 1)
+      return searchTags.value.splice(index, 1)
     }
   }
 
@@ -140,11 +141,9 @@ const useSearchStore = defineStore('search', () => {
     searchTags,
     selectionManager,
     init,
-
     addSearchTag,
     removeSearchTag,
     createSearchTag,
-
     addTag,
     getAllTags,
     removeTag,

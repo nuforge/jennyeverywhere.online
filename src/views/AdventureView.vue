@@ -15,12 +15,10 @@ const search = useSearchStore();
 const showAddForm = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 
-
 const tags = ref<Tag[]>([
   TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
   TagFactory.create('jetpack', { color: 'warning', icon: 'mdi-rocket' }),
   TagFactory.create('color:green', { color: 'green', icon: 'mdi-circle-opacity' }),
-
   TagFactory.create('mystery:artifact', { color: 'accent', icon: 'mdi-help' }),
 ]);
 
@@ -41,7 +39,6 @@ function onRightClick(event: MouseEvent, tag: Tag) {
 }
 
 
-
 // const searchTags = computed<Tag[]>(() => {
 //   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
 //   //console.log('searchTags', search.searchTerms, newTags)
@@ -50,14 +47,13 @@ function onRightClick(event: MouseEvent, tag: Tag) {
 // route.params.archetype
 </script>
 
-
 <template>
   <v-container>
-
     <v-row>
       <v-col cols="4">
-        <TagFactoryForm v-model="showAddForm" @create-tag="tags.push($event)" @close="console.log" />
         <HydrusTagSearch v-model="(tags as Tag[])" />
+        <v-divider class="pa-2 ma-2" />
+        <TagFactoryForm v-model="showAddForm" @create-tag="tags.push($event)" @close="console.log" />
       </v-col>
       <v-col>
         <MarkdownRenderer :text="raw" id="md_container" :tags="(search.searchTags as Tag[])" @click-tag="onClick"

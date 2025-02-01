@@ -3,7 +3,7 @@ import { computed, defineProps, watch } from 'vue';
 import SelectionManager from '@/utils/SelectionManager'
 import Tag from '@/objects/nu/Tag';
 
-const emit = defineEmits(["update:selection", "double-click", "click"]);
+const emit = defineEmits(["update:selection", "double-click", "click", "drop"]);
 
 const props = defineProps<{
   tags: Tag[],
@@ -26,9 +26,6 @@ const onKeydown = (index: number, event: KeyboardEvent) => {
   }
 }
 
-const onDrop = () => {
-  console.log('yes')
-}
 
 watch(
   () => tagSelection.value,
@@ -51,11 +48,10 @@ watch(
 </script>
 
 <template>
-  <v-list density="compact" nav return-object slim class="bg-background rounded py-1 ma-1 "
-    v-droppable="console.log('yes')">
+  <v-list density="compact" nav return-object slim class="bg-background rounded py-1 ma-1 ">
     <v-list-item v-for="(tag, index) in props.tags" :key="tag.name" class="ma-0 pa-0"
       :active="tagSelection.includes(index)" :min-height="0" @dblclick="onDoubleClick(index, tag, $event)"
-      @keydown="onKeydown(index, $event)" @drop="onDrop">
+      @keydown="onKeydown(index, $event)">
       <NuTag :tag="tag" size="small" :variant="tagSelection.includes(index) ? `tonal` : `text`"
         class="d-flex flex-block" />
     </v-list-item>

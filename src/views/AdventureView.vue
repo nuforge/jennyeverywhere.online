@@ -6,11 +6,16 @@ import Tag from '@/objects/nu/Tag';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagFactory from '@/objects/nu/TagFactory';
 
+import useSearchStore from '@/stores/search';
+const search = useSearchStore();
+
 import story from '@/assets/stories/story.json'
 import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
-import useSearchStore from '@/stores/search';
 import TagFactoryForm from '@/components/form/TagFactoryForm.vue';
-const search = useSearchStore();
+
+// import StickFigureGame from '@/objects/game/stick_figure_game'
+// const stickGame = new StickFigureGame()
+// stickGame.init()
 
 const showAddForm = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))

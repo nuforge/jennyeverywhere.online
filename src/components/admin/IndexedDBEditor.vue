@@ -3,7 +3,9 @@ import { ref, computed, onMounted } from 'vue';
 import IndexedDBManager from '@/utils/IndexedDBManager';
 import type { Tag } from '@/types/Tag';
 
-const dbManager = new IndexedDBManager('nuForgeMemory', 'Tags'); // Ensure the store name matches the one used in TagDb
+const databaseName = ref('AI_Memory_DB');
+
+const dbManager = new IndexedDBManager(databaseName.value, 'memories'); // Ensure the store name matches the one used in TagDb
 
 const localDatabaseObject = ref<Tag[]>([]);
 
@@ -49,7 +51,7 @@ const clearInput = () => {
 
 <template>
   <v-card>
-    <v-card-title>IndexedDB</v-card-title>
+    <v-card-title>IndexedDB - [{{ databaseName }}]</v-card-title>
     <v-text-field v-model="storeInput" density="compact" label="store" prepend-inner-icon="mdi-tray-arrow-down"
       @keydown.enter="submitForm"></v-text-field>
     <v-textarea v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-label"

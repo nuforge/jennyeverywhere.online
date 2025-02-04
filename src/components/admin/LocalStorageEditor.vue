@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+const storageName = ref('nuForgeMemory')
 
 import LocalStorageManager from '@/utils/LocalStorageManager';
-const localStorage = new LocalStorageManager('nuForgeMemory')
+const localStorage = new LocalStorageManager(storageName.value)
 
 const localObject = ref(localStorage.retrieveAllItems())
 
@@ -50,7 +51,7 @@ watch(searchValue, () => {
 
 <template>
   <v-card>
-    <v-card-title>localStorage</v-card-title>
+    <v-card-title>localStorage - [{{ storageName }}]</v-card-title>
     <v-text-field v-model="tagInput" density="compact" label="tag" prepend-inner-icon="mdi-tag"
       @keydown.enter="submitForm" clearable></v-text-field>
     <v-textarea v-model="valueInput" density="compact" label="value" prepend-inner-icon="mdi-tray"

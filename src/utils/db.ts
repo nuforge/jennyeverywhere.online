@@ -1,23 +1,21 @@
-// db.ts
-import Dexie, { type EntityTable } from 'dexie'
+import { Dexie } from 'dexie'
 
-interface Friend {
-  id: number
+export interface Friend {
+  id?: number
   name: string
-  age: number
+  tags?: string[]
+  // ...other fields
 }
 
-const dexiedb = new Dexie('FriendsDatabase') as Dexie & {
-  friends: EntityTable<
-    Friend,
-    'id' // primary key "id" (for the typings only)
-  >
+export class AppDB extends Dexie {
+  friends!: Dexie.Table<Friend, number>
+
+  constructor() {
+    super('FriendsDB')
+    this.version(1).stores({
+      friends: '++id, name, tags',
+    })
+  }
 }
 
-// Schema declaration:
-dexiedb.version(1).stores({
-  friends: '++id, name, age', // primary key "id" (for the runtime!)
-})
-
-export type { Friend }
-export default dexiedb
+export const dexiedb = new AppDB()

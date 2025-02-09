@@ -7,12 +7,7 @@ const router = createRouter({
     {
       path: '/dexie',
       name: 'dexie',
-      component: () => import('../views/Dexie/DexieView.vue'),
-    },
-    {
-      path: '/dexie/memory',
-      name: 'dexie',
-      component: () => import('../views/Dexie/MemoryComponent.vue'),
+      component: () => import('@/views/Dexie/DexieView.vue'),
     },
     {
       path: '/adventure',

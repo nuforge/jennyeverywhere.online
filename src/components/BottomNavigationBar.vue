@@ -11,7 +11,7 @@
     </v-btn>
     <v-btn value="persona" icon="mdi-account-circle" to="/persona">
     </v-btn>
-    <v-btn value="search" icon="mdi-tag-search" to="/search">
+    <v-btn value="dexie" icon="mdi-list-box" to="/dexie">
     </v-btn>
     <v-btn value="playingcards" icon="mdi-cards" to="/playingcards">
     </v-btn>

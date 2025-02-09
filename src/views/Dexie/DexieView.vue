@@ -40,7 +40,6 @@ async function addFriend() {
   }
 }
 onMounted(async () => {
-  await memoryStore.loadMemoriesByTag({ name: 'initial' });
 });
 </script>
 <!-- FriendAdder.vue -->

@@ -52,10 +52,7 @@ class Tag {
 
   // Serialize the tag for storage or transfer
   serialize(): string {
-    return JSON.stringify({
-      id: this._id,
-      attributes: this._attributes,
-    })
+    return JSON.stringify({ id: this._id, tag: this._attributes })
   }
 
   static deserialize(json: string): Tag {
@@ -99,10 +96,7 @@ class Tag {
   }
 
   attributesToTags = () => {
-    const attributes = {
-      id: this._id,
-      stamp: this._stamp,
-    }
+    const attributes = { id: this._id, stamp: this._stamp }
 
     return [
       attributes,

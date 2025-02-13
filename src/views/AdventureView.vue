@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
+import DexieDBEditor from '@/components/admin/DexieDBEditor.vue';
 const router = useRouter()
+
+import MemoryManager from '@/objects/storage/MemoryManager'
+
+const memory = new MemoryManager()
+
 
 import story from '@/assets/stories/story.json'
 import archtypes from '@/assets/stories/story.archetypes.json'
@@ -21,6 +27,8 @@ import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
 const showSearchBar = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
 const archetypeTags = ref<Tag[]>([])
+
+const memoryTags = ref<Tag[]>([])
 
 Object.values(archtypes).map((archetype) => {
   // console.log('archtype', archetype)
@@ -66,6 +74,10 @@ function toggleSearchBar() {
 // })
 // route.params.archetype
 
+onMounted(async () => {
+  memoryTags.value = await memory.getTags()
+})
+
 </script>
 
 <template>
@@ -73,7 +85,9 @@ function toggleSearchBar() {
     <v-row>
       <v-slide-x-transition>
         <v-col cols="4" v-if="showSearchBar">
+          <DexieDBEditor />
           <HydrusTagSearch v-model="(searchTags as Tag[])" />
+
         </v-col>
       </v-slide-x-transition>
       <v-divider vertical @dblclick="toggleSearchBar" class="editor-divider ps-2 my-2" />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import IndexedDBEditor from '@/components/admin/IndexedDBEditor.vue';
+import DexieDBEditor from '@/components/admin/DexieDBEditor.vue';
 import LocalStorageEditor from '@/components/admin/LocalStorageEditor.vue';
 import ChatEditor from '@/components/admin/ChatEditor.vue';
 import ChatMemory from '@/components/admin/ChatMemory.vue';
@@ -26,6 +27,8 @@ const showChatEditor = ref(false)
 const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
 const showBrowserMemory = ref(false)
+
+const showDexieDBEditor = ref(true)
 
 // const tag = new Tag('captain:picard', { color: 'red' });
 //const captainFactory = new TagFactory('captain', { icon: 'mdi-account' });
@@ -115,13 +118,19 @@ const showBrowserMemory = ref(false)
 
   <v-expand-transition>
     <v-row v-if="showBrowserMemory">
-      <v-col cols="12">
+      <v-col cols="12" class="d-flex flex-row">
         <h2><v-icon icon="mdi-brain" size="x-small" color="accent" /> Memory</h2>
+        <v-spacer />
+        <v-btn @click="showDexieDBEditor = !showDexieDBEditor" size="small"
+          :icon="showDexieDBEditor ? `mdi-database` : `mdi-database-outline`" variant="text" color="accent" />
       </v-col>
       <v-col>
         <LocalStorageEditor />
       </v-col>
-      <v-col>
+      <v-col v-if="showDexieDBEditor">
+        <DexieDBEditor />
+      </v-col>
+      <v-col v-else>
         <IndexedDBEditor />
       </v-col>
     </v-row>

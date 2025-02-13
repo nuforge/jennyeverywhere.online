@@ -1,3 +1,6 @@
+// AI-developed TagDatabase using indexedDB
+// Functions to add tags, edges, and perform depth-first search
+
 const DEFAULT_DATABASE_NAME = 'nuForgeDB'
 import Tag from '@/objects/nu/Tag'
 import TagFactory from '@/objects/nu/TagFactory'

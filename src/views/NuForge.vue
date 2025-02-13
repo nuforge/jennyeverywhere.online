@@ -19,13 +19,13 @@ const newTag = ref(TagFactory.create('tag').add('color:red').add('icon:mdi-tag')
 //TagFactory.saveToLocalStorage(newTag.value);
 // import useChatStore from '@/stores/chat/nuchat';
 // const chat = useChatStore();
-const showTagFactory = ref(true)
+const showTagFactory = ref(false)
 const showTagSearch = ref(false)
 const showMessageQueue = ref(false)
 const showChatEditor = ref(false)
 const showChatMemory = ref(false)
 const showChatTimeline = ref(false)
-const showBrowserMemory = ref(true)
+const showBrowserMemory = ref(false)
 
 // const tag = new Tag('captain:picard', { color: 'red' });
 //const captainFactory = new TagFactory('captain', { icon: 'mdi-account' });
@@ -60,8 +60,8 @@ const showBrowserMemory = ref(true)
       :icon="showChatMemory ? `mdi-message-badge` : `mdi-message-badge-outline`" flat color="secondary" />
     <v-btn @click="showChatTimeline = !showChatTimeline" size="small"
       :icon="showChatTimeline ? `mdi-map` : `mdi-map-outline`" flat color="success" />
-    <v-btn @click="showBrowserMemory = !showBrowserMemory" size="small"
-      :icon="showBrowserMemory ? `mdi-brain` : `mdi-egg-off-outline`" flat color="accent" />
+    <v-btn @click="showBrowserMemory = !showBrowserMemory" size="small" icon="mdi-brain" flat
+      :color="showBrowserMemory ? `text` : `accent`" />
   </v-btn-group>
 
   <v-expand-transition>

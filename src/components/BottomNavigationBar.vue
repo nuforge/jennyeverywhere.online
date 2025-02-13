@@ -11,10 +11,6 @@
     </v-btn>
     <v-btn value="persona" icon="mdi-account-circle" to="/persona">
     </v-btn>
-    <v-btn value="search" icon="mdi-tag-search" to="/search">
-    </v-btn>
-    <v-btn value="playingcards" icon="mdi-cards" to="/playingcards">
-    </v-btn>
     <v-btn value="archetypes" icon="mdi-account-multiple" to="/archetype/innocent">
     </v-btn>
   </v-bottom-navigation>

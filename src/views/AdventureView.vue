@@ -1,24 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+import story from '@/assets/stories/story.json'
+import archtypes from '@/assets/stories/story.archetypes.json'
+
 import Tag from '@/objects/nu/Tag';
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import TagFactory from '@/objects/nu/TagFactory';
 
 import useSearchStore from '@/stores/search';
 const search = useSearchStore();
 
-import story from '@/assets/stories/story.json'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
-import TagFactoryForm from '@/components/form/TagFactoryForm.vue';
 
 // import StickFigureGame from '@/objects/game/stick_figure_game'
 // const stickGame = new StickFigureGame()
 // stickGame.init()
-
-const showAddForm = ref(true)
+const showSearchBar = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
+const archetypeTags = ref<Tag[]>([])
+
+Object.values(archtypes).map((archetype) => {
+  // console.log('archtype', archetype)
+  archetypeTags.value.push(TagFactory.create(`archetype:${archetype.name}`, archetype))
+})
 
 const tags = ref<Tag[]>([
   TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
@@ -26,6 +33,10 @@ const tags = ref<Tag[]>([
   TagFactory.create('color:green', { color: 'green', icon: 'mdi-circle-opacity' }),
   TagFactory.create('mystery:artifact', { color: 'accent', icon: 'mdi-help' }),
 ]);
+
+const searchTags = computed(() => {
+  return [...tags.value]
+})
 
 function onClick(event: Event) {
   const target = event.target as HTMLElement | null;
@@ -43,6 +54,10 @@ function onRightClick(event: MouseEvent, tag: Tag) {
   // emit('right-click', event, tag)
 }
 
+function toggleSearchBar() {
+  showSearchBar.value = !showSearchBar.value
+}
+
 
 // const searchTags = computed<Tag[]>(() => {
 //   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
@@ -50,20 +65,42 @@ function onRightClick(event: MouseEvent, tag: Tag) {
 //   return newTags as Tag[];
 // })
 // route.params.archetype
+
 </script>
 
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4">
-        <HydrusTagSearch v-model="(tags as Tag[])" />
-        <v-divider class="pa-2 ma-2" />
-        <TagFactoryForm v-model="showAddForm" @create-tag="tags.push($event)" @close="console.log" />
-      </v-col>
-      <v-col>
-        <MarkdownRenderer :text="raw" id="md_container" :tags="(search.searchTags as Tag[])" @click-tag="onClick"
-          @click="onClick" @right-click="onRightClick" />
-      </v-col>
+      <v-slide-x-transition>
+        <v-col cols="4" v-if="showSearchBar">
+          <HydrusTagSearch v-model="(searchTags as Tag[])" />
+        </v-col>
+      </v-slide-x-transition>
+      <v-divider vertical @dblclick="toggleSearchBar" class="editor-divider ps-2 my-2" />
+
+      <v-slide-x-transition>
+        <v-col>
+          <MarkdownRenderer :text="raw" id="md_container" :tags="(search.searchTags as Tag[])" @click-tag="onClick"
+            @click="onClick" @right-click="onRightClick" />
+        </v-col>
+
+      </v-slide-x-transition>
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.editor-divider {
+  cursor: pointer;
+  user-select: none;
+  /* standard syntax */
+  -webkit-user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -moz-user-select: none;
+  /* mozilla browsers */
+  -khtml-user-select: none;
+  /* webkit (konqueror) browsers */
+  -ms-user-select: none;
+  /* IE10+ */
+}
+</style>

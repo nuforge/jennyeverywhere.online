@@ -1,6 +1,6 @@
 import StringUtils from '@/utils/StringUtils'
-import TagFactory from '@/objects/nu/TagFactory'
 import { NAMESPACE_SPLIT_CHAR } from '@/utils/StringUtils'
+import TagFactory from '@/objects/nu/TagFactory'
 
 export type TagValue = Tag | string | number | boolean | undefined | null
 export type TagAttributes = Record<string, TagValue>

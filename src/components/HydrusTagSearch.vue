@@ -2,20 +2,19 @@
 import { ref, onMounted } from 'vue'
 import Tag from '@/objects/nu/Tag';
 import TagFactory from '@/objects/nu/TagFactory';
+
 import SearchSortCollect from '@/components/search/SearchSortCollect.vue';
+import SelectionSort from '@/components/search/SelectionSort.vue';
+import NuTagList from '@/components/nutag/NuTagList.vue';
 
 import useSearchStore from '@/stores/search';
-import SelectionSort from '@/components/search/SelectionSort.vue';
-import NuTagList from './nutag/NuTagList.vue';
 const search = useSearchStore();
-
 
 const newTag = ref('')
 
 defineProps<{
   modelValue: Tag[]
 }>()
-
 
 const onDoubleClickSearchTags = async (index: number, tag: Tag) => {
   await removeTagFromSearch(tag)
@@ -37,8 +36,6 @@ const addTagToSearch = async (tag: Tag) => {
 onMounted(async () => {
   await search.init()
 })
-
-
 </script>
 
 <template>

@@ -5,9 +5,7 @@ import DexieDBEditor from '@/components/admin/DexieDBEditor.vue';
 const router = useRouter()
 
 import MemoryManager from '@/objects/storage/MemoryManager'
-
 const memory = new MemoryManager()
-
 
 import story from '@/assets/stories/story.json'
 import archtypes from '@/assets/stories/story.archetypes.json'
@@ -85,9 +83,8 @@ onMounted(async () => {
     <v-row>
       <v-slide-x-transition>
         <v-col cols="4" v-if="showSearchBar">
-          <DexieDBEditor />
           <HydrusTagSearch v-model="(searchTags as Tag[])" />
-
+          <DexieDBEditor />
         </v-col>
       </v-slide-x-transition>
       <v-divider vertical @dblclick="toggleSearchBar" class="editor-divider ps-2 my-2" />

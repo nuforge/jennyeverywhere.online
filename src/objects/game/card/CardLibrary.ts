@@ -1,4 +1,4 @@
-import Card from '@/objects/game/NuCard'
+import Card from '@/objects/game/card/NuCard'
 import ranks from '@/assets/game/poker.ranks.json'
 import suits from '@/assets/game/poker.suits.json'
 

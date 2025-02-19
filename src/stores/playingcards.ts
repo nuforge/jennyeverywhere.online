@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import NuCard from '@/objects/game/NuCard'
-import CardLibrary from '@/objects/game/CardLibrary'
+import NuCard from '@/objects/game/card/NuCard'
+import CardLibrary from '@/objects/game/card/CardLibrary'
 
 export const useCardStore = defineStore('cards', () => {
   const deck = ref<CardLibrary>(new CardLibrary())

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import Dice from '@/objects/game/Dice'
+import Dice from '@/objects/game/dice/Dice'
 import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 
 const useDiceStore = defineStore('dice', () => {

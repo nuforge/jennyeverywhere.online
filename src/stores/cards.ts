@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import Card from '@/objects/game/Card'
+import Card from '@/objects/game/card/Card'
 import Tag from '@/objects/nu/Tag'
 import TagFactory from '@/objects/nu/TagFactory' // Import TagFactory
 

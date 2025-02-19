@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import NuCard from '@/objects/game/NuCard';
+import NuCard from '@/objects/game/card/NuCard';
 import NuTag from '@/components/nutag/NuTag.vue';
 
 import useCardStore from '@/stores/playingcards';

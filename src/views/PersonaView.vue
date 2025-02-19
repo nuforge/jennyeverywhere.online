@@ -4,7 +4,7 @@ import image from '@/assets/images/characters/jenny-everywhere.png'
 import type Tag from '@/objects/nu/Tag';
 import EvTrayCard from '@/components/tray/TrayCard.vue';
 
-import JennyEverywhere from '@/objects/game/characters/JennyEverywhere';
+import JennyEverywhere from '@/objects/game/character/JennyEverywhere';
 
 const character = ref(JennyEverywhere)
 

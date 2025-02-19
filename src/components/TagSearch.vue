@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import TagDb from '@/objects/TagDb';
+import TagDb from '@/objects/storage/TagDb';
 import Tag from '@/objects/nu/Tag';
 
 const tagDatabase = new TagDb();

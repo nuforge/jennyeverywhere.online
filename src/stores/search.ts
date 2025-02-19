@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import TagDb from '@/objects/TagDb'
+import TagDb from '@/objects/storage/TagDb'
 import Tag from '@/objects/nu/Tag'
 import TagFactory from '@/objects/nu/TagFactory'
 

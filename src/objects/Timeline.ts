@@ -4,7 +4,7 @@ class Timeline {
 
   constructor(id: string | number, name?: string) {
     this._id = id.toString()
-    this._name  = name || 'timeline'
+    this._name = name || 'timeline'
   }
 
   get id(): string {
@@ -22,7 +22,6 @@ class Timeline {
   toString(): string {
     return `Timeline ${this._id}: ${this._name}`
   }
-
 }
 
 export default Timeline

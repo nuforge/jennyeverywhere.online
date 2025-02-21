@@ -1,6 +1,6 @@
 @import './base.css';
-@import './sta.css';
-@import './story.css';
+@import './game/sta/sta.css';
+@import './stories/story.css';
 
 p {
   margin-bottom: 0.5rem;

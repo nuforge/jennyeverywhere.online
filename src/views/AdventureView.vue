@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
-import DexieDBEditor from '@/components/admin/DexieDBEditor.vue';
 const router = useRouter()
 
-import MemoryManager from '@/objects/storage/MemoryManager'
-const memory = new MemoryManager()
-
 import story from '@/assets/stories/story.json'
-import archtypes from '@/assets/stories/story.archetypes.json'
 
 import Tag from '@/objects/nu/Tag';
 import TagFactory from '@/objects/nu/TagFactory';
@@ -17,21 +12,13 @@ import useSearchStore from '@/stores/search';
 const search = useSearchStore();
 
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import HydrusTagSearch from '@/components/HydrusTagSearch.vue';
+import NuTagList from '@/components/nutag/NuTagList.vue';
 
 // import StickFigureGame from '@/objects/game/stick_figure_game'
 // const stickGame = new StickFigureGame()
 // stickGame.init()
 const showSearchBar = ref(true)
 const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
-const archetypeTags = ref<Tag[]>([])
-
-const memoryTags = ref<Tag[]>([])
-
-Object.values(archtypes).map((archetype) => {
-  // console.log('archtype', archetype)
-  archetypeTags.value.push(TagFactory.create(`archetype:${archetype.name}`, archetype))
-})
 
 const tags = ref<Tag[]>([
   TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
@@ -54,16 +41,31 @@ function onClick(event: Event) {
   }
 }
 
-function onRightClick(event: MouseEvent, tag: Tag) {
+const onRightClick = async (event: MouseEvent, tag: Tag) => {
   tags.value.push(tag)
+  search.addSearchTag(tag)
   // const tag = markdowninator.getTagFromEvent(event)
   // emit('right-click', event, tag)
+}
+
+const onDblClckSelection = async (index: number, tag: Tag) => {
+  await addTagToSearch(tag)
+}
+const onDoubleClickSearchTags = async (index: number, tag: Tag) => {
+  await removeTagFromSearch(tag)
+}
+
+const removeTagFromSearch = async (tag: Tag) => {
+  await search.removeSearchTag(tag)
+}
+
+const addTagToSearch = async (tag: Tag) => {
+  await search.addSearchTag(tag)
 }
 
 function toggleSearchBar() {
   showSearchBar.value = !showSearchBar.value
 }
-
 
 // const searchTags = computed<Tag[]>(() => {
 //   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
@@ -72,9 +74,6 @@ function toggleSearchBar() {
 // })
 // route.params.archetype
 
-onMounted(async () => {
-  memoryTags.value = await memory.getTags()
-})
 
 </script>
 
@@ -83,8 +82,10 @@ onMounted(async () => {
     <v-row>
       <v-slide-x-transition>
         <v-col cols="4" v-if="showSearchBar">
-          <HydrusTagSearch v-model="(searchTags as Tag[])" />
-          <DexieDBEditor />
+          <v-label>Search Tags</v-label>
+          <NuTagList :tags="(search.searchTags as Tag[])" @double-click="onDoubleClickSearchTags" />
+          <v-label>Memory Tags</v-label>
+          <NuTagList :tags="(searchTags as Tag[])" @double-click="onDblClckSelection" />
         </v-col>
       </v-slide-x-transition>
       <v-divider vertical @dblclick="toggleSearchBar" class="editor-divider ps-2 my-2" />

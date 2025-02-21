@@ -2,7 +2,6 @@
 
 </script>
 
-
 <template>
   <v-btn-group class="d-flex flex-wrap" multiple variant="plain">
     <v-btn text="Sort by" size="x-small" disabled />

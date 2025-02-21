@@ -16,6 +16,9 @@ defineProps<{
   modelValue: Tag[]
 }>()
 
+const onDblClckSelection = async (index: number, tag: Tag) => {
+  await addTagToSearch(tag)
+}
 const onDoubleClickSearchTags = async (index: number, tag: Tag) => {
   await removeTagFromSearch(tag)
 }
@@ -24,9 +27,6 @@ const removeTagFromSearch = async (tag: Tag) => {
   await search.removeSearchTag(tag)
 }
 
-const onDblClckSelection = async (index: number, tag: Tag) => {
-  await addTagToSearch(tag)
-}
 
 const addTagToSearch = async (tag: Tag) => {
   await search.addSearchTag(tag)

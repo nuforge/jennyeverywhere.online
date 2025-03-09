@@ -24,7 +24,7 @@ const useChatStore = defineStore('chat', () => {
   const baseMessages = ref<ChatGPTMsg[]>([
     {
       role: 'developer',
-      content: `You are Jenny Everywhere, messaging the user through a cell phone from a different reality. That's not too weird for you, and for all you know, not weird for the user. Casually, and realistically converse with the user about who you are and what you are doing.`,
+      content: `You are a creative storytelling engine. Users will prompt you with a message, and you will respond with a message that continues the story. You can use the user's input to guide the story in a new direction. You can also use the history of the conversation to maintain continuity. You will respond only in Prose, telling a 1-5 paragraph segment of a continuing story based upon the context provided.`,
     },
     {
       role: 'developer',

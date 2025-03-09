@@ -3,7 +3,8 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-import story from '@/assets/stories/story.json'
+import useChatStore from '@/stores/chat/nuchat.ts';
+const chat = useChatStore();
 
 import Tag from '@/objects/nu/Tag';
 import TagFactory from '@/objects/nu/TagFactory';
@@ -18,7 +19,7 @@ import NuTagList from '@/components/nutag/NuTagList.vue';
 // const stickGame = new StickFigureGame()
 // stickGame.init()
 const showSearchBar = ref(true)
-const raw = ref<string>(story.content.reduce((acc, curr) => acc + curr + `\n\n`, ''))
+const userInput = ref('')
 
 const tags = ref<Tag[]>([
   TagFactory.create('Jenny Everywhere', { color: 'primary', icon: 'mdi-account-circle' }),
@@ -31,6 +32,21 @@ const searchTags = computed(() => {
   return [...tags.value]
 })
 
+
+function toggleSearchBar() {
+  showSearchBar.value = !showSearchBar.value
+}
+
+
+// MArkdownRenderer
+
+const onRightClick = async (event: MouseEvent, tag: Tag) => {
+  tags.value.push(tag)
+  search.addSearchTag(tag)
+  // const tag = markdowninator.getTagFromEvent(event)
+  // emit('right-click', event, tag)
+}
+
 function onClick(event: Event) {
   const target = event.target as HTMLElement | null;
   if (target && target.textContent) {
@@ -41,13 +57,7 @@ function onClick(event: Event) {
   }
 }
 
-const onRightClick = async (event: MouseEvent, tag: Tag) => {
-  tags.value.push(tag)
-  search.addSearchTag(tag)
-  // const tag = markdowninator.getTagFromEvent(event)
-  // emit('right-click', event, tag)
-}
-
+// TAG SELECTION
 const onDblClckSelection = async (index: number, tag: Tag) => {
   await addTagToSearch(tag)
 }
@@ -63,17 +73,28 @@ const addTagToSearch = async (tag: Tag) => {
   await search.addSearchTag(tag)
 }
 
-function toggleSearchBar() {
-  showSearchBar.value = !showSearchBar.value
+
+// CHAT
+
+const validBody = computed(() => {
+  return userInput.value.trim().length > 0
+})
+
+const submitForm = async (event: Event) => {
+  event.preventDefault()
+  //chat.generateImage(chat.userInput)
+
+  chat.sendGPTMessage(userInput.value).
+    then((response) => {
+      console.log('response', response)
+      const tags = chat.chatTags
+      tags.forEach(tag => addTagToSearch(tag as Tag))
+
+    })
+  if (chat.clearOnSubmit) {
+    userInput.value = ''
+  }
 }
-
-// const searchTags = computed<Tag[]>(() => {
-//   const newTags = TagFactory.createBatch(search.searchTerms, { color: 'text', icon: 'mdi-circle-small' })
-//   //console.log('searchTags', search.searchTerms, newTags)
-//   return newTags as Tag[];
-// })
-// route.params.archetype
-
 
 </script>
 
@@ -86,14 +107,23 @@ function toggleSearchBar() {
           <NuTagList :tags="(search.searchTags as Tag[])" @double-click="onDoubleClickSearchTags" />
           <v-label>Memory Tags</v-label>
           <NuTagList :tags="(searchTags as Tag[])" @double-click="onDblClckSelection" />
+          <v-label>Chat</v-label>
+          <v-textarea v-model="userInput" auto-grow :rows="3" :label="chat.chatGreeting" density="compact"
+            @keydown.enter="submitForm" bg-color="background" variant="solo-filled" counter>
+            <template #append-inner>
+              <v-btn v-if="!chat.isLoading" @click="submitForm" :disabled="!validBody"
+                :icon="!validBody ? 'mdi-chat' : 'mdi-send'" flat size="medium" variant="plain" />
+              <v-progress-circular v-else indeterminate color="warning" size="18" />
+            </template>
+          </v-textarea>
         </v-col>
       </v-slide-x-transition>
       <v-divider vertical @dblclick="toggleSearchBar" class="editor-divider ps-2 my-2" />
 
       <v-slide-x-transition>
         <v-col>
-          <MarkdownRenderer :text="raw" id="md_container" :tags="(search.searchTags as Tag[])" @click-tag="onClick"
-            @click="onClick" @right-click="onRightClick" />
+          <MarkdownRenderer :text="chat.chatResponse" id="md_container" :tags="(search.searchTags as Tag[])"
+            @click-tag="onClick" @click="onClick" @right-click="onRightClick" />
         </v-col>
 
       </v-slide-x-transition>

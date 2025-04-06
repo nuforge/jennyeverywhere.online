@@ -25,7 +25,8 @@
       <UndoSnackbar />
 
       <v-footer class="bg-background align-start opacity-20">&copy; 2025 @<router-link
-          to="/">JennyEverywhere.online</router-link></v-footer>
+          to="/">JennyEverywhere.online</router-link> - Contribute @<a
+          href="https://github.com/nuforge/jennyeverywhere.online" target="_blank">GitHub</a></v-footer>
     </v-app>
   </v-responsive>
 </template>
